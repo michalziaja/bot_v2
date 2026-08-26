@@ -1,0 +1,27 @@
+# Profil ostrożny — dłuższe pauzy (wolniejsze, „ludzkie” tempo).
+# Wartości w sekundach. Skala ~1.8–2× względem default.
+per_action:
+  tap:              { min: 0.3,  max: 0.8 }
+  swipe:            { min: 0.6,  max: 1.6 }
+  key:              { min: 0.2,  max: 0.5 }
+  read_caption:     { min: 4,    max: 12 }
+  read_comments:    { min: 10,   max: 30 }
+  between_steps:    { min: 1.2,  max: 2.8 }
+  between_profiles: { min: 60,   max: 180 }
+  between_tasks:    { min: 120,  max: 480 }
+  before_next_reel: { min: 0.6,  max: 1.2 }
+  long_feed:        { min: 30,   max: 90 }
+  between_sessions: { min: 3600, max: 7200 }
+  after_launch:     { min: 4.0,  max: 7.0 }
+  after_refresh:    { min: 3.0,  max: 5.0 }
+  after_wake:       { min: 1.2,  max: 2.4 }
+  after_unlock:     { min: 1.5,  max: 3.0 }
+  before_sleep:     { min: 1.0,  max: 2.0 }
+
+long_pause:
+  every_n_actions:  { n: 100, min: 120, max: 360 }
+
+schedule:
+  sessions_per_day: { min: 2, max: 4 }
+  active_hours:     [10, 21]
+  sleep_hours:      [21, 10]

@@ -1,0 +1,53 @@
+{
+  "version": 2,
+  "date": "2026-08-10",
+  "device": "phone_A",
+  "generated_at": "2026-08-07T22:30:29",
+  "blocks": [
+    {
+      "id": "b8895e6",
+      "account": "a50_clone2",
+      "scenario": "default",
+      "start": "21:49",
+      "duration_s": 4158,
+      "gap_s": 370,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 480,
+          "overhead_s": 120,
+          "buffer_s": 378
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_niche: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "status": "planned",
+      "locked": false,
+      "started_at": null,
+      "ended_at": null
+    }
+  ],
+  "dropped": [
+    {
+      "account": "a50_clone2",
+      "scenario": "default",
+      "duration_s": 4158,
+      "reason": "nie mieści się w oknie active_hours bez kolizji z inną sesją"
+    },
+    {
+      "account": "a50_clone3",
+      "scenario": "default",
+      "duration_s": 2442,
+      "reason": "nie mieści się w oknie active_hours bez kolizji z inną sesją"
+    }
+  ],
+  "collisions": [],
+  "window": {
+    "from_min": 1260,
+    "to_min": 1440
+  },
+  "load_pct": 43
+}

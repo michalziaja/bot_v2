@@ -1,0 +1,332 @@
+{
+  "expand": {
+    "y_from": 791,
+    "y_to": 117,
+    "pulls": 1,
+    "x": 540,
+    "confirmed": true,
+    "full_screen": true,
+    "rows_before": 5,
+    "rows_after": 8,
+    "sheet_top_before": 761,
+    "sheet_top_after": 83,
+    "sheet_h": 2257,
+    "screen_h": 2340,
+    "sheet_top_pct": 3.5,
+    "pulls_done": 1,
+    "full_top": true,
+    "grew": true,
+    "top_src": "bottom_sheet_drag_handle_frame",
+    "handle_y": 83
+  },
+  "candidates": [
+    {
+      "id": "action_bar_overflow_text",
+      "cls": "TextView",
+      "text": "Obserwuj",
+      "desc": "",
+      "bounds": "[763,99][1028,193]",
+      "y": 99,
+      "clickable": false
+    },
+    {
+      "id": "title_text_view",
+      "cls": "TextView",
+      "text": "Komentarze",
+      "desc": "",
+      "bounds": "[262,120][818,227]",
+      "y": 120,
+      "clickable": true
+    },
+    {
+      "id": "action_bar_title",
+      "cls": "TextView",
+      "text": "Posty",
+      "desc": "Posty",
+      "bounds": "[189,122][349,191]",
+      "y": 122,
+      "clickable": true
+    },
+    {
+      "id": "comment_overswipe_dismiss_container",
+      "cls": "FrameLayout",
+      "text": "",
+      "desc": "",
+      "bounds": "[0,227][1080,2107]",
+      "y": 227,
+      "clickable": false
+    },
+    {
+      "id": "row_feed_photo_profile_name",
+      "cls": "Button",
+      "text": "basenispa.pl",
+      "desc": "basenispa.pl",
+      "bounds": "[128,230][965,297]",
+      "y": 230,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "TextView",
+      "text": "rafalgalewski",
+      "desc": "rafalgalewski",
+      "bounds": "[172,354][451,399]",
+      "y": 354,
+      "clickable": false
+    },
+    {
+      "id": "",
+      "cls": "View",
+      "text": "Odpowiedź",
+      "desc": "Odpowiedź",
+      "bounds": "[172,461][399,546]",
+      "y": 461,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "TextView",
+      "text": "chrzastowskam",
+      "desc": "chrzastowskam",
+      "bounds": "[172,567][441,612]",
+      "y": 567,
+      "clickable": false
+    },
+    {
+      "id": "",
+      "cls": "View",
+      "text": "Odpowiedź",
+      "desc": "Odpowiedź",
+      "bounds": "[172,674][399,759]",
+      "y": 674,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "TextView",
+      "text": "obara5324",
+      "desc": "obara5324",
+      "bounds": "[172,780][360,825]",
+      "y": 780,
+      "clickable": false
+    },
+    {
+      "id": "",
+      "cls": "View",
+      "text": "Odpowiedź",
+      "desc": "Odpowiedź",
+      "bounds": "[172,887][399,972]",
+      "y": 887,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "TextView",
+      "text": "green_media_pl",
+      "desc": "green_media_pl",
+      "bounds": "[172,993][439,1038]",
+      "y": 993,
+      "clickable": false
+    },
+    {
+      "id": "",
+      "cls": "View",
+      "text": "Odpowiedź",
+      "desc": "Odpowiedź",
+      "bounds": "[172,1329][399,1417]",
+      "y": 1329,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "TextView",
+      "text": "paweld666",
+      "desc": "paweld666",
+      "bounds": "[172,1438][363,1483]",
+      "y": 1438,
+      "clickable": false
+    },
+    {
+      "id": "",
+      "cls": "View",
+      "text": "Odpowiedź",
+      "desc": "Odpowiedź",
+      "bounds": "[172,1545][399,1630]",
+      "y": 1545,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "TextView",
+      "text": "garten_ideen",
+      "desc": "garten_ideen",
+      "bounds": "[172,1651][399,1696]",
+      "y": 1651,
+      "clickable": false
+    },
+    {
+      "id": "",
+      "cls": "View",
+      "text": "Odpowiedź",
+      "desc": "Odpowiedź",
+      "bounds": "[172,1849][399,1934]",
+      "y": 1849,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "TextView",
+      "text": "spadesigner",
+      "desc": "spadesigner",
+      "bounds": "[172,1955][384,2001]",
+      "y": 1955,
+      "clickable": false
+    },
+    {
+      "id": "",
+      "cls": "View",
+      "text": "Odpowiedź",
+      "desc": "Odpowiedź",
+      "bounds": "[172,2063][399,2107]",
+      "y": 2063,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "Button",
+      "text": "699",
+      "desc": "",
+      "bounds": "[364,2150][436,2271]",
+      "y": 2150,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "Button",
+      "text": "1 310",
+      "desc": "",
+      "bounds": "[553,2150][641,2271]",
+      "y": 2150,
+      "clickable": true
+    },
+    {
+      "id": "",
+      "cls": "Button",
+      "text": "8 909",
+      "desc": "",
+      "bounds": "[747,2150][852,2271]",
+      "y": 2150,
+      "clickable": true
+    },
+    {
+      "id": "row_feed_button_comment",
+      "cls": "Button",
+      "text": "",
+      "desc": "Komentarz",
+      "bounds": "[290,2150][353,2271]",
+      "y": 2150,
+      "clickable": false
+    },
+    {
+      "id": "comment_composer_left_image_view",
+      "cls": "ImageView",
+      "text": "",
+      "desc": "Zdjęcie profilowe",
+      "bounds": "[32,2235][127,2330]",
+      "y": 2235,
+      "clickable": true
+    },
+    {
+      "id": "comment_composer_parent_updated",
+      "cls": "ViewGroup",
+      "text": "",
+      "desc": "",
+      "bounds": "[0,2235][1080,2340]",
+      "y": 2235,
+      "clickable": false
+    },
+    {
+      "id": "comment_composer_text_parent",
+      "cls": "ViewGroup",
+      "text": "",
+      "desc": "",
+      "bounds": "[148,2235][1043,2330]",
+      "y": 2235,
+      "clickable": false
+    },
+    {
+      "id": "layout_comment_thread_edittext_multiline",
+      "cls": "EditText",
+      "text": "Co o tym sądzisz?",
+      "desc": "",
+      "bounds": "[148,2235][833,2330]",
+      "y": 2235,
+      "clickable": true
+    },
+    {
+      "id": "comment_composer_animated_image_picker_button",
+      "cls": "Button",
+      "text": "",
+      "desc": "GIF",
+      "bounds": "[938,2251][1043,2314]",
+      "y": 2251,
+      "clickable": true
+    },
+    {
+      "id": "comment_composer_media_picker_button",
+      "cls": "Button",
+      "text": "",
+      "desc": "Multimedia",
+      "bounds": "[833,2251][938,2314]",
+      "y": 2251,
+      "clickable": true
+    },
+    {
+      "id": "comments_composer_bottom_padding",
+      "cls": "View",
+      "text": "",
+      "desc": "",
+      "bounds": "[0,2330][1080,2340]",
+      "y": 2330,
+      "clickable": false
+    }
+  ],
+  "interesting_ids": [
+    "comment_composer_animated_image_picker_button",
+    "comment_composer_left_image_view",
+    "comment_composer_media_picker_button",
+    "comment_composer_parent_updated",
+    "comment_composer_text_parent",
+    "comment_overswipe_dismiss_container",
+    "comments_composer_bottom_padding",
+    "layout_comment_thread_edittext_multiline",
+    "row_feed_button_comment",
+    "row_feed_button_like",
+    "row_feed_button_save",
+    "row_feed_button_share",
+    "row_feed_photo_profile_imageview",
+    "row_feed_photo_profile_name",
+    "row_feed_profile_header",
+    "row_feed_view_group_buttons"
+  ],
+  "collect_comment": [
+    "rafalgalewski",
+    "chrzastowskam",
+    "obara5324",
+    "green_media_pl",
+    "paweld666",
+    "garten_ideen",
+    "spadesigner",
+    "basenispa.pl"
+  ],
+  "collect_all": [
+    "rafalgalewski",
+    "chrzastowskam",
+    "obara5324",
+    "green_media_pl",
+    "paweld666",
+    "garten_ideen",
+    "spadesigner",
+    "basenispa.pl"
+  ]
+}

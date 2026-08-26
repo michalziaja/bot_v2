@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "account_id": "REPLACE",
+    "alias": "REPLACE",
+    "ig_username": "REPLACE",
+    "ig_password_encrypted": "REPLACE",
+    "ig_version_expected": null,
+    "created_at": null,
+    "status": "active"
+  },
+  "device": {
+    "device_alias": "REPLACE",
+    "app_clone_id": 1,
+    "app_clone_package": "com.instagram.android",
+    "root_profile": null,
+    "spoofed_mac": null,
+    "spoofed_imei": null,
+    "spoofed_android_id": null,
+    "spoofed_gsf": null,
+    "lockscreen_pin": null
+  },
+  "humanizer": {
+    "profile_name": "default",
+    "speed": 1.0,
+    "after_each_step": false,
+    "overrides": {}
+  },
+  "limits": {
+    "daily_likes": 100,
+    "daily_follows": 30,
+    "daily_comments": 15,
+    "daily_dms": 0,
+    "per_hour_caps": {
+      "likes": 20,
+      "follows": 8,
+      "comments": 4
+    },
+    "cooldown_after_warning_hours": 24
+  },
+  "flows": [
+    {
+      "flow_id": "smoke_stats",
+      "priority": 1,
+      "window": [
+        9,
+        22
+      ]
+    }
+  ],
+  "toggles": {
+    "steps": {
+      "stats_snapshot": {
+        "enabled": true,
+        "on_session_start": true,
+        "on_session_end": false,
+        "note": "wchodzenie w profil + pull-to-refresh + odczyt liczników; wyłącz aby testy przechodziły od razu do właściwej akcji"
+      },
+      "wake": {
+        "enabled": true
+      },
+      "unlock": {
+        "enabled": true
+      },
+      "close_ig": {
+        "enabled": true
+      },
+      "sleep_screen": {
+        "enabled": true
+      }
+    }
+  },
+  "_comment_plugins": "Ustawienia pluginów (sekcja 'plugins') dokłada panel przy pierwszym zapisie — zapisujemy tylko wartości różne od domyślnych z v2/plugins/catalog.py, żeby config nie puchł. Stara sekcja toggles.plugins jest wycofana; zostaje tylko jako fallback dla kont sprzed katalogu.",
+  "niche": {
+    "description": "",
+    "audience": "",
+    "keywords": [],
+    "hashtags": [],
+    "exclusions": [],
+    "tag_variants": {},
+    "accepted": true,
+    "discovered_at": null
+  },
+  "ai": {
+    "model_per_mode": {
+      "reel_niche": "haiku",
+      "profile_grid": "haiku",
+      "comment_gen": "sonnet",
+      "niche_discover_posts": "sonnet",
+      "niche_discover_reels": "sonnet",
+      "niche_discover_account": "sonnet",
+      "niche_discover_merge": "sonnet"
+    },
+    "thresholds": {
+      "follow": 50,
+      "like_only": 35
+    }
+  },
+  "recovery": {
+    "_comment": "Popups config i alert_channel są tymczasowo nieużywane w runtime."
+  },
+  "profile_filter": {
+    "enabled": false,
+    "times": ["10:30", "18:00"],
+    "limit_per_run": 100,
+    "proxy": "losowo",
+    "followers_min": 60,
+    "followers_max": 20000,
+    "reject_arabic_bio": true,
+    "require_public": true,
+    "min_posts": 1
+  }
+}

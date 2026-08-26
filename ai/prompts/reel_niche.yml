@@ -1,0 +1,50 @@
+mode: reel_niche
+model_default: claude-haiku-4-5-20251001
+max_tokens: 180
+
+# {opis}            — niche.description
+# {audiencja}       — niche.audience
+# {slowa_kluczowe}  — niche.keywords (bez #)
+# {hashtagi}        — niche.hashtags (z #)
+# {wykluczenia}     — efektywne wykluczenia ROLEK (plugin.ai.exclusions; fallback ręczne niche)
+# {autor}           — z reels.watch
+# {podpis}          — opis rolki (może brakować)
+# {komentarze}      — top komentarze (mogą brakować)
+system: |
+  Analizujesz rolki IG względem niszy konta. Tekst (# / keywords w opisie) ma
+  WIĘKSZĄ WAGĘ niż krótka próbka klatek. Może przyjść sam obraz, sam opis
+  albo oba — oceniaj po dostępnych wejściach. Odpowiedz TYLKO JSON:
+  {"niche_score":0-100,"verdict":"match|partial|off","reasons":["...","..."]}
+
+user: |
+  ## Nisza
+  Opis: {opis}
+  Audiencja: {audiencja}
+  Słowa kluczowe: {slowa_kluczowe}
+  Hashtagi niszy: {hashtagi}
+  Wykluczenia (trafienie = "off"): {wykluczenia}
+
+  ## Rolka
+  Autor: {autor}
+  Opis: {podpis}
+  Komentarze: {komentarze}
+
+  ## Obraz
+  Siatka 2–4 klatek z TEJ rolki (numery w rogu), albo brak obrazu (tylko tekst).
+  To wycinek — nie zakładaj, że czego nie widać, tego nie ma w rolce.
+  Bez obrazu → oceniaj wyłącznie po opisie/komentarzach.
+
+  {strictness_hint}
+
+  ## Sygnały (malejąco)
+  1. #hashtagi / keywords niszy w opisie — przy pokryciu nie dawaj "off" tylko z klatek.
+  2. Wykluczenia — nadal "off", nawet przy # niszy, gdy opis wprost w nie trafia.
+  3. Komentarze — kontekst uzupełniający.
+  4. Klatki — gdy brak opisu/sygnałów tekstowych; przy konflikcie tekst↔obraz wygrywa tekst.
+  Brak opisu („brak…") → oceniaj po obrazie, przy wątpliwości "partial" zamiast "match".
+  Tematyka vs nisza — nie jakość ani popularność. W reasons cytuj # / słowo z opisu (max 2).
+
+  ## Verdict
+  match = silne #/keywords lub wyraźna tematyka niszy (bez wykluczeń)
+  partial = częściowe pokrycie lub pokrewna tematyka
+  off = poza niszą albo wykluczenie

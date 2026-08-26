@@ -1,0 +1,42 @@
+def _cleanup_panel_process():
+    """atexit / finally — ostatnia linia obrony gdy sygnał ominie lifespan."""
+    global _panel_shutting_down
+    _panel_shutting_down = True
+    try:
+        SESSION.force_stop()
+    except Exception:
+        pass
+
+
+def run(host: str = "127.0.0.1", port: int = 8765, open_browser: bool = True):
+    """Start uvicorn; Ctrl+C / zamknięcie konsoli → czysty exit + wolny port."""
+    import atexit
+    import uvicorn
+    import webbrowser
+
+    atexit.register(_cleanup_panel_process)
+
+    # Timer jako daemon — inaczej nie-daemon wątek trzyma proces przy wyjściu
+    if open_browser:
+        t = threading.Timer(1.2, lambda: webbrowser.open(f"http://{host}:{port}"))
+        t.daemon = True
+        t.start()
+
+    # timeout_graceful_shutdown: SSE (while True) inaczej blokuje exit na Windows
+    config = uvicorn.Config(
+        app,
+        host=host,
+        port=port,
+        log_level="warning",
+        timeout_graceful_shutdown=3,
+    )
+    server = uvicorn.Server(config)
+    print(f"[panel] zatrzymaj: Ctrl+C  (port {port} zostanie zwolniony)")
+    try:
+        server.run()
+    except KeyboardInterrupt:
+        print("[panel] Ctrl+C — zamykam…")
+    finally:
+        _cleanup_panel_process()
+        # upewnij się że Server wie o wyjściu (podwójne Ctrl+C / hung handlers)
+        server.should_exit = True

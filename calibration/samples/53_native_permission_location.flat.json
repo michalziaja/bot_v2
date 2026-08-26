@@ -1,0 +1,461 @@
+[
+ {
+  "class": null,
+  "resource-id": null,
+  "content-desc": null,
+  "text": null,
+  "bounds": null,
+  "package": null,
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/phone_status_bar_background",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.RelativeLayout",
+  "resource-id": "com.android.systemui:id/status_bar_contents",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar_left_side_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[63,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/status_bar_left_side",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[63,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/left_clock_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[63,0][160,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "com.android.systemui:id/clock",
+  "content-desc": "20:03",
+  "text": "20:03",
+  "bounds": "[63,0][160,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/notification_icon_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[168,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/notification_icon_area_inner",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[168,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/notificationIcons",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[168,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/divided_status_icon_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[435,0][443,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/system_icon_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/system_icons",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/statusIcons",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][888,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "",
+  "content-desc": "Tryb oszczędzania energii włączony",
+  "text": "",
+  "bounds": "[715,22][755,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "",
+  "content-desc": "Dzwonek z wibracjami.",
+  "text": "",
+  "bounds": "[758,22][799,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/wifi_combo",
+  "content-desc": "Wi-Fi: pełna moc sygnału.",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/wifi_group",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/wifi_iconset",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/wifi_signal",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/wifi_activity",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/mobile_combo",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/mobile_group",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/signal_combo",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/mobile_signal",
+  "content-desc": "Telefon: pełna moc sygnału.",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/battery",
+  "content-desc": "Ładuję baterię, 100 procent.",
+  "text": "",
+  "bounds": "[896,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "com.android.systemui:id/battery_percentage_view",
+  "content-desc": "",
+  "text": "100%",
+  "bounds": "[896,0][991,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[996,22][1017,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/rounded_corners_top",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[443,0][637,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/left",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][151,151]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.view.View",
+  "resource-id": "com.android.systemui:id/display_cutout",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[443,0][637,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/right",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[929,0][1080,151]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1492][1079,2340]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1492][1079,2340]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "android:id/content",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1492][1079,2340]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ScrollView",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1492][1079,2340]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.permissioncontroller:id/grant_singleton",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1492][1079,2340]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": true
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.permissioncontroller:id/grant_dialog",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1492][1079,2340]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": true
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.permissioncontroller:id/content_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1492][1079,1876]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[64,1492][1016,1876]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.permissioncontroller:id/permission_icon",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[492,1555][587,1650]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "com.android.permissioncontroller:id/permission_message",
+  "content-desc": "",
+  "text": "Zezwolić aplikacji Insta0012 na dostęp do lokalizacji urządzenia?",
+  "bounds": "[64,1697][1016,1813]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[1,1876][1079,2287]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.Button",
+  "resource-id": "com.android.permissioncontroller:id/permission_allow_foreground_only_button",
+  "content-desc": "",
+  "text": "Podczas używania aplikacji",
+  "bounds": "[64,1876][1016,1971]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": true
+ },
+ {
+  "class": "android.widget.Button",
+  "resource-id": "com.android.permissioncontroller:id/permission_allow_one_time_button",
+  "content-desc": "",
+  "text": "Tylko tym razem",
+  "bounds": "[64,2013][1016,2108]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": true
+ },
+ {
+  "class": "android.widget.Button",
+  "resource-id": "com.android.permissioncontroller:id/permission_deny_button",
+  "content-desc": "",
+  "text": "Nie zezwalaj",
+  "bounds": "[64,2150][1016,2245]",
+  "package": "com.google.android.permissioncontroller",
+  "clickable": true
+ }
+]

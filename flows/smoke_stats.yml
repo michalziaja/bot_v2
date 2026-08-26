@@ -1,0 +1,28 @@
+name: smoke_stats
+description: >
+  Wybudzenie telefonu → odblokowanie → uruchomienie IG → home → statystyki profilu
+  (jeśli włączone) → scroll feedu → zamknięcie IG → wygaszenie ekranu.
+  Odpowiednik test_full_flow.py, ale przez nową architekturę.
+
+steps:
+  - system.wake
+  - system.unlock
+  - system.ensure_ig_running
+  - system.ensure_screen:
+      target: home_feed
+
+  # jeśli w configu wyłączone, ten krok zostanie SKIP-nięty (od razu przechodzimy dalej)
+  - system.stats_snapshot:
+      when: session_start
+
+  - system.browse_feed:
+      count: 3
+      pause_kind: between_steps
+
+  # opcjonalnie druga migawka na koniec — kontrolowana z configu
+  - system.stats_snapshot:
+      when: session_end
+      on_error: continue
+
+  - system.close_ig
+  - system.sleep_screen

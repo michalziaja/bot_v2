@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<title>Bot v2 — Statystyki</title>
+<style>
+  /* Spójny dark theme z panel/static/index.html */
+  :root {
+    --bg:#0f1215; --panel:#181c22; --panel2:#20262e; --panel3:#252c37;
+    --border:#2a323d;
+    --fg:#e6ebf1; --muted:#8791a3; --dim:#5c6673;
+    --accent:#4ea1ff; --ok:#3ecf7d;
+    --warn:#f0b942; --err:#ef6a6a;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    font-size: 13px;
+  }
+
+  .wrap {
+    max-width: 1100px; margin: 0 auto; padding: 20px 24px 48px;
+  }
+  header {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 20px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 16px; margin: 0; font-weight: 700; letter-spacing: 0.03em;
+  }
+  header a {
+    color: var(--accent); text-decoration: none; font-size: 12px;
+  }
+  header a:hover { text-decoration: underline; }
+
+  .toolbar {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px 16px; margin-bottom: 18px;
+  }
+  .field { display: flex; flex-direction: column; gap: 4px; min-width: 140px; }
+  .field label { color: var(--muted); font-size: 11px; }
+  select, button, input[type="date"] {
+    background: var(--panel2); color: var(--fg);
+    border: 1px solid var(--border); padding: 6px 10px;
+    border-radius: 4px; font-family: inherit; font-size: 12px;
+  }
+  select { min-width: 180px; }
+  input[type="date"] { min-width: 140px; color-scheme: dark; }
+  button { cursor: pointer; }
+  button:hover:not(:disabled) { background: #2a3441; }
+  button.primary { background: var(--accent); color: #001529; font-weight: 600; border: 0; }
+  button.primary:hover:not(:disabled) { background: #77b8ff; }
+  .check {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 12px; padding-bottom: 4px;
+  }
+  .check input { margin: 0; }
+  .check.disabled { opacity: 0.45; pointer-events: none; }
+  .hint { color: var(--dim); font-size: 11px; margin-left: auto; }
+
+  /* Przełącznik trybu: Ostatnia sesja | 24h | Zakres */
+  .mode-tabs {
+    display: flex; gap: 0; border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden; background: var(--panel2);
+  }
+  .mode-tabs button {
+    border: 0; border-radius: 0; background: transparent;
+    padding: 7px 12px; color: var(--muted); font-weight: 500;
+  }
+  .mode-tabs button + button { border-left: 1px solid var(--border); }
+  .mode-tabs button:hover:not(:disabled) { background: #2a3441; color: var(--fg); }
+  .mode-tabs button.active {
+    background: var(--accent); color: #001529; font-weight: 700;
+  }
+
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px 16px;
+  }
+  .card h2 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--muted); margin: 0 0 12px 0;
+  }
+  .card.full { grid-column: 1 / -1; }
+  .card.hidden { display: none; }
+
+  .meta-row {
+    display: grid; grid-template-columns: 120px 1fr; gap: 4px 10px;
+    font-size: 12.5px; line-height: 1.45;
+  }
+  .meta-row .k { color: var(--muted); }
+  .meta-row .v { color: var(--fg); word-break: break-word; }
+  .meta-row .v.mono { font-family: Consolas, monospace; font-size: 12px; }
+  .badge {
+    display: inline-block; padding: 2px 7px; border-radius: 3px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+  }
+  .badge-live { background: var(--ok); color: #001a09; }
+  .badge-ended { background: #2a323d; color: var(--muted); }
+  .badge-idle { background: #2a323d; color: var(--dim); }
+  .badge-agg { background: var(--accent); color: #001529; }
+
+  .counters {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+  }
+  .counter {
+    background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 5px; padding: 10px 12px;
+  }
+  .counter .label { color: var(--muted); font-size: 11px; line-height: 1.3; }
+  .counter .value {
+    font-size: 20px; font-weight: 700; margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .counter .key {
+    color: var(--dim); font-size: 10px; font-family: Consolas, monospace;
+    margin-top: 2px;
+  }
+
+  .plugin-block {
+    margin-bottom: 16px; padding: 12px 14px;
+    background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .plugin-block:last-child { margin-bottom: 0; }
+  .plugin-name {
+    font-weight: 600; margin-bottom: 10px; color: var(--accent);
+    font-size: 13px; display: flex; align-items: baseline; gap: 8px;
+  }
+  .plugin-name .pid {
+    color: var(--dim); font-weight: 400; font-size: 11px;
+    font-family: Consolas, monospace;
+  }
+
+  .empty {
+    color: var(--muted); font-size: 12.5px; padding: 8px 0;
+  }
+  .err { color: var(--err); font-size: 12px; margin-top: 8px; }
+
+  table.sessions {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+  }
+  table.sessions th, table.sessions td {
+    text-align: left; padding: 7px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  table.sessions th { color: var(--muted); font-weight: 500; font-size: 11px; }
+  table.sessions tr:hover td { background: var(--panel2); cursor: pointer; }
+  table.sessions tr.no-click:hover td { cursor: default; background: transparent; }
+  table.sessions tr.active td { background: var(--panel3); }
+  table.sessions .mono { font-family: Consolas, monospace; font-size: 11px; }
+
+  /* Wykresy Chart.js — spójne z kartami */
+  #charts { display: flex; flex-direction: column; gap: 16px; }
+  #charts.hidden { display: none; }
+  .chart-block {
+    background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 14px 8px;
+  }
+  .chart-block h3 {
+    margin: 0 0 8px 0; font-size: 12px; font-weight: 600;
+    color: var(--fg);
+  }
+  .chart-block .chart-sub {
+    margin: -4px 0 10px 0; color: var(--dim); font-size: 11px;
+  }
+  .chart-wrap {
+    position: relative; width: 100%;
+    height: 260px;
+  }
+  .chart-wrap.tall { height: 300px; }
+  #charts-empty {
+    color: var(--muted); font-size: 12.5px; padding: 4px 0;
+  }
+
+  /* Karta obserwujących / obserwowanych (stats_snapshot) */
+  .acct-delta {
+    font-size: 12px; font-weight: 600; margin-left: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .acct-delta.pos { color: var(--ok); }
+  .acct-delta.neg { color: var(--err); }
+  .acct-delta.zero { color: var(--dim); }
+  .acct-ts { color: var(--dim); font-size: 10px; margin-top: 4px; }
+</style>
+<!-- Chart.js z CDN (bez npm) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Statystyki sesji</h1>
+    <a href="/">← Dashboard</a>
+  </header>
+
+  <div class="toolbar">
+    <div class="field">
+      <label for="sel-account">Konto</label>
+      <select id="sel-account"></select>
+    </div>
+    <div class="field">
+      <label>Tryb</label>
+      <div class="mode-tabs" id="mode-tabs" role="tablist">
+        <button type="button" data-mode="live" class="active">Ostatnia sesja</button>
+        <button type="button" data-mode="24h">24h</button>
+        <button type="button" data-mode="range">Zakres dat</button>
+      </div>
+    </div>
+    <div class="field" id="field-source">
+      <label for="sel-source">Źródło</label>
+      <select id="sel-source">
+        <option value="live">Bieżące (live)</option>
+      </select>
+    </div>
+    <div class="field" id="field-from" hidden>
+      <label for="inp-from">Od</label>
+      <input type="date" id="inp-from" />
+    </div>
+    <div class="field" id="field-to" hidden>
+      <label for="inp-to">Do</label>
+      <input type="date" id="inp-to" />
+    </div>
+    <button id="btn-refresh" class="primary">Odśwież</button>
+    <label class="check" id="lbl-autorefresh">
+      <input type="checkbox" id="chk-autorefresh" checked />
+      Auto-refresh (4 s)
+    </label>
+    <span class="hint" id="last-fetch">—</span>
+  </div>
+  <div class="err" id="err-box" hidden></div>
+
+  <div class="grid">
+    <!-- Metadane sesji / okna agregacji -->
+    <div class="card">
+      <h2 id="meta-title">Sesja</h2>
+      <div id="meta" class="empty">Wybierz konto…</div>
+    </div>
+
+    <!-- Progress / budżet (tylko ostatnia sesja) -->
+    <div class="card" id="card-progress">
+      <h2>Postęp</h2>
+      <div id="progress" class="empty">—</div>
+    </div>
+
+    <!-- Obserwujący / obserwowani z system.stats_snapshot (events) -->
+    <div class="card full" id="card-account-stats">
+      <h2 id="account-stats-title">Konto (obserwujący / obserwowani)</h2>
+      <div id="account-stats" class="empty">—</div>
+    </div>
+
+    <!-- Counters -->
+    <div class="card full">
+      <h2 id="counters-title">Liczniki (sesja)</h2>
+      <div id="counters" class="empty">Brak danych.</div>
+    </div>
+
+    <!-- by_plugin — wyraźne sekcje per plugin -->
+    <div class="card full">
+      <h2 id="by-plugin-title">Według pluginu</h2>
+      <div id="by-plugin" class="empty">Brak danych.</div>
+    </div>
+
+    <!-- Snapshoty / sesje w agregacie -->
+    <div class="card full">
+      <h2 id="sessions-title">Snapshoty sesji</h2>
+      <div id="sessions-list" class="empty">—</div>
+    </div>
+
+    <!-- Wykresy Chart.js (zależne od trybu i danych) -->
+    <div class="card full" id="card-charts">
+      <h2>Wykresy</h2>
+      <div id="charts-empty" class="empty" hidden>Brak danych do wykresów.</div>
+      <div id="charts"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== Polskie etykiety metryk (zaakceptowany katalog MVP) ===== */
+const LABELS = {
+  // reels / engagement
+  watched: "Obejrzane rolki",
+  liked: "Polubione rolki",
+  likers_saved: "Zapisani z listy lajkujących",
+  commenters_saved: "Zapisani z listy komentujących",
+  comments_liked: "Polubione komentarze",
+  gate_skipped: "Pominięte przez filtr (gate)",
+  ai_rejected: "Odrzucone przez AI",
+  repeat_skipped: "Pominięte powtórki",
+  caption_ok: "Opis rolki odczytany",
+  caption_missing: "Brak opisu rolki",
+  hot_visited: "Wizyty hot (z list)",
+  hot_followed: "Obserwacje hot",
+  // content_search
+  phrases: "Wyszukane frazy",
+  items: "Otwarte kafelki",
+  reels: "Rolki (z wyszukiwania)",
+  posts: "Posty (z wyszukiwania)",
+  no_tiles: "Puste siatki wyszukiwania",
+  tag_variants_phrases: "Frazy gałęzi znaczników",
+  tag_variants_collected: "Zebrane warianty #",
+  // profile_interact
+  visited: "Odwiedzone profile",
+  followed: "Obserwacje",
+  skipped: "Pominięte profile",
+  failed: "Nieudane wizyty",
+  tiles_liked: "Polubione kafelki profilu",
+  stories_watched: "Obejrzane stories",
+  // target_scraper
+  targets: "Przerobione cele",
+  lists: "Przejrzane listy",
+  saved: "Zapisani użytkownicy",
+  with_ring: "Z aktywnymi stories (ring)",
+  posts_opened: "Otwarte posty (scraper)",
+  reels_opened: "Otwarte rolki (scraper)",
+  dupes_skipped: "Pominięte duplikaty",
+};
+
+const PLUGIN_LABELS = {
+  reels_niche: "Rolki (nisza)",
+  content_search: "Wyszukiwanie",
+  profile_interact: "Profile",
+  target_scraper: "Scraper celów",
+  reels_warmup: "Rozgrzewka rolek",
+  feed_browser: "Feed",
+  mass_stories: "Stories masowe",
+  niche_discover: "Discovery niszy",
+};
+
+/* Kluczowe metryki na wykresach (kolejność = priorytet) */
+const CHART_KEYS = [
+  "liked", "watched", "visited", "followed", "saved", "phrases",
+  "items", "hot_visited", "hot_followed", "likers_saved",
+  "stories_watched", "tiles_liked", "comments_liked", "targets",
+];
+
+/* Paleta spójna z dark theme */
+const CHART_COLORS = [
+  "#4ea1ff", "#3ecf7d", "#f0b942", "#ef6a6a", "#a78bfa",
+  "#22d3ee", "#fb923c", "#f472b6", "#94a3b8", "#34d399",
+];
+
+let accounts = [];
+let currentPayload = null;   // ostatnia odpowiedź /api/stats/{acc}
+let aggregatePayload = null; // ostatnia odpowiedź /api/stats/{acc}/aggregate
+let selectedSnapshot = null; // session_id albo null = live
+let viewMode = "live";       // live | 24h | range
+let refreshTimer = null;
+let fetching = false;
+let chartInstances = [];     // aktywne Chart.js — destroy przy re-render
+let lastChartsSig = "";      // unikaj migotania przy auto-refresh bez zmian
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function labelFor(key) {
+  return LABELS[key] || key;
+}
+
+function pluginLabel(pid) {
+  return PLUGIN_LABELS[pid] || pid;
+}
+
+/* ===== Wykresy Chart.js ===== */
+
+function chartsSignature(mode, payload) {
+  // Stabilny podpis danych — pomija updated_at / progress
+  try {
+    if (mode === "agg") {
+      return JSON.stringify({
+        m: "agg",
+        n: payload && payload.sessions_count,
+        c: payload && payload.counters,
+        p: payload && payload.by_plugin,
+        s: (payload && payload.series || []).map(pt => [pt.t, pt.counters]),
+      });
+    }
+    return JSON.stringify({
+      m: "sess",
+      c: payload && payload.counters,
+      p: payload && payload.by_plugin,
+      id: payload && payload.session_id,
+    });
+  } catch (_) {
+    return String(Date.now());
+  }
+}
+
+function destroyCharts() {
+  chartInstances.forEach(c => { try { c.destroy(); } catch (_) {} });
+  chartInstances = [];
+}
+
+function chartColor(i, alpha) {
+  const hex = CHART_COLORS[i % CHART_COLORS.length];
+  if (alpha == null) return hex;
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function topNonZeroKeys(counters, preferred, limit) {
+  // Najpierw preferowane klucze z wartością > 0, potem reszta malejąco
+  const map = counters || {};
+  const pref = (preferred || CHART_KEYS).filter(k => (Number(map[k]) || 0) > 0);
+  const rest = Object.keys(map)
+    .filter(k => !pref.includes(k) && (Number(map[k]) || 0) > 0)
+    .sort((a, b) => (Number(map[b]) || 0) - (Number(map[a]) || 0));
+  return [...pref, ...rest].slice(0, limit || 8);
+}
+
+function hasAnyChartData(counters, byPlugin) {
+  if (Object.values(counters || {}).some(v => (Number(v) || 0) > 0)) return true;
+  for (const c of Object.values(byPlugin || {})) {
+    if (Object.values(c || {}).some(v => (Number(v) || 0) > 0)) return true;
+  }
+  return false;
+}
+
+function formatTickLabel(iso) {
+  if (!iso) return "?";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return String(iso).slice(5, 16);
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mi = String(d.getMinutes()).padStart(2, "0");
+  return `${dd}.${mm} ${hh}:${mi}`;
+}
+
+function baseChartOptions(extra) {
+  return Object.assign({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: "#8791a3", boxWidth: 12, font: { size: 11 } },
+      },
+      tooltip: {
+        backgroundColor: "#20262e",
+        titleColor: "#e6ebf1",
+        bodyColor: "#e6ebf1",
+        borderColor: "#2a323d",
+        borderWidth: 1,
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: "#8791a3", font: { size: 10 }, maxRotation: 45 },
+        grid: { color: "rgba(42,50,61,0.6)" },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: { color: "#8791a3", font: { size: 10 }, precision: 0 },
+        grid: { color: "rgba(42,50,61,0.6)" },
+      },
+    },
+  }, extra || {});
+}
+
+function makeChartBlock(title, subtitle, tall) {
+  const block = document.createElement("div");
+  block.className = "chart-block";
+  const h = document.createElement("h3");
+  h.textContent = title;
+  block.appendChild(h);
+  if (subtitle) {
+    const s = document.createElement("p");
+    s.className = "chart-sub";
+    s.textContent = subtitle;
+    block.appendChild(s);
+  }
+  const wrap = document.createElement("div");
+  wrap.className = "chart-wrap" + (tall ? " tall" : "");
+  const canvas = document.createElement("canvas");
+  wrap.appendChild(canvas);
+  block.appendChild(wrap);
+  return { block, canvas };
+}
+
+function renderSessionCharts(byPlugin, counters, sessionId) {
+  const sig = chartsSignature("sess", {
+    counters, by_plugin: byPlugin, session_id: sessionId,
+  });
+  if (sig === lastChartsSig && chartInstances.length) return;
+  lastChartsSig = sig;
+
+  const root = document.getElementById("charts");
+  const emptyEl = document.getElementById("charts-empty");
+  destroyCharts();
+  root.innerHTML = "";
+
+  if (!hasAnyChartData(counters, byPlugin)) {
+    emptyEl.hidden = false;
+    root.classList.add("hidden");
+    return;
+  }
+  emptyEl.hidden = true;
+  root.classList.remove("hidden");
+
+  const plugins = Object.entries(byPlugin || {})
+    .filter(([, c]) => Object.values(c || {}).some(v => (Number(v) || 0) > 0))
+    .sort((a, b) => a[0].localeCompare(b[0]));
+
+  // 1) Słupki grupowane: X = metryki, serie = pluginy (top N niezerowych)
+  if (plugins.length) {
+    const union = {};
+    plugins.forEach(([, c]) => {
+      Object.entries(c || {}).forEach(([k, v]) => {
+        union[k] = (union[k] || 0) + (Number(v) || 0);
+      });
+    });
+    const keys = topNonZeroKeys(union, CHART_KEYS, 8);
+    if (keys.length) {
+      const { block, canvas } = makeChartBlock(
+        "Metryki według pluginu",
+        "Top niezerowe liczniki w tej sesji (słupki grupowane)"
+      );
+      root.appendChild(block);
+      const chart = new Chart(canvas, {
+        type: "bar",
+        data: {
+          labels: keys.map(labelFor),
+          datasets: plugins.map(([pid, c], i) => ({
+            label: pluginLabel(pid),
+            data: keys.map(k => Number(c[k]) || 0),
+            backgroundColor: chartColor(i, 0.75),
+            borderColor: chartColor(i),
+            borderWidth: 1,
+            borderRadius: 3,
+          })),
+        },
+        options: baseChartOptions(),
+      });
+      chartInstances.push(chart);
+    }
+  }
+
+  // 2) Proste słupki: top liczniki sesji gdy brak by_plugin
+  const topKeys = topNonZeroKeys(counters, CHART_KEYS, 10);
+  if (topKeys.length && !plugins.length) {
+    const { block, canvas } = makeChartBlock(
+      "Kluczowe liczniki sesji",
+      "Top niezerowe metryki"
+    );
+    root.appendChild(block);
+    const chart = new Chart(canvas, {
+      type: "bar",
+      data: {
+        labels: topKeys.map(labelFor),
+        datasets: [{
+          label: "Wartość",
+          data: topKeys.map(k => Number(counters[k]) || 0),
+          backgroundColor: chartColor(0, 0.75),
+          borderColor: chartColor(0),
+          borderWidth: 1,
+          borderRadius: 3,
+        }],
+      },
+      options: baseChartOptions({
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: "#20262e",
+            titleColor: "#e6ebf1",
+            bodyColor: "#e6ebf1",
+            borderColor: "#2a323d",
+            borderWidth: 1,
+          },
+        },
+      }),
+    });
+    chartInstances.push(chart);
+  }
+
+  if (!chartInstances.length) {
+    emptyEl.hidden = false;
+    root.classList.add("hidden");
+  }
+}
+
+function renderAggregateCharts(payload) {
+  const sig = chartsSignature("agg", payload);
+  if (sig === lastChartsSig && chartInstances.length) return;
+  lastChartsSig = sig;
+
+  const root = document.getElementById("charts");
+  const emptyEl = document.getElementById("charts-empty");
+  destroyCharts();
+  root.innerHTML = "";
+
+  const series = (payload && payload.series) || [];
+  const byPlugin = (payload && payload.by_plugin) || {};
+  const counters = (payload && payload.counters) || {};
+
+  if (!series.length && !hasAnyChartData(counters, byPlugin)) {
+    emptyEl.hidden = false;
+    root.classList.add("hidden");
+    return;
+  }
+  emptyEl.hidden = true;
+  root.classList.remove("hidden");
+
+  // Metryki obecne w serii / sumie
+  const totalForKeys = {};
+  series.forEach(pt => {
+    Object.entries(pt.counters || {}).forEach(([k, v]) => {
+      totalForKeys[k] = (totalForKeys[k] || 0) + (Number(v) || 0);
+    });
+  });
+  if (!Object.keys(totalForKeys).length) {
+    Object.assign(totalForKeys, counters);
+  }
+  const metricKeys = topNonZeroKeys(totalForKeys, CHART_KEYS, 6);
+
+  // 1) Timeline: linia/słupki per metryka (punkt = sesja)
+  if (series.length && metricKeys.length) {
+    const { block, canvas } = makeChartBlock(
+      "Metryki w czasie",
+      series.length === 1
+        ? "Jedna sesja w oknie — punkt na osi czasu"
+        : `${series.length} sesji w oknie (wartość per sesja)`,
+      true
+    );
+    root.appendChild(block);
+    const labels = series.map(pt => formatTickLabel(pt.t));
+    const chart = new Chart(canvas, {
+      type: series.length <= 2 ? "bar" : "line",
+      data: {
+        labels,
+        datasets: metricKeys.map((k, i) => ({
+          label: labelFor(k),
+          data: series.map(pt => Number((pt.counters || {})[k]) || 0),
+          borderColor: chartColor(i),
+          backgroundColor: chartColor(i, series.length <= 2 ? 0.7 : 0.15),
+          borderWidth: 2,
+          tension: 0.25,
+          pointRadius: series.length > 20 ? 2 : 3,
+          fill: series.length > 2,
+          borderRadius: 3,
+        })),
+      },
+      options: baseChartOptions(),
+    });
+    chartInstances.push(chart);
+  }
+
+  // 2) Stacked bars: suma wg pluginu dla kluczowych metryk
+  const plugins = Object.entries(byPlugin)
+    .filter(([, c]) => Object.values(c || {}).some(v => (Number(v) || 0) > 0))
+    .sort((a, b) => a[0].localeCompare(b[0]));
+  if (plugins.length && metricKeys.length) {
+    const { block, canvas } = makeChartBlock(
+      "Suma według pluginu",
+      "Metryki zsumowane w oknie (słupki stacked)",
+      true
+    );
+    root.appendChild(block);
+    const chart = new Chart(canvas, {
+      type: "bar",
+      data: {
+        labels: metricKeys.map(labelFor),
+        datasets: plugins.map(([pid, c], i) => ({
+          label: pluginLabel(pid),
+          data: metricKeys.map(k => Number(c[k]) || 0),
+          backgroundColor: chartColor(i, 0.8),
+          borderColor: chartColor(i),
+          borderWidth: 1,
+          borderRadius: 2,
+          stack: "plugins",
+        })),
+      },
+      options: baseChartOptions({
+        scales: {
+          x: {
+            stacked: true,
+            ticks: { color: "#8791a3", font: { size: 10 }, maxRotation: 45 },
+            grid: { color: "rgba(42,50,61,0.6)" },
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            ticks: { color: "#8791a3", font: { size: 10 }, precision: 0 },
+            grid: { color: "rgba(42,50,61,0.6)" },
+          },
+        },
+      }),
+    });
+    chartInstances.push(chart);
+  }
+
+  if (!chartInstances.length) {
+    emptyEl.hidden = false;
+    root.classList.add("hidden");
+  }
+}
+
+function setErr(msg) {
+  const box = document.getElementById("err-box");
+  if (!msg) { box.hidden = true; box.textContent = ""; return; }
+  box.hidden = false;
+  box.textContent = msg;
+}
+
+function todayISO() {
+  const d = new Date();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+
+function daysAgoISO(n) {
+  const d = new Date();
+  d.setDate(d.getDate() - n);
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+
+function renderCounters(counters) {
+  const el = document.getElementById("counters");
+  const entries = Object.entries(counters || {});
+  if (!entries.length) {
+    el.className = "empty";
+    el.textContent = "Brak liczników (sesja pusta albo jeszcze nie wystartowała).";
+    return;
+  }
+  // Preferowana kolejność z katalogu; reszta alfabetycznie na końcu
+  const order = Object.keys(LABELS);
+  entries.sort((a, b) => {
+    const ia = order.indexOf(a[0]), ib = order.indexOf(b[0]);
+    if (ia < 0 && ib < 0) return a[0].localeCompare(b[0]);
+    if (ia < 0) return 1;
+    if (ib < 0) return -1;
+    return ia - ib;
+  });
+  el.className = "counters";
+  el.innerHTML = entries.map(([k, v]) => `
+    <div class="counter">
+      <div class="label">${esc(labelFor(k))}</div>
+      <div class="value">${esc(v)}</div>
+      <div class="key">${esc(k)}</div>
+    </div>`).join("");
+}
+
+function renderByPlugin(byPlugin) {
+  const el = document.getElementById("by-plugin");
+  const plugins = Object.entries(byPlugin || {});
+  if (!plugins.length) {
+    el.className = "empty";
+    el.textContent = "Brak podziału per plugin.";
+    return;
+  }
+  // Alfabetycznie po id pluginu — stabilny układ sekcji
+  plugins.sort((a, b) => a[0].localeCompare(b[0]));
+  el.className = "";
+  el.innerHTML = plugins.map(([pid, counters]) => {
+    const entries = Object.entries(counters || {});
+    const order = Object.keys(LABELS);
+    entries.sort((a, b) => {
+      const ia = order.indexOf(a[0]), ib = order.indexOf(b[0]);
+      if (ia < 0 && ib < 0) return a[0].localeCompare(b[0]);
+      if (ia < 0) return 1;
+      if (ib < 0) return -1;
+      return ia - ib;
+    });
+    const cells = entries.length
+      ? `<div class="counters">${entries.map(([k, v]) => `
+          <div class="counter">
+            <div class="label">${esc(labelFor(k))}</div>
+            <div class="value">${esc(v)}</div>
+            <div class="key">${esc(k)}</div>
+          </div>`).join("")}</div>`
+      : `<div class="empty">pusto</div>`;
+    return `<div class="plugin-block">
+      <div class="plugin-name">
+        ${esc(pluginLabel(pid))}
+        <span class="pid">${esc(pid)}</span>
+      </div>
+      ${cells}
+    </div>`;
+  }).join("");
+}
+
+function renderMeta(data, sessionRunning) {
+  const el = document.getElementById("meta");
+  if (!data) {
+    el.className = "empty";
+    el.textContent = "Brak pliku session_stats.json dla tego konta.";
+    return;
+  }
+  const ended = !!data.ended_at;
+  let badge;
+  if (sessionRunning && !selectedSnapshot) {
+    badge = `<span class="badge badge-live">LIVE</span>`;
+  } else if (ended) {
+    badge = `<span class="badge badge-ended">ZAKOŃCZONA</span>`;
+  } else {
+    badge = `<span class="badge badge-idle">ZAPISANA</span>`;
+  }
+  const q = data.queue || {};
+  const timing = data.timing || {};
+  const rates = timing.rates || {};
+  const durS = timing.total_s != null ? timing.total_s
+    : (timing.wall_s != null ? timing.wall_s : null);
+  let timingRows = "";
+  if (durS != null && Number(durS) > 0) {
+    timingRows += `
+    <div class="k">Czas kolejki</div>
+    <div class="v"><strong>${esc(fmtSec(durS))}</strong>
+      ${timing.wall_s && Math.abs(timing.wall_s - durS) > 5
+        ? ` <span style="color:var(--muted);font-size:12px">(wall ${esc(fmtSec(timing.wall_s))})</span>` : ""}
+    </div>`;
+  }
+  if (rates.sec_per_like != null) {
+    timingRows += `
+    <div class="k">Tempo</div>
+    <div class="v mono">~${esc(rates.sec_per_like)}s/lajk`
+      + (rates.sec_per_follow != null ? ` · ~${esc(rates.sec_per_follow)}s/follow` : "")
+      + (rates.sec_per_item != null ? ` · ~${esc(rates.sec_per_item)}s/item` : "")
+      + `</div>`;
+  }
+  const taskN = (timing.tasks || []).length;
+  if (taskN) {
+    const brief = (timing.tasks || []).slice(-4).map(t =>
+      `${t.plugin || "?"} ${fmtSec(t.duration_s || 0)}`).join(" · ");
+    timingRows += `
+    <div class="k">Zadania (${taskN})</div>
+    <div class="v mono" style="font-size:12px">${esc(brief)}</div>`;
+  }
+  el.className = "meta-row";
+  el.innerHTML = `
+    <div class="k">Status</div><div class="v">${badge}</div>
+    <div class="k">session_id</div><div class="v mono">${esc(data.session_id || "—")}</div>
+    <div class="k">Konto</div><div class="v">${esc(data.account_id || "—")}</div>
+    <div class="k">Start</div><div class="v">${esc(data.started_at || "—")}</div>
+    <div class="k">Aktualizacja</div><div class="v">${esc(data.updated_at || "—")}</div>
+    <div class="k">Koniec</div><div class="v">${esc(data.ended_at || "—")}</div>
+    ${timingRows}
+    <div class="k">Plugin</div><div class="v">${esc(data.plugin ? pluginLabel(data.plugin) + " (" + data.plugin + ")" : "—")}</div>
+    <div class="k">Zadanie</div><div class="v mono">${esc(data.task_id || "—")}</div>
+    <div class="k">Kolejka</div><div class="v">${esc(q.name || "domyślna")} · zadanie ${esc(q.task_i ?? "?")}/${esc(q.task_n ?? "?")}</div>
+  `;
+}
+
+/** Sekundy → „1.5 min” / „45 s”. */
+function fmtSec(s) {
+  s = Math.max(0, Number(s) || 0);
+  if (s < 90) return Math.round(s) + " s";
+  if (s < 3600) return (Math.round(s / 6) / 10) + " min";
+  return (Math.round(s / 360) / 10) + " h";
+}
+
+function renderAggregateMeta(payload) {
+  const el = document.getElementById("meta");
+  if (!payload) {
+    el.className = "empty";
+    el.textContent = "Brak danych agregacji.";
+    return;
+  }
+  const w = payload.window || {};
+  const modeLabel = w.mode === "range"
+    ? "Ostatnie 24h"
+    : `Zakres ${esc(w.from || "?")} → ${esc(w.to || "?")}`;
+  el.className = "meta-row";
+  el.innerHTML = `
+    <div class="k">Tryb</div>
+    <div class="v"><span class="badge badge-agg">AGREGAT</span> ${modeLabel}</div>
+    <div class="k">Konto</div><div class="v">${esc(payload.account || "—")}</div>
+    <div class="k">Okno od</div><div class="v mono">${esc(payload.window_start || "—")}</div>
+    <div class="k">Okno do</div><div class="v mono">${esc(payload.window_end || "—")}</div>
+    <div class="k">Sesje</div><div class="v"><strong>${esc(payload.sessions_count ?? 0)}</strong> w agregacie</div>
+  `;
+}
+
+function renderProgress(data) {
+  const el = document.getElementById("progress");
+  if (!data) {
+    el.className = "empty";
+    el.textContent = "—";
+    return;
+  }
+  const b = data.budget || {};
+  const p = data.progress || null;
+  const q = data.queue || {};
+  let rows = `
+    <div class="k">Zadanie kolejki</div>
+    <div class="v">${esc(q.task_i ?? "—")} / ${esc(q.task_n ?? "—")}</div>
+    <div class="k">Budżet</div>
+    <div class="v">${esc(b.items_done ?? "—")} / ${esc(b.max_items ?? "∞")}</div>
+  `;
+  if (p) {
+    rows += `
+      <div class="k">Faza</div>
+      <div class="v">${esc(p.label || p.phase || "—")}
+        (${esc(p.current ?? "?")}${p.total != null ? " / " + esc(p.total) : ""})</div>
+      <div class="k">Szczegół</div>
+      <div class="v">${esc(p.detail || "—")}</div>
+    `;
+    if (p.sub) {
+      const s = p.sub;
+      rows += `
+        <div class="k">Sub</div>
+        <div class="v">${esc(s.label || s.phase || "—")}
+          (${esc(s.current ?? "?")}${s.total != null ? " / " + esc(s.total) : ""})
+          ${s.detail ? " · " + esc(s.detail) : ""}</div>
+      `;
+    }
+  } else {
+    rows += `<div class="k">Faza</div><div class="v">—</div>`;
+  }
+  if (data.summary) {
+    const s = data.summary;
+    rows += `
+      <div class="k">Summary</div>
+      <div class="v">ok=${esc(s.ok)} · tasks ${esc(s.tasks_ok)}/${esc(s.tasks_total)}
+        · failed=${esc(s.tasks_failed)} · aborted=${esc(s.aborted)}</div>
+    `;
+  }
+  el.className = "meta-row";
+  el.innerHTML = rows;
+}
+
+/** Formatuj deltę (+N / −N / 0); null → ukryj. */
+function fmtDelta(n) {
+  if (n == null || Number.isNaN(n)) return "";
+  const cls = n > 0 ? "pos" : (n < 0 ? "neg" : "zero");
+  const sign = n > 0 ? "+" : "";
+  return `<span class="acct-delta ${cls}">(${sign}${esc(n)})</span>`;
+}
+
+/** Licznik z opcjonalną deltą (start → koniec sesji / okna). */
+function acctStatCell(label, startVal, endVal, delta) {
+  const hasEnd = endVal != null && delta != null;
+  const main = hasEnd
+    ? `${esc(startVal ?? "—")} → ${esc(endVal)}`
+    : esc(startVal ?? "—");
+  return `<div class="counter">
+    <div class="label">${esc(label)}</div>
+    <div class="value">${main}${fmtDelta(delta)}</div>
+  </div>`;
+}
+
+/**
+ * Karta obserwujących / obserwowanych z account_stats (API).
+ * @param {object|null} stats — {start,end,delta,enabled_hint,points_count}
+ * @param {{aggregate?: boolean}} opts
+ */
+function renderAccountStats(stats, opts) {
+  const el = document.getElementById("account-stats");
+  const title = document.getElementById("account-stats-title");
+  const isAgg = !!(opts && opts.aggregate);
+  title.textContent = isAgg
+    ? "Konto w oknie (obserwujący / obserwowani)"
+    : "Konto (obserwujący / obserwowani)";
+
+  if (!stats || !stats.start) {
+    el.className = "empty";
+    el.textContent = (stats && stats.enabled_hint)
+      || "Brak odczytu stats_snapshot dla tej sesji.";
+    return;
+  }
+
+  const start = stats.start;
+  const end = stats.end;
+  const delta = stats.delta || {};
+  const startLabel = isAgg ? "Pierwszy odczyt" : "Na starcie sesji";
+  const endLabel = isAgg ? "Ostatni odczyt" : "Na końcu sesji";
+
+  let html = `<div class="counters">
+    ${acctStatCell("Obserwujący", start.followers, end && end.followers, delta.followers)}
+    ${acctStatCell("Obserwowani", start.following, end && end.following, delta.following)}
+    ${acctStatCell("Posty", start.posts, end && end.posts, delta.posts)}
+  </div>`;
+
+  html += `<div class="meta-row" style="margin-top:12px">
+    <div class="k">${esc(startLabel)}</div>
+    <div class="v mono">${esc(start.ts || "—")}</div>`;
+  if (end) {
+    html += `
+    <div class="k">${esc(endLabel)}</div>
+    <div class="v mono">${esc(end.ts || "—")}</div>`;
+  } else {
+    html += `
+    <div class="k">${esc(endLabel)}</div>
+    <div class="v" style="color:var(--dim)">brak (on_session_end wyłączony lub sesja w toku)</div>`;
+  }
+  if (stats.points_count != null) {
+    html += `
+    <div class="k">Odczyty</div>
+    <div class="v">${esc(stats.points_count)}</div>`;
+  }
+  html += `</div>`;
+
+  el.className = "";
+  el.innerHTML = html;
+}
+
+function renderSessionsList(sessions, { clickable = true } = {}) {
+  const el = document.getElementById("sessions-list");
+  if (!sessions || !sessions.length) {
+    el.className = "empty";
+    el.textContent = clickable
+      ? "Brak snapshotów w data/accounts/…/sessions/."
+      : "Brak sesji w wybranym oknie.";
+    return;
+  }
+  el.className = "";
+  const extraCols = clickable
+    ? ""
+    : "<th>źródło</th>";
+  el.innerHTML = `<table class="sessions">
+    <thead><tr>
+      <th>session_id</th><th>start</th><th>koniec</th><th>plugin</th>
+      ${clickable ? "<th>summary</th>" : extraCols}
+    </tr></thead>
+    <tbody>${sessions.map(s => {
+      const active = clickable && selectedSnapshot === s.session_id ? "active" : "";
+      const rowClass = clickable ? active : "no-click";
+      const sum = s.summary
+        ? `ok=${s.summary.ok} (${s.summary.tasks_ok}/${s.summary.tasks_total})`
+        : (s.source || "—");
+      const lastCell = clickable ? esc(sum) : esc(s.source || "—");
+      return `<tr class="${rowClass}" ${clickable ? `data-sid="${esc(s.session_id)}"` : ""}>
+        <td class="mono">${esc(s.session_id)}</td>
+        <td>${esc(s.started_at || "—")}</td>
+        <td>${esc(s.ended_at || "—")}</td>
+        <td>${esc(s.plugin || "—")}</td>
+        <td>${lastCell}</td>
+      </tr>`;
+    }).join("")}</tbody>
+  </table>`;
+  if (clickable) {
+    el.querySelectorAll("tr[data-sid]").forEach(tr => {
+      tr.addEventListener("click", () => {
+        const sid = tr.getAttribute("data-sid");
+        selectedSnapshot = sid;
+        const sel = document.getElementById("sel-source");
+        if (![...sel.options].some(o => o.value === sid)) {
+          const opt = document.createElement("option");
+          opt.value = sid;
+          opt.textContent = `Snapshot: ${sid}`;
+          sel.appendChild(opt);
+        }
+        sel.value = sid;
+        loadSnapshot(sid);
+      });
+    });
+  }
+}
+
+function fillSourceSelect(sessions) {
+  const sel = document.getElementById("sel-source");
+  const prev = sel.value;
+  sel.innerHTML = `<option value="live">Bieżące (live)</option>`;
+  (sessions || []).forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s.session_id;
+    const mark = s.ended_at ? "✓" : "…";
+    opt.textContent = `${mark} ${s.session_id} (${s.started_at || "?"})`;
+    sel.appendChild(opt);
+  });
+  if (prev && [...sel.options].some(o => o.value === prev)) {
+    sel.value = prev;
+  } else {
+    sel.value = "live";
+    selectedSnapshot = null;
+  }
+}
+
+function applyStats(data, sessionRunning, accountStats) {
+  renderMeta(data, sessionRunning);
+  renderProgress(data);
+  renderAccountStats(accountStats || null, { aggregate: false });
+  renderCounters(data && data.counters);
+  renderByPlugin(data && data.by_plugin);
+  renderSessionCharts(
+    data && data.by_plugin,
+    data && data.counters,
+    data && data.session_id
+  );
+}
+
+function applyAggregate(payload) {
+  aggregatePayload = payload;
+  renderAggregateMeta(payload);
+  renderAccountStats(payload && payload.account_stats, { aggregate: true });
+  renderCounters(payload && payload.counters);
+  renderByPlugin(payload && payload.by_plugin);
+  renderSessionsList(payload && payload.sessions, { clickable: false });
+  renderAggregateCharts(payload);
+}
+
+function syncModeUi() {
+  // Przyciski trybu
+  document.querySelectorAll("#mode-tabs button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.mode === viewMode);
+  });
+  const isLive = viewMode === "live";
+  const isRange = viewMode === "range";
+  document.getElementById("field-source").hidden = !isLive;
+  document.getElementById("field-from").hidden = !isRange;
+  document.getElementById("field-to").hidden = !isRange;
+  document.getElementById("card-progress").classList.toggle("hidden", !isLive);
+  document.getElementById("meta-title").textContent = isLive ? "Sesja" : "Agregat";
+  document.getElementById("counters-title").textContent =
+    isLive ? "Liczniki (sesja)" : "Liczniki (suma)";
+  document.getElementById("by-plugin-title").textContent =
+    isLive ? "Według pluginu" : "Suma według pluginu";
+  document.getElementById("sessions-title").textContent =
+    isLive ? "Snapshoty sesji" : "Sesje w agregacie";
+
+  // Auto-refresh sensowny głównie dla live / ostatnia sesja
+  const lbl = document.getElementById("lbl-autorefresh");
+  const chk = document.getElementById("chk-autorefresh");
+  if (isLive) {
+    lbl.classList.remove("disabled");
+  } else {
+    lbl.classList.add("disabled");
+    chk.checked = false;
+  }
+  scheduleRefresh();
+}
+
+async function loadAccounts() {
+  const list = await fetch("/api/accounts").then(r => r.json());
+  accounts = list;
+  const sel = document.getElementById("sel-account");
+  sel.innerHTML = "";
+  if (!list.length) {
+    sel.innerHTML = `<option value="">(brak kont)</option>`;
+    return;
+  }
+  list.forEach(a => {
+    const opt = document.createElement("option");
+    const alias = typeof a === "string" ? a : a.alias;
+    opt.value = alias;
+    opt.textContent = alias;
+    sel.appendChild(opt);
+  });
+  // Preferuj konto z query ?account=
+  const params = new URLSearchParams(location.search);
+  const want = params.get("account");
+  if (want && [...sel.options].some(o => o.value === want)) {
+    sel.value = want;
+  }
+}
+
+async function loadLive() {
+  const acc = document.getElementById("sel-account").value;
+  if (!acc) return;
+  fetching = true;
+  setErr("");
+  try {
+    const res = await fetch(`/api/stats/${encodeURIComponent(acc)}`);
+    if (!res.ok) throw new Error(await res.text() || res.statusText);
+    const payload = await res.json();
+    currentPayload = payload;
+    fillSourceSelect(payload.sessions || []);
+    renderSessionsList(payload.sessions || [], { clickable: true });
+    if (selectedSnapshot) {
+      document.getElementById("sel-source").value = selectedSnapshot;
+    } else {
+      applyStats(payload.live, payload.session_running, payload.account_stats);
+    }
+    document.getElementById("last-fetch").textContent =
+      "pobrano " + new Date().toLocaleTimeString();
+  } catch (e) {
+    setErr("Błąd API: " + (e.message || e));
+  } finally {
+    fetching = false;
+  }
+}
+
+async function loadSnapshot(sid) {
+  const acc = document.getElementById("sel-account").value;
+  if (!acc || !sid) return;
+  fetching = true;
+  setErr("");
+  try {
+    const res = await fetch(
+      `/api/stats/${encodeURIComponent(acc)}/sessions/${encodeURIComponent(sid)}`
+    );
+    if (!res.ok) throw new Error(await res.text() || res.statusText);
+    const payload = await res.json();
+    applyStats(payload.snapshot, false, payload.account_stats);
+    renderSessionsList((currentPayload && currentPayload.sessions) || [], { clickable: true });
+    document.getElementById("last-fetch").textContent =
+      "snapshot " + sid + " · " + new Date().toLocaleTimeString();
+  } catch (e) {
+    setErr("Błąd snapshotu: " + (e.message || e));
+  } finally {
+    fetching = false;
+  }
+}
+
+async function loadAggregate() {
+  const acc = document.getElementById("sel-account").value;
+  if (!acc) return;
+  fetching = true;
+  setErr("");
+  try {
+    let url = `/api/stats/${encodeURIComponent(acc)}/aggregate?`;
+    if (viewMode === "24h") {
+      url += "range=24h";
+    } else {
+      const from = document.getElementById("inp-from").value;
+      const to = document.getElementById("inp-to").value;
+      if (!from || !to) {
+        setErr("Podaj zakres dat Od / Do.");
+        fetching = false;
+        return;
+      }
+      url += `from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+    }
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(await res.text() || res.statusText);
+    const payload = await res.json();
+    applyAggregate(payload);
+    document.getElementById("last-fetch").textContent =
+      `agregat · ${payload.sessions_count || 0} sesji · `
+      + new Date().toLocaleTimeString();
+  } catch (e) {
+    setErr("Błąd agregacji: " + (e.message || e));
+  } finally {
+    fetching = false;
+  }
+}
+
+function refreshCurrent() {
+  if (viewMode === "live") {
+    if (selectedSnapshot) loadSnapshot(selectedSnapshot);
+    else loadLive();
+  } else {
+    loadAggregate();
+  }
+}
+
+function setMode(mode) {
+  if (!["live", "24h", "range"].includes(mode)) return;
+  viewMode = mode;
+  selectedSnapshot = null;
+  lastChartsSig = ""; // wymuś przebudowę wykresów przy zmianie trybu
+  syncModeUi();
+  refreshCurrent();
+}
+
+function onSourceChange() {
+  const v = document.getElementById("sel-source").value;
+  if (v === "live") {
+    selectedSnapshot = null;
+    if (currentPayload) {
+      applyStats(currentPayload.live, currentPayload.session_running,
+                 currentPayload.account_stats);
+      renderSessionsList(currentPayload.sessions || [], { clickable: true });
+    } else {
+      loadLive();
+    }
+  } else {
+    selectedSnapshot = v;
+    loadSnapshot(v);
+  }
+}
+
+function scheduleRefresh() {
+  if (refreshTimer) { clearInterval(refreshTimer); refreshTimer = null; }
+  const on = document.getElementById("chk-autorefresh").checked;
+  // Auto-refresh tylko w trybie ostatniej sesji (live / snapshot nie)
+  if (!on || viewMode !== "live") return;
+  refreshTimer = setInterval(() => {
+    if (fetching) return;
+    if (selectedSnapshot) return;
+    loadLive();
+  }, 4000);
+}
+
+document.getElementById("sel-account").addEventListener("change", () => {
+  selectedSnapshot = null;
+  lastChartsSig = "";
+  const acc = document.getElementById("sel-account").value;
+  history.replaceState(null, "", acc ? `?account=${encodeURIComponent(acc)}` : "/stats");
+  refreshCurrent();
+});
+document.getElementById("sel-source").addEventListener("change", onSourceChange);
+document.getElementById("btn-refresh").addEventListener("click", refreshCurrent);
+document.getElementById("chk-autorefresh").addEventListener("change", scheduleRefresh);
+document.getElementById("mode-tabs").addEventListener("click", (ev) => {
+  const btn = ev.target.closest("button[data-mode]");
+  if (!btn) return;
+  setMode(btn.dataset.mode);
+});
+document.getElementById("inp-from").addEventListener("change", () => {
+  if (viewMode === "range") loadAggregate();
+});
+document.getElementById("inp-to").addEventListener("change", () => {
+  if (viewMode === "range") loadAggregate();
+});
+
+(async function init() {
+  try {
+    // Domyślny zakres: ostatnie 7 dni (UI; 24h idzie osobnym trybem)
+    document.getElementById("inp-from").value = daysAgoISO(7);
+    document.getElementById("inp-to").value = todayISO();
+    await loadAccounts();
+    syncModeUi();
+    await loadLive();
+    scheduleRefresh();
+  } catch (e) {
+    setErr("Init: " + (e.message || e));
+  }
+})();
+</script>
+</body>
+</html>

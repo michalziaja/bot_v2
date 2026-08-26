@@ -1,0 +1,1026 @@
+[
+  {
+    "class": null,
+    "resource-id": null,
+    "content-desc": null,
+    "text": null,
+    "bounds": null,
+    "package": null
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/phone_status_bar_background",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.RelativeLayout",
+    "resource-id": "com.android.systemui:id/status_bar_contents",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_left_side_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][475,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/status_bar_left_side",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][475,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/left_clock_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][162,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.android.systemui:id/clock",
+    "content-desc": "01:34",
+    "text": "01:34",
+    "bounds": "[65,1][162,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/notification_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/notification_icon_area_inner",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/notificationIcons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji Sklep Google Play: 1 aktualizacja wymaga zaakceptowania",
+    "text": "",
+    "bounds": "[170,1][217,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji AutoInput: AutoInput Keyguard Dismisser",
+    "text": "",
+    "bounds": "[217,1][264,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji Tasker: Brak aktywnych profili (0 z 4 włączonych)",
+    "text": "",
+    "bounds": "[264,1][311,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+    "text": "",
+    "bounds": "[311,1][358,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji YouTube: Kolumbijka, która poznaje polskie wioski ....",
+    "text": "",
+    "bounds": "[329,1][376,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/divided_status_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[435,1][443,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/system_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/system_icons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/statusIcons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][886,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Tryb oszczędzania energii włączony",
+    "text": "",
+    "bounds": "[713,24][753,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Dzwonek z wibracjami.",
+    "text": "",
+    "bounds": "[756,24][797,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/wifi_combo",
+    "content-desc": "Wi-Fi: pełna moc sygnału.",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/wifi_group",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/wifi_iconset",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/wifi_signal",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/wifi_activity",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/mobile_combo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/mobile_group",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/signal_combo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/mobile_signal",
+    "content-desc": "Telefon: trzy paski.",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/battery",
+    "content-desc": "Ładuję baterię, 100 procent.",
+    "text": "",
+    "bounds": "[894,1][1015,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.android.systemui:id/battery_percentage_view",
+    "content-desc": "",
+    "text": "100%",
+    "bounds": "[894,1][989,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[994,24][1015,61]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/rounded_corners_top",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[443,0][637,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/left",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][151,151]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.android.systemui:id/display_cutout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[443,0][637,83]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/right",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[929,0][1080,151]",
+    "package": "com.android.systemui"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_root",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "android:id/content",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/overlay_layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/swipe_navigation_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/layout_container_center_right_coordinator_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_right",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/activity_and_camera_shared_views_main_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/layout_container_main_panel",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_main_wrapper",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_main",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "androidx.viewpager.widget.ViewPager",
+    "resource-id": "com.instagram.android:id/swipeable_tab_view_pager",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "resource-id": "com.instagram.android:id/swipeable_nav_view_pager_inner_recycler_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_swipeable",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/activity_feed_root",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/newsfeed_you",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "androidx.compose.ui.platform.ComposeView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_box",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_list",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,429]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "igds_profile_picture",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[40,243][213,416]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[53,256][200,403]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "ig_text",
+    "content-desc": "",
+    "text": "Prośby o zezwolenie na obserwowanie",
+    "bounds": "[242,254][890,356]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "ourscenicbits",
+    "bounds": "[242,356][493,405]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "activity_feed_header_row",
+    "content-desc": "",
+    "text": "Wczoraj",
+    "bounds": "[42,471][214,525]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,546][1080,745]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[85,604][211,730]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[43,562][169,688]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[119,638][245,764]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "mgrams66 i cinta_ajjaa16 korzystają z Threads, aplikacji Instagramu. Sprawdź, co piszą. 1 dni",
+    "bounds": "[242,568][1038,723]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "activity_feed_header_row",
+    "content-desc": "",
+    "text": "Ostatnie 7 dni",
+    "bounds": "[42,787][334,841]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,862][1080,1061]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "igds_profile_picture",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[40,875][213,1048]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[53,888][200,1035]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "lukaszbok_kiks� udostępnił(a) zdjęcie. 2 dni",
+    "bounds": "[242,911][901,1013]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[923,888][1049,1035]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1061][1080,1260]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[85,1119][211,1245]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[43,1077][169,1203]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "Proponowane konta do obserwowania: Mej Czi, Martyna Arendarska i inne 3 dni",
+    "bounds": "[242,1110][1038,1212]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "activity_feed_header_row",
+    "content-desc": "",
+    "text": "Ostatnie 30 dni",
+    "bounds": "[42,1302][362,1356]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1377][1080,1627]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "igds_profile_picture",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[40,1390][213,1563]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[53,1403][200,1550]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "ourscenicbits prosi o zgodę na obserwowanie Ciebie. 1 tyg.",
+    "bounds": "[242,1398][608,1606]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "igds_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[640,1398][959,1524]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "ig_text",
+    "content-desc": "",
+    "text": "Potwierdzam",
+    "bounds": "[682,1437][932,1486]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[640,1419][974,1503]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Odrzuć",
+    "text": "",
+    "bounds": "[959,1398][1080,1524]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1627][1080,1826]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[85,1685][211,1811]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[43,1643][169,1769]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "lukaszbok_kiks, cinta_ajjaa16 i inni użytkownicy udostępnili 44 zdjęć. 1 tyg.",
+    "bounds": "[242,1649][901,1804]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[923,1653][1049,1800]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1826][1080,2025]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "igds_profile_picture",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[40,1839][213,2012]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[53,1852][200,1999]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "lukaszbok_kiks� udostępnił(a) zdjęcie. 1 tyg.",
+    "bounds": "[242,1875][901,1977]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[923,1852][1049,1999]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2025][1080,2224]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "igds_profile_picture",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[40,2038][213,2211]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[53,2051][200,2198]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "_toddalinddaloja udostępnił(a) zdjęcie. 2 tyg.",
+    "bounds": "[242,2074][901,2176]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[923,2051][1049,2198]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "activity_feed_newsfeed_story_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2224][1080,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "igds_profile_picture",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[40,2237][213,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[53,2250][200,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "cristiano� udostępnił(a) zdjęcie. 2 tyg.",
+    "bounds": "[242,2273][901,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[923,2250][1049,2340]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.ProgressBar",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "0.0",
+    "bounds": "[488,230][593,335]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/action_bar_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,230]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/action_bar_wrapper",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,230]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,230]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_new_title_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][820,230]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/action_bar_button_back",
+    "content-desc": "Wstecz",
+    "text": "",
+    "bounds": "[0,83][147,230]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[147,122][642,191]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_title_and_icons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[147,122][642,191]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/action_bar_title",
+    "content-desc": "Powiadomienia",
+    "text": "Powiadomienia",
+    "bounds": "[189,122][610,191]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "com.instagram.android:id/action_bar_button_action",
+    "content-desc": "Filtr",
+    "text": "Filtr: ",
+    "bounds": "[873,83][1059,230]",
+    "package": "com.instagram.android"
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/bottom_sheet_camera_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "package": "com.instagram.android"
+  }
+]

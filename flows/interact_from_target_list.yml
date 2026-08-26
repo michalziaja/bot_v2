@@ -1,0 +1,37 @@
+name: interact_from_target_list
+description: >
+  Ścieżka A: profile z pre-filtered listy (target_candidates.jsonl).
+  Sanity check only (is_private + already_following) — pre-filter już
+  zweryfikował posty/followers/bio.
+
+  Iteracja: pick_from_store → visit_next_from_queue × N. Docelowo native
+  for_each w FlowRunner zastąpi ręczne powtórzenia.
+
+steps:
+  - system.wake
+  - system.unlock
+  - system.ensure_ig_running
+  - system.ensure_screen: { target: home_feed }
+
+  - profile.pick_from_store:
+      limit: 5
+      dedup_days: 30
+      min_age_minutes: 5
+
+  # 5 iteracji — każda: search @user → tap → visit → exit
+  - profile.visit_next_from_queue:
+      visit:
+        sanity: { abort_if_private: true, abort_if_already_following: true }
+        # brak gate — pre-filtered
+        story: { enabled: true }
+        match: { mode: niche_match, min_niche_tiles: 2, max_excluded_ratio: 0.5 }
+        follow: { allow: true, min_scoring: 0.5, chance: { p: 0.8 } }
+
+  - profile.visit_next_from_queue: { visit: {sanity: {}, story: {enabled: true}, match: {mode: niche_match, min_niche_tiles: 2, max_excluded_ratio: 0.5}, follow: {allow: true, min_scoring: 0.5, chance: {p: 0.8}}} }
+  - profile.visit_next_from_queue: { visit: {sanity: {}, story: {enabled: true}, match: {mode: niche_match, min_niche_tiles: 2, max_excluded_ratio: 0.5}, follow: {allow: true, min_scoring: 0.5, chance: {p: 0.8}}} }
+  - profile.visit_next_from_queue: { visit: {sanity: {}, story: {enabled: true}, match: {mode: niche_match, min_niche_tiles: 2, max_excluded_ratio: 0.5}, follow: {allow: true, min_scoring: 0.5, chance: {p: 0.8}}} }
+  - profile.visit_next_from_queue: { visit: {sanity: {}, story: {enabled: true}, match: {mode: niche_match, min_niche_tiles: 2, max_excluded_ratio: 0.5}, follow: {allow: true, min_scoring: 0.5, chance: {p: 0.8}}} }
+
+  - system.ensure_screen: { target: home_feed }
+  - system.close_ig
+  - system.sleep_screen

@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "date": "2026-08-07",
+  "device": "nope",
+  "generated_at": "2026-08-07T22:31:16",
+  "blocks": [],
+  "dropped": [],
+  "collisions": [],
+  "window": {
+    "from_min": 0,
+    "to_min": 1440
+  },
+  "load_pct": 0
+}

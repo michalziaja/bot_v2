@@ -1,0 +1,33 @@
+{
+  "queue": [
+    {
+      "id": "tc0a500",
+      "plugin": "profile_interact",
+      "note": "",
+      "budget": {},
+      "overrides": {},
+      "enabled": true
+    },
+    {
+      "id": "t7b12bf",
+      "plugin": "content_search",
+      "note": "",
+      "budget": {},
+      "overrides": {},
+      "enabled": true
+    },
+    {
+      "id": "tcb0b50",
+      "plugin": "profile_interact",
+      "note": "",
+      "budget": {},
+      "overrides": {},
+      "enabled": true
+    }
+  ],
+  "between_tasks_s": {
+    "min": 4,
+    "max": 10
+  },
+  "on_task_error": "continue"
+}

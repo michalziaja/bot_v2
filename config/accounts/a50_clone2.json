@@ -1,0 +1,563 @@
+{
+  "meta": {
+    "account_id": "a50_clone2",
+    "alias": "a50_clone2",
+    "ig_username": "kasia21sum",
+    "ig_password_encrypted": "REPLACE",
+    "ig_version_expected": null,
+    "created_at": null,
+    "status": "active"
+  },
+  "device": {
+    "device_alias": "phone_A",
+    "app_clone_id": 1,
+    "app_clone_package": "com.instagram.androip",
+    "root_profile": null,
+    "spoofed_mac": null,
+    "spoofed_imei": null,
+    "spoofed_android_id": null,
+    "spoofed_gsf": null,
+    "lockscreen_pin": null
+  },
+  "network": {
+    "proxy_url": null,
+    "proxy_credentials": null,
+    "expected_ip_country": null,
+    "ip_rotation_command": null,
+    "min_ip_delta": null
+  },
+  "humanizer": {
+    "profile_name": "default",
+    "speed": 1,
+    "overrides": {
+      "per_action": {
+        "read_caption": {
+          "min": 2,
+          "max": 3
+        },
+        "read_comments": {
+          "min": 4,
+          "max": 6
+        },
+        "between_profiles": {
+          "min": 8,
+          "max": 25
+        }
+      },
+      "long_pause": {
+        "every_n_actions": {}
+      }
+    },
+    "after_each_step": false
+  },
+  "limits": {
+    "daily_likes": 100,
+    "daily_follows": 30,
+    "daily_comments": 15,
+    "daily_dms": 0,
+    "per_hour_caps": {
+      "likes": 20,
+      "follows": 8,
+      "comments": 4
+    },
+    "cooldown_after_warning_hours": 24
+  },
+  "flows": [
+    {
+      "flow_id": "smoke_stats",
+      "priority": 1,
+      "window": [
+        9,
+        22
+      ]
+    }
+  ],
+  "toggles": {
+    "steps": {
+      "stats_snapshot": {
+        "enabled": true,
+        "on_session_start": true,
+        "on_session_end": false,
+        "note": "wchodzenie w profil + pull-to-refresh + odczyt liczników; wyłącz aby testy przechodziły od razu do właściwej akcji"
+      },
+      "wake": {
+        "enabled": true
+      },
+      "unlock": {
+        "enabled": true
+      },
+      "close_ig": {
+        "enabled": true
+      },
+      "sleep_screen": {
+        "enabled": true
+      }
+    }
+  },
+  "_comment_plugins": "Ustawienia pluginów (sekcja 'plugins') dokłada panel przy pierwszym zapisie — zapisujemy tylko wartości różne od domyślnych z v2/plugins/catalog.py, żeby config nie puchł. Stara sekcja toggles.plugins jest wycofana; zostaje tylko jako fallback dla kont sprzed katalogu.",
+  "niche": {
+    "description": "Nisza łącząca travel content z fashion, fotografia podróżniczą i lifestyle photography. Treści obejmują stylizacje wakacyjne, dokumentację egzotycznych podróży, mowę plażową, estetykę basenów i willi, outfit inspiration, mirror selfie'e oraz humorystyczne relacje o celebracjach i doświadczeniach towarzyszących urlópom.",
+    "audience": "Młode dorosłe kobiety (18–35 lat) zainteresowane podróżami, modą plażową i aspiracyjnym lifestyle'em; szukające inspiracji na wakacje, stylizacji outfitów oraz estetyki luksusowego wypoczynku łączonej z humorem i codziennym życiem.",
+    "keywords": [
+      "stylizacja outfitów",
+      "travel content",
+      "moda plażowa",
+      "outfit inspiration",
+      "fotografia podróżnicza",
+      "strój kąpielowy",
+      "resort style",
+      "villa tour",
+      "casual chic",
+      "tropikalne destinacje",
+      "pool aesthetic"
+    ],
+    "hashtags": [
+      "#outfitinspo",
+      "#traveladdicted",
+      "#beachvacation",
+      "#luxurylifestyle",
+      "#ootd",
+      "#travelphotography",
+      "#summerfashion",
+      "#wanderlust",
+      "#vacationmode",
+      "#girlsnight",
+      "#poolside",
+      "#villalife",
+      "#travelgram",
+      "#tropical",
+      "#lifestyleblogger",
+      "#beachvacations",
+      "#beachvacationrentals",
+      "#beachvacations☀️",
+      "#travelphotography..",
+      "#ᴛʀᴀᴠᴇʟᴘʜᴏᴛᴏɢʀᴀᴘʜʏ",
+      "#travelphotographyindia",
+      "#outfitinsporation",
+      "#outfıtinspo",
+      "#outfitinspos"
+    ],
+    "exclusions": [],
+    "accepted": false,
+    "keywords_manual": [],
+    "keywords_discovered": [
+      "stylizacja outfitów",
+      "travel content",
+      "moda plażowa",
+      "outfit inspiration",
+      "fotografia podróżnicza",
+      "strój kąpielowy",
+      "resort style",
+      "villa tour",
+      "casual chic",
+      "tropikalne destinacje",
+      "pool aesthetic"
+    ],
+    "hashtags_manual": [],
+    "hashtags_discovered": [
+      "#outfitinspo",
+      "#traveladdicted",
+      "#beachvacation",
+      "#luxurylifestyle",
+      "#ootd",
+      "#travelphotography",
+      "#summerfashion",
+      "#wanderlust",
+      "#vacationmode",
+      "#girlsnight",
+      "#poolside",
+      "#villalife",
+      "#travelgram",
+      "#tropical",
+      "#lifestyleblogger",
+      "#beachvacations",
+      "#beachvacationrentals",
+      "#beachvacations☀️",
+      "#travelphotography..",
+      "#ᴛʀᴀᴠᴇʟᴘʜᴏᴛᴏɢʀᴀᴘʜʏ",
+      "#travelphotographyindia",
+      "#outfitinsporation",
+      "#outfıtinspo",
+      "#outfitinspos"
+    ],
+    "tag_variants": {
+      "#beachvacation": [
+        "#beachvacation",
+        "#beachvacations",
+        "#beachvacationrentals",
+        "#beachvacations☀️"
+      ],
+      "#outfitinspo": [
+        "#outﬁtinspo",
+        "#outfitinsporation",
+        "#outfıtinspo",
+        "#outfitinspos"
+      ],
+      "#travelphotography": [
+        "#travelphotography",
+        "#travelphotography..",
+        "#ᴛʀᴀᴠᴇʟᴘʜᴏᴛᴏɢʀᴀᴘʜʏ",
+        "#travelphotographyindia"
+      ],
+      "outfit inspiration": [
+        "#outfitinspirations",
+        "#outfitinspirationoftheday",
+        "#outfıtinspiration",
+        "#outfitinspirationforday",
+        "#outfitinspirationsstyle",
+        "#outfitinspirátion",
+        "#outfitinspirations▪️tag",
+        "#outfitinspirationen",
+        "#outfitinspiration❤️",
+        "#outfitinspirationoftheday..",
+        "#outfitinspiration✨",
+        "#outfitinspirationman"
+      ]
+    },
+    "discovered_at": "2026-08-12T03:34:50",
+    "last_ai_usage": {
+      "model": "claude-haiku-4-5-20251001",
+      "models": [
+        "claude-haiku-4-5-20251001"
+      ],
+      "tokens_in": 33919,
+      "tokens_out": 7667,
+      "calls": 12,
+      "usage_missing": false,
+      "by_mode": {
+        "niche_discover_posts": {
+          "model": "claude-haiku-4-5-20251001",
+          "tokens_in": 7488,
+          "tokens_out": 2016,
+          "calls": 3
+        },
+        "niche_discover_reels": {
+          "model": "claude-haiku-4-5-20251001",
+          "tokens_in": 14675,
+          "tokens_out": 3142,
+          "calls": 5
+        },
+        "niche_discover_account": {
+          "model": "claude-haiku-4-5-20251001",
+          "tokens_in": 8738,
+          "tokens_out": 1899,
+          "calls": 3
+        },
+        "niche_discover_merge": {
+          "model": "claude-haiku-4-5-20251001",
+          "tokens_in": 3018,
+          "tokens_out": 610,
+          "calls": 1
+        }
+      }
+    },
+    "last_ai_model": "claude-haiku-4-5-20251001",
+    "last_ai_tokens_in": "33919",
+    "last_ai_tokens_out": "7667"
+  },
+  "ai": {
+    "model_per_mode": {
+      "reel_niche": "haiku",
+      "profile_grid": "haiku",
+      "comment_gen": "sonnet",
+      "recovery_identify": "haiku",
+      "niche_discover_posts": "haiku",
+      "niche_discover_reels": "haiku",
+      "niche_discover_account": "haiku",
+      "niche_discover_merge": "haiku"
+    },
+    "thresholds": {
+      "follow": 50,
+      "like_only": 35
+    },
+    "max_cost_per_session_usd": 0.5
+  },
+  "recovery": {
+    "alert_channel": {
+      "kind": "telegram",
+      "token": null,
+      "chat_id": null
+    },
+    "stop_on_verify": true,
+    "screenshot_on_error": true,
+    "popups": {
+      "save_login_prompt": {
+        "auto_dismiss": "not_now"
+      },
+      "system_perm_dialog": {
+        "auto_dismiss": "allow"
+      },
+      "new_feature_hint": {
+        "auto_dismiss": "close"
+      },
+      "suspicious_login": {
+        "action": "abort_session_alert"
+      },
+      "challenge_two_factor": {
+        "action": "abort_session_alert"
+      },
+      "rate_limit": {
+        "action": "abort_cooldown_24h"
+      }
+    }
+  },
+  "schedule": {
+    "enabled": true,
+    "sessions_per_day": {
+      "min": 1,
+      "max": 1
+    },
+    "scenarios": [
+      "default"
+    ],
+    "active_hours": [
+      21,
+      24
+    ]
+  },
+  "plugins": {
+    "feed_browser": {
+      "enabled": true,
+      "budget": {
+        "max_items": {
+          "max": 15
+        }
+      }
+    },
+    "content_search": {
+      "enabled": true,
+      "likers": {
+        "harvest": {
+          "collect": {
+            "max": 10
+          }
+        }
+      },
+      "comments": {
+        "harvest": {
+          "collect": {
+            "max": 10
+          }
+        }
+      },
+      "phrases": {
+        "per_session": {
+          "max": 1
+        },
+        "list": [
+          "#outfitinspo",
+          "#traveladdicted",
+          "#beachvacation",
+          "#luxurylifestyle",
+          "#ootd",
+          "#travelphotography",
+          "#summerfashion",
+          "#wanderlust",
+          "#vacationmode",
+          "#girlsnight",
+          "#poolside",
+          "#villalife",
+          "#travelgram",
+          "#tropical",
+          "#lifestyleblogger",
+          "#beachvacations",
+          "#beachvacationrentals",
+          "#beachvacations☀️",
+          "#travelphotography..",
+          "#ᴛʀᴀᴠᴇʟᴘʜᴏᴛᴏɢʀᴀᴘʜʏ",
+          "#travelphotographyindia",
+          "#outfitinsporation",
+          "#outfıtinspo",
+          "#outfitinspos",
+          "stylizacja outfitów",
+          "travel content",
+          "moda plażowa",
+          "outfit inspiration",
+          "fotografia podróżnicza",
+          "strój kąpielowy",
+          "resort style",
+          "villa tour",
+          "casual chic",
+          "tropikalne destinacje",
+          "pool aesthetic"
+        ],
+        "hashtags": [
+          "#outfitinspo",
+          "#traveladdicted",
+          "#beachvacation",
+          "#luxurylifestyle",
+          "#ootd",
+          "#travelphotography",
+          "#summerfashion",
+          "#wanderlust",
+          "#vacationmode",
+          "#girlsnight",
+          "#poolside",
+          "#villalife",
+          "#travelgram",
+          "#tropical",
+          "#lifestyleblogger",
+          "#beachvacations",
+          "#beachvacationrentals",
+          "#beachvacations☀️",
+          "#travelphotography..",
+          "#ᴛʀᴀᴠᴇʟᴘʜᴏᴛᴏɢʀᴀᴘʜʏ",
+          "#travelphotographyindia",
+          "#outfitinsporation",
+          "#outfıtinspo",
+          "#outfitinspos"
+        ],
+        "keywords": [
+          "stylizacja outfitów",
+          "travel content",
+          "moda plażowa",
+          "outfit inspiration",
+          "fotografia podróżnicza",
+          "strój kąpielowy",
+          "resort style",
+          "villa tour",
+          "casual chic",
+          "tropikalne destinacje",
+          "pool aesthetic"
+        ]
+      },
+      "per_phrase": {
+        "items": {
+          "max": 1,
+          "min": 1
+        },
+        "scrolls_in_viewer": {
+          "min": 2,
+          "max": 2
+        }
+      },
+      "gate": {
+        "min_comments": 5
+      },
+      "budget": {
+        "max_items": {
+          "min": 17,
+          "max": 49
+        }
+      },
+      "like_content": {
+        "chance": {
+          "value": 0.84
+        }
+      },
+      "ai": {
+        "use_frames": false,
+        "read_caption": false
+      },
+      "discover_tag_variants": {
+        "enabled": true,
+        "max_variants": 12,
+        "max_scrolls": 4
+      },
+      "tag_variants_budget": {
+        "enabled": true,
+        "max_phrases": 4
+      },
+      "source": "keyword"
+    },
+    "reels_warmup": {
+      "enabled": true
+    },
+    "mass_stories": {
+      "targets": {
+        "list": [
+          "_ziajson_"
+        ]
+      },
+      "per_target": {
+        "max_ring_opens": {
+          "min": 10,
+          "max": 15
+        }
+      },
+      "enabled": true
+    },
+    "niche_discover": {
+      "sources": {
+        "competitors": true
+      },
+      "competitors": {
+        "list": [
+          "kasiex1536",
+          "sara_hohol"
+        ]
+      },
+      "collect": {
+        "reels": {
+          "count": 2
+        },
+        "reel_frame_interval_s": 2
+      },
+      "write": {
+        "sync_content_search_phrases": true
+      },
+      "ai": {
+        "keywords_count": 15,
+        "hashtags_count": 15,
+        "strictness": "loose"
+      }
+    },
+    "reels_niche": {
+      "enabled": true,
+      "like_reel": {
+        "chance": {
+          "mode": "p",
+          "value": 1
+        }
+      },
+      "ai": {
+        "strictness": "loose"
+      }
+    },
+    "profile_interact": {
+      "follow": {
+        "allow": false
+      },
+      "story": {
+        "watch": {
+          "like_chance_percent": 31
+        }
+      },
+      "grid_ai": {
+        "enabled": false
+      },
+      "like_tiles": {
+        "count": {
+          "max": 2
+        },
+        "chance": {
+          "value": 0.73
+        }
+      },
+      "gate": {
+        "min_posts": 3,
+        "enabled": false
+      },
+      "enabled": true,
+      "budget": {
+        "max_items": {
+          "max": 10
+        }
+      }
+    }
+  },
+  "profile_filter": {
+    "enabled": false,
+    "times": [
+      "10:30",
+      "18:00"
+    ],
+    "limit_per_run": 25,
+    "proxy": "losowo",
+    "followers_min": 60,
+    "followers_max": 20000,
+    "reject_arabic_bio": true,
+    "require_public": true,
+    "min_posts": 3
+  }
+}

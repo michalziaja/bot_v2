@@ -1,0 +1,241 @@
+{
+  "version": 3,
+  "date": "2026-08-11",
+  "device": "phone_A",
+  "cycle_index": 0,
+  "active_hours": [
+    8,
+    24
+  ],
+  "materialized_at": "2026-08-11T22:54:42",
+  "blocks": [
+    {
+      "id": "be93626",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "05:14",
+      "duration_s": 4455,
+      "gap_s": 742,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "ta38acf",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tfd10d9",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tb08ba7",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t866023",
+            "plugin": "profile_interact",
+            "note": "live-debug profile_interact",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b370c17",
+      "account": "technature699",
+      "scenario": "grzanie",
+      "start": "09:00",
+      "duration_s": 3124,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2700,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 284
+        },
+        "task_count": 3,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b7e8b90",
+      "account": "technature699",
+      "scenario": "grzanie",
+      "start": "17:13",
+      "duration_s": 1463,
+      "gap_s": 906,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1200,
+          "gaps_s": 10,
+          "overhead_s": 120,
+          "buffer_s": 133
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "t62a9c7",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t8e9b21",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-11T17:13:04",
+      "ended_at": "2026-08-11T17:38:05"
+    },
+    {
+      "id": "be038cb",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "18:15",
+      "duration_s": 1782,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1500,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 162
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tb08ba7",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-11T18:15:08",
+      "ended_at": "2026-08-11T18:45:09"
+    },
+    {
+      "id": "b3d5765",
+      "account": "technature699",
+      "scenario": "grzanie",
+      "start": "19:20",
+      "duration_s": 3124,
+      "gap_s": 879,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2700,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 284
+        },
+        "task_count": 3,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "t62a9c7",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "te6e7e0",
+            "plugin": "reels_niche",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t8e9b21",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-11T19:20:09",
+      "ended_at": "2026-08-11T20:13:05"
+    }
+  ],
+  "dropped": []
+}

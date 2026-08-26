@@ -1,0 +1,434 @@
+[
+ {
+  "class": null,
+  "resource-id": null,
+  "content-desc": null,
+  "text": null,
+  "bounds": null,
+  "package": null,
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/phone_status_bar_background",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.RelativeLayout",
+  "resource-id": "com.android.systemui:id/status_bar_contents",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][1080,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/status_bar_left_side_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[63,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/status_bar_left_side",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[63,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/left_clock_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[63,0][160,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "com.android.systemui:id/clock",
+  "content-desc": "20:13",
+  "text": "20:13",
+  "bounds": "[63,0][160,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/notification_icon_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[168,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/notification_icon_area_inner",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[168,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/notificationIcons",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[168,0][473,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "",
+  "content-desc": "Powiadomienie z aplikacji Google: W kolejnych 3 dniach nastąpi ocieplenie",
+  "text": "",
+  "bounds": "[168,0][215,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/divided_status_icon_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[435,0][443,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/system_icon_area",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/system_icons",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/statusIcons",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[715,0][888,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "",
+  "content-desc": "Tryb oszczędzania energii włączony",
+  "text": "",
+  "bounds": "[715,22][755,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "",
+  "content-desc": "Dzwonek z wibracjami.",
+  "text": "",
+  "bounds": "[758,22][799,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/wifi_combo",
+  "content-desc": "Wi-Fi: pełna moc sygnału.",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/wifi_group",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/wifi_iconset",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/wifi_signal",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/wifi_activity",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[802,22][849,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/mobile_combo",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/mobile_group",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/signal_combo",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/mobile_signal",
+  "content-desc": "Telefon: pełna moc sygnału.",
+  "text": "",
+  "bounds": "[849,22][888,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.LinearLayout",
+  "resource-id": "com.android.systemui:id/battery",
+  "content-desc": "Ładuję baterię, 100 procent.",
+  "text": "",
+  "bounds": "[896,0][1017,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "com.android.systemui:id/battery_percentage_view",
+  "content-desc": "",
+  "text": "100%",
+  "bounds": "[896,0][991,82]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[996,22][1017,59]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.android.systemui:id/rounded_corners_top",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[443,0][637,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/left",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[0,0][151,151]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.view.View",
+  "resource-id": "com.android.systemui:id/display_cutout",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[443,0][637,83]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.android.systemui:id/right",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[929,0][1080,151]",
+  "package": "com.android.systemui",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[42,1222][1038,2298]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[42,1222][1038,2298]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "android:id/content",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[42,1222][1038,2298]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.view.ViewGroup",
+  "resource-id": "com.instagram.androjb:id/dialog_container",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[42,1222][1038,2298]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.view.ViewGroup",
+  "resource-id": "com.instagram.androjb:id/igds_promo_dialog_headline",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[42,1222][1038,2298]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.ImageView",
+  "resource-id": "com.instagram.androjb:id/igds_headline_image",
+  "content-desc": "",
+  "text": "",
+  "bounds": "[287,1285][794,1540]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "com.instagram.androjb:id/igds_headline_headline",
+  "content-desc": "",
+  "text": "Przesuń palcem, aby łatwo uzyskać dostęp do Rolek i wiadomości",
+  "bounds": "[126,1624][954,1891]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "com.instagram.androjb:id/igds_headline_body",
+  "content-desc": "",
+  "text": "Uprościliśmy nawigację, aby ułatwić Ci znalezienie i korzystanie z ulubionych funkcji na Instagramie.",
+  "bounds": "[126,1912][954,2056]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ },
+ {
+  "class": "android.widget.FrameLayout",
+  "resource-id": "com.instagram.androjb:id/igds_headline_primary_action_button",
+  "content-desc": "Rozumiem",
+  "text": "",
+  "bounds": "[126,2119][954,2235]",
+  "package": "com.instagram.androjb",
+  "clickable": true
+ },
+ {
+  "class": "android.widget.TextView",
+  "resource-id": "",
+  "content-desc": "",
+  "text": "Rozumiem",
+  "bounds": "[442,2151][638,2202]",
+  "package": "com.instagram.androjb",
+  "clickable": false
+ }
+]

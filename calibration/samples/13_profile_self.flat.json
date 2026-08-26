@@ -1,0 +1,1602 @@
+[
+  {
+    "class": null,
+    "resource-id": null,
+    "content-desc": null,
+    "text": null,
+    "bounds": null,
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/phone_status_bar_background",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.RelativeLayout",
+    "resource-id": "com.android.systemui:id/status_bar_contents",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_left_side_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/status_bar_left_side",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/left_clock_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][162,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.android.systemui:id/clock",
+    "content-desc": "01:22",
+    "text": "01:22",
+    "bounds": "[65,1][162,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/notification_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/notification_icon_area_inner",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/notificationIcons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji Sklep Google Play: 1 aktualizacja wymaga zaakceptowania",
+    "text": "",
+    "bounds": "[170,1][217,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji AutoInput: AutoInput Keyguard Dismisser",
+    "text": "",
+    "bounds": "[217,1][264,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji Tasker: Brak aktywnych profili (0 z 4 włączonych)",
+    "text": "",
+    "bounds": "[264,1][311,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+    "text": "",
+    "bounds": "[311,1][358,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji YouTube: Kolumbijka, która poznaje polskie wioski ....",
+    "text": "",
+    "bounds": "[329,1][376,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/divided_status_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[435,1][443,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/system_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/system_icons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/statusIcons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][886,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Tryb oszczędzania energii włączony",
+    "text": "",
+    "bounds": "[713,24][753,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Dzwonek z wibracjami.",
+    "text": "",
+    "bounds": "[756,24][797,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/wifi_combo",
+    "content-desc": "Wi-Fi: pełna moc sygnału.",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/wifi_group",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/wifi_iconset",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/wifi_signal",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/wifi_activity",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/mobile_combo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/mobile_group",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/signal_combo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/mobile_signal",
+    "content-desc": "Telefon: trzy paski.",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/battery",
+    "content-desc": "Ładuję baterię, 100 procent.",
+    "text": "",
+    "bounds": "[894,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.android.systemui:id/battery_percentage_view",
+    "content-desc": "",
+    "text": "100%",
+    "bounds": "[894,1][989,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[994,24][1015,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/rounded_corners_top",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[443,0][637,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/left",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][151,151]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.android.systemui:id/display_cutout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[443,0][637,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/right",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[929,0][1080,151]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_root",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "android:id/content",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/overlay_layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/swipe_navigation_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/layout_container_center_right_coordinator_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_right",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/activity_and_camera_shared_views_main_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/layout_container_main_panel",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_main_wrapper",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_main",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.viewpager.widget.ViewPager",
+    "resource-id": "com.instagram.android:id/swipeable_tab_view_pager",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "resource-id": "com.instagram.android:id/swipeable_nav_view_pager_inner_recycler_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_swipeable",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/user_detail_fragment",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/coordinator_root_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/tab_appbar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,1569]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/profile_header_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,1569]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/profile_header_fixed_list",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,1442]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/row_profile_header",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,657]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/profile_header_avatar_container_top_left_stub",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,230][273,529]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/pog_note_bubble_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,230][273,529]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "com.instagram.android:id/pog_note_bubble_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,230][273,450]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/pog_note_bubble_root_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,230][273,450]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/pog_note_bubble_card_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[63,241][252,429]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/pog_bubble_text_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[63,241][252,429]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/pog_bubble_text",
+    "content-desc": "",
+    "text": "Zacznij tworzyć swoją pierwszą notatkę...",
+    "bounds": "[63,262][252,408]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,298][273,529]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[61,317][255,511]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/camera_pano_image_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[61,317][255,511]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/row_profile_header_imageview_frame_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[61,317][255,511]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/profile_header_full_name_above_vanity",
+    "content-desc": "",
+    "text": "Tom",
+    "bounds": "[315,292][394,340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/profile_header_metrics_full_width",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[315,340][1038,489]",
+    "clickable": false
+  },
+  {
+    "class": "",
+    "resource-id": "com.instagram.android:id/profile_header_post_count_front_familiar",
+    "content-desc": "1posty",
+    "text": "",
+    "bounds": "[315,340][449,489]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/profile_header_familiar_post_count_value",
+    "content-desc": "",
+    "text": "1",
+    "bounds": "[315,361][334,420]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/profile_header_familiar_post_count_label",
+    "content-desc": "",
+    "text": "posty",
+    "bounds": "[315,420][416,468]",
+    "clickable": false
+  },
+  {
+    "class": "",
+    "resource-id": "com.instagram.android:id/profile_header_followers_stacked_familiar",
+    "content-desc": "3obserwatorzy",
+    "text": "",
+    "bounds": "[449,340][745,489]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/profile_header_familiar_followers_value",
+    "content-desc": "",
+    "text": "3",
+    "bounds": "[465,361][492,420]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/profile_header_familiar_followers_label",
+    "content-desc": "",
+    "text": "obserwatorzy",
+    "bounds": "[465,420][712,468]",
+    "clickable": false
+  },
+  {
+    "class": "",
+    "resource-id": "com.instagram.android:id/profile_header_following_stacked_familiar",
+    "content-desc": "41obserwowanie",
+    "text": "",
+    "bounds": "[745,340][1038,489]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/profile_header_familiar_following_value",
+    "content-desc": "",
+    "text": "41",
+    "bounds": "[761,361][808,420]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/profile_header_familiar_following_label",
+    "content-desc": "",
+    "text": "obserwowanie",
+    "bounds": "[761,420][1021,468]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/banner_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,561][1038,625]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,561][1038,625]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[42,561][363,625]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/igds_prism_chip_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[63,577][95,609]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/igds_prism_chip_label",
+    "content-desc": "",
+    "text": "Dodaj banery",
+    "bounds": "[111,572][331,614]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,657][1080,1442]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/profile_header_actions_top_row",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,657][1080,744]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[32,657][482,744]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "com.instagram.android:id/button_container",
+    "content-desc": "Edytuj profil",
+    "text": "",
+    "bounds": "[32,657][482,744]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "Edytuj profil",
+    "bounds": "[142,675][372,726]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[498,657][948,744]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "com.instagram.android:id/button_container",
+    "content-desc": "Udostępnij profil",
+    "text": "",
+    "bounds": "[498,657][948,744]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "Udostępnij profil",
+    "bounds": "[566,675][879,726]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "com.instagram.android:id/row_profile_header_button_chaining",
+    "content-desc": "Poznawaj ludzi",
+    "text": "",
+    "bounds": "[964,657][1048,744]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/chaining_button_image",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[964,657][1048,744]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/similar_accounts_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,776][1080,1442]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,776][1080,1442]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/similar_accounts_carousel_header",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,776][1080,881]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/similar_accounts_carousel_title",
+    "content-desc": "",
+    "text": "Poznawaj ludzi",
+    "bounds": "[42,798][322,849]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "com.instagram.android:id/netego_carousel_cta",
+    "content-desc": "",
+    "text": "Wyświetl wszystkie",
+    "bounds": "[634,798][1038,849]",
+    "clickable": true
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "resource-id": "com.instagram.android:id/similar_accounts_carousel_recycler_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,881][1080,1421]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_top_frame",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[32,881][442,1421]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[32,881][442,1421]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_image_frame",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[121,913][352,1144]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_image",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[121,913][352,1144]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_name",
+    "content-desc": "",
+    "text": "Adrian.wojtalewicz",
+    "bounds": "[85,1176][389,1224]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_social_context_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[64,1232][410,1273]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_context",
+    "content-desc": "",
+    "text": "Propozycje dla Ciebie",
+    "bounds": "[64,1232][409,1273]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_user_card_follow_button",
+    "content-desc": "Obserwuj Adrian.wojtalewicz",
+    "text": "Obserwuj",
+    "bounds": "[64,1305][410,1389]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/dismiss_button_prism_style",
+    "content-desc": "Odrzuć",
+    "text": "",
+    "bounds": "[362,881][442,961]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_top_frame",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[453,881][863,1421]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[453,881][863,1421]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_image_frame",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[542,913][773,1144]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_image",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[542,913][773,1144]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_name",
+    "content-desc": "",
+    "text": "Sanderski9",
+    "bounds": "[551,1176][765,1224]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_social_context_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[485,1232][831,1273]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_context",
+    "content-desc": "",
+    "text": "Propozycje dla Ciebie",
+    "bounds": "[485,1232][830,1273]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_user_card_follow_button",
+    "content-desc": "Obserwuj Sanderski9",
+    "text": "Obserwuj",
+    "bounds": "[485,1305][831,1389]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/dismiss_button_prism_style",
+    "content-desc": "Odrzuć",
+    "text": "",
+    "bounds": "[783,881][863,961]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_top_frame",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[874,881][1080,1421]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[874,881][1080,1421]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_image_frame",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[963,913][1080,1144]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_image",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[963,913][1080,1144]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_name",
+    "content-desc": "",
+    "text": "Tomek",
+    "bounds": "[1017,1176][1080,1224]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_social_context_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[906,1232][1080,1273]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_entity_card_context",
+    "content-desc": "",
+    "text": "Propozycje dla Ciebie",
+    "bounds": "[906,1232][1080,1273]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/suggested_user_card_follow_button",
+    "content-desc": "Obserwuj Tomek",
+    "text": "Obserwuj",
+    "bounds": "[906,1305][1080,1389]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.instagram.android:id/footer_space",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1421][1080,1442]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/profile_tabs_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1442][1080,1569]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.HorizontalScrollView",
+    "resource-id": "com.instagram.android:id/profile_tab_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1442][1080,1568]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1442][1080,1568]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1442][270,1568]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1442][270,1568]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/profile_tab_icon_view",
+    "content-desc": "Widok siatki",
+    "text": "",
+    "bounds": "[0,1442][270,1568]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[270,1442][540,1568]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[270,1442][540,1568]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/profile_tab_icon_view",
+    "content-desc": "Rolki",
+    "text": "",
+    "bounds": "[270,1442][540,1568]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[540,1442][810,1568]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[540,1442][810,1568]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/profile_tab_icon_view",
+    "content-desc": "Repostowano",
+    "text": "",
+    "bounds": "[540,1442][810,1568]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[810,1442][1080,1568]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[810,1442][1080,1568]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/wrapper",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[810,1442][1080,1568]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[914,1474][977,1537]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/profile_tab_icon_view",
+    "content-desc": "Zdjęcia, na których jesteś",
+    "text": "",
+    "bounds": "[914,1474][977,1537]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.instagram.android:id/profile_tabs_bottom_divider",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1568][1080,1569]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.instagram.android:id/swipe_refresh_animated_progressbar_container_background",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,230][1080,231]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.instagram.android:id/swipe_refresh_animated_progressbar_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[448,230][632,414]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.viewpager.widget.ViewPager",
+    "resource-id": "com.instagram.android:id/profile_viewpager",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1569][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "resource-id": "android:id/list",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1569][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.instagram.android:id/gap_binder_group",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1569][1080,1575]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/media_set_row_content_identifier",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1575][1080,2050]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1575][356,2050]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1575][356,2050]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.Button",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "Autor zdjęcia: Tom, wiersz: 1, kolumna: 1",
+    "text": "",
+    "bounds": "[0,1575][356,2050]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,1575][718,2050]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,1575][718,2050]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,1575][1080,2050]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,1575][1080,2050]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2050][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/title",
+    "content-desc": "",
+    "text": "Uzupełnij swój profil",
+    "bounds": "[0,2108][528,2167]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/progress",
+    "content-desc": "2 Z 4 UKOŃCZONE",
+    "text": "2 Z 4 UKOŃCZONE",
+    "bounds": "[0,2167][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ScrollView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1569][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/profile_action_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1059,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/left_action_bar_buttons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][127,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Utwórz nowe",
+    "text": "",
+    "bounds": "[0,83][127,230]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_username_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[169,83][805,230]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[295,83][805,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/action_bar_title",
+    "content-desc": "  technature699",
+    "text": "  technature699",
+    "bounds": "[295,83][757,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_username_buttons_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[757,83][805,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/action_bar_title_chevron",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[773,140][805,172]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/right_action_bar_buttons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[805,83][1059,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Wyświetl profil w aplikacji Threads",
+    "text": "",
+    "bounds": "[805,83][932,230]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Opcje",
+    "text": "",
+    "bounds": "[932,83][1059,230]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.instagram.android:id/tab_bar_shadow",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2213][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/tab_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2214][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/feed_tab",
+    "content-desc": "Strona główna",
+    "text": "",
+    "bounds": "[0,2214][216,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[76,2245][139,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/clips_tab",
+    "content-desc": "Rolki",
+    "text": "",
+    "bounds": "[216,2214][432,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[292,2245][355,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/direct_tab",
+    "content-desc": "Wiadomość",
+    "text": "",
+    "bounds": "[432,2214][648,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[508,2245][571,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/search_tab",
+    "content-desc": "Szukaj i poznaj",
+    "text": "",
+    "bounds": "[648,2214][864,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,2245][787,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/profile_tab",
+    "content-desc": "Profil",
+    "text": "",
+    "bounds": "[864,2214][1080,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/wrapper",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[864,2214][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[933,2238][1012,2317]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_avatar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[933,2238][1012,2317]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/bottom_sheet_camera_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  }
+]

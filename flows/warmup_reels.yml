@@ -1,0 +1,32 @@
+name: warmup_reels
+description: >
+  Smoke test M3: wybudzenie → home → reels → 5× (watch + swipe_next).
+  Bez lajkowania, bez AI. Sprawdza czy rozbicie reels_core na kroki działa.
+
+steps:
+  - system.wake
+  - system.unlock
+  - system.ensure_ig_running
+  - system.ensure_screen:
+      target: home_feed
+
+  - reels.open
+
+  - reels.watch:
+      frames: 3
+  - reels.swipe_next
+
+  - reels.watch: { frames: 3 }
+  - reels.swipe_next
+
+  - reels.watch: { frames: 3 }
+  - reels.swipe_next
+
+  - reels.watch: { frames: 3 }
+  - reels.swipe_next
+
+  - reels.watch: { frames: 3 }
+
+  - system.ensure_screen: { target: home_feed }
+  - system.close_ig
+  - system.sleep_screen

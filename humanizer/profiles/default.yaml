@@ -1,0 +1,27 @@
+# Domyślny profil pauz — startowy, spokojny.
+# Wartości w sekundach.
+per_action:
+  tap:              { min: 0.15, max: 0.4 }
+  swipe:            { min: 0.3,  max: 0.8 }
+  key:              { min: 0.1,  max: 0.25 }
+  read_caption:     { min: 2,    max: 6 }
+  read_comments:    { min: 5,    max: 15 }
+  between_steps:    { min: 0.6,  max: 1.4 }
+  between_profiles: { min: 30,   max: 90 }
+  between_tasks:    { min: 60,   max: 240 }
+  before_next_reel: { min: 0.3,  max: 0.6 }
+  long_feed:        { min: 15,   max: 45 }
+  between_sessions: { min: 1800, max: 3600 }
+  after_launch:     { min: 2.5,  max: 4.0 }
+  after_refresh:    { min: 1.5,  max: 3.0 }
+  after_wake:       { min: 0.6,  max: 1.2 }
+  after_unlock:     { min: 0.8,  max: 1.5 }
+  before_sleep:     { min: 0.5,  max: 1.0 }
+
+long_pause:
+  every_n_actions:  { n: 200, min: 60, max: 180 }
+
+schedule:
+  sessions_per_day: { min: 3, max: 5 }
+  active_hours:     [9, 22]
+  sleep_hours:      [22, 9]

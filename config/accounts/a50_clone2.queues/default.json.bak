@@ -1,0 +1,17 @@
+{
+  "queue": [
+    {
+      "id": "tef9215",
+      "plugin": "content_search",
+      "note": "",
+      "budget": {},
+      "overrides": {},
+      "enabled": true
+    }
+  ],
+  "between_tasks_s": {
+    "min": 60,
+    "max": 240
+  },
+  "on_task_error": "continue"
+}

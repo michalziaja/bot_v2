@@ -1,0 +1,3093 @@
+{
+  "key": "0",
+  "name": "hierarchy",
+  "bounds": null,
+  "rect": null,
+  "properties": {
+    "rotation": "0"
+  },
+  "children": [
+    {
+      "key": "0-0",
+      "name": "android.widget.FrameLayout",
+      "bounds": [
+        0.0,
+        0.0,
+        1.0,
+        0.0355
+      ],
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 83
+      },
+      "properties": {
+        "index": "0",
+        "text": "",
+        "resource-id": "",
+        "class": "android.widget.FrameLayout",
+        "package": "com.android.systemui",
+        "content-desc": "",
+        "checkable": "false",
+        "checked": "false",
+        "clickable": "false",
+        "enabled": "true",
+        "focusable": "false",
+        "focused": "false",
+        "scrollable": "false",
+        "long-clickable": "false",
+        "password": "false",
+        "selected": "false",
+        "visible-to-user": "true",
+        "bounds": "[0,0][1080,83]",
+        "drawing-order": "0",
+        "hint": "",
+        "display-id": "0"
+      },
+      "children": [
+        {
+          "key": "0-0-0",
+          "name": "android.widget.FrameLayout",
+          "bounds": [
+            0.0,
+            0.0,
+            1.0,
+            0.0355
+          ],
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 83
+          },
+          "properties": {
+            "index": "0",
+            "text": "",
+            "resource-id": "com.android.systemui:id/status_bar_container",
+            "class": "android.widget.FrameLayout",
+            "package": "com.android.systemui",
+            "content-desc": "",
+            "checkable": "false",
+            "checked": "false",
+            "clickable": "false",
+            "enabled": "true",
+            "focusable": "false",
+            "focused": "false",
+            "scrollable": "false",
+            "long-clickable": "false",
+            "password": "false",
+            "selected": "false",
+            "visible-to-user": "true",
+            "bounds": "[0,0][1080,83]",
+            "drawing-order": "1",
+            "hint": "",
+            "display-id": "0"
+          },
+          "children": [
+            {
+              "key": "0-0-0-0",
+              "name": "android.widget.FrameLayout",
+              "bounds": [
+                0.0,
+                0.0,
+                1.0,
+                0.0355
+              ],
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1080,
+                "height": 83
+              },
+              "properties": {
+                "index": "0",
+                "text": "",
+                "resource-id": "com.android.systemui:id/status_bar",
+                "class": "android.widget.FrameLayout",
+                "package": "com.android.systemui",
+                "content-desc": "",
+                "checkable": "false",
+                "checked": "false",
+                "clickable": "false",
+                "enabled": "true",
+                "focusable": "false",
+                "focused": "false",
+                "scrollable": "false",
+                "long-clickable": "false",
+                "password": "false",
+                "selected": "false",
+                "visible-to-user": "true",
+                "bounds": "[0,0][1080,83]",
+                "drawing-order": "1",
+                "hint": "",
+                "display-id": "0"
+              },
+              "children": [
+                {
+                  "key": "0-0-0-0-0",
+                  "name": "android.widget.FrameLayout",
+                  "bounds": [
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0355
+                  ],
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 83
+                  },
+                  "properties": {
+                    "index": "0",
+                    "text": "",
+                    "resource-id": "com.android.systemui:id/phone_status_bar_background",
+                    "class": "android.widget.FrameLayout",
+                    "package": "com.android.systemui",
+                    "content-desc": "",
+                    "checkable": "false",
+                    "checked": "false",
+                    "clickable": "false",
+                    "enabled": "true",
+                    "focusable": "false",
+                    "focused": "false",
+                    "scrollable": "false",
+                    "long-clickable": "false",
+                    "password": "false",
+                    "selected": "false",
+                    "visible-to-user": "true",
+                    "bounds": "[0,0][1080,83]",
+                    "drawing-order": "1",
+                    "hint": "",
+                    "display-id": "0"
+                  },
+                  "children": []
+                },
+                {
+                  "key": "0-0-0-0-1",
+                  "name": "android.widget.FrameLayout",
+                  "bounds": [
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0355
+                  ],
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 83
+                  },
+                  "properties": {
+                    "index": "1",
+                    "text": "",
+                    "resource-id": "com.android.systemui:id/status_bar_area",
+                    "class": "android.widget.FrameLayout",
+                    "package": "com.android.systemui",
+                    "content-desc": "",
+                    "checkable": "false",
+                    "checked": "false",
+                    "clickable": "false",
+                    "enabled": "true",
+                    "focusable": "false",
+                    "focused": "false",
+                    "scrollable": "false",
+                    "long-clickable": "false",
+                    "password": "false",
+                    "selected": "false",
+                    "visible-to-user": "true",
+                    "bounds": "[0,0][1080,83]",
+                    "drawing-order": "2",
+                    "hint": "",
+                    "display-id": "0"
+                  },
+                  "children": [
+                    {
+                      "key": "0-0-0-0-1-0",
+                      "name": "android.widget.RelativeLayout",
+                      "bounds": [
+                        0.0,
+                        0.0,
+                        1.0,
+                        0.0355
+                      ],
+                      "rect": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 1080,
+                        "height": 83
+                      },
+                      "properties": {
+                        "index": "0",
+                        "text": "",
+                        "resource-id": "com.android.systemui:id/status_bar_contents",
+                        "class": "android.widget.RelativeLayout",
+                        "package": "com.android.systemui",
+                        "content-desc": "",
+                        "checkable": "false",
+                        "checked": "false",
+                        "clickable": "false",
+                        "enabled": "true",
+                        "focusable": "false",
+                        "focused": "false",
+                        "scrollable": "false",
+                        "long-clickable": "false",
+                        "password": "false",
+                        "selected": "false",
+                        "visible-to-user": "true",
+                        "bounds": "[0,0][1080,83]",
+                        "drawing-order": "2",
+                        "hint": "",
+                        "display-id": "0"
+                      },
+                      "children": [
+                        {
+                          "key": "0-0-0-0-1-0-0",
+                          "name": "android.widget.FrameLayout",
+                          "bounds": [
+                            0.0602,
+                            0.0004,
+                            0.4398,
+                            0.0355
+                          ],
+                          "rect": {
+                            "x": 65,
+                            "y": 1,
+                            "width": 410,
+                            "height": 82
+                          },
+                          "properties": {
+                            "index": "0",
+                            "text": "",
+                            "resource-id": "com.android.systemui:id/status_bar_left_side_container",
+                            "class": "android.widget.FrameLayout",
+                            "package": "com.android.systemui",
+                            "content-desc": "",
+                            "checkable": "false",
+                            "checked": "false",
+                            "clickable": "false",
+                            "enabled": "true",
+                            "focusable": "false",
+                            "focused": "false",
+                            "scrollable": "false",
+                            "long-clickable": "false",
+                            "password": "false",
+                            "selected": "false",
+                            "visible-to-user": "true",
+                            "bounds": "[65,1][475,83]",
+                            "drawing-order": "1",
+                            "hint": "",
+                            "display-id": "0"
+                          },
+                          "children": [
+                            {
+                              "key": "0-0-0-0-1-0-0-0",
+                              "name": "android.widget.LinearLayout",
+                              "bounds": [
+                                0.0602,
+                                0.0004,
+                                0.4398,
+                                0.0355
+                              ],
+                              "rect": {
+                                "x": 65,
+                                "y": 1,
+                                "width": 410,
+                                "height": 82
+                              },
+                              "properties": {
+                                "index": "0",
+                                "text": "",
+                                "resource-id": "com.android.systemui:id/status_bar_left_side",
+                                "class": "android.widget.LinearLayout",
+                                "package": "com.android.systemui",
+                                "content-desc": "",
+                                "checkable": "false",
+                                "checked": "false",
+                                "clickable": "false",
+                                "enabled": "true",
+                                "focusable": "false",
+                                "focused": "false",
+                                "scrollable": "false",
+                                "long-clickable": "false",
+                                "password": "false",
+                                "selected": "false",
+                                "visible-to-user": "true",
+                                "bounds": "[65,1][475,83]",
+                                "drawing-order": "2",
+                                "hint": "",
+                                "display-id": "0"
+                              },
+                              "children": [
+                                {
+                                  "key": "0-0-0-0-1-0-0-0-0",
+                                  "name": "android.widget.LinearLayout",
+                                  "bounds": [
+                                    0.0602,
+                                    0.0004,
+                                    0.15,
+                                    0.0355
+                                  ],
+                                  "rect": {
+                                    "x": 65,
+                                    "y": 1,
+                                    "width": 97,
+                                    "height": 82
+                                  },
+                                  "properties": {
+                                    "index": "0",
+                                    "text": "",
+                                    "resource-id": "com.android.systemui:id/left_clock_container",
+                                    "class": "android.widget.LinearLayout",
+                                    "package": "com.android.systemui",
+                                    "content-desc": "",
+                                    "checkable": "false",
+                                    "checked": "false",
+                                    "clickable": "false",
+                                    "enabled": "true",
+                                    "focusable": "false",
+                                    "focused": "false",
+                                    "scrollable": "false",
+                                    "long-clickable": "false",
+                                    "password": "false",
+                                    "selected": "false",
+                                    "visible-to-user": "true",
+                                    "bounds": "[65,1][162,83]",
+                                    "drawing-order": "3",
+                                    "hint": "",
+                                    "display-id": "0"
+                                  },
+                                  "children": [
+                                    {
+                                      "key": "0-0-0-0-1-0-0-0-0-0",
+                                      "name": "android.widget.TextView",
+                                      "bounds": [
+                                        0.0602,
+                                        0.0004,
+                                        0.15,
+                                        0.0355
+                                      ],
+                                      "rect": {
+                                        "x": 65,
+                                        "y": 1,
+                                        "width": 97,
+                                        "height": 82
+                                      },
+                                      "properties": {
+                                        "index": "0",
+                                        "text": "01:22",
+                                        "resource-id": "com.android.systemui:id/clock",
+                                        "class": "android.widget.TextView",
+                                        "package": "com.android.systemui",
+                                        "content-desc": "01:22",
+                                        "checkable": "false",
+                                        "checked": "false",
+                                        "clickable": "false",
+                                        "enabled": "true",
+                                        "focusable": "false",
+                                        "focused": "false",
+                                        "scrollable": "false",
+                                        "long-clickable": "false",
+                                        "password": "false",
+                                        "selected": "false",
+                                        "visible-to-user": "true",
+                                        "bounds": "[65,1][162,83]",
+                                        "drawing-order": "1",
+                                        "hint": "",
+                                        "display-id": "0"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "key": "0-0-0-0-1-0-0-0-1",
+                                  "name": "android.widget.FrameLayout",
+                                  "bounds": [
+                                    0.1574,
+                                    0.0004,
+                                    0.4398,
+                                    0.0355
+                                  ],
+                                  "rect": {
+                                    "x": 170,
+                                    "y": 1,
+                                    "width": 305,
+                                    "height": 82
+                                  },
+                                  "properties": {
+                                    "index": "2",
+                                    "text": "",
+                                    "resource-id": "com.android.systemui:id/notification_icon_area",
+                                    "class": "android.widget.FrameLayout",
+                                    "package": "com.android.systemui",
+                                    "content-desc": "",
+                                    "checkable": "false",
+                                    "checked": "false",
+                                    "clickable": "false",
+                                    "enabled": "true",
+                                    "focusable": "false",
+                                    "focused": "false",
+                                    "scrollable": "false",
+                                    "long-clickable": "false",
+                                    "password": "false",
+                                    "selected": "false",
+                                    "visible-to-user": "true",
+                                    "bounds": "[170,1][475,83]",
+                                    "drawing-order": "4",
+                                    "hint": "",
+                                    "display-id": "0"
+                                  },
+                                  "children": [
+                                    {
+                                      "key": "0-0-0-0-1-0-0-0-1-0",
+                                      "name": "android.widget.LinearLayout",
+                                      "bounds": [
+                                        0.1574,
+                                        0.0004,
+                                        0.4398,
+                                        0.0355
+                                      ],
+                                      "rect": {
+                                        "x": 170,
+                                        "y": 1,
+                                        "width": 305,
+                                        "height": 82
+                                      },
+                                      "properties": {
+                                        "index": "0",
+                                        "text": "",
+                                        "resource-id": "com.android.systemui:id/notification_icon_area_inner",
+                                        "class": "android.widget.LinearLayout",
+                                        "package": "com.android.systemui",
+                                        "content-desc": "",
+                                        "checkable": "false",
+                                        "checked": "false",
+                                        "clickable": "false",
+                                        "enabled": "true",
+                                        "focusable": "false",
+                                        "focused": "false",
+                                        "scrollable": "false",
+                                        "long-clickable": "false",
+                                        "password": "false",
+                                        "selected": "false",
+                                        "visible-to-user": "true",
+                                        "bounds": "[170,1][475,83]",
+                                        "drawing-order": "1",
+                                        "hint": "",
+                                        "display-id": "0"
+                                      },
+                                      "children": [
+                                        {
+                                          "key": "0-0-0-0-1-0-0-0-1-0-0",
+                                          "name": "android.widget.FrameLayout",
+                                          "bounds": [
+                                            0.1574,
+                                            0.0004,
+                                            0.4398,
+                                            0.0355
+                                          ],
+                                          "rect": {
+                                            "x": 170,
+                                            "y": 1,
+                                            "width": 305,
+                                            "height": 82
+                                          },
+                                          "properties": {
+                                            "index": "0",
+                                            "text": "",
+                                            "resource-id": "com.android.systemui:id/notificationIcons",
+                                            "class": "android.widget.FrameLayout",
+                                            "package": "com.android.systemui",
+                                            "content-desc": "",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[170,1][475,83]",
+                                            "drawing-order": "2",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": [
+                                            {
+                                              "key": "0-0-0-0-1-0-0-0-1-0-0-0",
+                                              "name": "android.widget.ImageView",
+                                              "bounds": [
+                                                0.1574,
+                                                0.0004,
+                                                0.2009,
+                                                0.0355
+                                              ],
+                                              "rect": {
+                                                "x": 170,
+                                                "y": 1,
+                                                "width": 47,
+                                                "height": 82
+                                              },
+                                              "properties": {
+                                                "index": "0",
+                                                "text": "",
+                                                "resource-id": "",
+                                                "class": "android.widget.ImageView",
+                                                "package": "com.android.systemui",
+                                                "content-desc": "Powiadomienie z aplikacji Sklep Google Play: 1 aktualizacja wymaga zaakceptowania",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[170,1][217,83]",
+                                                "drawing-order": "1",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": []
+                                            },
+                                            {
+                                              "key": "0-0-0-0-1-0-0-0-1-0-0-1",
+                                              "name": "android.widget.ImageView",
+                                              "bounds": [
+                                                0.2009,
+                                                0.0004,
+                                                0.2444,
+                                                0.0355
+                                              ],
+                                              "rect": {
+                                                "x": 217,
+                                                "y": 1,
+                                                "width": 47,
+                                                "height": 82
+                                              },
+                                              "properties": {
+                                                "index": "1",
+                                                "text": "",
+                                                "resource-id": "",
+                                                "class": "android.widget.ImageView",
+                                                "package": "com.android.systemui",
+                                                "content-desc": "Powiadomienie z aplikacji AutoInput: AutoInput Keyguard Dismisser",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[217,1][264,83]",
+                                                "drawing-order": "2",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": []
+                                            },
+                                            {
+                                              "key": "0-0-0-0-1-0-0-0-1-0-0-2",
+                                              "name": "android.widget.ImageView",
+                                              "bounds": [
+                                                0.2444,
+                                                0.0004,
+                                                0.288,
+                                                0.0355
+                                              ],
+                                              "rect": {
+                                                "x": 264,
+                                                "y": 1,
+                                                "width": 47,
+                                                "height": 82
+                                              },
+                                              "properties": {
+                                                "index": "2",
+                                                "text": "",
+                                                "resource-id": "",
+                                                "class": "android.widget.ImageView",
+                                                "package": "com.android.systemui",
+                                                "content-desc": "Powiadomienie z aplikacji Tasker: Brak aktywnych profili (0 z 4 włączonych)",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[264,1][311,83]",
+                                                "drawing-order": "3",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": []
+                                            },
+                                            {
+                                              "key": "0-0-0-0-1-0-0-0-1-0-0-3",
+                                              "name": "android.widget.ImageView",
+                                              "bounds": [
+                                                0.288,
+                                                0.0004,
+                                                0.3315,
+                                                0.0355
+                                              ],
+                                              "rect": {
+                                                "x": 311,
+                                                "y": 1,
+                                                "width": 47,
+                                                "height": 82
+                                              },
+                                              "properties": {
+                                                "index": "3",
+                                                "text": "",
+                                                "resource-id": "",
+                                                "class": "android.widget.ImageView",
+                                                "package": "com.android.systemui",
+                                                "content-desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[311,1][358,83]",
+                                                "drawing-order": "4",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": []
+                                            },
+                                            {
+                                              "key": "0-0-0-0-1-0-0-0-1-0-0-4",
+                                              "name": "android.widget.ImageView",
+                                              "bounds": [
+                                                0.3046,
+                                                0.0004,
+                                                0.3481,
+                                                0.0355
+                                              ],
+                                              "rect": {
+                                                "x": 329,
+                                                "y": 1,
+                                                "width": 47,
+                                                "height": 82
+                                              },
+                                              "properties": {
+                                                "index": "4",
+                                                "text": "",
+                                                "resource-id": "",
+                                                "class": "android.widget.ImageView",
+                                                "package": "com.android.systemui",
+                                                "content-desc": "Powiadomienie z aplikacji YouTube: Kolumbijka, która poznaje polskie wioski ....",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[329,1][376,83]",
+                                                "drawing-order": "5",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "key": "0-0-0-0-1-0-1",
+                          "name": "android.widget.LinearLayout",
+                          "bounds": [
+                            0.4028,
+                            0.0004,
+                            0.4102,
+                            0.0355
+                          ],
+                          "rect": {
+                            "x": 435,
+                            "y": 1,
+                            "width": 8,
+                            "height": 82
+                          },
+                          "properties": {
+                            "index": "2",
+                            "text": "",
+                            "resource-id": "com.android.systemui:id/divided_status_icon_area",
+                            "class": "android.widget.LinearLayout",
+                            "package": "com.android.systemui",
+                            "content-desc": "",
+                            "checkable": "false",
+                            "checked": "false",
+                            "clickable": "false",
+                            "enabled": "true",
+                            "focusable": "false",
+                            "focused": "false",
+                            "scrollable": "false",
+                            "long-clickable": "false",
+                            "password": "false",
+                            "selected": "false",
+                            "visible-to-user": "true",
+                            "bounds": "[435,1][443,83]",
+                            "drawing-order": "3",
+                            "hint": "",
+                            "display-id": "0"
+                          },
+                          "children": []
+                        },
+                        {
+                          "key": "0-0-0-0-1-0-2",
+                          "name": "android.widget.LinearLayout",
+                          "bounds": [
+                            0.6602,
+                            0.0004,
+                            0.9398,
+                            0.0355
+                          ],
+                          "rect": {
+                            "x": 713,
+                            "y": 1,
+                            "width": 302,
+                            "height": 82
+                          },
+                          "properties": {
+                            "index": "3",
+                            "text": "",
+                            "resource-id": "com.android.systemui:id/system_icon_area",
+                            "class": "android.widget.LinearLayout",
+                            "package": "com.android.systemui",
+                            "content-desc": "",
+                            "checkable": "false",
+                            "checked": "false",
+                            "clickable": "false",
+                            "enabled": "true",
+                            "focusable": "false",
+                            "focused": "false",
+                            "scrollable": "false",
+                            "long-clickable": "false",
+                            "password": "false",
+                            "selected": "false",
+                            "visible-to-user": "true",
+                            "bounds": "[713,1][1015,83]",
+                            "drawing-order": "4",
+                            "hint": "",
+                            "display-id": "0"
+                          },
+                          "children": [
+                            {
+                              "key": "0-0-0-0-1-0-2-0",
+                              "name": "android.widget.FrameLayout",
+                              "bounds": [
+                                0.6602,
+                                0.0004,
+                                0.9398,
+                                0.0355
+                              ],
+                              "rect": {
+                                "x": 713,
+                                "y": 1,
+                                "width": 302,
+                                "height": 82
+                              },
+                              "properties": {
+                                "index": "0",
+                                "text": "",
+                                "resource-id": "",
+                                "class": "android.widget.FrameLayout",
+                                "package": "com.android.systemui",
+                                "content-desc": "",
+                                "checkable": "false",
+                                "checked": "false",
+                                "clickable": "false",
+                                "enabled": "true",
+                                "focusable": "false",
+                                "focused": "false",
+                                "scrollable": "false",
+                                "long-clickable": "false",
+                                "password": "false",
+                                "selected": "false",
+                                "visible-to-user": "true",
+                                "bounds": "[713,1][1015,83]",
+                                "drawing-order": "2",
+                                "hint": "",
+                                "display-id": "0"
+                              },
+                              "children": [
+                                {
+                                  "key": "0-0-0-0-1-0-2-0-0",
+                                  "name": "android.widget.LinearLayout",
+                                  "bounds": [
+                                    0.6602,
+                                    0.0004,
+                                    0.9398,
+                                    0.0355
+                                  ],
+                                  "rect": {
+                                    "x": 713,
+                                    "y": 1,
+                                    "width": 302,
+                                    "height": 82
+                                  },
+                                  "properties": {
+                                    "index": "0",
+                                    "text": "",
+                                    "resource-id": "com.android.systemui:id/system_icons",
+                                    "class": "android.widget.LinearLayout",
+                                    "package": "com.android.systemui",
+                                    "content-desc": "",
+                                    "checkable": "false",
+                                    "checked": "false",
+                                    "clickable": "false",
+                                    "enabled": "true",
+                                    "focusable": "false",
+                                    "focused": "false",
+                                    "scrollable": "false",
+                                    "long-clickable": "false",
+                                    "password": "false",
+                                    "selected": "false",
+                                    "visible-to-user": "true",
+                                    "bounds": "[713,1][1015,83]",
+                                    "drawing-order": "1",
+                                    "hint": "",
+                                    "display-id": "0"
+                                  },
+                                  "children": [
+                                    {
+                                      "key": "0-0-0-0-1-0-2-0-0-0",
+                                      "name": "android.widget.LinearLayout",
+                                      "bounds": [
+                                        0.6602,
+                                        0.0004,
+                                        0.8204,
+                                        0.0355
+                                      ],
+                                      "rect": {
+                                        "x": 713,
+                                        "y": 1,
+                                        "width": 173,
+                                        "height": 82
+                                      },
+                                      "properties": {
+                                        "index": "0",
+                                        "text": "",
+                                        "resource-id": "com.android.systemui:id/statusIcons",
+                                        "class": "android.widget.LinearLayout",
+                                        "package": "com.android.systemui",
+                                        "content-desc": "",
+                                        "checkable": "false",
+                                        "checked": "false",
+                                        "clickable": "false",
+                                        "enabled": "true",
+                                        "focusable": "false",
+                                        "focused": "false",
+                                        "scrollable": "false",
+                                        "long-clickable": "false",
+                                        "password": "false",
+                                        "selected": "false",
+                                        "visible-to-user": "true",
+                                        "bounds": "[713,1][886,83]",
+                                        "drawing-order": "1",
+                                        "hint": "",
+                                        "display-id": "0"
+                                      },
+                                      "children": [
+                                        {
+                                          "key": "0-0-0-0-1-0-2-0-0-0-0",
+                                          "name": "android.widget.ImageView",
+                                          "bounds": [
+                                            0.6602,
+                                            0.0103,
+                                            0.6972,
+                                            0.0261
+                                          ],
+                                          "rect": {
+                                            "x": 713,
+                                            "y": 24,
+                                            "width": 40,
+                                            "height": 37
+                                          },
+                                          "properties": {
+                                            "index": "0",
+                                            "text": "",
+                                            "resource-id": "",
+                                            "class": "android.widget.ImageView",
+                                            "package": "com.android.systemui",
+                                            "content-desc": "Tryb oszczędzania energii włączony",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[713,24][753,61]",
+                                            "drawing-order": "7",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "key": "0-0-0-0-1-0-2-0-0-0-1",
+                                          "name": "android.widget.ImageView",
+                                          "bounds": [
+                                            0.7,
+                                            0.0103,
+                                            0.738,
+                                            0.0261
+                                          ],
+                                          "rect": {
+                                            "x": 756,
+                                            "y": 24,
+                                            "width": 41,
+                                            "height": 37
+                                          },
+                                          "properties": {
+                                            "index": "1",
+                                            "text": "",
+                                            "resource-id": "",
+                                            "class": "android.widget.ImageView",
+                                            "package": "com.android.systemui",
+                                            "content-desc": "Dzwonek z wibracjami.",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[756,24][797,61]",
+                                            "drawing-order": "12",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "key": "0-0-0-0-1-0-2-0-0-0-2",
+                                          "name": "android.widget.FrameLayout",
+                                          "bounds": [
+                                            0.7407,
+                                            0.0103,
+                                            0.7843,
+                                            0.0261
+                                          ],
+                                          "rect": {
+                                            "x": 800,
+                                            "y": 24,
+                                            "width": 47,
+                                            "height": 37
+                                          },
+                                          "properties": {
+                                            "index": "2",
+                                            "text": "",
+                                            "resource-id": "com.android.systemui:id/wifi_combo",
+                                            "class": "android.widget.FrameLayout",
+                                            "package": "com.android.systemui",
+                                            "content-desc": "Wi-Fi: pełna moc sygnału.",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[800,24][847,61]",
+                                            "drawing-order": "15",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": [
+                                            {
+                                              "key": "0-0-0-0-1-0-2-0-0-0-2-0",
+                                              "name": "android.widget.LinearLayout",
+                                              "bounds": [
+                                                0.7407,
+                                                0.0103,
+                                                0.7843,
+                                                0.0261
+                                              ],
+                                              "rect": {
+                                                "x": 800,
+                                                "y": 24,
+                                                "width": 47,
+                                                "height": 37
+                                              },
+                                              "properties": {
+                                                "index": "0",
+                                                "text": "",
+                                                "resource-id": "com.android.systemui:id/wifi_group",
+                                                "class": "android.widget.LinearLayout",
+                                                "package": "com.android.systemui",
+                                                "content-desc": "",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[800,24][847,61]",
+                                                "drawing-order": "1",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": [
+                                                {
+                                                  "key": "0-0-0-0-1-0-2-0-0-0-2-0-0",
+                                                  "name": "android.widget.FrameLayout",
+                                                  "bounds": [
+                                                    0.7407,
+                                                    0.0103,
+                                                    0.7843,
+                                                    0.0261
+                                                  ],
+                                                  "rect": {
+                                                    "x": 800,
+                                                    "y": 24,
+                                                    "width": 47,
+                                                    "height": 37
+                                                  },
+                                                  "properties": {
+                                                    "index": "0",
+                                                    "text": "",
+                                                    "resource-id": "com.android.systemui:id/wifi_iconset",
+                                                    "class": "android.widget.FrameLayout",
+                                                    "package": "com.android.systemui",
+                                                    "content-desc": "",
+                                                    "checkable": "false",
+                                                    "checked": "false",
+                                                    "clickable": "false",
+                                                    "enabled": "true",
+                                                    "focusable": "false",
+                                                    "focused": "false",
+                                                    "scrollable": "false",
+                                                    "long-clickable": "false",
+                                                    "password": "false",
+                                                    "selected": "false",
+                                                    "visible-to-user": "true",
+                                                    "bounds": "[800,24][847,61]",
+                                                    "drawing-order": "1",
+                                                    "hint": "",
+                                                    "display-id": "0"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "key": "0-0-0-0-1-0-2-0-0-0-2-0-0-0",
+                                                      "name": "android.widget.ImageView",
+                                                      "bounds": [
+                                                        0.7407,
+                                                        0.0103,
+                                                        0.7843,
+                                                        0.0261
+                                                      ],
+                                                      "rect": {
+                                                        "x": 800,
+                                                        "y": 24,
+                                                        "width": 47,
+                                                        "height": 37
+                                                      },
+                                                      "properties": {
+                                                        "index": "0",
+                                                        "text": "",
+                                                        "resource-id": "com.android.systemui:id/wifi_signal",
+                                                        "class": "android.widget.ImageView",
+                                                        "package": "com.android.systemui",
+                                                        "content-desc": "",
+                                                        "checkable": "false",
+                                                        "checked": "false",
+                                                        "clickable": "false",
+                                                        "enabled": "true",
+                                                        "focusable": "false",
+                                                        "focused": "false",
+                                                        "scrollable": "false",
+                                                        "long-clickable": "false",
+                                                        "password": "false",
+                                                        "selected": "false",
+                                                        "visible-to-user": "true",
+                                                        "bounds": "[800,24][847,61]",
+                                                        "drawing-order": "1",
+                                                        "hint": "",
+                                                        "display-id": "0"
+                                                      },
+                                                      "children": []
+                                                    },
+                                                    {
+                                                      "key": "0-0-0-0-1-0-2-0-0-0-2-0-0-1",
+                                                      "name": "android.widget.ImageView",
+                                                      "bounds": [
+                                                        0.7407,
+                                                        0.0103,
+                                                        0.7843,
+                                                        0.0261
+                                                      ],
+                                                      "rect": {
+                                                        "x": 800,
+                                                        "y": 24,
+                                                        "width": 47,
+                                                        "height": 37
+                                                      },
+                                                      "properties": {
+                                                        "index": "1",
+                                                        "text": "",
+                                                        "resource-id": "com.android.systemui:id/wifi_activity",
+                                                        "class": "android.widget.ImageView",
+                                                        "package": "com.android.systemui",
+                                                        "content-desc": "",
+                                                        "checkable": "false",
+                                                        "checked": "false",
+                                                        "clickable": "false",
+                                                        "enabled": "true",
+                                                        "focusable": "false",
+                                                        "focused": "false",
+                                                        "scrollable": "false",
+                                                        "long-clickable": "false",
+                                                        "password": "false",
+                                                        "selected": "false",
+                                                        "visible-to-user": "true",
+                                                        "bounds": "[800,24][847,61]",
+                                                        "drawing-order": "2",
+                                                        "hint": "",
+                                                        "display-id": "0"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "key": "0-0-0-0-1-0-2-0-0-0-3",
+                                          "name": "android.widget.FrameLayout",
+                                          "bounds": [
+                                            0.7843,
+                                            0.0103,
+                                            0.8204,
+                                            0.0261
+                                          ],
+                                          "rect": {
+                                            "x": 847,
+                                            "y": 24,
+                                            "width": 39,
+                                            "height": 37
+                                          },
+                                          "properties": {
+                                            "index": "3",
+                                            "text": "",
+                                            "resource-id": "com.android.systemui:id/mobile_combo",
+                                            "class": "android.widget.FrameLayout",
+                                            "package": "com.android.systemui",
+                                            "content-desc": "",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[847,24][886,61]",
+                                            "drawing-order": "16",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": [
+                                            {
+                                              "key": "0-0-0-0-1-0-2-0-0-0-3-0",
+                                              "name": "android.widget.LinearLayout",
+                                              "bounds": [
+                                                0.7843,
+                                                0.0103,
+                                                0.8204,
+                                                0.0261
+                                              ],
+                                              "rect": {
+                                                "x": 847,
+                                                "y": 24,
+                                                "width": 39,
+                                                "height": 37
+                                              },
+                                              "properties": {
+                                                "index": "0",
+                                                "text": "",
+                                                "resource-id": "com.android.systemui:id/mobile_group",
+                                                "class": "android.widget.LinearLayout",
+                                                "package": "com.android.systemui",
+                                                "content-desc": "",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[847,24][886,61]",
+                                                "drawing-order": "1",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": [
+                                                {
+                                                  "key": "0-0-0-0-1-0-2-0-0-0-3-0-0",
+                                                  "name": "android.widget.FrameLayout",
+                                                  "bounds": [
+                                                    0.7843,
+                                                    0.0103,
+                                                    0.8204,
+                                                    0.0261
+                                                  ],
+                                                  "rect": {
+                                                    "x": 847,
+                                                    "y": 24,
+                                                    "width": 39,
+                                                    "height": 37
+                                                  },
+                                                  "properties": {
+                                                    "index": "0",
+                                                    "text": "",
+                                                    "resource-id": "com.android.systemui:id/signal_combo",
+                                                    "class": "android.widget.FrameLayout",
+                                                    "package": "com.android.systemui",
+                                                    "content-desc": "",
+                                                    "checkable": "false",
+                                                    "checked": "false",
+                                                    "clickable": "false",
+                                                    "enabled": "true",
+                                                    "focusable": "false",
+                                                    "focused": "false",
+                                                    "scrollable": "false",
+                                                    "long-clickable": "false",
+                                                    "password": "false",
+                                                    "selected": "false",
+                                                    "visible-to-user": "true",
+                                                    "bounds": "[847,24][886,61]",
+                                                    "drawing-order": "3",
+                                                    "hint": "",
+                                                    "display-id": "0"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "key": "0-0-0-0-1-0-2-0-0-0-3-0-0-0",
+                                                      "name": "android.widget.ImageView",
+                                                      "bounds": [
+                                                        0.7843,
+                                                        0.0103,
+                                                        0.8204,
+                                                        0.0261
+                                                      ],
+                                                      "rect": {
+                                                        "x": 847,
+                                                        "y": 24,
+                                                        "width": 39,
+                                                        "height": 37
+                                                      },
+                                                      "properties": {
+                                                        "index": "0",
+                                                        "text": "",
+                                                        "resource-id": "com.android.systemui:id/mobile_signal",
+                                                        "class": "android.widget.ImageView",
+                                                        "package": "com.android.systemui",
+                                                        "content-desc": "Telefon: trzy paski.",
+                                                        "checkable": "false",
+                                                        "checked": "false",
+                                                        "clickable": "false",
+                                                        "enabled": "true",
+                                                        "focusable": "false",
+                                                        "focused": "false",
+                                                        "scrollable": "false",
+                                                        "long-clickable": "false",
+                                                        "password": "false",
+                                                        "selected": "false",
+                                                        "visible-to-user": "true",
+                                                        "bounds": "[847,24][886,61]",
+                                                        "drawing-order": "1",
+                                                        "hint": "",
+                                                        "display-id": "0"
+                                                      },
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "key": "0-0-0-0-1-0-2-0-0-1",
+                                      "name": "android.widget.LinearLayout",
+                                      "bounds": [
+                                        0.8278,
+                                        0.0004,
+                                        0.9398,
+                                        0.0355
+                                      ],
+                                      "rect": {
+                                        "x": 894,
+                                        "y": 1,
+                                        "width": 121,
+                                        "height": 82
+                                      },
+                                      "properties": {
+                                        "index": "1",
+                                        "text": "",
+                                        "resource-id": "com.android.systemui:id/battery",
+                                        "class": "android.widget.LinearLayout",
+                                        "package": "com.android.systemui",
+                                        "content-desc": "Ładuję baterię, 100 procent.",
+                                        "checkable": "false",
+                                        "checked": "false",
+                                        "clickable": "false",
+                                        "enabled": "true",
+                                        "focusable": "false",
+                                        "focused": "false",
+                                        "scrollable": "false",
+                                        "long-clickable": "false",
+                                        "password": "false",
+                                        "selected": "false",
+                                        "visible-to-user": "true",
+                                        "bounds": "[894,1][1015,83]",
+                                        "drawing-order": "2",
+                                        "hint": "",
+                                        "display-id": "0"
+                                      },
+                                      "children": [
+                                        {
+                                          "key": "0-0-0-0-1-0-2-0-0-1-0",
+                                          "name": "android.widget.TextView",
+                                          "bounds": [
+                                            0.8278,
+                                            0.0004,
+                                            0.9157,
+                                            0.0355
+                                          ],
+                                          "rect": {
+                                            "x": 894,
+                                            "y": 1,
+                                            "width": 95,
+                                            "height": 82
+                                          },
+                                          "properties": {
+                                            "index": "0",
+                                            "text": "100%",
+                                            "resource-id": "com.android.systemui:id/battery_percentage_view",
+                                            "class": "android.widget.TextView",
+                                            "package": "com.android.systemui",
+                                            "content-desc": "",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[894,1][989,83]",
+                                            "drawing-order": "1",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": []
+                                        },
+                                        {
+                                          "key": "0-0-0-0-1-0-2-0-0-1-1",
+                                          "name": "android.widget.ImageView",
+                                          "bounds": [
+                                            0.9204,
+                                            0.0103,
+                                            0.9398,
+                                            0.0261
+                                          ],
+                                          "rect": {
+                                            "x": 994,
+                                            "y": 24,
+                                            "width": 21,
+                                            "height": 37
+                                          },
+                                          "properties": {
+                                            "index": "1",
+                                            "text": "",
+                                            "resource-id": "",
+                                            "class": "android.widget.ImageView",
+                                            "package": "com.android.systemui",
+                                            "content-desc": "",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[994,24][1015,61]",
+                                            "drawing-order": "2",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "0-1",
+      "name": "android.widget.FrameLayout",
+      "bounds": [
+        0.4102,
+        0.0,
+        0.5898,
+        0.0355
+      ],
+      "rect": {
+        "x": 443,
+        "y": 0,
+        "width": 194,
+        "height": 83
+      },
+      "properties": {
+        "index": "0",
+        "text": "",
+        "resource-id": "com.android.systemui:id/rounded_corners_top",
+        "class": "android.widget.FrameLayout",
+        "package": "com.android.systemui",
+        "content-desc": "",
+        "checkable": "false",
+        "checked": "false",
+        "clickable": "false",
+        "enabled": "true",
+        "focusable": "false",
+        "focused": "false",
+        "scrollable": "false",
+        "long-clickable": "false",
+        "password": "false",
+        "selected": "false",
+        "visible-to-user": "true",
+        "bounds": "[443,0][637,83]",
+        "drawing-order": "0",
+        "hint": "",
+        "display-id": "0"
+      },
+      "children": [
+        {
+          "key": "0-1-0",
+          "name": "android.widget.ImageView",
+          "bounds": [
+            0.0,
+            0.0,
+            0.1398,
+            0.0645
+          ],
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 151,
+            "height": 151
+          },
+          "properties": {
+            "index": "0",
+            "text": "",
+            "resource-id": "com.android.systemui:id/left",
+            "class": "android.widget.ImageView",
+            "package": "com.android.systemui",
+            "content-desc": "",
+            "checkable": "false",
+            "checked": "false",
+            "clickable": "false",
+            "enabled": "true",
+            "focusable": "false",
+            "focused": "false",
+            "scrollable": "false",
+            "long-clickable": "false",
+            "password": "false",
+            "selected": "false",
+            "visible-to-user": "true",
+            "bounds": "[0,0][151,151]",
+            "drawing-order": "1",
+            "hint": "",
+            "display-id": "0"
+          },
+          "children": []
+        },
+        {
+          "key": "0-1-1",
+          "name": "android.view.View",
+          "bounds": [
+            0.4102,
+            0.0,
+            0.5898,
+            0.0355
+          ],
+          "rect": {
+            "x": 443,
+            "y": 0,
+            "width": 194,
+            "height": 83
+          },
+          "properties": {
+            "index": "1",
+            "text": "",
+            "resource-id": "com.android.systemui:id/display_cutout",
+            "class": "android.view.View",
+            "package": "com.android.systemui",
+            "content-desc": "",
+            "checkable": "false",
+            "checked": "false",
+            "clickable": "false",
+            "enabled": "true",
+            "focusable": "false",
+            "focused": "false",
+            "scrollable": "false",
+            "long-clickable": "false",
+            "password": "false",
+            "selected": "false",
+            "visible-to-user": "true",
+            "bounds": "[443,0][637,83]",
+            "drawing-order": "3",
+            "hint": "",
+            "display-id": "0"
+          },
+          "children": []
+        },
+        {
+          "key": "0-1-2",
+          "name": "android.widget.ImageView",
+          "bounds": [
+            0.8602,
+            0.0,
+            1.0,
+            0.0645
+          ],
+          "rect": {
+            "x": 929,
+            "y": 0,
+            "width": 151,
+            "height": 151
+          },
+          "properties": {
+            "index": "2",
+            "text": "",
+            "resource-id": "com.android.systemui:id/right",
+            "class": "android.widget.ImageView",
+            "package": "com.android.systemui",
+            "content-desc": "",
+            "checkable": "false",
+            "checked": "false",
+            "clickable": "false",
+            "enabled": "true",
+            "focusable": "false",
+            "focused": "false",
+            "scrollable": "false",
+            "long-clickable": "false",
+            "password": "false",
+            "selected": "false",
+            "visible-to-user": "true",
+            "bounds": "[929,0][1080,151]",
+            "drawing-order": "2",
+            "hint": "",
+            "display-id": "0"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "key": "0-2",
+      "name": "android.widget.FrameLayout",
+      "bounds": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2340
+      },
+      "properties": {
+        "index": "0",
+        "text": "",
+        "resource-id": "",
+        "class": "android.widget.FrameLayout",
+        "package": "com.instagram.android",
+        "content-desc": "",
+        "checkable": "false",
+        "checked": "false",
+        "clickable": "false",
+        "enabled": "true",
+        "focusable": "false",
+        "focused": "false",
+        "scrollable": "false",
+        "long-clickable": "false",
+        "password": "false",
+        "selected": "false",
+        "visible-to-user": "true",
+        "bounds": "[0,0][1080,2340]",
+        "drawing-order": "0",
+        "hint": "",
+        "display-id": "0"
+      },
+      "children": [
+        {
+          "key": "0-2-0",
+          "name": "android.widget.LinearLayout",
+          "bounds": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 2340
+          },
+          "properties": {
+            "index": "0",
+            "text": "",
+            "resource-id": "",
+            "class": "android.widget.LinearLayout",
+            "package": "com.instagram.android",
+            "content-desc": "",
+            "checkable": "false",
+            "checked": "false",
+            "clickable": "false",
+            "enabled": "true",
+            "focusable": "false",
+            "focused": "false",
+            "scrollable": "false",
+            "long-clickable": "false",
+            "password": "false",
+            "selected": "false",
+            "visible-to-user": "true",
+            "bounds": "[0,0][1080,2340]",
+            "drawing-order": "1",
+            "hint": "",
+            "display-id": "0"
+          },
+          "children": [
+            {
+              "key": "0-2-0-0",
+              "name": "android.widget.FrameLayout",
+              "bounds": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+              ],
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1080,
+                "height": 2340
+              },
+              "properties": {
+                "index": "0",
+                "text": "",
+                "resource-id": "",
+                "class": "android.widget.FrameLayout",
+                "package": "com.instagram.android",
+                "content-desc": "",
+                "checkable": "false",
+                "checked": "false",
+                "clickable": "false",
+                "enabled": "true",
+                "focusable": "false",
+                "focused": "false",
+                "scrollable": "false",
+                "long-clickable": "false",
+                "password": "false",
+                "selected": "false",
+                "visible-to-user": "true",
+                "bounds": "[0,0][1080,2340]",
+                "drawing-order": "2",
+                "hint": "",
+                "display-id": "0"
+              },
+              "children": [
+                {
+                  "key": "0-2-0-0-0",
+                  "name": "android.widget.LinearLayout",
+                  "bounds": [
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0
+                  ],
+                  "rect": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 2340
+                  },
+                  "properties": {
+                    "index": "0",
+                    "text": "",
+                    "resource-id": "com.instagram.android:id/action_bar_root",
+                    "class": "android.widget.LinearLayout",
+                    "package": "com.instagram.android",
+                    "content-desc": "",
+                    "checkable": "false",
+                    "checked": "false",
+                    "clickable": "false",
+                    "enabled": "true",
+                    "focusable": "false",
+                    "focused": "false",
+                    "scrollable": "false",
+                    "long-clickable": "false",
+                    "password": "false",
+                    "selected": "false",
+                    "visible-to-user": "true",
+                    "bounds": "[0,0][1080,2340]",
+                    "drawing-order": "1",
+                    "hint": "",
+                    "display-id": "0"
+                  },
+                  "children": [
+                    {
+                      "key": "0-2-0-0-0-0",
+                      "name": "android.widget.FrameLayout",
+                      "bounds": [
+                        0.0,
+                        0.0,
+                        1.0,
+                        1.0
+                      ],
+                      "rect": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 1080,
+                        "height": 2340
+                      },
+                      "properties": {
+                        "index": "0",
+                        "text": "",
+                        "resource-id": "android:id/content",
+                        "class": "android.widget.FrameLayout",
+                        "package": "com.instagram.android",
+                        "content-desc": "",
+                        "checkable": "false",
+                        "checked": "false",
+                        "clickable": "false",
+                        "enabled": "true",
+                        "focusable": "false",
+                        "focused": "false",
+                        "scrollable": "false",
+                        "long-clickable": "false",
+                        "password": "false",
+                        "selected": "false",
+                        "visible-to-user": "true",
+                        "bounds": "[0,0][1080,2340]",
+                        "drawing-order": "2",
+                        "hint": "",
+                        "display-id": "0"
+                      },
+                      "children": [
+                        {
+                          "key": "0-2-0-0-0-0-0",
+                          "name": "android.widget.FrameLayout",
+                          "bounds": [
+                            0.0,
+                            0.0,
+                            1.0,
+                            1.0
+                          ],
+                          "rect": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 1080,
+                            "height": 2340
+                          },
+                          "properties": {
+                            "index": "0",
+                            "text": "",
+                            "resource-id": "",
+                            "class": "android.widget.FrameLayout",
+                            "package": "com.instagram.android",
+                            "content-desc": "",
+                            "checkable": "false",
+                            "checked": "false",
+                            "clickable": "false",
+                            "enabled": "true",
+                            "focusable": "false",
+                            "focused": "false",
+                            "scrollable": "false",
+                            "long-clickable": "false",
+                            "password": "false",
+                            "selected": "false",
+                            "visible-to-user": "true",
+                            "bounds": "[0,0][1080,2340]",
+                            "drawing-order": "1",
+                            "hint": "",
+                            "display-id": "0"
+                          },
+                          "children": [
+                            {
+                              "key": "0-2-0-0-0-0-0-0",
+                              "name": "android.widget.FrameLayout",
+                              "bounds": [
+                                0.0,
+                                0.0,
+                                1.0,
+                                1.0
+                              ],
+                              "rect": {
+                                "x": 0,
+                                "y": 0,
+                                "width": 1080,
+                                "height": 2340
+                              },
+                              "properties": {
+                                "index": "0",
+                                "text": "",
+                                "resource-id": "com.instagram.android:id/overlay_layout_container",
+                                "class": "android.widget.FrameLayout",
+                                "package": "com.instagram.android",
+                                "content-desc": "",
+                                "checkable": "false",
+                                "checked": "false",
+                                "clickable": "false",
+                                "enabled": "true",
+                                "focusable": "false",
+                                "focused": "false",
+                                "scrollable": "false",
+                                "long-clickable": "false",
+                                "password": "false",
+                                "selected": "false",
+                                "visible-to-user": "true",
+                                "bounds": "[0,0][1080,2340]",
+                                "drawing-order": "5",
+                                "hint": "",
+                                "display-id": "0"
+                              },
+                              "children": []
+                            },
+                            {
+                              "key": "0-2-0-0-0-0-0-1",
+                              "name": "android.widget.FrameLayout",
+                              "bounds": [
+                                0.0,
+                                0.0,
+                                1.0,
+                                1.0
+                              ],
+                              "rect": {
+                                "x": 0,
+                                "y": 0,
+                                "width": 1080,
+                                "height": 2340
+                              },
+                              "properties": {
+                                "index": "1",
+                                "text": "",
+                                "resource-id": "com.instagram.android:id/swipe_navigation_container",
+                                "class": "android.widget.FrameLayout",
+                                "package": "com.instagram.android",
+                                "content-desc": "",
+                                "checkable": "false",
+                                "checked": "false",
+                                "clickable": "false",
+                                "enabled": "true",
+                                "focusable": "false",
+                                "focused": "false",
+                                "scrollable": "false",
+                                "long-clickable": "false",
+                                "password": "false",
+                                "selected": "false",
+                                "visible-to-user": "true",
+                                "bounds": "[0,0][1080,2340]",
+                                "drawing-order": "1",
+                                "hint": "",
+                                "display-id": "0"
+                              },
+                              "children": [
+                                {
+                                  "key": "0-2-0-0-0-0-0-1-0",
+                                  "name": "android.view.ViewGroup",
+                                  "bounds": [
+                                    0.0,
+                                    0.0,
+                                    1.0,
+                                    1.0
+                                  ],
+                                  "rect": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "width": 1080,
+                                    "height": 2340
+                                  },
+                                  "properties": {
+                                    "index": "1",
+                                    "text": "",
+                                    "resource-id": "com.instagram.android:id/layout_container_center_right_coordinator_layout",
+                                    "class": "android.view.ViewGroup",
+                                    "package": "com.instagram.android",
+                                    "content-desc": "",
+                                    "checkable": "false",
+                                    "checked": "false",
+                                    "clickable": "false",
+                                    "enabled": "true",
+                                    "focusable": "false",
+                                    "focused": "false",
+                                    "scrollable": "false",
+                                    "long-clickable": "false",
+                                    "password": "false",
+                                    "selected": "false",
+                                    "visible-to-user": "true",
+                                    "bounds": "[0,0][1080,2340]",
+                                    "drawing-order": "3",
+                                    "hint": "",
+                                    "display-id": "0"
+                                  },
+                                  "children": [
+                                    {
+                                      "key": "0-2-0-0-0-0-0-1-0-0",
+                                      "name": "android.widget.FrameLayout",
+                                      "bounds": [
+                                        0.0,
+                                        0.0355,
+                                        1.0,
+                                        1.0
+                                      ],
+                                      "rect": {
+                                        "x": 0,
+                                        "y": 83,
+                                        "width": 1080,
+                                        "height": 2257
+                                      },
+                                      "properties": {
+                                        "index": "0",
+                                        "text": "",
+                                        "resource-id": "com.instagram.android:id/layout_container_right",
+                                        "class": "android.widget.FrameLayout",
+                                        "package": "com.instagram.android",
+                                        "content-desc": "",
+                                        "checkable": "false",
+                                        "checked": "false",
+                                        "clickable": "false",
+                                        "enabled": "true",
+                                        "focusable": "false",
+                                        "focused": "false",
+                                        "scrollable": "false",
+                                        "long-clickable": "false",
+                                        "password": "false",
+                                        "selected": "false",
+                                        "visible-to-user": "true",
+                                        "bounds": "[0,83][1080,2340]",
+                                        "drawing-order": "2",
+                                        "hint": "",
+                                        "display-id": "0"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "key": "0-2-0-0-0-0-0-1-0-1",
+                                      "name": "android.widget.FrameLayout",
+                                      "bounds": [
+                                        0.0,
+                                        0.0355,
+                                        1.0,
+                                        1.0
+                                      ],
+                                      "rect": {
+                                        "x": 0,
+                                        "y": 83,
+                                        "width": 1080,
+                                        "height": 2257
+                                      },
+                                      "properties": {
+                                        "index": "1",
+                                        "text": "",
+                                        "resource-id": "com.instagram.android:id/activity_and_camera_shared_views_main_container",
+                                        "class": "android.widget.FrameLayout",
+                                        "package": "com.instagram.android",
+                                        "content-desc": "",
+                                        "checkable": "false",
+                                        "checked": "false",
+                                        "clickable": "false",
+                                        "enabled": "true",
+                                        "focusable": "false",
+                                        "focused": "false",
+                                        "scrollable": "false",
+                                        "long-clickable": "false",
+                                        "password": "false",
+                                        "selected": "false",
+                                        "visible-to-user": "true",
+                                        "bounds": "[0,83][1080,2340]",
+                                        "drawing-order": "4",
+                                        "hint": "",
+                                        "display-id": "0"
+                                      },
+                                      "children": []
+                                    },
+                                    {
+                                      "key": "0-2-0-0-0-0-0-1-0-2",
+                                      "name": "android.view.ViewGroup",
+                                      "bounds": [
+                                        0.0,
+                                        0.0355,
+                                        1.0,
+                                        1.0
+                                      ],
+                                      "rect": {
+                                        "x": 0,
+                                        "y": 83,
+                                        "width": 1080,
+                                        "height": 2257
+                                      },
+                                      "properties": {
+                                        "index": "2",
+                                        "text": "",
+                                        "resource-id": "com.instagram.android:id/layout_container_main_panel",
+                                        "class": "android.view.ViewGroup",
+                                        "package": "com.instagram.android",
+                                        "content-desc": "",
+                                        "checkable": "false",
+                                        "checked": "false",
+                                        "clickable": "false",
+                                        "enabled": "true",
+                                        "focusable": "false",
+                                        "focused": "false",
+                                        "scrollable": "false",
+                                        "long-clickable": "false",
+                                        "password": "false",
+                                        "selected": "false",
+                                        "visible-to-user": "true",
+                                        "bounds": "[0,83][1080,2340]",
+                                        "drawing-order": "1",
+                                        "hint": "",
+                                        "display-id": "0"
+                                      },
+                                      "children": [
+                                        {
+                                          "key": "0-2-0-0-0-0-0-1-0-2-0",
+                                          "name": "android.widget.FrameLayout",
+                                          "bounds": [
+                                            0.0,
+                                            0.0355,
+                                            1.0,
+                                            1.0
+                                          ],
+                                          "rect": {
+                                            "x": 0,
+                                            "y": 83,
+                                            "width": 1080,
+                                            "height": 2257
+                                          },
+                                          "properties": {
+                                            "index": "0",
+                                            "text": "",
+                                            "resource-id": "com.instagram.android:id/layout_container_main_wrapper",
+                                            "class": "android.widget.FrameLayout",
+                                            "package": "com.instagram.android",
+                                            "content-desc": "",
+                                            "checkable": "false",
+                                            "checked": "false",
+                                            "clickable": "false",
+                                            "enabled": "true",
+                                            "focusable": "false",
+                                            "focused": "false",
+                                            "scrollable": "false",
+                                            "long-clickable": "false",
+                                            "password": "false",
+                                            "selected": "false",
+                                            "visible-to-user": "true",
+                                            "bounds": "[0,83][1080,2340]",
+                                            "drawing-order": "2",
+                                            "hint": "",
+                                            "display-id": "0"
+                                          },
+                                          "children": [
+                                            {
+                                              "key": "0-2-0-0-0-0-0-1-0-2-0-0",
+                                              "name": "android.widget.FrameLayout",
+                                              "bounds": [
+                                                0.0,
+                                                0.0355,
+                                                1.0,
+                                                1.0
+                                              ],
+                                              "rect": {
+                                                "x": 0,
+                                                "y": 83,
+                                                "width": 1080,
+                                                "height": 2257
+                                              },
+                                              "properties": {
+                                                "index": "0",
+                                                "text": "",
+                                                "resource-id": "com.instagram.android:id/layout_container_main",
+                                                "class": "android.widget.FrameLayout",
+                                                "package": "com.instagram.android",
+                                                "content-desc": "",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "false",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[0,83][1080,2340]",
+                                                "drawing-order": "1",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": []
+                                            },
+                                            {
+                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1",
+                                              "name": "androidx.viewpager.widget.ViewPager",
+                                              "bounds": [
+                                                0.0,
+                                                0.0355,
+                                                1.0,
+                                                1.0
+                                              ],
+                                              "rect": {
+                                                "x": 0,
+                                                "y": 83,
+                                                "width": 1080,
+                                                "height": 2257
+                                              },
+                                              "properties": {
+                                                "index": "1",
+                                                "text": "",
+                                                "resource-id": "com.instagram.android:id/swipeable_tab_view_pager",
+                                                "class": "androidx.viewpager.widget.ViewPager",
+                                                "package": "com.instagram.android",
+                                                "content-desc": "",
+                                                "checkable": "false",
+                                                "checked": "false",
+                                                "clickable": "false",
+                                                "enabled": "true",
+                                                "focusable": "false",
+                                                "focused": "false",
+                                                "scrollable": "true",
+                                                "long-clickable": "false",
+                                                "password": "false",
+                                                "selected": "false",
+                                                "visible-to-user": "true",
+                                                "bounds": "[0,83][1080,2340]",
+                                                "drawing-order": "2",
+                                                "hint": "",
+                                                "display-id": "0"
+                                              },
+                                              "children": [
+                                                {
+                                                  "key": "0-2-0-0-0-0-0-1-0-2-0-1-0",
+                                                  "name": "androidx.recyclerview.widget.RecyclerView",
+                                                  "bounds": [
+                                                    0.0,
+                                                    0.0355,
+                                                    1.0,
+                                                    1.0
+                                                  ],
+                                                  "rect": {
+                                                    "x": 0,
+                                                    "y": 83,
+                                                    "width": 1080,
+                                                    "height": 2257
+                                                  },
+                                                  "properties": {
+                                                    "index": "0",
+                                                    "text": "",
+                                                    "resource-id": "com.instagram.android:id/swipeable_nav_view_pager_inner_recycler_view",
+                                                    "class": "androidx.recyclerview.widget.RecyclerView",
+                                                    "package": "com.instagram.android",
+                                                    "content-desc": "",
+                                                    "checkable": "false",
+                                                    "checked": "false",
+                                                    "clickable": "false",
+                                                    "enabled": "true",
+                                                    "focusable": "true",
+                                                    "focused": "false",
+                                                    "scrollable": "true",
+                                                    "long-clickable": "false",
+                                                    "password": "false",
+                                                    "selected": "false",
+                                                    "visible-to-user": "true",
+                                                    "bounds": "[0,83][1080,2340]",
+                                                    "drawing-order": "1",
+                                                    "hint": "",
+                                                    "display-id": "0"
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0",
+                                                      "name": "android.widget.FrameLayout",
+                                                      "bounds": [
+                                                        0.0,
+                                                        0.0355,
+                                                        1.0,
+                                                        1.0
+                                                      ],
+                                                      "rect": {
+                                                        "x": 0,
+                                                        "y": 83,
+                                                        "width": 1080,
+                                                        "height": 2257
+                                                      },
+                                                      "properties": {
+                                                        "index": "4",
+                                                        "text": "",
+                                                        "resource-id": "",
+                                                        "class": "android.widget.FrameLayout",
+                                                        "package": "com.instagram.android",
+                                                        "content-desc": "",
+                                                        "checkable": "false",
+                                                        "checked": "false",
+                                                        "clickable": "false",
+                                                        "enabled": "true",
+                                                        "focusable": "false",
+                                                        "focused": "false",
+                                                        "scrollable": "false",
+                                                        "long-clickable": "false",
+                                                        "password": "false",
+                                                        "selected": "false",
+                                                        "visible-to-user": "true",
+                                                        "bounds": "[0,83][1080,2340]",
+                                                        "drawing-order": "5",
+                                                        "hint": "",
+                                                        "display-id": "0"
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0",
+                                                          "name": "android.widget.FrameLayout",
+                                                          "bounds": [
+                                                            0.0,
+                                                            0.0355,
+                                                            1.0,
+                                                            1.0
+                                                          ],
+                                                          "rect": {
+                                                            "x": 0,
+                                                            "y": 83,
+                                                            "width": 1080,
+                                                            "height": 2257
+                                                          },
+                                                          "properties": {
+                                                            "index": "0",
+                                                            "text": "",
+                                                            "resource-id": "com.instagram.android:id/layout_container_swipeable",
+                                                            "class": "android.widget.FrameLayout",
+                                                            "package": "com.instagram.android",
+                                                            "content-desc": "",
+                                                            "checkable": "false",
+                                                            "checked": "false",
+                                                            "clickable": "false",
+                                                            "enabled": "true",
+                                                            "focusable": "false",
+                                                            "focused": "false",
+                                                            "scrollable": "false",
+                                                            "long-clickable": "false",
+                                                            "password": "false",
+                                                            "selected": "false",
+                                                            "visible-to-user": "true",
+                                                            "bounds": "[0,83][1080,2340]",
+                                                            "drawing-order": "1",
+                                                            "hint": "",
+                                                            "display-id": "0"
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0",
+                                                              "name": "androidx.compose.ui.platform.ComposeView",
+                                                              "bounds": [
+                                                                0.0,
+                                                                0.0355,
+                                                                1.0,
+                                                                1.0
+                                                              ],
+                                                              "rect": {
+                                                                "x": 0,
+                                                                "y": 83,
+                                                                "width": 1080,
+                                                                "height": 2257
+                                                              },
+                                                              "properties": {
+                                                                "index": "0",
+                                                                "text": "",
+                                                                "resource-id": "",
+                                                                "class": "androidx.compose.ui.platform.ComposeView",
+                                                                "package": "com.instagram.android",
+                                                                "content-desc": "",
+                                                                "checkable": "false",
+                                                                "checked": "false",
+                                                                "clickable": "false",
+                                                                "enabled": "true",
+                                                                "focusable": "false",
+                                                                "focused": "false",
+                                                                "scrollable": "false",
+                                                                "long-clickable": "false",
+                                                                "password": "false",
+                                                                "selected": "false",
+                                                                "visible-to-user": "true",
+                                                                "bounds": "[0,83][1080,2340]",
+                                                                "drawing-order": "1",
+                                                                "hint": "",
+                                                                "display-id": "0"
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0",
+                                                                  "name": "android.view.View",
+                                                                  "bounds": [
+                                                                    0.0,
+                                                                    0.0355,
+                                                                    1.0,
+                                                                    1.0
+                                                                  ],
+                                                                  "rect": {
+                                                                    "x": 0,
+                                                                    "y": 83,
+                                                                    "width": 1080,
+                                                                    "height": 2257
+                                                                  },
+                                                                  "properties": {
+                                                                    "index": "0",
+                                                                    "text": "",
+                                                                    "resource-id": "",
+                                                                    "class": "android.view.View",
+                                                                    "package": "com.instagram.android",
+                                                                    "content-desc": "",
+                                                                    "checkable": "false",
+                                                                    "checked": "false",
+                                                                    "clickable": "false",
+                                                                    "enabled": "true",
+                                                                    "focusable": "false",
+                                                                    "focused": "false",
+                                                                    "scrollable": "false",
+                                                                    "long-clickable": "false",
+                                                                    "password": "false",
+                                                                    "selected": "false",
+                                                                    "visible-to-user": "true",
+                                                                    "bounds": "[0,83][1080,2340]",
+                                                                    "drawing-order": "0",
+                                                                    "hint": "",
+                                                                    "display-id": "0"
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-0",
+                                                                      "name": "android.view.View",
+                                                                      "bounds": [
+                                                                        0.0194,
+                                                                        0.0355,
+                                                                        0.9806,
+                                                                        0.0983
+                                                                      ],
+                                                                      "rect": {
+                                                                        "x": 21,
+                                                                        "y": 83,
+                                                                        "width": 1038,
+                                                                        "height": 147
+                                                                      },
+                                                                      "properties": {
+                                                                        "index": "0",
+                                                                        "text": "",
+                                                                        "resource-id": "",
+                                                                        "class": "android.view.View",
+                                                                        "package": "com.instagram.android",
+                                                                        "content-desc": "",
+                                                                        "checkable": "false",
+                                                                        "checked": "false",
+                                                                        "clickable": "false",
+                                                                        "enabled": "true",
+                                                                        "focusable": "false",
+                                                                        "focused": "false",
+                                                                        "scrollable": "false",
+                                                                        "long-clickable": "false",
+                                                                        "password": "false",
+                                                                        "selected": "false",
+                                                                        "visible-to-user": "true",
+                                                                        "bounds": "[21,83][1059,230]",
+                                                                        "drawing-order": "0",
+                                                                        "hint": "",
+                                                                        "display-id": "0"
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-0-0",
+                                                                          "name": "android.widget.Button",
+                                                                          "bounds": [
+                                                                            0.0102,
+                                                                            0.0402,
+                                                                            0.1269,
+                                                                            0.094
+                                                                          ],
+                                                                          "rect": {
+                                                                            "x": 11,
+                                                                            "y": 94,
+                                                                            "width": 126,
+                                                                            "height": 126
+                                                                          },
+                                                                          "properties": {
+                                                                            "index": "0",
+                                                                            "text": "",
+                                                                            "resource-id": "",
+                                                                            "class": "android.widget.Button",
+                                                                            "package": "com.instagram.android",
+                                                                            "content-desc": "Wstecz",
+                                                                            "checkable": "false",
+                                                                            "checked": "false",
+                                                                            "clickable": "true",
+                                                                            "enabled": "true",
+                                                                            "focusable": "true",
+                                                                            "focused": "false",
+                                                                            "scrollable": "false",
+                                                                            "long-clickable": "false",
+                                                                            "password": "false",
+                                                                            "selected": "false",
+                                                                            "visible-to-user": "true",
+                                                                            "bounds": "[11,94][137,220]",
+                                                                            "drawing-order": "0",
+                                                                            "hint": "",
+                                                                            "display-id": "0"
+                                                                          },
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1",
+                                                                      "name": "android.view.View",
+                                                                      "bounds": [
+                                                                        0.0,
+                                                                        0.0983,
+                                                                        1.0,
+                                                                        0.3137
+                                                                      ],
+                                                                      "rect": {
+                                                                        "x": 0,
+                                                                        "y": 230,
+                                                                        "width": 1080,
+                                                                        "height": 504
+                                                                      },
+                                                                      "properties": {
+                                                                        "index": "1",
+                                                                        "text": "",
+                                                                        "resource-id": "",
+                                                                        "class": "android.view.View",
+                                                                        "package": "com.instagram.android",
+                                                                        "content-desc": "",
+                                                                        "checkable": "false",
+                                                                        "checked": "false",
+                                                                        "clickable": "false",
+                                                                        "enabled": "true",
+                                                                        "focusable": "false",
+                                                                        "focused": "false",
+                                                                        "scrollable": "false",
+                                                                        "long-clickable": "false",
+                                                                        "password": "false",
+                                                                        "selected": "false",
+                                                                        "visible-to-user": "true",
+                                                                        "bounds": "[0,230][1080,734]",
+                                                                        "drawing-order": "1",
+                                                                        "hint": "",
+                                                                        "display-id": "0"
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0",
+                                                                          "name": "android.view.View",
+                                                                          "bounds": [
+                                                                            0.0,
+                                                                            0.0983,
+                                                                            1.0,
+                                                                            0.3137
+                                                                          ],
+                                                                          "rect": {
+                                                                            "x": 0,
+                                                                            "y": 230,
+                                                                            "width": 1080,
+                                                                            "height": 504
+                                                                          },
+                                                                          "properties": {
+                                                                            "index": "0",
+                                                                            "text": "",
+                                                                            "resource-id": "",
+                                                                            "class": "android.view.View",
+                                                                            "package": "com.instagram.android",
+                                                                            "content-desc": "",
+                                                                            "checkable": "false",
+                                                                            "checked": "false",
+                                                                            "clickable": "false",
+                                                                            "enabled": "true",
+                                                                            "focusable": "false",
+                                                                            "focused": "false",
+                                                                            "scrollable": "false",
+                                                                            "long-clickable": "false",
+                                                                            "password": "false",
+                                                                            "selected": "false",
+                                                                            "visible-to-user": "true",
+                                                                            "bounds": "[0,230][1080,734]",
+                                                                            "drawing-order": "0",
+                                                                            "hint": "",
+                                                                            "display-id": "0"
+                                                                          },
+                                                                          "children": [
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-0",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.0389,
+                                                                                0.0983,
+                                                                                0.1944,
+                                                                                0.1521
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 42,
+                                                                                "y": 230,
+                                                                                "width": 168,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "0",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[42,230][210,356]",
+                                                                                "drawing-order": "0",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-1",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.0102,
+                                                                                0.1526,
+                                                                                0.1269,
+                                                                                0.2064
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 11,
+                                                                                "y": 357,
+                                                                                "width": 126,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "1",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[11,357][137,483]",
+                                                                                "drawing-order": "1",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-2",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.1167,
+                                                                                0.1521,
+                                                                                0.4278,
+                                                                                0.206
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 126,
+                                                                                "y": 356,
+                                                                                "width": 336,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "2",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[126,356][462,482]",
+                                                                                "drawing-order": "2",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-3",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.8935,
+                                                                                0.1521,
+                                                                                1.0,
+                                                                                0.206
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 965,
+                                                                                "y": 356,
+                                                                                "width": 115,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "3",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[965,356][1080,482]",
+                                                                                "drawing-order": "3",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-4",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.0102,
+                                                                                0.2064,
+                                                                                0.1269,
+                                                                                0.2603
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 11,
+                                                                                "y": 483,
+                                                                                "width": 126,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "4",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[11,483][137,609]",
+                                                                                "drawing-order": "4",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-5",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.1167,
+                                                                                0.206,
+                                                                                0.4278,
+                                                                                0.2598
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 126,
+                                                                                "y": 482,
+                                                                                "width": 336,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "5",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[126,482][462,608]",
+                                                                                "drawing-order": "5",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-6",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.8935,
+                                                                                0.206,
+                                                                                1.0,
+                                                                                0.2598
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 965,
+                                                                                "y": 482,
+                                                                                "width": 115,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "6",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[965,482][1080,608]",
+                                                                                "drawing-order": "6",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-7",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.0102,
+                                                                                0.2603,
+                                                                                0.1269,
+                                                                                0.3141
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 11,
+                                                                                "y": 609,
+                                                                                "width": 126,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "7",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[11,609][137,735]",
+                                                                                "drawing-order": "7",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-8",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.1167,
+                                                                                0.2598,
+                                                                                0.4278,
+                                                                                0.3137
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 126,
+                                                                                "y": 608,
+                                                                                "width": 336,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "8",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[126,608][462,734]",
+                                                                                "drawing-order": "8",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            },
+                                                                            {
+                                                                              "key": "0-2-0-0-0-0-0-1-0-2-0-1-0-0-0-0-0-1-0-9",
+                                                                              "name": "android.view.View",
+                                                                              "bounds": [
+                                                                                0.8935,
+                                                                                0.2598,
+                                                                                1.0,
+                                                                                0.3137
+                                                                              ],
+                                                                              "rect": {
+                                                                                "x": 965,
+                                                                                "y": 608,
+                                                                                "width": 115,
+                                                                                "height": 126
+                                                                              },
+                                                                              "properties": {
+                                                                                "index": "9",
+                                                                                "text": "",
+                                                                                "resource-id": "",
+                                                                                "class": "android.view.View",
+                                                                                "package": "com.instagram.android",
+                                                                                "content-desc": "",
+                                                                                "checkable": "false",
+                                                                                "checked": "false",
+                                                                                "clickable": "false",
+                                                                                "enabled": "true",
+                                                                                "focusable": "false",
+                                                                                "focused": "false",
+                                                                                "scrollable": "false",
+                                                                                "long-clickable": "false",
+                                                                                "password": "false",
+                                                                                "selected": "false",
+                                                                                "visible-to-user": "true",
+                                                                                "bounds": "[965,608][1080,734]",
+                                                                                "drawing-order": "9",
+                                                                                "hint": "",
+                                                                                "display-id": "0"
+                                                                              },
+                                                                              "children": []
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "key": "0-2-0-0-0-0-0-1-1",
+                                  "name": "android.widget.FrameLayout",
+                                  "bounds": [
+                                    0.0,
+                                    0.0355,
+                                    1.0,
+                                    1.0
+                                  ],
+                                  "rect": {
+                                    "x": 0,
+                                    "y": 83,
+                                    "width": 1080,
+                                    "height": 2257
+                                  },
+                                  "properties": {
+                                    "index": "2",
+                                    "text": "",
+                                    "resource-id": "com.instagram.android:id/bottom_sheet_camera_container",
+                                    "class": "android.widget.FrameLayout",
+                                    "package": "com.instagram.android",
+                                    "content-desc": "",
+                                    "checkable": "false",
+                                    "checked": "false",
+                                    "clickable": "false",
+                                    "enabled": "true",
+                                    "focusable": "false",
+                                    "focused": "false",
+                                    "scrollable": "false",
+                                    "long-clickable": "false",
+                                    "password": "false",
+                                    "selected": "false",
+                                    "visible-to-user": "true",
+                                    "bounds": "[0,83][1080,2340]",
+                                    "drawing-order": "2",
+                                    "hint": "",
+                                    "display-id": "0"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

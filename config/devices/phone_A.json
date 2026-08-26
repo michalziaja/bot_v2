@@ -1,0 +1,44 @@
+{
+  "alias": "phone_A",
+  "adb_id": "R58M74B5FRN",
+  "model": "SM_A505FN",
+  "product": "a50eea",
+  "manufacturer": "Samsung",
+  "android_version": "11",
+  "resolution": [
+    1080,
+    2340
+  ],
+  "dpi": 420,
+  "root_method": "magisk",
+  "clones": [
+    {
+      "slot": 1,
+      "package": "com.instagram.android",
+      "note": "oryginalna instalacja"
+    },
+    {
+      "slot": 2,
+      "package": "com.instagram.androip",
+      "note": "klon App Cloner"
+    },
+    {
+      "slot": 3,
+      "package": "com.instagram.androjb",
+      "note": "klon App Cloner"
+    },
+    {
+      "slot": 4,
+      "package": "com.instagram.androia",
+      "note": "dodany z panelu"
+    }
+  ],
+  "uiautodev": {
+    "base_url": "http://127.0.0.1:20242"
+  },
+  "scrcpy": {
+    "port": 27183,
+    "max_size": 900,
+    "max_fps": 15
+  }
+}

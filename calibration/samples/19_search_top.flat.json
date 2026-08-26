@@ -1,0 +1,1202 @@
+[
+  {
+    "class": null,
+    "resource-id": null,
+    "content-desc": null,
+    "text": null,
+    "bounds": null,
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/phone_status_bar_background",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.RelativeLayout",
+    "resource-id": "com.android.systemui:id/status_bar_contents",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/status_bar_left_side_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/status_bar_left_side",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/left_clock_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[65,1][162,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.android.systemui:id/clock",
+    "content-desc": "01:22",
+    "text": "01:22",
+    "bounds": "[65,1][162,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/notification_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/notification_icon_area_inner",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/notificationIcons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[170,1][475,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji Sklep Google Play: 1 aktualizacja wymaga zaakceptowania",
+    "text": "",
+    "bounds": "[170,1][217,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji AutoInput: AutoInput Keyguard Dismisser",
+    "text": "",
+    "bounds": "[217,1][264,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji Tasker: Brak aktywnych profili (0 z 4 włączonych)",
+    "text": "",
+    "bounds": "[264,1][311,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+    "text": "",
+    "bounds": "[311,1][358,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Powiadomienie z aplikacji YouTube: Kolumbijka, która poznaje polskie wioski ....",
+    "text": "",
+    "bounds": "[329,1][376,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/divided_status_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[435,1][443,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/system_icon_area",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/system_icons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/statusIcons",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[713,1][886,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Tryb oszczędzania energii włączony",
+    "text": "",
+    "bounds": "[713,24][753,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "Dzwonek z wibracjami.",
+    "text": "",
+    "bounds": "[756,24][797,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/wifi_combo",
+    "content-desc": "Wi-Fi: pełna moc sygnału.",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/wifi_group",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/wifi_iconset",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/wifi_signal",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/wifi_activity",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[800,24][847,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/mobile_combo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/mobile_group",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/signal_combo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/mobile_signal",
+    "content-desc": "Telefon: pełna moc sygnału.",
+    "text": "",
+    "bounds": "[847,24][886,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.android.systemui:id/battery",
+    "content-desc": "Ładuję baterię, 100 procent.",
+    "text": "",
+    "bounds": "[894,1][1015,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.android.systemui:id/battery_percentage_view",
+    "content-desc": "",
+    "text": "100%",
+    "bounds": "[894,1][989,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[994,24][1015,61]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.android.systemui:id/rounded_corners_top",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[443,0][637,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/left",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][151,151]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.android.systemui:id/display_cutout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[443,0][637,83]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.android.systemui:id/right",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[929,0][1080,151]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/action_bar_root",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "android:id/content",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/overlay_layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/swipe_navigation_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/layout_container_center_right_coordinator_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,0][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_right",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/activity_and_camera_shared_views_main_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/layout_container_main_panel",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_main_wrapper",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_main",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.viewpager.widget.ViewPager",
+    "resource-id": "com.instagram.android:id/swipeable_tab_view_pager",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "resource-id": "com.instagram.android:id/swipeable_nav_view_pager_inner_recycler_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container_swipeable",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_recyclerview_parent_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/refreshable_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "androidx.recyclerview.widget.RecyclerView",
+    "resource-id": "com.instagram.android:id/recycler_view",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: Viola Solecka, wiersz: 1, kolumna: 1",
+    "text": "",
+    "bounds": "[0,231][356,707]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,231][356,706]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,621][356,707]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[21,648][53,680]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "2 mln",
+    "bounds": "[64,642][151,686]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: Michał Grzechowiak, wiersz: 1, kolumna: 2",
+    "text": "",
+    "bounds": "[362,231][718,707]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,231][718,706]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,621][718,707]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[383,648][415,680]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "1,6 mln",
+    "bounds": "[426,642][536,686]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,231][1080,707]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,231][1080,707]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,621][1080,707]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[745,648][777,680]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "627 tys.",
+    "bounds": "[788,642][916,686]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,713][356,1189]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_preview",
+    "content-desc": "Autor rolki: VDH automotive, wiersz: 2, kolumna: 1",
+    "text": "",
+    "bounds": "[0,713][356,1188]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1103][356,1189]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[21,1130][53,1162]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "3 mln",
+    "bounds": "[64,1124][151,1168]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: DIY & Crafts, wiersz: 2, kolumna: 2",
+    "text": "",
+    "bounds": "[362,713][718,1189]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,713][718,1188]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,1103][718,1189]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[383,1130][415,1162]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "12 mln",
+    "bounds": "[426,1124][527,1168]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: Daria Pelcer | Dom na Kaszubach, wiersz: 2, kolumna: 3",
+    "text": "",
+    "bounds": "[724,713][1080,1189]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,713][1080,1188]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,1103][1080,1189]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[745,1130][777,1162]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "135 tys.",
+    "bounds": "[788,1124][913,1168]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: AccuWeather, wiersz: 3, kolumna: 1",
+    "text": "",
+    "bounds": "[0,1195][356,1671]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1195][356,1670]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1585][356,1671]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[21,1612][53,1644]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "4,2 mln",
+    "bounds": "[64,1606][181,1650]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: Nasza idealna stodoła, wiersz: 3, kolumna: 2",
+    "text": "",
+    "bounds": "[362,1195][718,1671]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,1195][718,1670]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,1585][718,1671]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[383,1612][415,1644]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "211 tys.",
+    "bounds": "[426,1606][544,1650]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,1195][1080,1671]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_preview",
+    "content-desc": "Autor rolki: GoodHouse, wiersz: 3, kolumna: 3",
+    "text": "",
+    "bounds": "[724,1195][1080,1670]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,1585][1080,1671]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[745,1612][777,1644]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "286 tys.",
+    "bounds": "[788,1606][920,1650]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,1677][356,2153]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_preview",
+    "content-desc": "Autor rolki: Üɱɾαɳ Pʅαƙ DEMİR ....‍♀️, wiersz: 4, kolumna: 1",
+    "text": "",
+    "bounds": "[0,1677][356,2152]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2067][356,2153]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[21,2094][53,2126]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "343 tys.",
+    "bounds": "[64,2088][196,2132]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: Adriana Przywara ▪︎ Przedstawiciel Hizero Śląsk, wiersz: 4, kolumna: 2",
+    "text": "",
+    "bounds": "[362,1677][718,2153]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,1677][718,2152]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,2067][718,2153]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[383,2094][415,2126]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "4,3 mln",
+    "bounds": "[426,2088][543,2132]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: تنسيق حدائق منطقه الرياض, wiersz: 4, kolumna: 3",
+    "text": "",
+    "bounds": "[724,1677][1080,2153]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,1677][1080,2152]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/play_count_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,2067][1080,2153]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/play_count_logo",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[745,2094][777,2126]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "com.instagram.android:id/preview_clip_play_count",
+    "content-desc": "",
+    "text": "417 tys.",
+    "bounds": "[788,2088][911,2132]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: Henryka Tuszyńska • Autorka książki kulinarnej • Pyszna kuchnia, wiersz: 5, kolumna: 1",
+    "text": "",
+    "bounds": "[0,2159][356,2214]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2159][356,2214]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/grid_card_layout_container",
+    "content-desc": "Autor rolki: Autonomia, wiersz: 5, kolumna: 2",
+    "text": "",
+    "bounds": "[362,2159][718,2214]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_button",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[362,2159][718,2214]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/layout_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,2159][1080,2214]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/image_preview",
+    "content-desc": "Autor rolki: ⠀           Mohamed ∞ Veronika, wiersz: 5, kolumna: 3",
+    "text": "",
+    "bounds": "[724,2159][1080,2214]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/explore_action_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,230]",
+    "clickable": false
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/explore_action_bar_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[32,83][1048,180]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/action_bar_search_hints_text_layout",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[32,83][943,180]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.EditText",
+    "resource-id": "com.instagram.android:id/action_bar_search_edit_text",
+    "content-desc": "",
+    "text": "Szukaj",
+    "bounds": "[32,83][943,180]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.TextView",
+    "resource-id": "",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[32,83][943,180]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/explore_action_bar_right_button_stub",
+    "content-desc": "Więcej",
+    "text": "",
+    "bounds": "[985,100][1048,163]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.View",
+    "resource-id": "com.instagram.android:id/tab_bar_shadow",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2213][1080,2214]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.LinearLayout",
+    "resource-id": "com.instagram.android:id/tab_bar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,2214][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/feed_tab",
+    "content-desc": "Strona główna",
+    "text": "",
+    "bounds": "[0,2214][216,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[76,2245][139,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/clips_tab",
+    "content-desc": "Rolki",
+    "text": "",
+    "bounds": "[216,2214][432,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[292,2245][355,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/direct_tab",
+    "content-desc": "Wiadomość",
+    "text": "",
+    "bounds": "[432,2214][648,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[508,2245][571,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/search_tab",
+    "content-desc": "Szukaj i poznaj",
+    "text": "",
+    "bounds": "[648,2214][864,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_icon",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[724,2245][787,2308]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/profile_tab",
+    "content-desc": "Profil",
+    "text": "",
+    "bounds": "[864,2214][1080,2340]",
+    "clickable": true
+  },
+  {
+    "class": "android.view.ViewGroup",
+    "resource-id": "com.instagram.android:id/wrapper",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[864,2214][1080,2340]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[933,2238][1012,2317]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.ImageView",
+    "resource-id": "com.instagram.android:id/tab_avatar",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[933,2238][1012,2317]",
+    "clickable": false
+  },
+  {
+    "class": "android.widget.FrameLayout",
+    "resource-id": "com.instagram.android:id/bottom_sheet_camera_container",
+    "content-desc": "",
+    "text": "",
+    "bounds": "[0,83][1080,2340]",
+    "clickable": false
+  }
+]

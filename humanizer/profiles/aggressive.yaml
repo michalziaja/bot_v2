@@ -1,0 +1,27 @@
+# Profil agresywny — krótsze pauzy (test / szybkie grzanie).
+# Wartości w sekundach. Skala ~0.35–0.5× względem default.
+per_action:
+  tap:              { min: 0.05, max: 0.15 }
+  swipe:            { min: 0.1,  max: 0.3 }
+  key:              { min: 0.05, max: 0.1 }
+  read_caption:     { min: 0.8,  max: 2 }
+  read_comments:    { min: 2,    max: 5 }
+  between_steps:    { min: 0.2,  max: 0.5 }
+  between_profiles: { min: 10,   max: 30 }
+  between_tasks:    { min: 20,   max: 60 }
+  before_next_reel: { min: 0.1,  max: 0.25 }
+  long_feed:        { min: 5,    max: 15 }
+  between_sessions: { min: 600,  max: 1200 }
+  after_launch:     { min: 1.0,  max: 2.0 }
+  after_refresh:    { min: 0.5,  max: 1.2 }
+  after_wake:       { min: 0.2,  max: 0.5 }
+  after_unlock:     { min: 0.3,  max: 0.6 }
+  before_sleep:     { min: 0.2,  max: 0.4 }
+
+long_pause:
+  every_n_actions:  { n: 80, min: 20, max: 60 }
+
+schedule:
+  sessions_per_day: { min: 4, max: 7 }
+  active_hours:     [8, 23]
+  sleep_hours:      [23, 8]

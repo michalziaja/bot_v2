@@ -1,0 +1,960 @@
+{
+  "version": 3,
+  "date": "2026-08-09",
+  "device": "phone_A",
+  "cycle_index": 1,
+  "active_hours": [
+    0,
+    24
+  ],
+  "materialized_at": "2026-08-09T21:38:52",
+  "blocks": [
+    {
+      "id": "b1396ec",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "00:11",
+      "duration_s": 4455,
+      "gap_s": 1191,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b641dd6",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "01:21",
+      "duration_s": 4455,
+      "gap_s": 341,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b181a5b",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "01:53",
+      "duration_s": 4455,
+      "gap_s": 1009,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "be93626",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "05:14",
+      "duration_s": 4455,
+      "gap_s": 742,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b82eed7",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "05:31",
+      "duration_s": 4455,
+      "gap_s": 558,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bfcfbae",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "05:39",
+      "duration_s": 4455,
+      "gap_s": 1007,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b31ee0b",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "06:58",
+      "duration_s": 4455,
+      "gap_s": 1050,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bc76cb4",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "07:43",
+      "duration_s": 4455,
+      "gap_s": 690,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "be038cb",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "08:30",
+      "duration_s": 4455,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bd3a214",
+      "account": "a50_clone2",
+      "scenario": "default",
+      "start": "09:10",
+      "duration_s": 1782,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1500,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 162
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bc3ca2f",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "09:50",
+      "duration_s": 4455,
+      "gap_s": 588,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b7450dd",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "09:56",
+      "duration_s": 3652,
+      "gap_s": 560,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bd525ac",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "10:01",
+      "duration_s": 3652,
+      "gap_s": 352,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b478992",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "10:04",
+      "duration_s": 4455,
+      "gap_s": 1040,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bae2fa0",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "10:18",
+      "duration_s": 4455,
+      "gap_s": 735,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bc51f66",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "10:21",
+      "duration_s": 4455,
+      "gap_s": 741,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "ba32262",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "11:14",
+      "duration_s": 3652,
+      "gap_s": 1019,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b821bf0",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "11:22",
+      "duration_s": 3652,
+      "gap_s": 1169,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b025684",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "11:51",
+      "duration_s": 4455,
+      "gap_s": 695,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bba52bd",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "12:16",
+      "duration_s": 4455,
+      "gap_s": 728,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b7258dd",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "12:24",
+      "duration_s": 4455,
+      "gap_s": 860,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "be43856",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "12:38",
+      "duration_s": 3652,
+      "gap_s": 553,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b18822a",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "12:48",
+      "duration_s": 3652,
+      "gap_s": 901,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b2efce8",
+      "account": "a50_clone2",
+      "scenario": "default",
+      "start": "14:10",
+      "duration_s": 1782,
+      "gap_s": 551,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1500,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 162
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "td83dcd",
+            "plugin": "reels_niche",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b27b6b9",
+      "account": "a50_clone2",
+      "scenario": "default",
+      "start": "14:58",
+      "duration_s": 4158,
+      "gap_s": 1026,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 480,
+          "overhead_s": 120,
+          "buffer_s": 378
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_niche: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bafd98e",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "16:27",
+      "duration_s": 4455,
+      "gap_s": 592,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b13e968",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "17:01",
+      "duration_s": 3652,
+      "gap_s": 749,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b981751",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "17:10",
+      "duration_s": 3652,
+      "gap_s": 465,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b31b383",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "17:32",
+      "duration_s": 4455,
+      "gap_s": 600,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bd52c1c",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "18:34",
+      "duration_s": 4455,
+      "gap_s": 379,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b322c39",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "18:34",
+      "duration_s": 3652,
+      "gap_s": 392,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bb025a0",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "18:48",
+      "duration_s": 3652,
+      "gap_s": 674,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3180,
+          "gaps_s": 20,
+          "overhead_s": 120,
+          "buffer_s": 332
+        },
+        "task_count": 3,
+        "warnings": [
+          "reels_warmup: plugin wyłączony dla konta — pominięty w wycenie"
+        ]
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b554ad0",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "18:50",
+      "duration_s": 4455,
+      "gap_s": 1155,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b18a7ba",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "20:10",
+      "duration_s": 4455,
+      "gap_s": 421,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b7e8b90",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "20:55",
+      "duration_s": 4455,
+      "gap_s": 906,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "ta38acf",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tfd10d9",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tb08ba7",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t866023",
+            "plugin": "profile_interact",
+            "note": "live-debug profile_interact",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-09T20:55:27",
+      "ended_at": "2026-08-09T22:10:42"
+    },
+    {
+      "id": "b51b88f",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "21:39",
+      "duration_s": 4455,
+      "gap_s": 654,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3900,
+          "gaps_s": 30,
+          "overhead_s": 120,
+          "buffer_s": 405
+        },
+        "task_count": 4,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "ta38acf",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tfd10d9",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tb08ba7",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t866023",
+            "plugin": "profile_interact",
+            "note": "live-debug profile_interact",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-09T21:39:41",
+      "ended_at": "2026-08-09T22:54:42"
+    }
+  ],
+  "dropped": []
+}

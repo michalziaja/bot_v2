@@ -1,0 +1,33 @@
+{
+  "queue": [
+    {
+      "id": "t62a9c7",
+      "plugin": "reels_warmup",
+      "note": "",
+      "budget": {},
+      "overrides": {},
+      "enabled": true
+    },
+    {
+      "id": "t7bbfa4",
+      "plugin": "reels_niche",
+      "note": "",
+      "budget": {},
+      "overrides": {},
+      "enabled": true
+    },
+    {
+      "id": "t8e9b21",
+      "plugin": "feed_browser",
+      "note": "",
+      "budget": {},
+      "overrides": {},
+      "enabled": true
+    }
+  ],
+  "between_tasks_s": {
+    "min": 4,
+    "max": 10
+  },
+  "on_task_error": "continue"
+}

@@ -1,0 +1,368 @@
+[
+  {
+    "t": "01:49:42",
+    "kind": "identify",
+    "step": 0,
+    "target": "home_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:49:42",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:49:44",
+    "kind": "identify",
+    "step": 1,
+    "target": "home_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:49:44",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:49:47",
+    "kind": "identify",
+    "step": 2,
+    "target": "home_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:49:47",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:49:49",
+    "kind": "identify",
+    "step": 3,
+    "target": "home_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:49:49",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:49:52",
+    "kind": "identify",
+    "step": 4,
+    "target": "home_feed",
+    "top": "direct_inbox",
+    "hits": 5,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:49:52",
+    "kind": "recover.L5",
+    "action": "tap_nav",
+    "target": "home_feed",
+    "xy": [
+      108,
+      2277
+    ]
+  },
+  {
+    "t": "01:49:54",
+    "kind": "identify",
+    "step": 5,
+    "target": "home_feed",
+    "top": "home_feed",
+    "hits": 6,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:49:54",
+    "kind": "prep_ok"
+  },
+  {
+    "t": "01:49:54",
+    "kind": "step.start",
+    "name": "open_profile"
+  },
+  {
+    "t": "01:49:57",
+    "kind": "identify",
+    "step": 0,
+    "target": "profile_self",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:49:57",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:49:59",
+    "kind": "identify",
+    "step": 1,
+    "target": "profile_self",
+    "top": "home_feed",
+    "hits": 6,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:49:59",
+    "kind": "recover.L5",
+    "action": "tap_nav",
+    "target": "profile_self",
+    "xy": [
+      972,
+      2277
+    ]
+  },
+  {
+    "t": "01:50:02",
+    "kind": "identify",
+    "step": 2,
+    "target": "profile_self",
+    "top": "profile_self",
+    "hits": 5,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:50:02",
+    "kind": "step.start",
+    "name": "refresh_profile"
+  },
+  {
+    "t": "01:50:06",
+    "kind": "identify",
+    "step": 0,
+    "target": "profile_self",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:50:06",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:50:09",
+    "kind": "identify",
+    "step": 1,
+    "target": "profile_self",
+    "top": null,
+    "hits": 0,
+    "overlay": "foreign_app:com.android.settings",
+    "pkg": "com.android.settings"
+  },
+  {
+    "t": "01:50:09",
+    "kind": "recover.L3",
+    "action": "monkey_relaunch"
+  },
+  {
+    "t": "01:50:14",
+    "kind": "identify",
+    "step": 2,
+    "target": "profile_self",
+    "top": "profile_self",
+    "hits": 5,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:50:14",
+    "kind": "step.start",
+    "name": "read_stats"
+  },
+  {
+    "t": "01:50:14",
+    "kind": "identify",
+    "step": 0,
+    "target": "profile_self",
+    "top": "profile_self",
+    "hits": 5,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:50:15",
+    "kind": "stats",
+    "posts": 1,
+    "followers": 3,
+    "following": 41
+  },
+  {
+    "t": "01:50:15",
+    "kind": "step.start",
+    "name": "return_home"
+  },
+  {
+    "t": "01:50:17",
+    "kind": "identify",
+    "step": 0,
+    "target": "home_feed",
+    "top": "home_feed",
+    "hits": 6,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:50:17",
+    "kind": "step.start",
+    "name": "open_reels"
+  },
+  {
+    "t": "01:50:20",
+    "kind": "identify",
+    "step": 0,
+    "target": "reels_feed",
+    "top": "reels_feed",
+    "hits": 5,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:50:20",
+    "kind": "step.start",
+    "name": "swipe_next_reel"
+  },
+  {
+    "t": "01:50:20",
+    "kind": "identify",
+    "step": 0,
+    "target": "reels_feed",
+    "top": "reels_feed",
+    "hits": 5,
+    "overlay": null,
+    "pkg": "com.instagram.android"
+  },
+  {
+    "t": "01:50:21",
+    "kind": "reel_before",
+    "marker": "dom_hiacynt1"
+  },
+  {
+    "t": "01:50:25",
+    "kind": "identify",
+    "step": 0,
+    "target": "reels_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:50:25",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:50:27",
+    "kind": "identify",
+    "step": 1,
+    "target": "reels_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:50:27",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:50:30",
+    "kind": "identify",
+    "step": 2,
+    "target": "reels_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:50:30",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:50:32",
+    "kind": "identify",
+    "step": 3,
+    "target": "reels_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:50:32",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:50:35",
+    "kind": "identify",
+    "step": 4,
+    "target": "reels_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:50:35",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:50:37",
+    "kind": "identify",
+    "step": 5,
+    "target": "reels_feed",
+    "top": null,
+    "hits": 0,
+    "overlay": null,
+    "pkg": "com.android.systemui"
+  },
+  {
+    "t": "01:50:37",
+    "kind": "recover.L4",
+    "action": "back_probe"
+  },
+  {
+    "t": "01:50:39",
+    "kind": "recover.max_steps",
+    "target": "reels_feed"
+  },
+  {
+    "t": "01:50:39",
+    "kind": "FAIL",
+    "step": "swipe_next_reel"
+  },
+  {
+    "t": "01:50:39",
+    "kind": "DONE",
+    "ok": false
+  }
+]

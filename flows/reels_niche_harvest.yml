@@ -1,0 +1,64 @@
+name: reels_niche_harvest
+description: >
+  Pełny scenariusz zbierania targetów z rolek.
+  Bramka bezwzględna (gate) przeniesiona do reels.watch — jeśli reklama
+  lub liczniki nie spełniają progu, watch od razu przerywa, kasuje klatki
+  i przez skip_until: reels.swipe_next pomijamy analyze/like/harvest.
+
+  reels.watch equal: capture klatek startuje RÓWNOLEGLE z meta_start,
+  cancel + delete jeśli walidacja negatywna.
+
+steps:
+  - system.wake
+  - system.unlock
+  - system.ensure_ig_running
+  - system.ensure_screen: { target: home_feed }
+  - reels.open
+
+  # 5 rolek
+  - reels.watch:
+      frames: 6
+      gate: { min_likes: 100, min_comments: 35, on_unknown: skip }
+  - reels.analyze_frames_ai
+  - reels.like:
+      match: { min_niche_score: 55, allow_verdict: [match, partial] }
+      chance: { p: 0.6 }
+      on_error: continue
+  - reels.harvest_likers:
+      limit: 15
+      match: { min_niche_score: 70 }
+      on_error: continue
+  - reels.swipe_next
+
+  - reels.watch:
+      frames: 6
+      gate: { min_likes: 100, min_comments: 35, on_unknown: skip }
+  - reels.analyze_frames_ai
+  - reels.like:
+      match: { min_niche_score: 55 }
+      chance: { formula: "score/100" }
+      on_error: continue
+  - reels.swipe_next
+
+  - reels.watch:
+      frames: 6
+      gate: { min_likes: 100, min_comments: 35, on_unknown: skip }
+  - reels.analyze_frames_ai
+  - reels.like:
+      match: { min_niche_score: 55 }
+      chance: { p: 0.5 }
+      on_error: continue
+  - reels.swipe_next
+
+  - reels.watch:
+      frames: 6
+      gate: { min_likes: 100, min_comments: 35, on_unknown: skip }
+  - reels.swipe_next
+
+  - reels.watch:
+      frames: 6
+      gate: { min_likes: 100, min_comments: 35, on_unknown: skip }
+
+  - system.ensure_screen: { target: home_feed }
+  - system.close_ig
+  - system.sleep_screen

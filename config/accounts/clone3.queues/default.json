@@ -1,0 +1,23 @@
+{
+  "queue": [
+    {
+      "id": "t322866",
+      "plugin": "feed_browser",
+      "note": "",
+      "budget": {
+        "max_items": {
+          "min": 4,
+          "max": 8
+        },
+        "max_duration_min": 5
+      },
+      "overrides": {},
+      "enabled": true
+    }
+  ],
+  "between_tasks_s": {
+    "min": 60,
+    "max": 240
+  },
+  "on_task_error": "continue"
+}

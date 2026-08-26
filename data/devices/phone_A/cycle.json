@@ -1,0 +1,148 @@
+{
+  "version": 3,
+  "device": "phone_A",
+  "cycle_days": 1,
+  "active_hours": [
+    1,
+    24
+  ],
+  "generated_at": "2026-08-12T01:52:23",
+  "days": [
+    {
+      "index": 0,
+      "blocks": [
+        {
+          "id": "bd3187b",
+          "account": "clone3",
+          "scenario": "default",
+          "start": "02:00",
+          "duration_s": 660,
+          "gap_s": 1063,
+          "est": {
+            "breakdown": {
+              "tasks_s": 480,
+              "gaps_s": 0,
+              "overhead_s": 120,
+              "buffer_s": 60
+            },
+            "task_count": 1,
+            "warnings": []
+          },
+          "queue_override": {
+            "queue": [
+              {
+                "id": "t322866",
+                "plugin": "feed_browser",
+                "note": "",
+                "budget": {
+                  "max_items": {
+                    "min": 4,
+                    "max": 8
+                  }
+                },
+                "overrides": {},
+                "enabled": true
+              }
+            ],
+            "between_tasks_s": {
+              "min": 60,
+              "max": 240
+            },
+            "on_task_error": "continue"
+          },
+          "locked": true
+        },
+        {
+          "id": "bd883fe",
+          "account": "a50_clone2",
+          "scenario": "default",
+          "start": "02:29",
+          "duration_s": 660,
+          "gap_s": 960,
+          "est": {
+            "breakdown": {
+              "tasks_s": 480,
+              "gaps_s": 0,
+              "overhead_s": 120,
+              "buffer_s": 60
+            },
+            "task_count": 1,
+            "warnings": []
+          },
+          "queue_override": {
+            "queue": [
+              {
+                "id": "tdfbca0",
+                "plugin": "feed_browser",
+                "note": "",
+                "budget": {
+                  "max_items": {
+                    "min": 4,
+                    "max": 8
+                  }
+                },
+                "overrides": {},
+                "enabled": true
+              }
+            ],
+            "between_tasks_s": {
+              "min": 60,
+              "max": 240
+            },
+            "on_task_error": "continue"
+          },
+          "locked": true
+        },
+        {
+          "id": "bf31a99",
+          "account": "technature699",
+          "scenario": "default",
+          "start": "02:56",
+          "duration_s": 660,
+          "gap_s": 426,
+          "est": {
+            "breakdown": {
+              "tasks_s": 480,
+              "gaps_s": 0,
+              "overhead_s": 120,
+              "buffer_s": 60
+            },
+            "task_count": 1,
+            "warnings": []
+          },
+          "queue_override": {
+            "queue": [
+              {
+                "id": "t326e45",
+                "plugin": "feed_browser",
+                "note": "",
+                "budget": {
+                  "max_items": {
+                    "min": 4,
+                    "max": 8
+                  }
+                },
+                "overrides": {},
+                "enabled": true
+              }
+            ],
+            "between_tasks_s": {
+              "min": 4,
+              "max": 10
+            },
+            "on_task_error": "continue"
+          },
+          "locked": true
+        }
+      ],
+      "dropped": [],
+      "collisions": [],
+      "load_pct": 5,
+      "label": "Codziennie"
+    }
+  ],
+  "window": {
+    "from_min": 60,
+    "to_min": 1440
+  }
+}

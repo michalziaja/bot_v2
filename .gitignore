@@ -1,0 +1,34 @@
+# Sekrety — klucz API + dane logowania IG. NIGDY do repo.
+config/secrets.json
+config/credentials.json
+
+# Backupy configów tworzone przez panel przy zapisie
+config/accounts/*.json.bak
+
+# Dane runtime (eventy, klatki, scrapy, logi sesji)
+data/accounts/
+# Locki adb serial (jeden proces na telefon)
+data/locks/
+
+
+# Secrets
+.env
+config/accounts.json
+config/telegram.yml
+config/scrcpy-server.jar
+config/ui_map_*.json
+
+# Runtime data
+data/*.db
+data/*.db-wal
+data/*.db-shm
+
+# Debug / logs
+debug/
+logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/

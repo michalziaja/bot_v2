@@ -1,0 +1,51 @@
+{
+  "device": {
+    "serial": "R58M74B5FRN",
+    "model": "SM_A505FN",
+    "resolution": [
+      1080,
+      2340
+    ]
+  },
+  "app": {
+    "package": "com.instagram.android",
+    "activity": "com.instagram.mainactivity.InstagramMainActivity"
+  },
+  "captured_at": "2026-07-31T01:17:14",
+  "anchors": {
+    "bottom_nav": []
+  },
+  "screens": {
+    "home": {
+      "activity_suffix": "MainActivity",
+      "fingerprint_hint": []
+    },
+    "reels": {
+      "fingerprint_hint": [
+        "com.instagram.android:id/clips_author_info_component",
+        "com.instagram.android:id/clips_author_profile_pic",
+        "com.instagram.android:id/clips_author_username",
+        "com.instagram.android:id/inline_follow_button",
+        "com.instagram.android:id/save_count",
+        "com.instagram.android:id/clips_ufi_more_button_component",
+        "com.instagram.android:id/media_album_art_button"
+      ]
+    },
+    "search": {
+      "fingerprint_hint": [
+        "com.instagram.android:id/layout_container",
+        "com.instagram.android:id/image_preview",
+        "com.instagram.android:id/grid_card_layout_container",
+        "com.instagram.android:id/image_button",
+        "com.instagram.android:id/grid_card_layout_container",
+        "com.instagram.android:id/image_button",
+        "com.instagram.android:id/grid_card_layout_container",
+        "com.instagram.android:id/image_button",
+        "com.instagram.android:id/grid_card_layout_container",
+        "com.instagram.android:id/image_button",
+        "com.instagram.android:id/layout_container",
+        "com.instagram.android:id/image_preview"
+      ]
+    }
+  }
+}

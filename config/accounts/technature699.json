@@ -1,0 +1,584 @@
+{
+  "meta": {
+    "account_id": "technature699",
+    "alias": "technature699",
+    "ig_username": "technature699",
+    "ig_password_encrypted": "TODO",
+    "ig_version_expected": null,
+    "created_at": "2026-07-31",
+    "status": "active"
+  },
+  "device": {
+    "device_alias": "phone_A",
+    "app_clone_id": 1,
+    "app_clone_package": "com.instagram.android",
+    "root_profile": null,
+    "spoofed_mac": null,
+    "spoofed_imei": null,
+    "spoofed_android_id": null,
+    "spoofed_gsf": null,
+    "lockscreen_pin": null
+  },
+  "network": {
+    "proxy_url": null,
+    "proxy_credentials": null,
+    "expected_ip_country": null,
+    "ip_rotation_command": null,
+    "min_ip_delta": null
+  },
+  "humanizer": {
+    "profile_name": "default",
+    "speed": 1,
+    "overrides": {
+      "per_action": {
+        "between_profiles": {
+          "min": 3,
+          "max": 6
+        }
+      }
+    }
+  },
+  "limits": {
+    "daily_likes": 50,
+    "daily_follows": 15,
+    "daily_comments": 5,
+    "daily_dms": 0,
+    "per_hour_caps": {
+      "likes": 10,
+      "follows": 4,
+      "comments": 2
+    },
+    "cooldown_after_warning_hours": 24
+  },
+  "flows": [
+    {
+      "flow_id": "smoke_stats",
+      "priority": 1,
+      "window": [
+        9,
+        22
+      ]
+    }
+  ],
+  "toggles": {
+    "steps": {
+      "stats_snapshot": {
+        "enabled": true,
+        "on_session_start": true,
+        "on_session_end": false
+      },
+      "wake": {
+        "enabled": true
+      },
+      "unlock": {
+        "enabled": true
+      },
+      "close_ig": {
+        "enabled": true
+      },
+      "sleep_screen": {
+        "enabled": true
+      }
+    },
+    "plugins": {
+      "reels_random_like": {
+        "enabled": true
+      },
+      "reels_niche_harvest": {
+        "enabled": true
+      },
+      "mass_stories": {
+        "enabled": false
+      },
+      "profile_scraper": {
+        "enabled": false
+      },
+      "interact_from_search": {
+        "enabled": false
+      }
+    }
+  },
+  "niche": {
+    "description": "technologia i przyroda — sprzęt outdoor, gadżety, natura",
+    "keywords": [
+      "technologia",
+      "technologiajutra",
+      "tech",
+      "outdoor",
+      "gear",
+      "gadget",
+      "nature"
+    ],
+    "hashtags": [
+      "#technologia",
+      "#gadzety",
+      "#technologiajutra",
+      "#techgear",
+      "#outdoortech"
+    ],
+    "exclusions": [
+      "sport walki",
+      "polityka",
+      "religia"
+    ],
+    "audience": "",
+    "accepted": true,
+    "keywords_manual": [
+      "technologia",
+      "technologiajutra"
+    ],
+    "keywords_discovered": [
+      "tech",
+      "outdoor",
+      "gear",
+      "gadget",
+      "nature"
+    ],
+    "hashtags_manual": [
+      "#technologia",
+      "#gadzety",
+      "#technologiajutra"
+    ],
+    "hashtags_discovered": [
+      "#techgear",
+      "#outdoortech"
+    ],
+    "tag_variants": {
+      "street style": [
+        "#streetstyle",
+        "#streetstylelook",
+        "#streetstyles"
+      ],
+      "natural makeup": [
+        "#naturalmakeup",
+        "#naturalmakeuplook",
+        "#naturalmakeuptutorial"
+      ],
+      "#technologia": [
+        "#technologiaprzyszłości",
+        "#technologiabezprądu",
+        "#technologiażywności"
+      ],
+      "#instagood": [
+        "#ınstagood",
+        "#ɪɴsᴛᴀɢᴏᴏᴅ",
+        "#instagood❤️"
+      ],
+      "#style": [
+        "#styleblogger",
+        "#styleinspo",
+        "#styleinspiration"
+      ],
+      "#naturalbeauty": [
+        "#naturalbeautycare",
+        "#naturalbeautyshoutouts",
+        "#naturalbeautyproduct"
+      ]
+    }
+  },
+  "ai": {
+    "model_per_mode": {
+      "reel_niche": "haiku",
+      "profile_grid": "haiku",
+      "comment_gen": "sonnet",
+      "recovery_identify": "haiku",
+      "niche_discover_posts": "haiku",
+      "niche_discover_reels": "haiku",
+      "niche_discover_account": "haiku",
+      "niche_discover_merge": "haiku"
+    },
+    "thresholds": {
+      "follow": 50,
+      "like_only": 35
+    },
+    "max_cost_per_session_usd": 0.5
+  },
+  "recovery": {
+    "alert_channel": {
+      "kind": "telegram",
+      "token": null,
+      "chat_id": null
+    },
+    "stop_on_verify": true,
+    "screenshot_on_error": true,
+    "popups": {
+      "save_login_prompt": {
+        "auto_dismiss": "not_now"
+      },
+      "system_perm_dialog": {
+        "auto_dismiss": "allow"
+      },
+      "new_feature_hint": {
+        "auto_dismiss": "close"
+      },
+      "suspicious_login": {
+        "action": "abort_session_alert"
+      },
+      "challenge_two_factor": {
+        "action": "abort_session_alert"
+      },
+      "rate_limit": {
+        "action": "abort_cooldown_24h"
+      }
+    }
+  },
+  "plugins": {
+    "reels_niche": {
+      "enabled": true,
+      "watch_reel": {
+        "min": 4,
+        "max": 8
+      },
+      "like_reel": {
+        "chance": {
+          "mode": "p",
+          "value": 0.6
+        }
+      },
+      "comments": {
+        "like_comments": {
+          "enabled": true
+        },
+        "hot_interact": {
+          "enabled": true
+        }
+      },
+      "likers": {
+        "hot_interact": {
+          "enabled": true,
+          "count": {
+            "min": 2
+          },
+          "require_ring": true
+        }
+      },
+      "budget": {
+        "max_items": {
+          "min": 5,
+          "max": 8
+        }
+      },
+      "gate": {
+        "max_likes": 10000
+      },
+      "ai": {
+        "enabled": false,
+        "mode": "exclude_only",
+        "use_frames": false,
+        "read_caption": false
+      }
+    },
+    "content_search": {
+      "enabled": true,
+      "phrases": {
+        "list": [
+          "#technologia",
+          "#gadzety",
+          "#technologiajutra",
+          "#techgear",
+          "#outdoortech",
+          "#fashion",
+          "#beauty",
+          "#fitness",
+          "#style",
+          "#polishgirl",
+          "#instafashion",
+          "#naturalbeauty",
+          "#fit",
+          "#fitnessmotivation",
+          "#lifestyle",
+          "#fashionblogger",
+          "#poland",
+          "#instabeauty",
+          "#gym",
+          "#fitnessmodel",
+          "#streetstyle",
+          "#love",
+          "#fashionista",
+          "#beautyful",
+          "#motivation",
+          "#fitnessgirl",
+          "#instagood",
+          "#hairstyle",
+          "#photooftheday",
+          "#hudabeauty",
+          "#workout",
+          "#fitnessaddict",
+          "#healthylifestyle",
+          "#fashionstyle",
+          "#polishbeauty",
+          "#technowinki",
+          "#technowosci",
+          "technologia",
+          "technologiajutra",
+          "tech",
+          "outdoor",
+          "gear",
+          "gadget",
+          "nature",
+          "fashion styling",
+          "beauty tips",
+          "fitness training",
+          "street style",
+          "polish girl",
+          "insta fashion",
+          "natural makeup",
+          "gym workout",
+          "fitness motivation",
+          "lifestyle content",
+          "fashion blogger",
+          "polish fashion",
+          "beauty routine",
+          "gym girl",
+          "fitness model",
+          "streetstyle outfits",
+          "daily motivation",
+          "fashionista looks",
+          "hair styling",
+          "huda beauty",
+          "home workout",
+          "fitness addict",
+          "healthy lifestyle",
+          "fashion trends",
+          "polish beauty",
+          "outfit inspiration",
+          "skincare beauty",
+          "gym motivation",
+          "body fitness",
+          "style tips",
+          "gym",
+          "krakow",
+          "selfie"
+        ],
+        "hashtags": [
+          "#technologia",
+          "#gadzety",
+          "#technologiajutra",
+          "#techgear",
+          "#outdoortech",
+          "#fashion",
+          "#beauty",
+          "#fitness",
+          "#style",
+          "#polishgirl",
+          "#instafashion",
+          "#naturalbeauty",
+          "#fit",
+          "#fitnessmotivation",
+          "#lifestyle",
+          "#fashionblogger",
+          "#poland",
+          "#instabeauty",
+          "#gym",
+          "#fitnessmodel",
+          "#streetstyle",
+          "#love",
+          "#fashionista",
+          "#beautyful",
+          "#motivation",
+          "#fitnessgirl",
+          "#instagood",
+          "#hairstyle",
+          "#photooftheday",
+          "#hudabeauty",
+          "#workout",
+          "#fitnessaddict",
+          "#healthylifestyle",
+          "#fashionstyle",
+          "#polishbeauty",
+          "#technowinki",
+          "#technowosci"
+        ],
+        "keywords": [
+          "technologia",
+          "technologiajutra",
+          "tech",
+          "outdoor",
+          "gear",
+          "gadget",
+          "nature",
+          "fashion styling",
+          "beauty tips",
+          "fitness training",
+          "street style",
+          "polish girl",
+          "insta fashion",
+          "natural makeup",
+          "gym workout",
+          "fitness motivation",
+          "lifestyle content",
+          "fashion blogger",
+          "polish fashion",
+          "beauty routine",
+          "gym girl",
+          "fitness model",
+          "streetstyle outfits",
+          "daily motivation",
+          "fashionista looks",
+          "hair styling",
+          "huda beauty",
+          "home workout",
+          "fitness addict",
+          "healthy lifestyle",
+          "fashion trends",
+          "polish beauty",
+          "outfit inspiration",
+          "skincare beauty",
+          "gym motivation",
+          "body fitness",
+          "style tips",
+          "gym",
+          "krakow",
+          "selfie"
+        ],
+        "per_session": {
+          "min": 4,
+          "max": 5
+        }
+      },
+      "per_phrase": {
+        "grid_pool_size": 3,
+        "scrolls_in_viewer": {
+          "min": 2,
+          "max": 3
+        },
+        "grid_tab": "recent"
+      },
+      "budget": {
+        "max_items": {
+          "min": 5,
+          "max": 10
+        }
+      },
+      "likers": {
+        "hot_interact": {
+          "enabled": true,
+          "full_procedure": true,
+          "require_ring": true
+        }
+      },
+      "comments": {
+        "like_comments": {
+          "enabled": true
+        },
+        "hot_interact": {
+          "enabled": true,
+          "full_procedure": true
+        }
+      },
+      "like_content": {
+        "enabled": false
+      },
+      "gate": {
+        "min_likes": 15
+      },
+      "discover_tag_variants": {
+        "enabled": true,
+        "mode": "grid",
+        "max_variants": 3
+      }
+    },
+    "profile_interact": {
+      "enabled": true,
+      "budget": {
+        "max_items": {
+          "max": 7
+        }
+      },
+      "gate": {
+        "min_followers": 77
+      },
+      "like_tiles": {
+        "count": {
+          "max": 2
+        }
+      },
+      "follow": {
+        "allow": false
+      },
+      "grid_ai": {
+        "mode": "exclude_only",
+        "strictness": "loose",
+        "enabled": false
+      }
+    },
+    "mass_stories": {
+      "enabled": true,
+      "budget": {
+        "max_items": {
+          "min": 4,
+          "max": 7
+        }
+      },
+      "targets": {
+        "list": [
+          "_ziajson_"
+        ]
+      },
+      "harvest": {
+        "enabled": false
+      }
+    },
+    "feed_browser": {
+      "enabled": true,
+      "budget": {
+        "max_items": {
+          "min": 4,
+          "max": 8
+        }
+      },
+      "tray_stories": {
+        "max_users": {
+          "min": 2,
+          "max": 4
+        },
+        "watch": {
+          "segments": {
+            "max": 2
+          },
+          "watch_story": {
+            "max": 5
+          }
+        }
+      },
+      "scroll": {
+        "dwell_mode": "fixed",
+        "dwell_fallback_s": {
+          "max": 4.5
+        },
+        "long_pause_every_n": 16
+      }
+    },
+    "reels_warmup": {
+      "enabled": true
+    }
+  },
+  "schedule": {
+    "enabled": true,
+    "sessions_per_day": {
+      "min": 1,
+      "max": 1
+    },
+    "scenarios": [
+      "default"
+    ],
+    "active_hours": [
+      9,
+      22
+    ]
+  },
+  "profile_filter": {
+    "enabled": false,
+    "times": [
+      "01:25",
+      "18:00"
+    ],
+    "limit_per_run": 100,
+    "proxy": "losowo",
+    "followers_min": 60,
+    "followers_max": 20000,
+    "reject_arabic_bio": true,
+    "require_public": true,
+    "min_posts": 3
+  }
+}
