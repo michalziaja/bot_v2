@@ -97,6 +97,12 @@ class UiAuto2Device:
             return (r.get("output") or "").strip()
         return ""
 
+    def su_shell(self, command: str) -> str:
+        """Komenda jako root (`su -c`) — Magisk. Jedyny punkt ADB/root poza airplane."""
+        # Komentarz: escape pojedynczego cudzysłowu w POSIX su -c '...'
+        escaped = (command or "").replace("'", "'\"'\"'")
+        return self.shell(f"su -c '{escaped}'")
+
     # ---- gestures ----
     def tap(self, x: int, y: int):
         self._req("POST", "/command/tap", body={"x": int(x), "y": int(y)})

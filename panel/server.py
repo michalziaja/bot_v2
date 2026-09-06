@@ -9,6 +9,10 @@ Endpointy:
   POST /api/devices          — zarejestruj urządzenie (alias, adb_id; opcjonalnie model/clones…)
   POST /api/accounts         — utwórz nowe konto (alias, ig_username, device_alias, app_clone_package)
   POST /api/accounts/{acc}/clone — ustaw/wyczyść device.app_clone_package (pusty string = clear)
+  POST /api/clones/create     — {device_alias} — generate+build+install (202)
+  GET  /api/clones/status     — stan joba klona + log
+  POST /api/clones/cancel     — przerwij subprocess appclonera
+  POST /api/clones/scan       — {device_alias} — pm list → dociągnij clones[]
   DELETE /api/accounts/{acc} — usuń konto (config + credentials; data → *.deleted; bloki z osi)
   DELETE /api/timeline/{dev} — wyczyść całą oś urządzenia (cycle + schedule)
   GET  /api/accounts/{acc}/credentials  — status danych logowania (bez hasła)
@@ -440,11 +444,13 @@ async def create_device(request: Request):
     return {"ok": True, "alias": alias, "path": str(path.relative_to(CONFIG_ROOT))}
 
 
-def _ensure_clone_on_device(device_alias: str, package: str) -> None:
+def _ensure_clone_on_device(device_alias: str, package: str,
+                            identity: dict | None = None) -> None:
     """Dopisz package do devices/<alias>.json → clones, jeśli jeszcze go nie ma.
 
     Panel pozwala wpisać APPID ręcznie — lista klonów urządzenia zostaje
-    podpowiedzią (hint), nie bramką walidacji.
+    podpowiedzią (hint), nie bramką walidacji. `identity` z joba klona
+    nadpisuje istniejący wpis.
     """
     if not device_alias or not package:
         return
@@ -456,10 +462,19 @@ def _ensure_clone_on_device(device_alias: str, package: str) -> None:
     except Exception:
         return
     clones = list(dev.get("clones") or [])
-    if any(c.get("package") == package for c in clones):
-        return
+    for c in clones:
+        if c.get("package") == package:
+            if identity:
+                c["identity"] = identity
+                dev["clones"] = clones
+                dev_path.write_text(json.dumps(dev, indent=2, ensure_ascii=False) + "\n",
+                                    encoding="utf-8")
+            return
     next_slot = max((int(c.get("slot") or 0) for c in clones), default=0) + 1
-    clones.append({"slot": next_slot, "package": package, "note": "dodany z panelu"})
+    rec = {"slot": next_slot, "package": package, "note": "dodany z panelu"}
+    if identity:
+        rec["identity"] = identity
+    clones.append(rec)
     dev["clones"] = clones
     dev_path.write_text(json.dumps(dev, indent=2, ensure_ascii=False) + "\n",
                         encoding="utf-8")
@@ -536,6 +551,71 @@ async def set_account_clone(account: str, request: Request):
         path.write_bytes(backup.read_bytes())
         raise HTTPException(400, f"walidacja padła — przywrócono backup: {e}")
     return {"ok": True, "alias": alias, "app_clone_package": pkg}
+
+
+@app.post("/api/clones/create")
+async def api_clones_create(request: Request):
+    """Jedna akcja panelu: losuj tożsamość → APK → adb install (202)."""
+    body = await request.json()
+    device_alias = (body.get("device_alias") or "").strip()
+    if not device_alias:
+        raise HTTPException(400, "wymagane: device_alias")
+    from v2.cloner.job import CloneBusy, CloneJobError, start_job_thread
+    try:
+        snap = start_job_thread(
+            device_alias, config_root=CONFIG_ROOT, data_root=DATA_ROOT)
+    except CloneBusy as e:
+        raise HTTPException(409, str(e))
+    except CloneJobError as e:
+        # Komentarz: plan — 409 przy busy / brak device / apk / JDK / lock
+        raise HTTPException(409, str(e))
+    return JSONResponse(snap, status_code=202)
+
+
+@app.get("/api/clones/status")
+def api_clones_status():
+    """Stan joba klona + ogon logu."""
+    from v2.cloner.job import job_snapshot
+    return JSONResponse(job_snapshot())
+
+
+@app.post("/api/clones/cancel")
+def api_clones_cancel():
+    """Ubij subprocess appclonera jeśli jeszcze przed install."""
+    from v2.cloner.job import request_cancel, job_snapshot
+    request_cancel()
+    return JSONResponse(job_snapshot())
+
+
+@app.post("/api/clones/scan")
+async def api_clones_scan(request: Request):
+    """pm list packages → dopisz brakujące com.instagram.* do clones[]."""
+    body = await request.json()
+    device_alias = (body.get("device_alias") or "").strip()
+    if not device_alias:
+        raise HTTPException(400, "wymagane: device_alias")
+    from v2.cloner.job import CloneJobError, list_installed_packages, load_device, save_device
+    try:
+        path, dev = load_device(CONFIG_ROOT, device_alias)
+    except CloneJobError as e:
+        raise HTTPException(404, str(e))
+    serial = (dev.get("adb_id") or "").strip()
+    if not serial:
+        raise HTTPException(400, "brak adb_id")
+    try:
+        pkgs = list_installed_packages(serial)
+    except CloneJobError as e:
+        raise HTTPException(400, str(e))
+    added = []
+    for pkg in sorted(pkgs):
+        if not pkg.startswith("com.instagram."):
+            continue
+        before = {c.get("package") for c in (dev.get("clones") or [])}
+        _ensure_clone_on_device(device_alias, pkg)
+        if pkg not in before:
+            added.append(pkg)
+    path, dev = load_device(CONFIG_ROOT, device_alias)
+    return {"ok": True, "added": added, "clones": dev.get("clones") or []}
 
 
 @app.delete("/api/accounts/{account}")

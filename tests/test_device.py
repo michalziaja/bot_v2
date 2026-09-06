@@ -117,6 +117,16 @@ class DeviceHttpTests(unittest.TestCase):
         mock_open.return_value = _mock_http(json_body={"output": "mKeyguardShowing=true"})
         self.assertFalse(self.dev.screen_is_unlocked())
 
+    @patch("urllib.request.urlopen")
+    def test_su_shell_wraps_command(self, mock_open):
+        mock_open.return_value = _mock_http(json_body={"output": "aa:bb:cc:dd:ee:ff\n"})
+        out = self.dev.su_shell("cat /sys/class/net/wlan0/address")
+        self.assertEqual(out, "aa:bb:cc:dd:ee:ff")
+        # body.command zawiera su -c
+        posted = json.loads(mock_open.call_args[0][0].data.decode())
+        self.assertIn("su -c", posted["command"])
+        self.assertIn("wlan0", posted["command"])
+
 
 if __name__ == "__main__":
     unittest.main()

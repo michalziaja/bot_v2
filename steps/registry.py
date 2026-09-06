@@ -35,6 +35,7 @@ def load_all_system_steps():
     """Wygodny import — importuje moduły w steps/system żeby dekoratory się wykonały."""
     import v2.steps.system.wake              # noqa: F401
     import v2.steps.system.unlock            # noqa: F401
+    import v2.steps.system.apply_clone_identity  # noqa: F401
     import v2.steps.system.ensure_ig_running # noqa: F401
     import v2.steps.system.login_if_needed   # noqa: F401
     import v2.steps.system.enter_verification_code_if_needed  # noqa: F401
@@ -42,6 +43,7 @@ def load_all_system_steps():
     import v2.steps.system.stats_snapshot    # noqa: F401
     import v2.steps.system.browse_feed       # noqa: F401
     import v2.steps.system.close_ig          # noqa: F401
+    import v2.steps.system.restore_clone_identity  # noqa: F401
     import v2.steps.system.sleep_screen      # noqa: F401
 
 

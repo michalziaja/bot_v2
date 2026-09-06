@@ -323,15 +323,19 @@ class JobRunnerTests(unittest.TestCase):
             [{"id": "t1", "plugin": "p", "enabled": True}],
             lambda c, s, b: (calls.append("plugin"), PluginResult.done(b, "items"))[1])
         names = [n for n, _ in self.recorder]
-        # prolog: wake → unlock → IG → stats_start; epilog: stats_end → close → sleep
-        self.assertEqual(names[:4], ["system.wake", "system.unlock",
+        # prolog: wake → unlock → MAC → IG → stats_start;
+        # epilog: stats_end → close → restore MAC → sleep
+        self.assertEqual(names[:5], ["system.wake", "system.unlock",
+                                     "system.apply_clone_identity",
                                      "system.ensure_ig_running",
                                      "system.stats_snapshot"])
-        self.assertEqual(names[-3:], ["system.stats_snapshot",
-                                      "system.close_ig", "system.sleep_screen"])
+        self.assertEqual(names[-4:], ["system.stats_snapshot",
+                                      "system.close_ig",
+                                      "system.restore_clone_identity",
+                                      "system.sleep_screen"])
         # params when=session_start / session_end — flaga w configu filtruje skip
-        self.assertEqual(self.recorder[3][1].get("when"), "session_start")
-        self.assertEqual(self.recorder[-3][1].get("when"), "session_end")
+        self.assertEqual(self.recorder[4][1].get("when"), "session_start")
+        self.assertEqual(self.recorder[-4][1].get("when"), "session_end")
         self.assertEqual(calls, ["plugin"])
         self.assertTrue(summary["ok"])
 
