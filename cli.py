@@ -236,25 +236,38 @@ def cmd_login(args):
     steps = [
         ("system.wake", {}, "Budzenie telefonu"),
         ("system.unlock", {}, "Odblokowanie"),
+        ("system.apply_clone_identity", {}, "Tożsamość klona (MAC)"),
         ("system.ensure_ig_running", {}, "Uruchamiam Instagram"),
         ("system.login_if_needed", {}, "Logowanie (login/hasło + popupy)"),
         ("system.enter_verification_code_if_needed", {}, "Kod weryfikacyjny (jeśli jest)"),
     ]
-    for name, params, label in steps:
-        login_log.say(f"— {label}")
-        step = get_step(name)()
-        res = step.run(ctx, params)
-        print(f"   {res.status:8s} {name}  {res.payload}"
-              + (f"  error={res.error}" if res.error else ""), flush=True)
-        ctx.log("step", step=name, status=res.status, payload=res.payload)
-        if res.status == "failed":
-            login_log.say(f"PRZERWANO: {res.error}")
-            print(f"\n[cli] PRZERWANO na {name} — {res.error}\n")
-            return 1
-
-    login_log.say("GOTOWE — jeśli został captcha/2FA poza panelem, dokończ ręcznie")
-    print("\n[cli] KONIEC — jeśli telefon poprosił o 2FA/potwierdzenie, dokończ ręcznie.\n")
-    return 0
+    rc = 0
+    try:
+        for name, params, label in steps:
+            login_log.say(f"— {label}")
+            step = get_step(name)()
+            res = step.run(ctx, params)
+            print(f"   {res.status:8s} {name}  {res.payload}"
+                  + (f"  error={res.error}" if res.error else ""), flush=True)
+            ctx.log("step", step=name, status=res.status, payload=res.payload)
+            if res.status == "failed":
+                login_log.say(f"PRZERWANO: {res.error}")
+                print(f"\n[cli] PRZERWANO na {name} — {res.error}\n")
+                rc = 1
+                break
+        else:
+            login_log.say("GOTOWE — jeśli został captcha/2FA poza panelem, dokończ ręcznie")
+            print("\n[cli] KONIEC — jeśli telefon poprosił o 2FA/potwierdzenie, dokończ ręcznie.\n")
+    finally:
+        # Komentarz: zawsze wróć z MAC-iem telefonu, nawet po failu logowania
+        try:
+            rest = get_step("system.restore_clone_identity")()
+            rres = rest.run(ctx, {})
+            print(f"   {rres.status:8s} system.restore_clone_identity  {rres.payload}",
+                  flush=True)
+        except Exception as e:
+            print(f"[cli] restore MAC: {e}", flush=True)
+    return rc
 
 
 def cmd_stats(args):
@@ -538,6 +551,28 @@ def _resolve_adb_serial(*, account: str | None, device: str | None) -> str:
     return serial
 
 
+def cmd_clone_app(args):
+    """Wygeneruj unikalną tożsamość, zbuduj APK (appcloner) i zainstaluj na telefonie."""
+    from v2.cloner.job import CloneBusy, CloneJobError, create_clone
+    from v2.config.schema import CONFIG_ROOT
+
+    print(f"[clone] device={args.device}  generate → build → install")
+    try:
+        result = create_clone(
+            args.device, config_root=CONFIG_ROOT, data_root=DATA_ROOT)
+    except CloneBusy as e:
+        print(f"[clone] BUSY: {e}")
+        return 1
+    except CloneJobError as e:
+        print(f"[clone] FAIL: {e}")
+        return 1
+    ident = result["identity"]
+    print(f"[clone] OK  package={ident.get('package')}")
+    print(f"[clone]     mac={ident.get('mac')}  imei={ident.get('imei')}")
+    print(f"[clone]     apk={result.get('apk')}")
+    return 0
+
+
 def cmd_airplane_toggle(args):
     """Jednorazowy test ADB: airplane ON → pauza → OFF (Wi‑Fi wraca).
 
@@ -644,6 +679,13 @@ def main(argv=None):
     pa.add_argument("--pause", type=float, default=3.0,
                     help="sekundy miedzy ON a OFF (domyslnie 3)")
     pa.set_defaults(func=cmd_airplane_toggle)
+
+    pc = sub.add_parser(
+        "clone-app",
+        help="nowy klon IG: unikalna tożsamość → APK (appcloner) → adb install")
+    pc.add_argument("--device", required=True,
+                    help="alias urządzenia (config/devices/<alias>.json)")
+    pc.set_defaults(func=cmd_clone_app)
 
     args = p.parse_args(argv)
     return args.func(args)

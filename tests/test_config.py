@@ -102,6 +102,30 @@ class ConfigTests(unittest.TestCase):
         finally:
             shutil.rmtree(tmp)
 
+    def test_template_copies_clone_identity_spoof_fields(self):
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            (tmp / "_template").mkdir()
+            (tmp / "devices").mkdir()
+            (tmp / "accounts").mkdir()
+            shutil.copy(CONFIG_ROOT / "_template" / "account.json", tmp / "_template" / "account.json")
+            dev = json.loads((CONFIG_ROOT / "devices" / "phone_A.json").read_text(encoding="utf-8"))
+            dev["clones"] = [{
+                "slot": 2, "package": "com.instagram.androia",
+                "identity": {"mac": "02:11:22:33:44:55", "imei": "490154203237518",
+                             "android_id": "0123456789abcdef"},
+            }]
+            (tmp / "devices" / "phone_A.json").write_text(json.dumps(dev), encoding="utf-8")
+            new_account_from_template("spoof_alias", "user", "phone_A",
+                                      app_clone_package="com.instagram.androia",
+                                      config_root=tmp)
+            cfg = load_account("spoof_alias", config_root=tmp)
+            self.assertEqual(cfg.device["spoofed_mac"], "02:11:22:33:44:55")
+            self.assertEqual(cfg.device["spoofed_imei"], "490154203237518")
+            self.assertEqual(cfg.device["spoofed_android_id"], "0123456789abcdef")
+        finally:
+            shutil.rmtree(tmp)
+
 
 if __name__ == "__main__":
     unittest.main()

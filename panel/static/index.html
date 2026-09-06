@@ -1097,6 +1097,28 @@
       <div class="row"><button id="btn-acc-save" class="primary">Zapisz konta i ułóż plan</button></div>
       <div class="msg" id="acc-msg"></div>
 
+      <h3 style="margin-top: 28px;">Utwórz nowy klon</h3>
+      <div class="notice">
+        Jedno kliknięcie: serwer losuje unikalne APPID / android-id / MAC / IMEI,
+        buduje APK (<code>appcloner</code>) i instaluje na wybranym telefonie.
+        Konto IG (login) wiążesz poniżej, gdy klon już jest na liście.
+      </div>
+      <div class="settings-section">
+        <div class="field-row">
+          <div><div class="field-label">Urządzenie</div>
+            <div class="field-desc">To samo co w sidebarze — <code>adb install</code> idzie na ten serial.</div></div>
+          <div><select id="nc-device"></select></div>
+        </div>
+        <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center;">
+          <button type="button" id="btn-nc-create" class="primary">Utwórz nowy klon</button>
+          <button type="button" id="btn-nc-cancel">Anuluj</button>
+        </div>
+        <div class="msg" id="nc-msg"></div>
+        <pre id="nc-log" style="display:none;margin-top:10px;max-height:220px;overflow:auto;
+             background:var(--panel3);padding:10px;font-size:11px;white-space:pre-wrap;"></pre>
+        <div id="nc-result" style="margin-top:10px;color:var(--muted);font-size:12px;"></div>
+      </div>
+
       <h3 style="margin-top: 28px;">Nowe konto / login</h3>
       <div class="notice">
         Tworzy <code>config/accounts/&lt;alias&gt;.json</code> (alias + urządzenie + APPID + Login IG).
@@ -1107,7 +1129,7 @@
       <div class="row" style="gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
         <button type="button" id="btn-np-new" class="primary"
                 title="Wyczyść Alias/APPID/Login i nie nadpisuj ich przy zmianie konta w sidebarze">
-          Nowy klon / nowe konto
+          Nowe konto
         </button>
         <button type="button" id="btn-np-edit"
                 title="Wróć do edycji aktywnego konta z sidebara (wypełnij Alias/APPID/Login)">
@@ -1481,6 +1503,9 @@ async function onDeviceChanged() {
     $("np-device").value = currentDevice();
     renderCloneOptions();
   }
+  if ($("nc-device") && currentDevice()) {
+    $("nc-device").value = currentDevice();
+  }
   await reloadForActiveAccount();
   // oś czasu od razu dla device z sidebara
   try { await loadAccountsGrid(); } catch (e) { console.error(e); }
@@ -1818,7 +1843,7 @@ const SCHEMA = [
   },
   {
     title: "Urządzenie i klon",
-    desc: "Alias konta, fizyczne urządzenie i klon Instagrama. Dane sprzętowe (MAC/IMEI/Android_ID) — z App Clonera.",
+    desc: "Alias konta, fizyczne urządzenie i klon Instagrama. MAC/IMEI/Android_ID — z budowy klona (panel Utwórz nowy klon).",
     base: [],
     fields: [
       { key: ["meta", "alias"], type: "text", label: "alias",
@@ -1830,10 +1855,13 @@ const SCHEMA = [
       { key: ["device", "app_clone_package"], type: "text", label: "app_clone_package",
         desc: "Package name / APPID (np. com.instagram.android). Puste = brak przypisania (zwalnia zajętość w panelu)." },
       { key: ["device", "spoofed_mac"], type: "text", label: "spoofed_mac",
-        desc: "Spoofowany MAC WiFi (z App Clonera). Pusty = klon używa oryginalnego." },
-      { key: ["device", "spoofed_imei"], type: "text", label: "spoofed_imei", desc: "Spoofowany IMEI" },
+        desc: "MAC klona: hook w APK + wlan0 na czas sesji (Magisk). Pusty = nie ruszaj NIC." },
+      { key: ["device", "spoofed_imei"], type: "text", label: "spoofed_imei",
+        desc: "IMEI wbudowany w APK klona (TelephonyManager). Runtime nie zmienia radia." },
       { key: ["device", "spoofed_android_id"], type: "text", label: "spoofed_android_id",
-        desc: "Spoofowany Android ID (16 znaków hex)" },
+        desc: "Spoofowany Android ID (16 znaków hex) — wstrzyknięty w APK przy budowie klona." },
+      { key: ["device", "spoofed_gsf"], type: "text", label: "spoofed_gsf", hidden: true,
+        desc: "NIEAKTYWNE w v1 — brak call-site GSF w pipeline klona." },
       { key: ["device", "lockscreen_pin"], type: "text", label: "lockscreen_pin",
         desc: "PIN blokady ekranu (jeśli włączona) — do system.unlock" },
     ]
@@ -3997,6 +4025,8 @@ async function loadDevices() {
   const prevDev = currentDevice();
   fillOptions($("sel-device"), aliases, prevDev);
   fillOptions($("np-device"), aliases, currentDevice() || prevDev);
+  if ($("nc-device")) fillOptions($("nc-device"), aliases, currentDevice() || prevDev);
+  syncNcCreateEnabled();
   renderCloneOptions();
   renderDevicesList();
   updateDeleteAccountLabel();
@@ -4046,6 +4076,112 @@ $("btn-nd-create").onclick = async () => {
   $("sel-device").value = alias;
   await onDeviceChanged();
 };
+
+let _ncPollTimer = null;
+let _ncJobBusy = false;
+
+/** Czy wybrane urządzenie ma prawdziwy adb_id (nie REPLACE / puste). */
+function ncDeviceHasAdb() {
+  const alias = ($("nc-device") && $("nc-device").value) || currentDevice();
+  const d = DEVICES.find(x => x.alias === alias);
+  const adb = ((d && d.adb_id) || "").trim();
+  return !!(adb && adb !== "REPLACE");
+}
+
+/** Przycisk klona: disabled gdy job leci albo brak serialu ADB. */
+function syncNcCreateEnabled() {
+  const btn = $("btn-nc-create");
+  if (btn) btn.disabled = _ncJobBusy || !ncDeviceHasAdb();
+}
+
+function ncSetBusy(busy) {
+  _ncJobBusy = !!busy;
+  syncNcCreateEnabled();
+}
+
+function ncShowLog(text) {
+  const el = $("nc-log");
+  if (!el) return;
+  if (!text) { el.style.display = "none"; el.textContent = ""; return; }
+  el.style.display = "block";
+  el.textContent = text;
+  el.scrollTop = el.scrollHeight;
+}
+
+async function pollCloneJob() {
+  const msg = $("nc-msg");
+  const box = $("nc-result");
+  try {
+    const st = await fetch("/api/clones/status").then(r => r.json());
+    ncShowLog(st.log || (st.log_tail || []).join("\n"));
+    if (st.running) {
+      if (msg) { msg.textContent = "klonowanie w toku…"; msg.className = "msg ok"; }
+      return true;
+    }
+    if (_ncPollTimer) { clearInterval(_ncPollTimer); _ncPollTimer = null; }
+    ncSetBusy(false);
+    if (st.state === "ok" && st.package) {
+      if (msg) { msg.textContent = `zainstalowano ${st.package}`; msg.className = "msg ok"; }
+      if (box) {
+        const id = st.identity || {};
+        box.textContent = `APPID ${st.package} · android-id ${id.android_id || "—"} · MAC ${id.mac || "—"} · IMEI ${id.imei || "—"}`;
+      }
+      const cloneEl = $("np-clone");
+      if (cloneEl) cloneEl.value = st.package;
+      await loadDevices();
+    } else if (st.state === "error") {
+      if (msg) { msg.textContent = "błąd: " + (st.error || "clone job"); msg.className = "msg err"; }
+    }
+    return false;
+  } catch (e) {
+    if (msg) { msg.textContent = "status: " + e; msg.className = "msg err"; }
+    return true;
+  }
+}
+
+const _ncDeviceSel = $("nc-device");
+if (_ncDeviceSel) _ncDeviceSel.addEventListener("change", () => syncNcCreateEnabled());
+
+const _btnNcCreate = $("btn-nc-create");
+if (_btnNcCreate) _btnNcCreate.onclick = async () => {
+  const msg = $("nc-msg");
+  const dev = ($("nc-device") && $("nc-device").value) || currentDevice();
+  if (!dev) {
+    msg.textContent = "wybierz urządzenie"; msg.className = "msg err"; return;
+  }
+  ncSetBusy(true);
+  if ($("nc-result")) $("nc-result").textContent = "";
+  const r = await fetch("/api/clones/create", {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({device_alias: dev}),
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    ncSetBusy(false);
+    msg.textContent = "błąd: " + (d.detail || r.status); msg.className = "msg err";
+    return;
+  }
+  msg.textContent = "startuję job…"; msg.className = "msg ok";
+  ncShowLog(d.log || "");
+  if (_ncPollTimer) clearInterval(_ncPollTimer);
+  _ncPollTimer = setInterval(() => { pollCloneJob(); }, 1500);
+  pollCloneJob();
+};
+
+const _btnNcCancel = $("btn-nc-cancel");
+if (_btnNcCancel) _btnNcCancel.onclick = async () => {
+  await fetch("/api/clones/cancel", {method: "POST"});
+  await pollCloneJob();
+};
+
+async function resumeCloneJobPoll() {
+  const st = await fetch("/api/clones/status").then(r => r.json());
+  if (!st.running) { syncNcCreateEnabled(); return; }
+  ncSetBusy(true);
+  if (_ncPollTimer) clearInterval(_ncPollTimer);
+  _ncPollTimer = setInterval(() => { pollCloneJob(); }, 1500);
+  await pollCloneJob();
+}
 
 /** Podpowiedzi klonów (datalist) — zajętość tylko jako hint, nie blokuje wpisu. */
 function renderCloneOptions() {
@@ -5329,6 +5465,8 @@ async function init() {
   try { startEventStream(); }    catch (e) { console.error("eventStream:", e); }
   ensureEventsPad();
   updateNpFormModeUi();
+  // Komentarz: wznów poll logu, gdy job klona już leciał przed odświeżeniem strony
+  try { await resumeCloneJobPoll(); } catch (e) { console.error("clone job poll:", e); }
   setInterval(() => { refreshStatus().catch(() => {}); }, 1500);
   setInterval(() => { loadSchedulerSwitch().catch(() => {}); }, 5000);
   setInterval(() => { pollVerificationCode().catch(() => {}); }, 2000);

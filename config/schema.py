@@ -141,6 +141,30 @@ def new_account_from_template(alias: str, ig_username: str, device_alias: str,
     tmpl["device"]["device_alias"] = device_alias
     if app_clone_package:
         tmpl["device"]["app_clone_package"] = app_clone_package
+        # Komentarz: tożsamość klona z devices/<alias>.clones[].identity
+        ident = _identity_from_device(root, device_alias, app_clone_package)
+        if ident:
+            if ident.get("mac"):
+                tmpl["device"]["spoofed_mac"] = ident["mac"]
+            if ident.get("imei"):
+                tmpl["device"]["spoofed_imei"] = ident["imei"]
+            if ident.get("android_id"):
+                tmpl["device"]["spoofed_android_id"] = ident["android_id"]
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_text(json.dumps(tmpl, ensure_ascii=False, indent=2), encoding="utf-8")
     return dst
+
+
+def _identity_from_device(config_root: Path, device_alias: str, package: str) -> dict | None:
+    """identity klona z devices/<alias>.json → clones[]."""
+    path = config_root / "devices" / f"{device_alias}.json"
+    if not path.exists():
+        return None
+    try:
+        dev = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    for c in dev.get("clones") or []:
+        if c.get("package") == package and isinstance(c.get("identity"), dict):
+            return c["identity"]
+    return None

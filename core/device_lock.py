@@ -16,6 +16,17 @@ import os
 import sys
 import time
 from pathlib import Path
+from typing import Callable
+
+
+# Komentarz: restore MAC przy puszczeniu locka (koniec sesji / atexit)
+_release_callbacks: list[Callable[[str], None]] = []
+
+
+def add_release_callback(cb: Callable[[str], None]) -> None:
+    """Zarejestruj hak wołany z DeviceLock.release(serial)."""
+    if cb not in _release_callbacks:
+        _release_callbacks.append(cb)
 
 
 class DeviceBusy(RuntimeError):
@@ -95,6 +106,11 @@ class DeviceLock:
             fh.close()
         except Exception:
             pass
+        for cb in list(_release_callbacks):
+            try:
+                cb(self.serial)
+            except Exception:
+                pass
         # nie usuwaj pliku — na Win plik zablokowany może zostać; treść i tak
         # nieważna gdy nikt nie trzyma flocka
 

@@ -40,12 +40,14 @@ from v2.steps import registry as step_registry
 PROLOGUE_STEPS = [
     ("system.wake", {}),
     ("system.unlock", {}),
+    ("system.apply_clone_identity", {}),
     ("system.ensure_ig_running", {}),
 ]
-# Epilog: opcjonalna migawka końca (on_session_end, domyślnie false) → close → sleep.
+# Epilog: opcjonalna migawka końca (on_session_end, domyślnie false) → close → restore MAC → sleep.
 EPILOGUE_STEPS = [
     ("system.stats_snapshot", {"when": "session_end"}),
     ("system.close_ig", {}),
+    ("system.restore_clone_identity", {}),
     ("system.sleep_screen", {}),
 ]
 HOME = "home_feed"
@@ -274,7 +276,7 @@ class JobRunner:
     # ------------------------------------------------------------------
     def _prologue(self):
         # ensure_ig → home → stats (własny profil) → z powrotem home pod pluginy
-        self._banner("PROLOG", "wybudzenie -> odblokowanie -> IG -> home -> stats")
+        self._banner("PROLOG", "wybudzenie -> odblokowanie -> MAC -> IG -> home -> stats")
         for name, params in PROLOGUE_STEPS:
             self._system_step(name, params)
         self.ctx.navigator.ensure(HOME)
@@ -285,7 +287,7 @@ class JobRunner:
 
     def _epilogue(self):
         # stats_end w EPILOGUE_STEPS; przy on_session_end=false → skipped (OK)
-        self._banner("EPILOG", "stats(opcjonalnie) -> zamkniecie IG -> wygaszenie")
+        self._banner("EPILOG", "stats(opcjonalnie) -> zamkniecie IG -> restore MAC -> wygaszenie")
         self.ctx.navigator.ensure(HOME)
         for name, params in EPILOGUE_STEPS:
             self._system_step(name, params)
