@@ -1097,17 +1097,20 @@
       <div class="row"><button id="btn-acc-save" class="primary">Zapisz konta i ułóż plan</button></div>
       <div class="msg" id="acc-msg"></div>
 
-      <h3 style="margin-top: 28px;">Utwórz nowy klon</h3>
+      <h3 style="margin-top: 28px;">1. Utwórz nowy klon na telefonie</h3>
       <div class="notice">
-        Jedno kliknięcie: serwer losuje unikalne APPID / android-id / MAC / IMEI,
-        buduje APK (<code>appcloner</code>) i instaluje na wybranym telefonie.
-        Konto IG (login) wiążesz poniżej, gdy klon już jest na liście.
+        Klon powstaje na urządzeniu z sidebara: serwer losuje APPID / MAC / IMEI,
+        buduje APK i robi <code>adb install</code>. Potem w kroku 2 wpisujesz login IG
+        i logujesz się już na tym klonie (nie na starym koncie z sidebara).
       </div>
       <div class="settings-section">
         <div class="field-row">
           <div><div class="field-label">Urządzenie</div>
-            <div class="field-desc">To samo co w sidebarze — <code>adb install</code> idzie na ten serial.</div></div>
-          <div><select id="nc-device"></select></div>
+            <div class="field-desc">To samo co w sidebarze — zmiana tutaj przełącza telefon.</div></div>
+          <div>
+            <select id="nc-device"></select>
+            <div id="nc-device-meta" style="color:var(--dim);font-size:11px;margin-top:4px;"></div>
+          </div>
         </div>
         <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center;">
           <button type="button" id="btn-nc-create" class="primary" disabled>Utwórz nowy klon</button>
@@ -1119,11 +1122,11 @@
         <div id="nc-result" style="margin-top:10px;color:var(--muted);font-size:12px;"></div>
       </div>
 
-      <h3 style="margin-top: 28px;">Nowe konto / login</h3>
+      <h3 id="np-login-section" style="margin-top: 28px;">2. Zaloguj na tym klonie</h3>
       <div class="notice">
-        Tworzy <code>config/accounts/&lt;alias&gt;.json</code> (alias + urządzenie + APPID + Login IG).
-        Hasło w <code>config/credentials.json</code>. <b>Zaloguj</b> wpisuje login/hasło na telefonie —
-        2FA kończysz tu albo na telefonie.
+        Wiąże login IG z APPID z kroku 1 (albo z podpowiedzi).
+        <b>Utwórz konto i zaloguj</b> zapisuje alias + hasło i od razu wpisuje je na telefonie
+        w nowym klonie. Kod 2FA wpisujesz poniżej — zostajesz na tej zakładce.
       </div>
       <!-- tryb create = czyste pola; edit = sync z activeAccount (sidebar) -->
       <div class="row" style="gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
@@ -1153,10 +1156,9 @@
         </div>
         <div class="field-row">
           <div><div class="field-label">Klon (appID)</div>
-            <div class="field-desc">Wpisz package name ręcznie albo wybierz z podpowiedzi.
-              „zajęty” = już ma konto — nie blokuje wpisania. <b>Usuń z konta</b> czyści
-              <code>device.app_clone_package</code> na aktywnym koncie (zwalnia zajętość)
-              — tylko w trybie edycji.</div></div>
+            <div class="field-desc">Po „Utwórz nowy klon” pole wypełnia się samo.
+              Albo wybierz z podpowiedzi / wpisz ręcznie. „zajęty” = już ma konto.
+              <b>Usuń z konta</b> czyści APPID tylko w trybie edycji.</div></div>
           <div>
             <div class="row" style="gap:6px; flex-wrap:wrap; align-items:center;">
               <input type="text" id="np-clone" list="np-clone-list"
@@ -1190,10 +1192,11 @@
           <div><input type="password" id="np-cred-pass" autocomplete="off"/></div>
         </div>
       </div>
-      <div class="row">
-        <button id="btn-np-create" class="primary">Utwórz konto</button>
-        <button id="btn-np-cred-save">Zapisz dane logowania</button>
-        <button id="btn-np-login" class="primary">Zaloguj na telefonie</button>
+      <div class="row" style="flex-wrap:wrap;">
+        <button type="button" id="btn-np-create-login" class="primary">Utwórz konto i zaloguj</button>
+        <button type="button" id="btn-np-create">Tylko utwórz konto</button>
+        <button type="button" id="btn-np-cred-save">Zapisz dane logowania</button>
+        <button type="button" id="btn-np-login">Zaloguj na telefonie</button>
       </div>
       <div class="msg" id="np-create-msg"></div>
       <div class="msg" id="np-login-msg"></div>
@@ -1506,6 +1509,7 @@ async function onDeviceChanged() {
   if ($("nc-device") && currentDevice()) {
     $("nc-device").value = currentDevice();
   }
+  syncNcCreateEnabled();
   await reloadForActiveAccount();
   // oś czasu od razu dla device z sidebara
   try { await loadAccountsGrid(); } catch (e) { console.error(e); }
@@ -4080,18 +4084,36 @@ $("btn-nd-create").onclick = async () => {
 let _ncPollTimer = null;
 let _ncJobBusy = false;
 
+function ncTargetDevice() {
+  return ($("nc-device") && $("nc-device").value) || currentDevice();
+}
+
 /** Czy wybrane urządzenie ma prawdziwy adb_id (nie REPLACE / puste). */
 function ncDeviceHasAdb() {
-  const alias = ($("nc-device") && $("nc-device").value) || currentDevice();
+  const alias = ncTargetDevice();
   const d = DEVICES.find(x => x.alias === alias);
   const adb = ((d && d.adb_id) || "").trim();
   return !!(adb && adb !== "REPLACE");
+}
+
+/** Podpis serialu przy selectcie klona. */
+function syncNcDeviceMeta() {
+  const el = $("nc-device-meta");
+  if (!el) return;
+  const alias = ncTargetDevice();
+  const d = DEVICES.find(x => x.alias === alias);
+  if (!d) { el.textContent = "brak urządzenia w sidebarze"; return; }
+  const adb = (d.adb_id || "").trim();
+  el.textContent = (!adb || adb === "REPLACE")
+    ? `${alias} — brak adb_id (nie da się zainstalować klona)`
+    : `${alias} · adb ${adb} · ${(d.clones || []).length} klon(ów)`;
 }
 
 /** Przycisk klona: disabled gdy job leci albo brak serialu ADB. */
 function syncNcCreateEnabled() {
   const btn = $("btn-nc-create");
   if (btn) btn.disabled = _ncJobBusy || !ncDeviceHasAdb();
+  syncNcDeviceMeta();
 }
 
 function ncSetBusy(busy) {
@@ -4126,9 +4148,11 @@ async function pollCloneJob() {
         const id = st.identity || {};
         box.textContent = `APPID ${st.package} · android-id ${id.android_id || "—"} · MAC ${id.mac || "—"} · IMEI ${id.imei || "—"}`;
       }
-      const cloneEl = $("np-clone");
-      if (cloneEl) cloneEl.value = st.package;
+      const dev = st.device_alias || ncTargetDevice();
+      // Komentarz: sidebar = to samo urządzenie, na którym właśnie wstał klon
+      if (dev && $("sel-device")) $("sel-device").value = dev;
       await loadDevices();
+      prepareFormForNewClone(st.package, dev, st.identity || {});
     } else if (st.state === "error") {
       if (msg) { msg.textContent = "błąd: " + (st.error || "clone job"); msg.className = "msg err"; }
     }
@@ -4140,12 +4164,20 @@ async function pollCloneJob() {
 }
 
 const _ncDeviceSel = $("nc-device");
-if (_ncDeviceSel) _ncDeviceSel.addEventListener("change", () => syncNcCreateEnabled());
+if (_ncDeviceSel) _ncDeviceSel.addEventListener("change", () => {
+  const v = _ncDeviceSel.value;
+  // Komentarz: jeden wybór telefonu — select klona steruje sidebarem
+  if (v && $("sel-device") && $("sel-device").value !== v) {
+    $("sel-device").value = v;
+    onDeviceChanged();
+  }
+  syncNcCreateEnabled();
+});
 
 const _btnNcCreate = $("btn-nc-create");
 if (_btnNcCreate) _btnNcCreate.onclick = async () => {
   const msg = $("nc-msg");
-  const dev = ($("nc-device") && $("nc-device").value) || currentDevice();
+  const dev = ncTargetDevice();
   if (!dev) {
     msg.textContent = "wybierz urządzenie"; msg.className = "msg err"; return;
   }
@@ -4218,31 +4250,64 @@ function updateNpFormModeUi() {
   if (btnClear) btnClear.disabled = isCreate;
 }
 
-/** Wejdź w tryb tworzenia: wyczyść Alias/APPID/Login/hasło, nie syncuj z activeAccount. */
-function enterNpCreateMode() {
+/** Wejdź w tryb tworzenia. `opts` — package/device/alias z joba klona (nie wycieraj APPID). */
+function enterNpCreateMode(opts) {
+  opts = opts || {};
   npFormMode = "create";
   const aliasEl = $("np-alias");
   const cloneEl = $("np-clone");
   const userEl = $("np-cred-user");
   const passEl = $("np-cred-pass");
-  if (aliasEl) aliasEl.value = "";
-  if (cloneEl) cloneEl.value = "";
-  if (userEl) userEl.value = "";
-  if (passEl) passEl.value = "";
-  // urządzenie zostaw z sidebara / bieżącego selecta — tylko klon jest nowy
-  if ($("np-device") && currentDevice()) {
-    $("np-device").value = currentDevice();
-    renderCloneOptions();
-  }
+  if (aliasEl) aliasEl.value = opts.alias || "";
+  if (cloneEl) cloneEl.value = opts.package || (opts.keepClone ? cloneEl.value : "");
+  if (userEl && !opts.keepLogin) userEl.value = "";
+  if (passEl && !opts.keepLogin) passEl.value = "";
+  const dev = opts.device || currentDevice();
+  if ($("np-device") && dev) $("np-device").value = dev;
+  renderCloneOptions();
   const msg = $("np-create-msg");
   if (msg) {
-    msg.textContent = "tryb nowe — wpisz Alias, APPID i Login IG; zmiana konta w sidebarze nie nadpisze pól";
+    msg.textContent = opts.package
+      ? `klon ${opts.package} na ${dev} — wpisz Login IG i hasło, potem „Utwórz konto i zaloguj”`
+      : "tryb nowe — wpisz Alias, APPID i Login IG; zmiana konta w sidebarze nie nadpisze pól";
     msg.className = "msg ok";
   }
   if ($("np-cred-status")) {
-    $("np-cred-status").textContent = "tryb nowe konto — credentials zapiszesz przy „Utwórz konto” lub po utworzeniu";
+    $("np-cred-status").textContent =
+      "tryb nowe konto — hasło zapisze się przy „Utwórz konto” / „Utwórz konto i zaloguj”";
   }
   updateNpFormModeUi();
+}
+
+/** Alias z device + sufiks APPID, bez kolizji z istniejącymi kontami. */
+function suggestedAliasForClone(device, pkg) {
+  const suf = ((pkg || "").split(".").pop() || "clone").replace(/[^A-Za-z0-9_]+/g, "_");
+  const dev = (device || "clone").replace(/[^A-Za-z0-9_]+/g, "_");
+  const base = `${dev}_${suf}`;
+  const taken = new Set((ACCOUNTS || []).map(a => a.alias));
+  if (!taken.has(base)) return base;
+  for (let i = 2; i < 80; i++) {
+    if (!taken.has(`${base}_${i}`)) return `${base}_${i}`;
+  }
+  return base;
+}
+
+/** Po udanym adb install — formularz logowania na NOWYM klonie, nie na starym koncie. */
+function prepareFormForNewClone(pkg, device, identity) {
+  enterNpCreateMode({
+    package: pkg,
+    device: device,
+    alias: suggestedAliasForClone(device, pkg),
+  });
+  const sec = $("np-login-section");
+  if (sec && sec.scrollIntoView) sec.scrollIntoView({behavior: "smooth", block: "start"});
+  const userEl = $("np-cred-user");
+  if (userEl) userEl.focus();
+  const box = $("nc-result");
+  if (box && identity) {
+    const extra = `APPID ${pkg} · android-id ${identity.android_id || "—"} · MAC ${identity.mac || "—"} · IMEI ${identity.imei || "—"}`;
+    box.textContent = extra + " — wpisz login IG poniżej i zaloguj na tym klonie";
+  }
 }
 
 /** Wróć do edycji aktywnego konta — wypełnij pola z CURRENT_CFG / activeAccount. */
@@ -4287,7 +4352,7 @@ async function saveActiveClonePackage(pkg) {
   // komentarz: APPID na istniejącym koncie — tylko tryb edycji
   if (npFormMode === "create") {
     const msg = $("np-clone-msg");
-    msg.textContent = "w trybie „nowe” użyj „Utwórz konto” — APPID idzie z formularza";
+    msg.textContent = "w trybie „nowe” użyj „Utwórz konto i zaloguj” — APPID idzie z formularza";
     msg.className = "msg err";
     return;
   }
@@ -4322,23 +4387,24 @@ if (_btnCloneClear) _btnCloneClear.onclick = async () => {
   await saveActiveClonePackage("");
 };
 
-$("btn-np-create").onclick = async () => {
+/** POST /api/accounts + credentials; wybiera nowe konto w sidebarze. null przy błędzie. */
+async function createAccountFromForm() {
   const dev = $("np-device").value;
   const pkg = ($("np-clone").value || "").trim();
   const alias = $("np-alias").value.trim();
-  // Login IG = ig_username (jedno pole w UI)
   const user = ($("np-cred-user").value || "").trim();
   const pass = $("np-cred-pass").value;
   const msg = $("np-create-msg");
-  // komentarz: w edycji bez zmiany aliasu łatwo zdublować — zachęć do trybu nowe
   if (npFormMode === "edit" && alias && alias === activeAccount()) {
     msg.textContent =
-      "Alias = aktywne konto. Kliknij „Nowy klon / nowe konto”, wpisz nowy Alias/APPID i dopiero „Utwórz konto”.";
+      "Alias = aktywne konto. Kliknij „Nowe konto” albo najpierw „Utwórz nowy klon”, potem wpisz nowy alias.";
     msg.className = "msg err";
-    return;
+    return null;
   }
   if (!alias || !user || !dev || !pkg) {
-    msg.textContent = "wypełnij: alias, urządzenie, APPID i Login IG"; msg.className = "msg err"; return;
+    msg.textContent = "wypełnij: alias, urządzenie, APPID i Login IG";
+    msg.className = "msg err";
+    return null;
   }
   const r = await fetch("/api/accounts", {
     method: "POST", headers: {"Content-Type": "application/json"},
@@ -4346,25 +4412,88 @@ $("btn-np-create").onclick = async () => {
   });
   const d = await r.json().catch(() => ({}));
   if (!r.ok) {
-    msg.textContent = "błąd: " + (d.detail || r.status); msg.className = "msg err"; return;
+    msg.textContent = "błąd: " + (d.detail || r.status); msg.className = "msg err";
+    return null;
   }
-  // opcjonalnie od razu credentials, gdy hasło jest wpisane
   if (pass) {
-    await fetch(`/api/accounts/${encodeURIComponent(alias)}/credentials`, {
+    const cr = await fetch(`/api/accounts/${encodeURIComponent(alias)}/credentials`, {
       method: "POST", headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ig_username: user, ig_password: pass}),
     });
+    if (!cr.ok) {
+      const err = await cr.json().catch(() => ({}));
+      msg.textContent = `konto '${alias}' jest, ale hasło nie zapisane: ${err.detail || cr.status}`;
+      msg.className = "msg err";
+      ACCOUNTS = await fetch("/api/accounts").then(r => r.json());
+      selectedAccountByDevice[dev] = alias;
+      npFormMode = "edit";
+      updateNpFormModeUi();
+      syncAccountSelects(alias);
+      await loadDevices();
+      await reloadForActiveAccount();
+      return {alias, hasPassword: false, pkg, device: dev};
+    }
     $("np-cred-pass").value = "";
   }
-  msg.textContent = `utworzono konto '${alias}'`; msg.className = "msg ok";
+  msg.textContent = `utworzono konto '${alias}' na klonie ${pkg}`;
+  msg.className = "msg ok";
   ACCOUNTS = await fetch("/api/accounts").then(r => r.json());
   selectedAccountByDevice[dev] = alias;
-  // po create — edycja nowego konta (sync OK)
   npFormMode = "edit";
   updateNpFormModeUi();
   syncAccountSelects(alias);
-  await loadDevices();   // odśwież oznaczenia „zajęty"
+  await loadDevices();
   await reloadForActiveAccount();
+  return {alias, hasPassword: !!pass, pkg, device: dev};
+}
+
+/** Start flow logowania na konkretnym aliasie; 2FA zostaje na zakładce Konta. */
+async function startLoginOnAccount(acc) {
+  const msg = $("np-login-msg");
+  if (!acc) {
+    msg.textContent = "brak aliasu konta — najpierw utwórz konto na tym klonie";
+    msg.className = "msg err";
+    return false;
+  }
+  const r = await fetch("/api/login", {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({account: acc}),
+  });
+  if (!r.ok) {
+    const d = await r.json().catch(() => ({}));
+    msg.textContent = "nie uruchomiono: " + (d.detail || r.status);
+    msg.className = "msg err";
+    return false;
+  }
+  msg.textContent =
+    `logowanie '${acc}' na telefonie — jeśli IG poprosi o kod, pole pojawi się poniżej (zostajesz na Kontach)`;
+  msg.className = "msg ok";
+  await refreshStatus();
+  await pollVerificationCode();
+  return true;
+}
+
+$("btn-np-create").onclick = async () => {
+  await createAccountFromForm();
+};
+
+const _btnCreateLogin = $("btn-np-create-login");
+if (_btnCreateLogin) _btnCreateLogin.onclick = async () => {
+  const pass = $("np-cred-pass").value;
+  const msg = $("np-login-msg");
+  if (!($("np-cred-user").value || "").trim() || !pass) {
+    msg.textContent = "do logowania potrzebne Login IG i hasło";
+    msg.className = "msg err";
+    return;
+  }
+  const created = await createAccountFromForm();
+  if (!created) return;
+  if (!created.hasPassword) {
+    msg.textContent = "konto jest, ale brak hasła — zapisz dane logowania i kliknij Zaloguj";
+    msg.className = "msg err";
+    return;
+  }
+  await startLoginOnAccount(created.alias);
 };
 
 async function loadCredStatus() {
@@ -4372,7 +4501,7 @@ async function loadCredStatus() {
   if (npFormMode === "create") {
     if ($("np-cred-status")) {
       $("np-cred-status").textContent =
-        "tryb nowe konto — credentials zapiszesz przy „Utwórz konto” lub po utworzeniu";
+        "tryb nowe konto — hasło zapisze się przy „Utwórz konto” / „Utwórz konto i zaloguj”";
     }
     return;
   }
@@ -4387,7 +4516,7 @@ async function loadCredStatus() {
 $("btn-np-cred-save").onclick = async () => {
   if (npFormMode === "create") {
     $("np-cred-status").textContent =
-      "w trybie nowe użyj „Utwórz konto” (opcjonalnie z hasłem) — zapis credentials dotyczy istniejącego aliasu";
+      "w trybie nowe użyj „Utwórz konto i zaloguj” (albo „Tylko utwórz konto” z hasłem)";
     return;
   }
   const acc = activeAccount();
@@ -4408,22 +4537,12 @@ const _btnDelAcc = $("btn-np-delete-account");
 if (_btnDelAcc) _btnDelAcc.onclick = () => deleteAccountFlow("np-delete-msg");
 
 $("btn-np-login").onclick = async () => {
-  const acc = activeAccount();
+  const acc = ($("np-alias").value || "").trim() || activeAccount();
   const msg = $("np-login-msg");
-  if (!acc) return;
-  const r = await fetch("/api/login", {
-    method: "POST", headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({account: acc}),
-  });
-  if (!r.ok) {
-    const d = await r.json().catch(() => ({}));
-    msg.textContent = "nie uruchomiono: " + (d.detail || r.status); msg.className = "msg err";
-    return;
+  if (!acc) {
+    msg.textContent = "wybierz albo utwórz konto"; msg.className = "msg err"; return;
   }
-  msg.textContent = "uruchomiono — jeśli IG poprosi o kod z e-maila/SMS-a, pole pojawi się poniżej";
-  msg.className = "msg ok";
-  await refreshStatus();
-  goTab("events");
+  await startLoginOnAccount(acc);
 };
 
 // ============================================================
@@ -4487,7 +4606,7 @@ function pluginLabel(pid) {
 }
 
 function applyManualLock(on) {
-  const ids = ["btn-start", "btn-queue-run", "btn-np-login"];
+  const ids = ["btn-start", "btn-queue-run", "btn-np-login", "btn-np-create-login"];
   const els = ids.map($).filter(Boolean)
     .concat([...document.querySelectorAll(".manual-run")]);
   for (const el of els) {
