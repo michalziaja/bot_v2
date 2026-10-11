@@ -22,7 +22,9 @@ from __future__ import annotations
 
 import random
 import time
+from pathlib import Path
 
+from v2.data.stores import PhraseUsageStore
 from v2.plugins import stepcall
 from v2.plugins.base import Budget, PluginResult, draw_range, gate_params
 from v2.plugins.content_search_log import (
@@ -68,6 +70,19 @@ _VIEWER_SHEETS = frozenset({
     "story_viewer",
 })
 
+# Jednoznaczne listy/profile — BACK zamyka je. `reel_comments_sheet` tu NIE
+# wchodzi: po harvestcie posta identify zwraca comments-FP viewera.
+_DISMISS_ALWAYS = frozenset({
+    "reel_likers_list",
+    "followers_list",
+    "following_list",
+    "profile_other",
+    "profile_self",
+    "story_viewer",
+    "share_sheet",
+    "profile_options_sheet",
+})
+
 
 @register
 class ContentSearch:
@@ -83,14 +98,25 @@ class ContentSearch:
                  # gałąź B — osobne liczniki (nie zużywają limitu fraz A)
                  "tag_variants_phrases": 0, "tag_variants_collected": 0}
 
-        # Ujednolić UI Znaczniki (ile zbierać / ile otworzyć) + legacy mode=grid
+        # Ujednolić UI Znaczniki, potem izolacja A/B / mix wg run_scope z kolejki
         s = normalize_tag_variants_settings(s)
-        phrases = _pick_phrases(s, rng)
+        s = _apply_run_scope(s)
+        usage = _load_phrase_usage(ctx)
+        scope = s.get("run_scope") or "both"
+        mix_items: list[dict] = []
+        phrases: list[str] = []
+        if scope == "mix":
+            mix_items = _pick_mix_items(ctx, s, rng, usage=usage)
+        elif scope != "tag_variants":
+            phrases = _pick_phrases(s, rng, usage=usage)
         tvb = s.get("tag_variants_budget") or {}
-        # sesja bez fraz A jest OK, gdy włączona sama gałąź B (mapa / live)
-        if not phrases and not tvb.get("enabled"):
+        # sesja bez fraz A jest OK przy gałęzi B albo przy mixie z mapy
+        if scope == "mix":
+            empty = not mix_items
+        else:
+            empty = not phrases and not tvb.get("enabled")
+        if empty:
             ctx.log("content_search.no_phrases")
-            # Operator: pusta lista fraz — nie ma czego szukać
             say(no_phrases_line())
             return PluginResult.done(budget, "empty", **stats)
 
@@ -102,30 +128,55 @@ class ContentSearch:
         ctx.scratch.setdefault("tag_variants_used", [])
         try:
             stopped_by = "items"
-            # Indeks frazy do logów X/Y + SessionStats (1-based)
-            p_n = len(phrases)
-            # --- Gałąź A: frazy (keywords / hashtags z phrases.*) ---
-            for p_i, phrase in enumerate(phrases, start=1):
-                reason = budget.stop_reason()
-                if reason:
-                    stopped_by = reason
-                    break
-                # Przekaż indeks do _search → „Szukam #x… 1/2”
-                ctx.scratch["_cs_phrase_i"] = p_i
-                ctx.scratch["_cs_phrase_n"] = p_n
-                out = self._one_phrase(ctx, s, phrase, budget, rng, stats)
-                stats["phrases"] += 1
-                sync_plugin_stats(ctx, stats, items_done=budget.items_done,
-                                  max_items=budget.max_items)
-                if out in ("limit_daily", "user"):
-                    stopped_by = out
-                    break
+            # --- Mix: jedna pula (frazy + znaczniki), każdy wpis ze swoim source ---
+            if scope == "mix":
+                p_n = len(mix_items)
+                for p_i, item in enumerate(mix_items, start=1):
+                    reason = budget.stop_reason()
+                    if reason:
+                        stopped_by = reason
+                        break
+                    ctx.scratch["_cs_phrase_i"] = p_i
+                    ctx.scratch["_cs_phrase_n"] = p_n
+                    ctx.scratch["_cs_usage_kind"] = item.get("kind")
+                    item_s = dict(s)
+                    item_s["source"] = item.get("source") or "hashtag"
+                    out = self._one_phrase(
+                        ctx, item_s, item.get("query") or "", budget, rng, stats)
+                    stats["phrases"] += 1
+                    if item.get("kind") == "tag_variants":
+                        stats["tag_variants_phrases"] = (
+                            int(stats.get("tag_variants_phrases") or 0) + 1)
+                    sync_plugin_stats(ctx, stats, items_done=budget.items_done,
+                                      max_items=budget.max_items)
+                    if out in ("limit_daily", "user"):
+                        stopped_by = out
+                        break
+            else:
+                # Indeks frazy do logów X/Y + SessionStats (1-based)
+                p_n = len(phrases)
+                # --- Gałąź A: frazy (keywords / hashtags z phrases.*) ---
+                for p_i, phrase in enumerate(phrases, start=1):
+                    reason = budget.stop_reason()
+                    if reason:
+                        stopped_by = reason
+                        break
+                    ctx.scratch["_cs_phrase_i"] = p_i
+                    ctx.scratch["_cs_phrase_n"] = p_n
+                    out = self._one_phrase(ctx, s, phrase, budget, rng, stats)
+                    stats["phrases"] += 1
+                    sync_plugin_stats(ctx, stats, items_done=budget.items_done,
+                                      max_items=budget.max_items)
+                    if out in ("limit_daily", "user"):
+                        stopped_by = out
+                        break
 
-            # --- Gałąź B: znaczniki / warianty (osobny budżet) ---
-            if (stopped_by == "items"
+            # --- Gałąź B: znaczniki / warianty (osobny budżet; nie w mixie) ---
+            if (scope != "mix"
+                    and stopped_by == "items"
                     and not budget.stop_reason()
                     and tvb.get("enabled")):
-                tags = _pick_tag_variant_seeds(ctx, s, rng)
+                tags = _pick_tag_variant_seeds(ctx, s, rng, usage=usage)
                 t_n = len(tags)
                 for t_i, tag in enumerate(tags, start=1):
                     reason = budget.stop_reason()
@@ -151,6 +202,7 @@ class ContentSearch:
             ctx.scratch.pop("tag_variants_used", None)
             ctx.scratch.pop("_cs_phrase_i", None)
             ctx.scratch.pop("_cs_phrase_n", None)
+            ctx.scratch.pop("_cs_usage_kind", None)
 
         ctx.navigator.ensure(HOME, max_steps=4)
         ctx.log("content_search.done", stopped_by=stopped_by, **stats)
@@ -181,6 +233,9 @@ class ContentSearch:
         ctx.scratch.pop("grid_used", None)      # nowa fraza = nowa siatka
         if not self._search(ctx, s, phrase):
             return "next"
+        # Wpisana fraza = sprawdzona (nawet gdy siatka pusta)
+        usage_kind = ctx.scratch.get("_cs_usage_kind") or _phrase_bucket(source)
+        _record_phrase_checked(ctx, usage_kind, query)
 
         # 1) Najpierw harvest z głównych wyników (nie z zakładki Znaczniki)
         out = self._harvest_grid(
@@ -201,6 +256,10 @@ class ContentSearch:
         if tvb.get("enabled") and tag_src == "from_map":
             return out
 
+        # w mixie znacznik z mapy już jest w puli — nie collectuj Tags ponownie
+        if ctx.scratch.get("_cs_usage_kind") == "tag_variants":
+            return out
+
         self._discover_tag_variants(ctx, s, query, stats)
         return out
 
@@ -209,8 +268,14 @@ class ContentSearch:
         tvb = s.get("tag_variants_budget") or {}
         per = s.get("per_phrase") or {}
         want = max(1, int(tvb.get("tiles_per_phrase", 2)))
-        # 0 jest poprawnym limitem — nie używaj `or` (0 → falsy)
-        scrolls = max(0, int(tvb.get("scrolls", 2)))
+        # To samo pole UI co gałąź A („Ile scrolli w viewerze”). tvb.scrolls
+        # tylko gdy tam 0 — inaczej 14–21 z siatki było ignorowane.
+        scrolls = max(0, draw_range(per.get("scrolls_in_viewer"), rng, 0))
+        if scrolls <= 0:
+            try:
+                scrolls = max(0, int(tvb.get("scrolls", 0) or 0))
+            except (TypeError, ValueError):
+                scrolls = 0
         pool = int(per.get("grid_pool_size", 4))
         phrase = _query_for("hashtag", tag)
         say(phrase_start_line(phrase, source="hashtag"))
@@ -218,6 +283,7 @@ class ContentSearch:
         _mark_tag_used(ctx, phrase)
         if not self._search(ctx, {**s, "source": "hashtag"}, phrase):
             return "next"
+        _record_phrase_checked(ctx, "tag_variants", phrase)
         return self._harvest_grid(
             ctx, s, phrase, budget, rng, stats,
             want=want, scrolls=scrolls, pool=pool, source="hashtag")
@@ -352,6 +418,7 @@ class ContentSearch:
                 _dismiss_sheet_stack(ctx)
                 back_ok = _back_to(ctx, RESULTS)
                 ctx.scratch.pop("content_search_sheet", None)
+                ctx.scratch.pop("_cs_on_viewer", None)
                 if back_ok:
                     # Przywróć baseline pod kolejne open_from_grid / hot
                     ctx.scratch["baseline_screen"] = RESULTS
@@ -499,9 +566,12 @@ class ContentSearch:
             keep_open = bool(hot.get("enabled"))
             stop = "ok"
             try:
+                # keep_sheet_open ZAWSZE: harvest.return_to_reels zamykał
+                # rolkę z # (live 02:59: overshoot_results → 0 scrolli).
+                # Sheet zamyka `_dismiss_sheet_stack` w finally (jak posty).
                 r = _step(ctx, open_step, {
                     "limit": draw_range(harvest.get("collect"), rng, 10),
-                    "keep_sheet_open": keep_open})
+                    "keep_sheet_open": True})
                 pl = r.payload or {}
                 saved = int(pl.get("saved") or 0)
                 dupes = int(pl.get("dupes_skipped") or 0)
@@ -742,10 +812,18 @@ def _still_in_content(ctx, kind: str) -> bool:
     # Wyniki wyszukiwania / search UI — zawsze poza treścią
     if top in (RESULTS, "search_top", "search_input_active"):
         return False
-    if st.overlay:
-        return False
     if top == "reels_feed":
         return True
+
+    # Po harvest: viewer posta/rolki z # bywa home_feed / comments-FP + overlay.
+    # overlay NIE może tu wygrywać — live post 02:31: drugi BACK = RESULTS.
+    if (ctx.scratch.get("content_search_active")
+            and ctx.scratch.get("_cs_on_viewer")
+            and top not in _DISMISS_ALWAYS):
+        return True
+
+    if st.overlay:
+        return False
 
     # Sheet: prawdziwy (flaga z harvest) → nie treść.
     # `reel_comments_sheet` BEZ flagi = false positive viewera z # → treść.
@@ -799,7 +877,9 @@ def _swipe_in_viewer(ctx, kind: str) -> bool:
     Post: ten sam gest pionowy w viewerze „Posty"/explore — bez markera rolek.
     """
     if kind == "reel":
-        r = _step(ctx, "reels.swipe_next", {"announce": False})
+        r = _step(ctx, "reels.swipe_next", {
+            "announce": False, "log_prefix": "content_search",
+        })
         return r.status == "ok"
     return _swipe_post_viewer(ctx)
 
@@ -935,6 +1015,72 @@ def normalize_tag_variants_settings(s: dict) -> dict:
     return out
 
 
+def _apply_run_scope(s: dict) -> dict:
+    """Izolacja gałęzi A/B / mix wg `run_scope` z overrides kolejki.
+
+    phrases      — tylko lista fraz; nie otwieraj znaczników (collect do mapy OK)
+    tag_variants — tylko mapa niche.tag_variants (from_map); pomiń frazy
+    mix          — jedna pula fraz + znaczników (mix_from); bez osobnej gałęzi B
+    both / puste — legacy: A potem opcjonalnie B
+    """
+    out = dict(s or {})
+    scope = str(out.get("run_scope") or "both").strip().lower()
+    if scope not in ("phrases", "tag_variants", "mix", "both"):
+        scope = "both"
+    out["run_scope"] = scope
+
+    tvb = dict(out.get("tag_variants_budget") or {})
+    kind = str(tvb.get("map_seed_kind") or "both").strip().lower()
+    if kind not in ("hashtag", "keyword", "both"):
+        kind = "both"
+    tvb["map_seed_kind"] = kind
+
+    if scope == "phrases":
+        tvb["enabled"] = False
+        out["tag_variants_budget"] = tvb
+    elif scope == "tag_variants":
+        tvb["source"] = "from_map"
+        try:
+            max_open = max(0, int(tvb.get("max_phrases") or 0))
+        except (TypeError, ValueError):
+            max_open = 0
+        if max_open <= 0:
+            max_open = _per_session_fallback(out)
+        tvb["max_phrases"] = max_open
+        tvb["enabled"] = True
+        out["tag_variants_budget"] = tvb
+    elif scope == "mix":
+        # znaczniki są w puli mix — nie duplikuj gałęzią B
+        tvb["source"] = "from_map"
+        tvb["enabled"] = False
+        out["tag_variants_budget"] = tvb
+        allowed = {"hashtag", "keyword", "location", "tag_variants"}
+        mix_from = [
+            str(x).strip() for x in (out.get("mix_from") or [])
+            if str(x).strip() in allowed
+        ]
+        if not mix_from:
+            mix_from = ["hashtag", "keyword", "tag_variants"]
+        out["mix_from"] = mix_from
+    return out
+
+
+def _per_session_fallback(s: dict, default: int = 2) -> int:
+    """Gdy „Ile # otworzyć” = 0, weź phrases.per_session (min. 1)."""
+    per = (s.get("phrases") or {}).get("per_session")
+    if isinstance(per, dict):
+        try:
+            return max(1, int(per.get("max") or per.get("min") or default))
+        except (TypeError, ValueError):
+            return default
+    if per is not None:
+        try:
+            return max(1, int(per))
+        except (TypeError, ValueError):
+            return default
+    return default
+
+
 def _migrate_legacy_phrase_list(phrases: dict) -> dict:
     """Stara płaska `list` → hashtags / keywords (raz), zachowaj list dla kompat."""
     ph = dict(phrases or {})
@@ -971,13 +1117,12 @@ def _dedupe_phrases(items: list[str]) -> list[str]:
     return out
 
 
-def _pick_phrases(s: dict, rng) -> list[str]:
-    """Frazy z listy dopasowanej do source (hashtag / keyword / location)."""
+def _all_phrases_for_source(s: dict, source: str) -> list[str]:
+    """Pełna lista fraz dla source — bez tasowania i bez limitu per_session."""
     cfg = _migrate_legacy_phrase_list(s.get("phrases") or {})
-    source = (s.get("source") or "hashtag").strip()
+    source = (source or "hashtag").strip()
     bucket = _phrase_bucket(source)
     lst = list(cfg.get(bucket) or [])
-    # awaryjnie: stara płaska list, przefiltrowana po kontekście
     if not lst:
         legacy = [str(p).strip() for p in (cfg.get("list") or []) if str(p).strip()]
         if source == "hashtag":
@@ -992,17 +1137,86 @@ def _pick_phrases(s: dict, rng) -> list[str]:
         lst = [_query_for("hashtag", p) for p in lst]
     else:
         lst = [p.lstrip("#") for p in lst]
-    lst = _dedupe_phrases([p for p in lst if p])
+    return _dedupe_phrases([p for p in lst if p])
+
+
+def _pick_phrases(s: dict, rng, usage: dict | None = None) -> list[str]:
+    """Frazy z listy dopasowanej do source (hashtag / keyword / location)."""
+    source = (s.get("source") or "hashtag").strip()
+    lst = _all_phrases_for_source(s, source)
     if not lst:
         return []
-    if (cfg.get("order") or "random") == "random":
+    cfg = _migrate_legacy_phrase_list(s.get("phrases") or {})
+    bucket = _phrase_bucket(source)
+    order = (cfg.get("order") or "random")
+    if order == "least_recent":
+        lst = _sort_least_recent(lst, (usage or {}).get(bucket) or {})
+    elif order == "random":
         lst = list(lst)
         rng.shuffle(lst)
     n = draw_range(cfg.get("per_session"), rng, 1)
     return lst[:max(1, n)]
 
 
-def _pick_tag_variant_seeds(ctx, s: dict, rng) -> list[str]:
+def _map_seed_kind(s: dict) -> str:
+    """hashtag / keyword / both — które klucze mapy biorą udział."""
+    k = str((s.get("tag_variants_budget") or {}).get("map_seed_kind") or "both")
+    k = k.strip().lower()
+    return k if k in ("hashtag", "keyword", "both") else "both"
+
+
+def _pick_mix_items(ctx, s: dict, rng, usage: dict | None = None) -> list[dict]:
+    """Jedna pula {query, source, kind} z mix_from — tasuj, obetnij per_session."""
+    mix_from = [
+        str(x).strip() for x in (s.get("mix_from") or []) if str(x).strip()
+    ]
+    items: list[dict] = []
+    if "hashtag" in mix_from:
+        for p in _all_phrases_for_source(s, "hashtag"):
+            items.append({"query": p, "source": "hashtag", "kind": "hashtags"})
+    if "keyword" in mix_from:
+        for p in _all_phrases_for_source(s, "keyword"):
+            items.append({"query": p, "source": "keyword", "kind": "keywords"})
+    if "location" in mix_from:
+        for p in _all_phrases_for_source(s, "location"):
+            items.append({"query": p, "source": "location", "kind": "locations"})
+    if "tag_variants" in mix_from:
+        for tag in _variants_from_niche_map(ctx, seed_kind=_map_seed_kind(s)):
+            q = _query_for("hashtag", tag)
+            items.append({"query": q, "source": "hashtag", "kind": "tag_variants"})
+
+    # ten sam query+source raz (np. #kariera na liście i w mapie)
+    out, seen = [], set()
+    for it in items:
+        key = (it["source"], str(it["query"]).casefold())
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(it)
+
+    cfg = s.get("phrases") or {}
+    order = (cfg.get("order") or "random")
+    if order == "least_recent":
+        out = _sort_mix_least_recent(out, usage or {})
+    elif order == "sequential":
+        pass
+    else:
+        rng.shuffle(out)
+    n = draw_range(cfg.get("per_session"), rng, 1)
+    return out[:max(1, n)] if out else []
+
+
+def _sort_mix_least_recent(items: list[dict], usage: dict) -> list[dict]:
+    """Mix: najdawniej sprawdzane wg właściwego bucketa usage."""
+    def key(it: dict):
+        rec = _usage_rec((usage or {}).get(it.get("kind") or "") or {},
+                          it.get("query") or "")
+        ts = str((rec or {}).get("last_checked") or "")
+        return (ts, str(it.get("query") or "").casefold())
+    return sorted(items, key=key)
+
+
+def _pick_tag_variant_seeds(ctx, s: dict, rng, usage: dict | None = None) -> list[str]:
     """Gałąź B: znaczniki z mapy / live collect / both — bez już użytych."""
     tvb = s.get("tag_variants_budget") or {}
     source = str(tvb.get("source") or "from_map").strip().lower()
@@ -1012,7 +1226,7 @@ def _pick_tag_variant_seeds(ctx, s: dict, rng) -> list[str]:
 
     candidates: list[str] = []
     if source in ("from_map", "both"):
-        candidates.extend(_variants_from_niche_map(ctx))
+        candidates.extend(_variants_from_niche_map(ctx, seed_kind=_map_seed_kind(s)))
     if source in ("live_collect", "both"):
         candidates.extend(ctx.scratch.get("session_tag_variants") or [])
 
@@ -1034,21 +1248,91 @@ def _pick_tag_variant_seeds(ctx, s: dict, rng) -> list[str]:
         seen.add(key)
         out.append(tag)
 
-    if (s.get("phrases") or {}).get("order") == "sequential":
+    order = (s.get("phrases") or {}).get("order") or "random"
+    if order == "sequential":
         pass  # zachowaj kolejność mapy / collect
+    elif order == "least_recent":
+        out = _sort_least_recent(out, (usage or {}).get("tag_variants") or {})
     else:
         rng.shuffle(out)
     return out[:max_n]
 
 
-def _variants_from_niche_map(ctx) -> list[str]:
-    """Spłaszcz wartości niche.tag_variants → lista # (kolejność mapy)."""
+def _sort_least_recent(phrases: list[str], bucket: dict) -> list[str]:
+    """Nigdy sprawdzane, potem najstarsze last_checked — stabilnie po casefold."""
+    def key(p: str):
+        rec = _usage_rec(bucket, p)
+        ts = str((rec or {}).get("last_checked") or "")
+        return (ts, p.casefold())
+    return sorted(phrases, key=key)
+
+
+def _usage_rec(bucket: dict, phrase: str) -> dict | None:
+    """Rekord usage po casefold (klucz w pliku może mieć inną wielkość liter)."""
+    want = str(phrase or "").casefold()
+    if not want:
+        return None
+    for k, rec in (bucket or {}).items():
+        if str(k).casefold() == want and isinstance(rec, dict):
+            return rec
+    return None
+
+
+def _phrase_usage_store(ctx) -> PhraseUsageStore | None:
+    """Store last-checked — None gdy brak account/events (testy, oneshot)."""
+    account_id = getattr(getattr(ctx, "account", None), "account_id", None)
+    events = getattr(ctx, "events", None)
+    if not account_id or events is None:
+        return None
+    try:
+        root = Path(events.file_path).parent.parent.parent
+        return PhraseUsageStore(account_id, root)
+    except Exception:
+        return None
+
+
+def _load_phrase_usage(ctx) -> dict:
+    """Dump usage albo puste buckety — pick least_recent nie pada bez pliku."""
+    st = _phrase_usage_store(ctx)
+    if st is None:
+        return {"hashtags": {}, "keywords": {}, "locations": {}, "tag_variants": {}}
+    try:
+        return st.read()
+    except Exception:
+        return {"hashtags": {}, "keywords": {}, "locations": {}, "tag_variants": {}}
+
+
+def _record_phrase_checked(ctx, kind: str, phrase: str) -> None:
+    """Zapisz last_checked po udanym type_query (miękki fail — nie rwij sesji)."""
+    st = _phrase_usage_store(ctx)
+    if st is None:
+        return
+    try:
+        st.mark_checked(kind, phrase)
+    except Exception as e:
+        ctx.log("content_search.phrase_usage_fail", kind=kind,
+                phrase=str(phrase)[:60], error=str(e))
+
+
+def _variants_from_niche_map(ctx, seed_kind: str = "both") -> list[str]:
+    """Spłaszcz wartości niche.tag_variants → lista # (kolejność mapy).
+
+    `seed_kind`: hashtag = tylko klucze z #; keyword = klucze bez #; both = wszystko.
+    """
     niche = getattr(getattr(ctx, "account", None), "niche", None) or {}
     mapping = niche.get("tag_variants") if isinstance(niche, dict) else None
     if not isinstance(mapping, dict):
         return []
+    kind = (seed_kind or "both").strip().lower()
+    if kind not in ("hashtag", "keyword", "both"):
+        kind = "both"
     out: list[str] = []
-    for _expr, vals in mapping.items():
+    for expr, vals in mapping.items():
+        is_hash = str(expr or "").strip().startswith("#")
+        if kind == "hashtag" and not is_hash:
+            continue
+        if kind == "keyword" and is_hash:
+            continue
         for v in vals or []:
             s = str(v).strip()
             if s:
@@ -1130,54 +1414,53 @@ def _sync_variants_to_phrases(ctx, hashtags: list[str]) -> None:
 
 
 def _dismiss_sheet_stack(ctx, *, max_backs: int = 6) -> None:
-    """Zejdź z sheetu/profilu BACK-iem do treści — bez ensure(reels)/clips.
+    """Zejdź z sheetu BACK-iem do treści — bez ensure(reels)/clips.
 
-    Cel: viewer (reels_feed / post), NIE search_results.
-    `reel_comments_sheet` bywa false positive na viewerze z # (live: open
-    ląduje jako comments, a BACK zamykał całą rolkę → RESULTS przed scrollem).
-    BACK z comments tylko gdy sami otworzyliśmy sheet (`content_search_sheet`).
+    Cel: viewer (rolka / post), NIE search_results.
+    Jeden BACK z listy lajkujących/komentarzy. Drugi BACK zamyka treść
+    (live post 02:31: viewer_lost top=search_results, 0 scrolli).
+    Po BACK `reel_comments_sheet` to zwykle false positive viewera — STOP.
     """
-    # Jednoznaczne overlaye — zawsze wolno zamknąć
-    unambiguous = frozenset({
-        "reel_likers_list",
-        "profile_other",
-        "profile_self",
-        "story_viewer",
-        "share_sheet",
-        "profile_options_sheet",
-    })
     for _ in range(max_backs):
         state = ctx.navigator.identify()
         top = state.top
-        # Już poza sheetem / na wynikach — nie kop głębiej
-        if top in (RESULTS, HOME, "search_top", "search_input_active",
-                   "reels_feed"):
+        if top in (RESULTS, "search_top", "search_input_active"):
+            ctx.scratch.pop("_cs_on_viewer", None)
             ctx.scratch.pop("content_search_sheet", None)
             return
-        should = False
-        if state.overlay or top in unambiguous:
-            should = True
-        elif top == "reel_comments_sheet":
-            # Tylko prawdziwy sheet z harvest/open — nie false positive viewera
+        if top == "reels_feed":
+            ctx.scratch.pop("content_search_sheet", None)
+            return
+        # Nie BACK-uj samego overlayu: viewer posta ma overlay i comments-FP.
+        should = top in _DISMISS_ALWAYS
+        if top == "reel_comments_sheet":
+            # BACK tylko z prawdziwego sheetu, który sami otworzyliśmy
             should = bool(ctx.scratch.get("content_search_sheet"))
         if not should:
+            if ctx.scratch.get("content_search_active") and top not in (RESULTS,):
+                ctx.scratch["_cs_on_viewer"] = True
+            ctx.scratch.pop("content_search_sheet", None)
             return
+        from_top = top
         ctx.device.press_back()
         ctx.humanizer.pause("tap")
         time.sleep(0.12)
-        nxt_st = ctx.navigator.identify()
-        nxt = nxt_st.top
-        # Overshoot: sheet był płytszy niż myśleliśmy → już RESULTS/home
-        if nxt in (RESULTS, HOME, "search_top", "search_input_active"):
+        nxt = ctx.navigator.identify().top
+        # Sheet zamknięty — flaga precz, żeby comments-FP nie dostał drugiego BACK
+        ctx.scratch.pop("content_search_sheet", None)
+        if nxt in (RESULTS, "search_top", "search_input_active"):
             ctx.log("content_search.dismiss_overshoot",
-                    from_top=top, to=nxt)
-            ctx.scratch.pop("content_search_sheet", None)
+                    from_top=from_top, to=nxt)
+            ctx.scratch.pop("_cs_on_viewer", None)
             return
-        # Wylądowaliśmy na treści / poza sheetem
-        if (nxt not in unambiguous and nxt != "reel_comments_sheet"
-                and not nxt_st.overlay):
-            ctx.scratch.pop("content_search_sheet", None)
+        if nxt == "reels_feed":
             return
+        # overlay na comments/home = viewer, NIE kolejny sheet
+        if nxt in _DISMISS_ALWAYS:
+            continue
+        # home / comments-FP / viewer posta — jeden BACK wystarczy
+        ctx.scratch["_cs_on_viewer"] = True
+        return
 
 
 def _back_to(ctx, target: str | None, *, max_backs: int = 8) -> bool:

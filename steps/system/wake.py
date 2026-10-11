@@ -4,6 +4,12 @@ import time
 from v2.runner.step import StepResult
 from v2.steps.registry import register
 
+# KEYCODE_WAKEUP bywa ignorowany w głębokim śnie Samsunga; POWER to plan B.
+_WAKE_KEYS = (
+    ("wakeUp", "wake_up_key"),
+    ("power", "press_power"),
+)
+
 
 @register
 class Wake:
@@ -13,12 +19,23 @@ class Wake:
     def run(self, ctx, params):
         if not ctx.account.step_enabled("wake"):
             return StepResult.skipped("disabled_in_config")
-        was_on = ctx.device.screen_is_on()
-        if was_on:
+        # Pusty dumpsys ≠ ekran OFF — zwykle martwy ADB / odpięty USB.
+        power = ctx.device.dumpsys_power()
+        if not (power or "").strip():
+            return StepResult.failed(
+                "dumpsys power pusty — telefon nie odpowiada (USB/ADB?)",
+                was_on=False, dumpsys="empty")
+        if ctx.device.screen_is_on():
             return StepResult.ok(was_on=True, action="none")
-        ctx.device.wake_up_key()
-        ctx.humanizer.pause("after_wake")
-        now_on = ctx.device.screen_is_on()
-        if not now_on:
-            return StepResult.failed("nie udało się wybudzić ekranu", was_on=False)
-        return StepResult.ok(was_on=False, action="wakeUp")
+        used = []
+        for action, method in _WAKE_KEYS:
+            getattr(ctx.device, method)()
+            used.append(action)
+            ctx.humanizer.pause("after_wake")
+            for _ in range(4):
+                if ctx.device.screen_is_on():
+                    return StepResult.ok(was_on=False, action=action)
+                time.sleep(0.4)
+        return StepResult.failed(
+            "nie udało się wybudzić ekranu (WAKEUP+POWER)",
+            was_on=False, tried=used)

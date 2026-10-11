@@ -1,0 +1,269 @@
+{
+  "name": "06_date_range",
+  "note_pl": "Sheet zakresu dat po tap 30 dni (z góry Odbiorcy)",
+  "pkg": null,
+  "activity": "",
+  "nodes": [
+    {
+      "text": "20:00",
+      "desc": "20:00",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[54,0][151,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Podróże Wojownika",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[159,0][206,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Instagram: who.is.aleksandra",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[206,0][253,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[253,0][300,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Kosmiczne Opowieści",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[300,0][347,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[724,23][764,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[767,23][808,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[811,23][858,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[858,23][897,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[905,0][1026,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[905,0][1000,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "Okres",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,548][735,594]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "7 dni",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,626][1016,752]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "7 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,658][748,720]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "14 dni",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,755][1016,881]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "14 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,787][774,849]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "30 dni",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,884][1016,1010]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "30 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,916][774,978]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "60 dni",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,1013][1016,1139]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "60 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,1045][774,1107]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "90 dni",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,1142][1016,1268]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "90 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,1174][774,1236]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "with",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,1287][721,1333]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Meta One",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[721,1287][866,1333]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "180 dni",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,1349][1016,1475]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "180 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,1381][800,1443]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Niestandardowy",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,1481][1016,1661]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Niestandardowy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[649,1513][963,1629]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Close",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[596,1661][599,1664]",
+      "pkg": "com.instagram.androia"
+    }
+  ]
+}

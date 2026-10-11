@@ -2,9 +2,17 @@
 się na nim znajdujemy, i potwierdź łańcuch popupów, które IG pokazuje zaraz
 po pierwszym logowaniu na nowym urządzeniu/klonie.
 
-Świadomie NIE obsługuje: checkpoint, captchę — to kończy się ręcznie na
-telefonie (ustalone). Weryfikację kodem e-mail/SMS obsługuje osobny krok
-`system.enter_verification_code_if_needed` (panel→bot, patrz ten moduł).
+Świadomie NIE omija captchy / checkpointu — to kończy się ręcznie na
+telefonie (ustalone). Captcha BLOKUJE łańcuch popupów: NIE wolno tapnąć
+„Kontynuuj” przy „Wpisz widoczne znaki” (live kasia21sum 2026-09-06:
+puste pole → czerwony błąd). Weryfikację kodem e-mail/SMS obsługuje
+osobny krok `system.enter_verification_code_if_needed` (panel→bot).
+
+**Overlay Google Passkey** (live kasia21sum 2026-09-06) —
+`AssistedSignInActivity` przykrywa pola logowania; hierarchia widzi tylko
+GMS → `login_screen_not_detected`. Najpierw X
+`com.google.android.gms:id/cancel` (desc „Anuluj”). NIGDY nie tapamy
+„Użyj klucza z innego urządzenia”.
 Popupy „zapisać dane logowania?" i wprowadzenia do funkcji SĄ potwierdzane
 automatycznie (ustalone 2026-08-02, po zaobserwowaniu ich na żywym koncie) —
 zawsze przyciskiem AFIRMATYWNYM z listy `CONFIRM_HINTS`, nigdy „nie teraz"/
@@ -59,6 +67,15 @@ LOGIN_BUTTON_IDS = ("com.instagram.android:id/log_in_button",)
 USERNAME_HINTS = ("nazwa użytkownika", "adres e-mail", "numer telefonu", "username")
 PASSWORD_HINTS = ("hasło", "password")
 LOGIN_BUTTON_HINTS = ("zaloguj się", "log in")
+# „Nie pamiętasz hasła?" też zawiera „hasł" — przycisku logowania nie mylić z tym.
+LOGIN_BUTTON_SKIP_HINTS = ("nie pamiętasz", "forgot", "nowe konto", "create new",
+                           "pokaż hasło", "show password")
+
+# Po `input text` w polu hasła klawiatura zasłania CTA (live galaxy / SM_A520F
+# 2026-08-28: pola wpisane, dump bez „Zaloguj się", FAIL). Chowamy IME i
+# dajemy UI chwilę na powrót przycisku.
+LOGIN_BUTTON_WAIT_ATTEMPTS = 6
+LOGIN_BUTTON_WAIT_S = 0.8
 
 # Afirmatywne frazy popupów po zalogowaniu — TYLKO te, nigdy „nie teraz"/
 # „pomiń"/„anuluj"/„nie zezwalaj"/„tylko tym razem". „zezwól" (nie „zezwalaj")
@@ -88,6 +105,42 @@ SENSITIVE_PERMISSION_HINTS = ("lokalizacj", "kontakt", "location", "contacts")
 DENY_HINTS = ("nie zezwalaj", "don't allow", "deny")
 PERMISSION_DIALOG_PACKAGES = ("permissioncontroller",)
 
+# Komentarz: powiadomienia — NIGDY „Włącz”; zamykamy Nie teraz / Pomiń / Deny
+NOTIFICATION_HINTS = (
+    "powiadomien", "notification", "powiadomienia",
+)
+# Komentarz: live OnePlus 2026-09-09 — intro mapy po tap Direct
+MAP_INTRO_HINTS = (
+    "przedstawiamy mapę", "mapę instagramu", "instagram map",
+)
+
+# Overlay GMS passkey — zamknąć X zanim szukamy pól IG (kasia21sum 2026-09-06)
+GMS_PACKAGES = ("com.google.android.gms",)
+GMS_CANCEL_IDS = (
+    "com.google.android.gms:id/cancel",
+    "com.google.android.gms:id/touch_outside",
+)
+GMS_CANCEL_HINTS = ("anuluj", "cancel")
+GMS_PASSKEY_HINTS = (
+    "zaloguj się w inny sposób",
+    "użyj klucza z innego urządzenia",
+    "use a passkey",
+    "use a key from another device",
+    "sign in another way",
+)
+
+# Captcha IG — człowiek na telefonie; „Kontynuuj” NIE jest popupem
+CAPTCHA_HINTS = (
+    "captcha",
+    "nie jestem robotem",
+    "i'm not a robot",
+    "sprawdzamy, czy to ty",
+    "wpisz widoczne znaki",
+    "wpisz znaki",
+    "real human behind this login",
+    "wygeneruj nowy kod",
+)
+
 # Ekran/popup o kontaktach (IG intro LUB flat z „kontakt…") — NIGDY Kontynuuj.
 # Preferujemy „Pomiń", potem „Nie teraz", potem natywne „Nie zezwalaj".
 CONTACTS_HINTS = ("kontakt", "contacts")
@@ -97,12 +150,28 @@ SKIP_FALLBACK_HINTS = ("nie teraz", "not now", "nie zezwalaj", "don't allow", "d
 MAX_POST_LOGIN_POPUPS = 10
 HOME_SCREENS = {"home_feed", "reels_feed", "profile_self", "search_top", "direct_inbox"}
 
-# Świeżo uruchomiony klon bywa jeszcze na splashu, gdy sprawdzamy pierwszy raz
-# (zaobserwowane na żywo 2026-08-02: `ensure_ig_running` kończy się, zanim
-# ekran logowania zdąży się w pełni załadować) — kilka prób z odczekaniem,
-# zanim zgłosimy `login_screen_not_detected`.
-LOGIN_SCREEN_WAIT_ATTEMPTS = 5
-LOGIN_SCREEN_WAIT_S = 1.5
+# Świeżo uruchomiony klon bywa jeszcze na splashu / overlayu (live kasia21sum
+# 2026-09-06: pierwszy start androic ~10s). Dwa kolejne dumpy z polami =
+# naprawdę ekran logowania, nie błysk.
+LOGIN_SCREEN_WAIT_ATTEMPTS = 12
+LOGIN_SCREEN_WAIT_S = 2.0
+LOGIN_SCREEN_STABLE_HITS = 2
+
+# Po „Zaloguj się” musimy zejść z pól logowania (save-login / captcha / feed).
+# Live 2026-09-06: bot tapnął IME „Dalej”/„OK” i „pokaż hasło”, ekran nie zszedł.
+LEFT_LOGIN_ATTEMPTS = 10
+LEFT_LOGIN_WAIT_S = 1.2
+
+# Chrome ekranu logowania / IME — NIE są popupami po zalogowaniu
+LOGIN_CHROME_HINTS = (
+    "pokaż hasło", "show password",
+    "nie pamiętasz", "forgot",
+    "zaloguj się", "log in",
+    "nowe konto", "create new", "utwórz konto",
+)
+IME_CONFIRM_LABELS = ("dalej", "next", "ok", "done", "gotowe")
+# Krótkie frazy CONFIRM tylko jako cała etykieta — „ok” w środku słowa to fałsz
+SHORT_CONFIRM_HINTS = ("ok",)
 
 # Po „Zaloguj się" popup „Zapisać dane?" bywa opóźniony (live clone3 2026-08-12:
 # popups_confirmed=0 mimo że prompt był na ekranie). Czekamy zanim uznamy
@@ -123,37 +192,42 @@ class LoginIfNeeded:
             return StepResult.skipped("no_credentials_configured")
 
         login_log.say(f"Szukam ekranu logowania (@{creds['ig_username']})…")
-        user_field = pass_field = None
-        for attempt in range(LOGIN_SCREEN_WAIT_ATTEMPTS):
-            flat = flatten_hierarchy(ctx.device.hierarchy(force=True))
-            user_field = find_field(flat, USERNAME_IDS, USERNAME_HINTS, "EditText")
-            pass_field = find_field(flat, PASSWORD_IDS, PASSWORD_HINTS, "EditText")
-            if user_field and pass_field:
-                break
-            if attempt < LOGIN_SCREEN_WAIT_ATTEMPTS - 1:
-                login_log.say(f"Jeszcze nie ma pól logowania — czekam "
-                              f"({attempt + 1}/{LOGIN_SCREEN_WAIT_ATTEMPTS})")
-                time.sleep(LOGIN_SCREEN_WAIT_S)
+        user_field, pass_field = _wait_login_screen(ctx)
         if not user_field or not pass_field:
             top = ctx.navigator.identify().top
             login_log.say(f"Ekran logowania nie wykryty (top={top}) — skip")
             return StepResult.skipped("login_screen_not_detected", top=top)
+        login_log.say("Ekran logowania potwierdzony (oba pola, 2 dumpy)")
 
-        login_log.say("Wpisuję login…")
-        ctx.ht.tap(*center(user_field["bounds"]), pause_kind="tap")
-        ctx.device.shell(f'input text "{escape_input_text(creds["ig_username"])}"')
-        time.sleep(0.6)
+        filled_user = _type_and_confirm_field(
+            ctx, kind="login", hints=USERNAME_HINTS, ids=USERNAME_IDS,
+            expected=creds["ig_username"], first_field=user_field)
+        if not filled_user:
+            login_log.say("Login nie wszedł do pola — FAIL")
+            return StepResult.failed("username_not_filled")
 
-        # pole hasła może przesunąć się po otwarciu klawiatury — świeży dump
-        flat2 = flatten_hierarchy(ctx.device.hierarchy(force=True))
-        pass_field2 = find_field(flat2, PASSWORD_IDS, PASSWORD_HINTS, "EditText") or pass_field
-        login_log.say("Wpisuję hasło…")
-        ctx.ht.tap(*center(pass_field2["bounds"]), pause_kind="tap")
-        ctx.device.shell(f'input text "{escape_input_text(creds["ig_password"])}"')
-        time.sleep(0.6)
+        filled_pass = _type_and_confirm_field(
+            ctx, kind="hasło", hints=PASSWORD_HINTS, ids=PASSWORD_IDS,
+            expected=creds["ig_password"], first_field=pass_field,
+            secret=True)
+        if not filled_pass:
+            login_log.say("Hasło nie weszło do pola — FAIL")
+            return StepResult.failed("password_not_filled", username_filled=True)
 
-        flat3 = flatten_hierarchy(ctx.device.hierarchy(force=True))
-        btn = find_field(flat3, LOGIN_BUTTON_IDS, LOGIN_BUTTON_HINTS, "Button")
+        # Klawiatura po polu hasła zasłania „Zaloguj się" (galaxy 2026-08-28).
+        _dismiss_ime(ctx)
+        btn = None
+        for attempt in range(LOGIN_BUTTON_WAIT_ATTEMPTS):
+            flat3 = flatten_hierarchy(ctx.device.hierarchy(force=True))
+            btn = _find_login_button(flat3)
+            if btn:
+                break
+            if attempt < LOGIN_BUTTON_WAIT_ATTEMPTS - 1:
+                login_log.say(
+                    f"Szukam „Zaloguj się”… ({attempt + 1}/{LOGIN_BUTTON_WAIT_ATTEMPTS})")
+                if attempt == 0:
+                    _dismiss_ime(ctx)
+                time.sleep(LOGIN_BUTTON_WAIT_S)
         if not btn:
             login_log.say("Brak przycisku „Zaloguj się” — FAIL")
             return StepResult.failed("nie znaleziono przycisku logowania",
@@ -162,8 +236,24 @@ class LoginIfNeeded:
         ctx.ht.tap(*center(btn["bounds"]), pause_kind="tap")
         ctx.humanizer.pause("after_launch")
 
-        login_log.say("Potwierdzam popupy po logowaniu…")
+        left = _wait_left_login_screen(ctx)
+        if left.get("captcha"):
+            login_log.say("CAPTCHA — przerwa, wpisz znaki ręcznie na telefonie")
+            return StepResult.failed("captcha_requires_human", submitted=True)
+        if not left.get("left"):
+            login_log.say("Ekran logowania nie zszedł po Zaloguj się — FAIL")
+            return StepResult.failed("login_screen_unchanged", submitted=True)
+
+        login_log.say("Ekran po logowaniu zmienił się — potwierdzam popupy…")
         popups_confirmed = _confirm_post_login_popups(ctx)
+
+        # Komentarz: captcha mogła wejść w trakcie popupów
+        flat_after = flatten_hierarchy(ctx.device.hierarchy(force=True))
+        if _mentions_captcha(flat_after):
+            login_log.say("CAPTCHA — przerwa, wpisz znaki ręcznie na telefonie")
+            return StepResult.failed(
+                "captcha_requires_human",
+                submitted=True, popups_confirmed=popups_confirmed)
 
         top_after = ctx.navigator.identify().top
         login_log.say(
@@ -173,6 +263,203 @@ class LoginIfNeeded:
                 popups_confirmed=popups_confirmed)
         return StepResult.ok(submitted=True, landed_on=top_after,
                              popups_confirmed=popups_confirmed)
+
+
+def _wait_login_screen(ctx) -> tuple[dict | None, dict | None]:
+    """Czekaj aż oba pola będą na 2 kolejnych dumpach — pierwszy start jest wolny."""
+    hits = 0
+    last_user = last_pass = None
+    for attempt in range(LOGIN_SCREEN_WAIT_ATTEMPTS):
+        flat = flatten_hierarchy(ctx.device.hierarchy(force=True))
+        if _dismiss_gms_passkey(ctx, flat):
+            login_log.say("Zamknąłem overlay Google Passkey")
+            hits = 0
+            time.sleep(0.8)
+            continue
+        user_field = find_field(flat, USERNAME_IDS, USERNAME_HINTS, "EditText")
+        pass_field = find_field(flat, PASSWORD_IDS, PASSWORD_HINTS, "EditText")
+        if user_field and pass_field:
+            hits += 1
+            last_user, last_pass = user_field, pass_field
+            login_log.say(
+                f"Pola logowania widoczne ({hits}/{LOGIN_SCREEN_STABLE_HITS})")
+            if hits >= LOGIN_SCREEN_STABLE_HITS:
+                return last_user, last_pass
+        else:
+            hits = 0
+            last_user = last_pass = None
+            if attempt < LOGIN_SCREEN_WAIT_ATTEMPTS - 1:
+                login_log.say(
+                    f"Jeszcze nie ma pól logowania — czekam "
+                    f"({attempt + 1}/{LOGIN_SCREEN_WAIT_ATTEMPTS}, "
+                    f"pierwszy start bywa długi)")
+        time.sleep(LOGIN_SCREEN_WAIT_S)
+    return last_user, last_pass
+
+
+def _field_value(node: dict | None) -> str:
+    """Tekst z EditText — hint zostawiamy jako pusty."""
+    if not node:
+        return ""
+    return (node.get("text") or "").strip()
+
+
+def _looks_like_hint(value: str, hints: tuple) -> bool:
+    """Puste albo sam placeholder (np. „Hasło,")."""
+    low = normalize_ws(value)
+    if not low:
+        return True
+    return any(low == h or low == h + "," or low.startswith(h + ",")
+               for h in hints)
+
+
+def _username_is_filled(node: dict | None, username: str) -> bool:
+    val = _field_value(node)
+    if username and username.lower() in val.lower():
+        return True
+    if val and not _looks_like_hint(val, USERNAME_HINTS) and len(val) >= 2:
+        return True
+    return False
+
+
+def _password_is_filled(node: dict | None) -> bool:
+    """Hasło rzadko wraca jawnym tekstem — byle nie hint."""
+    val = _field_value(node)
+    if not val or _looks_like_hint(val, PASSWORD_HINTS):
+        return False
+    return len(val) >= 1
+
+
+def _clear_edit(ctx) -> None:
+    """DEL po skoku na koniec — retry bez doklejania drugiej kopii."""
+    ctx.device.shell("input keyevent KEYCODE_MOVE_END")
+    for _ in range(24):
+        ctx.device.shell("input keyevent KEYCODE_DEL")
+
+
+def _refresh_field(ctx, ids: tuple, hints: tuple, fallback: dict | None) -> dict | None:
+    flat = flatten_hierarchy(ctx.device.hierarchy(force=True))
+    return find_field(flat, ids, hints, "EditText") or fallback
+
+
+def _type_and_confirm_field(ctx, *, kind: str, hints: tuple, ids: tuple,
+                            expected: str, first_field: dict,
+                            secret: bool = False) -> bool:
+    """Tap + input text + dump: pole ma wartość, nie sam hint.
+
+    Hasła nie logujemy. Live: overlay/popup potrafi zjeść pierwszy input
+    (kasia21sum 2026-09-06 — weszło samo hasło).
+    """
+    field = first_field
+    for attempt in range(2):
+        if attempt:
+            login_log.say(f"Ponawiam wpisanie pola {kind}…")
+            _clear_edit(ctx)
+        login_log.say(f"Wpisuję {kind}…")
+        ctx.ht.tap(*center(field["bounds"]), pause_kind="tap")
+        time.sleep(0.25)
+        ctx.device.shell(f'input text "{escape_input_text(expected)}"')
+        time.sleep(0.6)
+        field = _refresh_field(ctx, ids, hints, field)
+        ok = (_password_is_filled(field) if secret
+              else _username_is_filled(field, expected))
+        if ok:
+            login_log.say(f"Pole {kind} potwierdzone")
+            return True
+        login_log.say(f"Pole {kind} puste po wpisaniu — retry")
+        if field:
+            continue
+        return False
+    return False
+
+
+def _login_fields_visible(flat: list[dict]) -> bool:
+    """Nadal formularz logowania — nie łańcuch popupów po zalogowaniu."""
+    user = find_field(flat, USERNAME_IDS, USERNAME_HINTS, "EditText")
+    pwd = find_field(flat, PASSWORD_IDS, PASSWORD_HINTS, "EditText")
+    return bool(user and pwd)
+
+
+def _wait_left_login_screen(ctx) -> dict:
+    """Po tapnięciu Zaloguj się — poczekaj aż znikną pola albo wejdzie captcha."""
+    for attempt in range(LEFT_LOGIN_ATTEMPTS):
+        flat = flatten_hierarchy(ctx.device.hierarchy(force=True))
+        if _mentions_captcha(flat):
+            return {"left": True, "captcha": True}
+        if not _login_fields_visible(flat):
+            login_log.say("Ekran logowania zszedł")
+            return {"left": True, "captcha": False}
+        login_log.say(
+            f"Czekam aż zniknie formularz logowania "
+            f"({attempt + 1}/{LEFT_LOGIN_ATTEMPTS})")
+        time.sleep(LEFT_LOGIN_WAIT_S)
+    return {"left": False, "captcha": False}
+
+
+def _is_login_chrome(node: dict, flat: list[dict]) -> bool:
+    """Pokaż hasło / IME Dalej / Zaloguj się — nie popup."""
+    label = _node_label(node)
+    if any(h in label for h in LOGIN_CHROME_HINTS):
+        return True
+    if _login_fields_visible(flat) and label in IME_CONFIRM_LABELS:
+        return True
+    return False
+
+
+def _confirm_hint_matches(label: str, hints: tuple) -> bool:
+    """„ok” tylko jako cała etykieta; dłuższe frazy — podciąg."""
+    for h in hints:
+        if h in SHORT_CONFIRM_HINTS:
+            if label == h:
+                return True
+            continue
+        if h in label:
+            return True
+    return False
+
+
+def _dismiss_ime(ctx) -> None:
+    """Schowaj klawiaturę tylko gdy naprawdę wisi — BACK na logowaniu bez IME
+    zamykałby ekran logowania."""
+    overlay = getattr(ctx.navigator.identify(), "overlay", None)
+    shown = False
+    try:
+        out = (ctx.device.shell("dumpsys input_method | grep mInputShown") or "")
+        shown = "minputshown=true" in out.lower().replace(" ", "")
+    except Exception:
+        shown = False
+    if overlay == "keyboard" or shown:
+        ctx.device.press_back()
+        time.sleep(0.35)
+
+
+def _find_login_button(flat: list[dict]) -> dict | None:
+    """Przycisk logowania — ID, Button/FrameLayout, albo dowolny klikalny z etykietą.
+
+    Live SM_A520F: `android.widget.Button` + content-desc „Zaloguj się", bez
+    resource-id. Nie brać „Nie pamiętasz hasła?" / „Pokaż hasło".
+    """
+    btn = find_field(flat, LOGIN_BUTTON_IDS, LOGIN_BUTTON_HINTS, BUTTON_CLASSES)
+    if btn and not _login_button_is_decoy(btn):
+        return btn
+    matches = []
+    for e in flat:
+        if not e.get("clickable"):
+            continue
+        label = _node_label(e)
+        if not any(h in label for h in LOGIN_BUTTON_HINTS):
+            continue
+        if _login_button_is_decoy(e):
+            continue
+        matches.append(e)
+    if not matches:
+        return None
+    return matches[0]
+
+
+def _login_button_is_decoy(node: dict) -> bool:
+    label = _node_label(node)
+    return any(h in label for h in LOGIN_BUTTON_SKIP_HINTS)
 
 
 def _confirm_post_login_popups(ctx, max_steps: int = MAX_POST_LOGIN_POPUPS) -> int:
@@ -190,11 +477,35 @@ def _confirm_post_login_popups(ctx, max_steps: int = MAX_POST_LOGIN_POPUPS) -> i
         pkg = (dominant_package(flat) or "").lower()
         top = ctx.navigator.identify().top
 
-        if any(p in pkg for p in PERMISSION_DIALOG_PACKAGES) and _mentions_sensitive_permission(flat):
-            # Natywny dialog lokalizacji/kontaktów — zawsze odmawiamy
+        # Komentarz: captcha — „Kontynuuj” to submit pustego pola, nie popup
+        if _mentions_captcha(flat):
+            login_log.say("CAPTCHA na ekranie — stop (nie tapam Kontynuuj)")
+            break
+
+        # Komentarz: live 2026-09-06 — IME Dalej/OK i „pokaż hasło” to NIE popup
+        if _login_fields_visible(flat):
+            login_log.say("Nadal formularz logowania — nie tapam chrome/IME")
+            _dismiss_ime(ctx)
+            empty_streak += 1
+            if empty_streak >= POPUP_APPEAR_ATTEMPTS:
+                break
+            time.sleep(POPUP_APPEAR_WAIT_S)
+            continue
+
+        if any(p in pkg for p in PERMISSION_DIALOG_PACKAGES) and (
+                _mentions_sensitive_permission(flat) or _mentions_notifications(flat)):
+            # Natywny dialog lokalizacji/kontaktów/powiadomień — zawsze odmawiamy
             btn = (find_field(flat, (), DENY_HINTS, BUTTON_CLASSES)
                    or _find_label_on_textview(flat, DENY_HINTS, allow_not_now=True))
             action = "deny"
+        elif _mentions_notifications(flat):
+            # Intro IG o powiadomieniach — Pomiń / Nie teraz, nigdy Włącz
+            btn = _find_contacts_skip_button(flat)
+            action = "skip"
+        elif any(h in _flat_blob(flat) for h in MAP_INTRO_HINTS):
+            # Komentarz: „Eksploruj mapę” to NIE confirm — zamykamy Nie teraz
+            btn = _find_contacts_skip_button(flat)
+            action = "skip"
         elif _mentions_contacts(flat):
             # Intro IG / dowolny flat o kontaktach — Pomiń, NIE Kontynuuj
             btn = _find_contacts_skip_button(flat)
@@ -207,6 +518,11 @@ def _confirm_post_login_popups(ctx, max_steps: int = MAX_POST_LOGIN_POPUPS) -> i
                    or find_field(flat, (), CONFIRM_HINTS, BUTTON_CLASSES)
                    or _find_hint_on_textview(flat, CONFIRM_HINTS))
             action = "confirm"
+            if btn and _is_login_chrome(btn, flat):
+                btn = None
+            if btn and action == "confirm" and _find_save_login_button(flat) is not btn:
+                if not _confirm_hint_matches(_node_label(btn), CONFIRM_HINTS):
+                    btn = None
 
         if btn:
             empty_streak = 0
@@ -245,6 +561,8 @@ def _describe_popup(flat: list[dict], label: str, action: str) -> str:
     if action == "deny":
         return "uprawnienia (odmawiam)"
     if action == "skip":
+        if "powiadom" in blob or "notification" in blob:
+            return "powiadomienia (pomijam)"
         return "kontakty (pomijam)"
     if label in ("zapisz", "save") or "save_login" in blob:
         return "zapisz dane logowania"
@@ -355,3 +673,67 @@ def _mentions_contacts(flat: list[dict]) -> bool:
         if any(h in blob for h in CONTACTS_HINTS):
             return True
     return False
+
+
+def _mentions_notifications(flat: list[dict]) -> bool:
+    """Ekran/popup o powiadomieniach (IG intro albo POST_NOTIFICATIONS)."""
+    for e in flat:
+        blob = normalize_ws((e.get("text") or "") + " " + (e.get("content-desc") or ""))
+        if any(h in blob for h in NOTIFICATION_HINTS):
+            return True
+    return False
+
+
+def _flat_blob(flat: list[dict]) -> str:
+    """Cały widoczny tekst + desc — do detekcji overlay/captcha."""
+    return normalize_ws(" ".join(
+        (e.get("text") or "") + " " + (e.get("content-desc") or "")
+        for e in flat))
+
+
+def _mentions_captcha(flat: list[dict]) -> bool:
+    """Captcha IG — człowiek wpisuje znaki; bot nie klika Kontynuuj."""
+    blob = _flat_blob(flat)
+    return any(h in blob for h in CAPTCHA_HINTS)
+
+
+def _looks_like_gms_passkey(flat: list[dict]) -> bool:
+    """Bottom sheet Google Passkey / AssistedSignIn nad logowaniem IG."""
+    for e in flat:
+        pkg = (e.get("package") or "").lower()
+        if any(p in pkg for p in GMS_PACKAGES):
+            return True
+    blob = _flat_blob(flat)
+    return any(h in blob for h in GMS_PASSKEY_HINTS)
+
+
+def _find_gms_cancel(flat: list[dict]) -> dict | None:
+    """X / Anuluj na sheet GMS — nie mylić z Anuluj IG."""
+    if not _looks_like_gms_passkey(flat):
+        return None
+    for e in flat:
+        rid = e.get("resource-id") or ""
+        pkg = (e.get("package") or "").lower()
+        if rid in GMS_CANCEL_IDS or any(rid.endswith("/" + i.split("/")[-1])
+                                        and "gms" in rid
+                                        for i in GMS_CANCEL_IDS):
+            return e
+        if "gms" not in pkg:
+            continue
+        label = _node_label(e)
+        if any(label == h or label.endswith(h) for h in GMS_CANCEL_HINTS):
+            return e
+    return None
+
+
+def _dismiss_gms_passkey(ctx, flat: list[dict]) -> bool:
+    """Zamknij overlay passkey (X). True gdy tapnięto. NIE tapaj klucza."""
+    btn = _find_gms_cancel(flat)
+    if not btn:
+        return False
+    xy = center(btn.get("bounds"))
+    if not xy:
+        return False
+    login_log.say("Overlay Google Passkey — tap X / Anuluj")
+    ctx.ht.tap(*xy, pause_kind="tap")
+    return True

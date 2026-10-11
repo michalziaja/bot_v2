@@ -1,0 +1,35 @@
+{
+  "alias": "galaxy",
+  "adb_id": "52108b3459fe2457",
+  "model": "SM_A520F",
+  "product": "a5y17lte",
+  "manufacturer": "samsung",
+  "android_version": "8.0.0",
+  "resolution": [
+    1080,
+    1920
+  ],
+  "dpi": 480,
+  "root_method": "magisk",
+  "clones": [
+    {
+      "slot": 1,
+      "package": "com.instagram.android",
+      "note": "oryginalna instalacja"
+    },
+    {
+      "slot": 2,
+      "package": "com.instagram.androix",
+      "note": "dodany z panelu"
+    }
+  ],
+  "uiautodev": {
+    "base_url": "http://127.0.0.1:20242"
+  },
+  "scrcpy": {
+    "port": 27184,
+    "max_size": 900,
+    "max_fps": 15
+  },
+  "scheduler_enabled": false
+}

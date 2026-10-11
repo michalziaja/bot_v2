@@ -628,6 +628,20 @@ def delete_block(device: str, data_root: Path, config_root: Path,
     return _save_cycle(cycle, device, data_root, config_root)
 
 
+def set_block_locked(device: str, data_root: Path, config_root: Path,
+                     day_index: int, block_id: str, locked: bool) -> dict:
+    """Przypnij / odepnij blok — regeneracja omija tylko `locked=True`.
+
+    Osobny helper, bo `move` / `queue` zawsze ustawiają kłódkę (ręczna edycja
+    ma przetrwać ułożenie), a inspector musi umieć ją zdjąć.
+    """
+    cycle = _load_cycle_for_edit(device, data_root)
+    block = _find(_day(cycle, day_index), block_id)
+    block["locked"] = bool(locked)
+    return _save_cycle(cycle, device, data_root, config_root,
+                       force_resync_ids={block_id})
+
+
 def autospread(device: str, data_root: Path, config_root: Path,
                day_index: int) -> dict:
     """Rozsuń kolidujące bloki, zachowując kolejność — przycisk „rozsuń"

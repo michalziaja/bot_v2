@@ -1,0 +1,48 @@
+{
+  "note_pl": "Trial fetch jobsaver.app 2026-09-05. Liczby z dumpów + live. Nie jest to produkt system.pro_dash_snapshot.",
+  "account": "jobsaver.app",
+  "range": "30 dni (6 sie – 4 wrz na pulpicie; Insights: „30 dni”)",
+  "fetched_at": "2026-09-05T20:38+02",
+  "overview": {
+    "source": ["03_views", "10_live_overview", "13_live_overview_cards", "15_live_overview_bottom"],
+    "views": 2001,
+    "net_followers": -10,
+    "interactions": 13,
+    "followers_pct": "98,7%",
+    "nonfollowers_pct": "1,3%",
+    "viewers": 267,
+    "views_by_type": {"Posty": "1,1 tys.", "Relacje": 856, "Rolki": 0, "Live": 0},
+    "interactions_by_type": {"Posty": 7, "Relacje": 6, "Rolki": 0, "Live": 0},
+    "profile_activity": {
+      "Wizyty w profilu": 54,
+      "Dotknięcia linku w biogramie": 0,
+      "Dotknięcia adresu firmy": 0
+    }
+  },
+  "content": {
+    "source": ["11_live_content", "11b_live_content_scrolled"],
+    "sort": "Najnowsze / Wyświetlenia",
+    "rows": [
+      {"age": "4 dni", "views": 147, "like": 0, "comment": 0, "share": 0, "save": null, "caption": null, "kind_guess": "relacja?"},
+      {"age": "4 dni", "views": 172, "like": 0, "comment": 0, "share": 0, "save": null, "caption": null, "kind_guess": "relacja?"},
+      {"age": "4 dni", "views": 379, "like": 0, "comment": 2, "share": 0, "save": 0, "caption": "#rekrutacja #szukampracy…"},
+      {"age": "5 dni", "views": 162, "like": 1, "comment": 1, "share": 0, "save": null, "caption": null},
+      {"age": "5 dni", "views": 179, "like": 2, "comment": 0, "share": 1, "save": null, "caption": null},
+      {"age": "5 dni", "views": 394, "like": 0, "comment": 1, "share": 0, "save": 1, "caption": "brak odpowiedzi po CV…"},
+      {"age": "1 tyg.", "views": 42, "like": 0, "comment": 0, "share": 0, "save": 0, "caption": "49 aplikacji na ofertę."},
+      {"age": "1 tyg.", "views": 54, "like": 0, "comment": 0, "share": 0, "save": 0, "caption": "7,8 miesiąca."},
+      {"age": "1 tyg.", "views": 196, "like": 1, "comment": 0, "share": 0, "save": null, "caption": null, "kind_guess": "relacja?"},
+      {"age": "1 tyg.", "views": 278, "like": 0, "comment": 0, "share": 0, "save": 0, "caption": "1 na 3 pracowników szuka nowej pracy."}
+    ]
+  },
+  "audience": {
+    "source": ["12_live_audience", "05b_audience_scrolled", "12b_live_audience_countries", "16b_live_cities", "16d_live_activity_days"],
+    "followers": 922,
+    "delta": "-1,1% od Aug 5",
+    "gender": {"Kobiety": "9,9%", "Mężczyźni": "90,1%"},
+    "age": {"13-17": "0,2%", "18-24": "13,0%", "25-34": "40,5%", "35-44": "32,5%", "45-54": "10,4%", "55-64": "2,3%", "65+": "1,0%"},
+    "countries": {"Polska": "63,2%", "Niemcy": "4,2%", "Wielka Brytania": "2,4%", "Stany Zjednoczone": "2,0%", "Hiszpania": "1,6%"},
+    "cities": {"Warszawa": "4,7%", "Kraków": "3,6%", "Wrocław": "2,0%", "Łódź": "2,0%", "Gdańsk": "1,3%"},
+    "peak_hours": {"strefa": "CEST", "niedziele": "18–21", "poniedziałki": "18–21", "wtorki": "18–21"}
+  }
+}

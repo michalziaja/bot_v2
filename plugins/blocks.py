@@ -151,12 +151,17 @@ def ai_match(prefix=("ai",), *, kind="content", mode="niche_match",
         _f(p, ["mode"], type="select", label="Tryb AI",
            options=["niche_match", "exclude_only"],
            option_labels={
-               "niche_match": "Dopasowanie do niszy",
+               "niche_match": "Dopasowanie do grupy docelowej" if kind == "grid"
+               else "Dopasowanie do niszy",
                "exclude_only": "Tylko wykluczenia",
            },
            advanced=True, hidden=hid,
-           desc="niche_match = treść MUSI trafić w niszę. exclude_only = odrzucamy "
-                "tylko wykluczenia (konto ogólne)."),
+           desc=("niche_match = profil MUSI wyglądać na grupę docelową "
+                 "(nie musi tworzyć w niszy). exclude_only = tylko wykluczenia."
+                 if kind == "grid" else
+                 "niche_match = treść MUSI trafić w niszę. exclude_only = odrzucamy "
+                 "tylko wykluczenia (konto ogólne)."),
+        ),
         _f(p, ["strictness"], type="select", label="Sztywność",
            options=STRICTNESS, option_labels=STRICTNESS_LABELS,
            advanced=True, hidden=hid,
@@ -177,13 +182,21 @@ def ai_match(prefix=("ai",), *, kind="content", mode="niche_match",
         ]
         d.update({"min_niche_score": min_score, "allow_verdict": ["match", "partial"]})
     else:
+        # siatka profilu: audience_fit, nie liczba kafelków niszowych
         fields += [
-            _f(p, ["min_niche_tiles"], type="num", label="Min. kafelków niszy", min=0,
+            _f(p, ["allow_verdict"], type="multiselect",
+               label="Akceptowane audience_fit",
+               options=["match", "partial", "off"],
+               option_labels={"match": "match", "partial": "partial", "off": "off"},
                advanced=True, hidden=hid,
-               desc="TYLKO niche_match: ile kafelków siatki musi trafić w niszę."),
+               desc="Które werdykty grupy docelowej przepuszczają profil "
+                    "(domyślnie match + partial)."),
+            _f(p, ["min_niche_tiles"], type="num", label="Min. kafelków niszy", min=0,
+               advanced=True, hidden=True,
+               desc="Legacy: tylko gdy AI nie zwróci audience_fit."),
             _f(p, ["min_niche_ratio"], type="num", label="Min. udział niszy",
-               min=0, max=1, step=0.05, advanced=True, hidden=hid,
-               desc="TYLKO niche_match: jaki udział widocznych kafelków ma być niszowy."),
+               min=0, max=1, step=0.05, advanced=True, hidden=True,
+               desc="Legacy: tylko gdy AI nie zwróci audience_fit."),
             _f(p, ["min_valid_tiles"], type="num", label="Min. kafelków po filtrze", min=0,
                advanced=True, hidden=hid,
                desc="TYLKO exclude_only: ile kafelków musi przejść wykluczenia."),
@@ -196,7 +209,8 @@ def ai_match(prefix=("ai",), *, kind="content", mode="niche_match",
                     "(jak stary max_scroll_for_grid=1). Chowa avatar/bio/highlighty; "
                     "0 tylko do diagnostyki — bez scrolla AI myli highlighty z postami."),
         ]
-        d.update({"min_niche_tiles": 2, "min_niche_ratio": 0.3, "min_valid_tiles": 3,
+        d.update({"allow_verdict": ["match", "partial"],
+                  "min_niche_tiles": 0, "min_niche_ratio": 0.0, "min_valid_tiles": 3,
                   "tiles_count": 9, "scrolls_to_grid": 1})
 
     # Osobne listy: rolki vs kafelki profilu — discovery NIE wypełnia
@@ -446,7 +460,7 @@ def phrase_list(prefix=("phrases",), *, label="Frazy", what="fraz",
                 list_label: str | None = None,
                 per_session_label: str | None = None,
                 source_aware: bool = False):
-    """Lista fraz. `source_aware=True` → lista reaguje na select hashtag/keyword."""
+    """Lista fraz. `source_aware=True` → trzy listy + kolejność least_recent."""
     p = list(prefix)
     if source_aware:
         list_field = {
@@ -456,8 +470,8 @@ def phrase_list(prefix=("phrases",), *, label="Frazy", what="fraz",
             "label": list_label or f"Lista {what}",
             "placeholder": placeholder,
             "desc": (
-                "Zależnie od typu źródła: Hashtag → tylko # (ręczne + z niszy); "
-                "Słowo kluczowe → frazy bez #; Lokalizacja → osobna lista."
+                "Trzy listy zawsze widoczne (hashtagi / słowa / lokalizacje). "
+                "Źródło na sesję wybierasz na karcie zadania w kolejce."
             ),
         }
     else:
@@ -465,13 +479,21 @@ def phrase_list(prefix=("phrases",), *, label="Frazy", what="fraz",
                         label=list_label or f"Lista {what}",
                         placeholder=placeholder,
                         desc=f"Lista {what} — jedna pozycja na linię.")
+    order_opts = ["random", "sequential"]
+    order_labels = {"random": "Losowa", "sequential": "Po kolei"}
+    order_desc = "random = tasuj; sequential = od góry listy."
+    if source_aware:
+        order_opts.append("least_recent")
+        order_labels["least_recent"] = "Najdawniej sprawdzane"
+        order_desc = ("random = tasuj; sequential = od góry listy; "
+                      "least_recent = nigdy / najstarsze last_checked pierwsze.")
     fields = [
         list_field,
         _f(p, ["order"], type="select", label="Kolejność",
-           options=["random", "sequential"],
-           option_labels={"random": "Losowa", "sequential": "Po kolei"},
+           options=order_opts,
+           option_labels=order_labels,
            advanced=True,
-           desc="random = losowa pozycja; sequential = od miejsca gdzie skończyliśmy."),
+           desc=order_desc),
         # Licznik pozycji na sesję — int
         _f(p, ["per_session"], type="range",
            label=per_session_label or f"Ile {what} / sesja", unit="szt.",
@@ -504,9 +526,10 @@ def chance(mode="p", value=1.0) -> dict:
 
 
 def chance_field(prefix: list, key: str, *, label: str, desc: str,
-                 advanced: bool = False):
+                 advanced: bool = False, allow_formula: bool = True):
+    """Szansa na akcję. `allow_formula=False` = tylko suwak % (rozgrzewka, bez AI)."""
     return _f(list(prefix), [key], type="chance", label=label, desc=desc,
-              advanced=advanced)
+              advanced=advanced, allow_formula=allow_formula)
 
 
 def like_decision_field(*, ai_key: list, chance_key: list,

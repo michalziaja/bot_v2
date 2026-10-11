@@ -41,6 +41,18 @@ def fmt_count(n) -> str:
     return str(n)
 
 
+def norm_tile_category(cat) -> str:
+    """safe / skipped / excluded — stare niche→safe, neutral→skipped."""
+    c = str(cat or "").strip().lower()
+    if c in ("niche", "safe"):
+        return "safe"
+    if c in ("neutral", "skipped"):
+        return "skipped"
+    if c == "excluded":
+        return "excluded"
+    return c or "skipped"
+
+
 # ------------------------------------------------------------------
 # wizyta / search
 # ------------------------------------------------------------------
@@ -150,15 +162,12 @@ def grid_capture_fail_line() -> str:
 
 
 def say_grid_ai_result(result: dict | None) -> None:
-    """Podsumowanie AI siatki + powody kafelków niche (jak score/powod w reels).
+    """Podsumowanie AI siatki: audience-fit + kafelki safe/skipped/excluded.
 
-    1) Liczby: niche / excluded / neutral
-    2) Per kafelek niche: `Kafelek N — niche: <reason>`
-    3) Wykluczone skrótowo (numery + krótki reason, max kilka)
-    Bez raw JSON — operator widzi które kafelki pasują i dlaczego.
-
-    Idempotent: `_grid_ai_said` — Vision i visit mogą wołać tę samą
-    funkcję bez duplikatu linii w terminalu.
+    1) Grupa docelowa (jeśli model zwrócił audience_fit)
+    2) Liczby: safe / excluded / skipped
+    3) Per kafelek safe: `Kafelek N — safe: <reason>`
+    4) Wykluczone skrótowo
     """
     r = result if isinstance(result, dict) else {}
     # Już wypisane (np. vision.run → tu → visit) — nie powtarzaj
@@ -170,6 +179,10 @@ def say_grid_ai_result(result: dict | None) -> None:
         say("Siatka AI — nisza niezaakceptowana, pomijam")
         r["_grid_ai_said"] = True
         return
+    if err == "anthropic_workspace_id":
+        say("Siatka AI — brak workspace ID (klucz identity-linked) — ustaw wrkspc_…")
+        r["_grid_ai_said"] = True
+        return
     if err:
         say(f"Siatka AI — blad ({err})")
         r["_grid_ai_said"] = True
@@ -177,28 +190,35 @@ def say_grid_ai_result(result: dict | None) -> None:
 
     tiles = r.get("tiles") or {}
     ordered = _sorted_tile_items(tiles)
+
+    fit = str(r.get("audience_fit") or "").strip().lower()
+    if fit:
+        reason = str(r.get("audience_reason") or "").strip()
+        extra = f": {reason}" if reason else ""
+        say(f"Grupa docelowa — {fit}{extra}")
+
     if not ordered:
-        say("Siatka AI — brak kafelkow")
+        if not fit:
+            say("Siatka AI — brak kafelkow")
         r["_grid_ai_said"] = True
         return
 
     def _cat(t) -> str:
-        # Model bywa niespójny z casingiem ("Niche" / "NICHE")
-        return str((t or {}).get("category") or "").strip().lower()
+        return norm_tile_category((t or {}).get("category"))
 
-    n_niche = sum(1 for _, t in ordered if _cat(t) == "niche")
+    n_safe = sum(1 for _, t in ordered if _cat(t) == "safe")
     n_excl = sum(1 for _, t in ordered if _cat(t) == "excluded")
-    n_neut = sum(1 for _, t in ordered if _cat(t) == "neutral")
-    say(f"Siatka AI — niche {n_niche}, excluded {n_excl}, neutral {n_neut} "
+    n_skip = sum(1 for _, t in ordered if _cat(t) == "skipped")
+    say(f"Siatka AI — safe {n_safe}, excluded {n_excl}, skipped {n_skip} "
         f"(z {len(ordered)})")
 
-    # Pasujące — numer + reason z AI (mirror say_ai_result: decyzja + powod)
-    niche_items = [(n, t) for n, t in ordered if _cat(t) == "niche"]
-    if niche_items:
-        nums = ", ".join(str(n) for n, _ in niche_items)
+    # Kandydaci do lajka
+    safe_items = [(n, t) for n, t in ordered if _cat(t) == "safe"]
+    if safe_items:
+        nums = ", ".join(str(n) for n, _ in safe_items)
         say(f"pasuje: {nums}")
-        for n, t in niche_items:
-            say(f"Kafelek {n} — niche: {_tile_reason(t)}")
+        for n, t in safe_items:
+            say(f"Kafelek {n} — safe: {_tile_reason(t)}")
     else:
         say("pasuje: (brak)")
 
@@ -293,6 +313,8 @@ def match_fail_line(why: str, *, n_niche=None, n_excluded=None) -> str:
             human = f"za duzo wykluczen ({w})"
         elif w.startswith("valid_tiles<"):
             human = f"za malo kafelkow po wykluczeniach ({w})"
+        elif w.startswith("audience_fit="):
+            human = f"profil poza grupa docelowa ({w})"
         elif w.startswith("niche_tiles<"):
             human = f"za malo kafelkow niszy ({w})"
         elif w.startswith("ratio<"):
@@ -330,6 +352,11 @@ def left_profile_line(where: str | None = None, *, top: str | None = None) -> st
 # ------------------------------------------------------------------
 # lajki / follow
 # ------------------------------------------------------------------
+def tiles_like_despite_skip_line() -> str:
+    """1 like mimo ODRZUT audience — bez follow."""
+    return "Lajki — bezpieczny kafelek mimo ODRZUT grupy (bez follow)"
+
+
 def tiles_like_line(nums, liked: int) -> str:
     """Ktore kafelki i ile polubionych."""
     if not nums and liked <= 0:

@@ -164,7 +164,23 @@ class SwipeNextTests(unittest.TestCase):
         self.assertEqual(res.status, "ok")
         self.assertEqual(len(ctx.ht.swipes), 1)
 
-    def test_before_from_device_then_change_ok(self):
+    def test_content_search_recover_skips_clips_ensure(self):
+        """Z siatki # recover markera nie może ensure(reels_feed) → Clips."""
+        ensures = []
+        it = iter([{"marker": None}, {"marker": None}])
+        self.mod.read_current_reel = lambda dev: next(it, {"marker": None})
+        ctx = FakeCtx()
+        ctx.scratch["content_search_active"] = True
+
+        class Nav:
+            def ensure(self, target, max_steps=6, **kw):
+                ensures.append(target)
+                return True
+
+        ctx.navigator = Nav()
+        res = self.mod.SwipeNext().run(ctx, {"announce": False})
+        self.assertEqual(ensures, [])
+        self.assertEqual(res.status, "failed")
         # scratch pusty → pierwszy odczyt = before, po swipe drugi = after
         ctx, res = self._run([{"marker": "a"}, {"marker": "b"}],
                              scratch_marker=None)

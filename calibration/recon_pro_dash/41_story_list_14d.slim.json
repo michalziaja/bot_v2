@@ -1,0 +1,548 @@
+{
+  "name": "41_story_list_14d",
+  "note_pl": "PASS2 lista Relacje 14",
+  "pkg": "com.instagram.androia",
+  "activity": "",
+  "nodes": [
+    {
+      "text": "Ogólne",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[113,262][247,311]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Zawartość",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[439,262][641,306]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Odbiorcy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[815,262][986,311]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Relacje",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,414][212,479]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "30 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[853,418][984,476]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Najnowsze",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[0,527][324,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Najnowsze",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[84,559][261,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wyświetlenia",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[324,527][648,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[366,559][585,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Widzowie",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[648,527][911,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Widzowie",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[690,559][848,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Obserwatorzy",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[911,527][1080,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Obserwatorzy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[953,559][1080,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "4 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,700][261,743]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "147",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[968,690][1038,748]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,754][242,797]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,754][332,797]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[401,754][422,797]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,764][1038,807]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "4 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,889][261,932]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "172",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[967,879][1038,937]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,943][242,986]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,943][332,986]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[401,943][422,986]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,953][1038,996]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "5 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1078][262,1121]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "162",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[965,1068][1038,1126]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1132][235,1175]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[304,1132][318,1175]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[387,1132][408,1175]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1142][1038,1185]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "5 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1267][262,1310]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "179",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[967,1257][1038,1315]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "2",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1321][241,1364]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[310,1321][331,1364]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[400,1321][414,1364]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1331][1038,1374]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1 tyg.",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1456][268,1499]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "196",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[965,1446][1038,1504]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1510][235,1553]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[304,1510][325,1553]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[394,1510][415,1553]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1520][1038,1563]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,83][1080,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar_new_title_container",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,83][879,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wstecz",
+      "rid": "com.instagram.android:id/action_bar_button_back",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[0,83][147,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Statystyki",
+      "desc": "Statystyki",
+      "rid": "com.instagram.android:id/action_bar_title",
+      "click": true,
+      "cls": "TextView",
+      "bounds": "[189,122][478,191]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Informacje",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[932,83][1059,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "22:53",
+      "desc": "22:53",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[54,0][151,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Google: Jutro 19° (Opole)",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[159,0][206,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Podróże Wojownika",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[206,0][253,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Instagram: who.is.aleksandra",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[253,0][300,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[300,0][347,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Kosmiczne Opowieści",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[318,0][365,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[724,23][764,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[767,23][808,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[811,23][858,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[858,23][897,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[905,0][1026,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[905,0][1000,83]",
+      "pkg": "com.android.systemui"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "source": "live",
+  "as_of_date": "2026-09-05",
+  "windows": {
+    "7": {
+      "views": 1521,
+      "follows": -2,
+      "interactions": 12,
+      "viewers": 220,
+      "range_days": 7,
+      "range_label": "7 dni",
+      "views_by_type": {
+        "Posty": 861,
+        "Relacje": 660,
+        "Rolki": 0
+      },
+      "days": 7
+    },
+    "14": {
+      "views": 2001,
+      "follows": -8,
+      "interactions": 13,
+      "viewers": 267,
+      "range_days": 14,
+      "range_label": "14 dni",
+      "views_by_type": {
+        "Posty": 861,
+        "Relacje": 660,
+        "Rolki": 0
+      },
+      "days": 14
+    },
+    "30": {
+      "views": 2001,
+      "follows": -10,
+      "interactions": 13,
+      "viewers": 267,
+      "range_days": 30,
+      "range_label": "30 dni",
+      "views_by_type": {
+        "Posty": 7,
+        "Relacje": 5,
+        "Rolki": 0
+      },
+      "days": 30
+    }
+  }
+}

@@ -42,13 +42,51 @@ def get(account: str) -> dict | None:
     return {"ig_username": entry["ig_username"], "ig_password": entry["ig_password"]}
 
 
-def set(account: str, ig_username: str | None, ig_password: str | None) -> None:
-    """Zapisz (lub wyczyść, gdy oba puste) dane logowania konta."""
+def normalize_signup(raw) -> dict | None:
+    """Profil zakładania konta IG — imię, data urodzenia, kontakt (email/tel)."""
+    if not isinstance(raw, dict):
+        return None
+    full_name = str(raw.get("full_name") or "").strip()
+    birthday = str(raw.get("birthday") or "").strip()
+    contact = str(raw.get("contact") or "").strip()
+    if not full_name or not birthday or not contact:
+        return None
+    return {"full_name": full_name, "birthday": birthday, "contact": contact}
+
+
+def get_signup(account: str) -> dict | None:
+    """Login + hasło + pola signup, albo None gdy brakuje czegokolwiek."""
+    creds = get(account)
+    if not creds:
+        return None
+    raw = _read_file().get(account) or {}
+    signup = normalize_signup(raw.get("signup"))
+    if not signup:
+        return None
+    return {**creds, **signup}
+
+
+def set(account: str, ig_username: str | None, ig_password: str | None,
+        signup=None) -> None:
+    """Zapisz (lub wyczyść, gdy oba puste) dane logowania konta.
+
+    `signup=None` zostawia istniejący profil; dict / {} nadpisuje.
+    """
     data = _read_file()
     ig_username = (ig_username or "").strip()
     ig_password = (ig_password or "").strip()
+    existing = data.get(account) if isinstance(data.get(account), dict) else {}
     if ig_username and ig_password:
-        data[account] = {"ig_username": ig_username, "ig_password": ig_password}
+        entry = {"ig_username": ig_username, "ig_password": ig_password}
+        if signup is None:
+            kept = normalize_signup((existing or {}).get("signup"))
+            if kept:
+                entry["signup"] = kept
+        else:
+            cleaned = normalize_signup(signup)
+            if cleaned:
+                entry["signup"] = cleaned
+        data[account] = entry
     else:
         data.pop(account, None)
     _write_file(data)
@@ -65,7 +103,15 @@ def mask_username(username: str | None) -> str:
 def status(account: str) -> dict:
     """Skąd/co jest ustawione dla konta — bez ujawniania hasła."""
     entry = get(account)
+    signup = get_signup(account)
     return {
         "configured": bool(entry),
         "username_masked": mask_username(entry["ig_username"]) if entry else "",
+        # Komentarz: contact maskujemy jak login; imię i data nie są sekretem
+        "signup_configured": bool(signup),
+        "signup": {
+            "full_name": signup["full_name"] if signup else "",
+            "birthday": signup["birthday"] if signup else "",
+            "contact_masked": mask_username(signup["contact"]) if signup else "",
+        },
     }

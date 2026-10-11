@@ -1,0 +1,103 @@
+{
+  "name": "13b_login_skip_retry_pre",
+  "note_pl": "login skip, retry po dismiss",
+  "pkg": null,
+  "identify_top": null,
+  "overlay": "system_ui",
+  "focused_package": "com.instagram.androib",
+  "focused_activity": "com.instagram.modal.ModalActivity",
+  "dominant_package": "com.android.systemui",
+  "clone_owns_focus": true,
+  "visible_texts": [
+    "14:58",
+    "14",
+    ":",
+    "58",
+    "niedz., 6 września",
+    "niedziela, 6 września"
+  ],
+  "resource_ids": [
+    "com.android.systemui:id/backdrop",
+    "com.android.systemui:id/scrim_behind",
+    "com.android.systemui:id/scrim_in_front",
+    "com.android.systemui:id/notification_panel",
+    "com.android.systemui:id/notification_container_parent",
+    "com.android.systemui:id/qs_frame",
+    "com.samsung.android.app.aodservice:id/keyguard_status_view",
+    "com.samsung.android.app.aodservice:id/facewidget_clock_container",
+    "com.samsung.android.app.aodservice:id/aod_arrow_holder",
+    "com.samsung.android.app.aodservice:id/keyguard_facewidget_clip_layout",
+    "com.samsung.android.app.aodservice:id/keyguard_clock_container",
+    "com.samsung.android.app.aodservice:id/keyguard_clock_page",
+    "com.samsung.android.app.aodservice:id/keyguard_clock_holder",
+    "com.samsung.android.app.aodservice:id/common_time_area",
+    "com.samsung.android.app.aodservice:id/common_hour",
+    "com.samsung.android.app.aodservice:id/common_colon",
+    "com.samsung.android.app.aodservice:id/common_minute",
+    "com.samsung.android.app.aodservice:id/common_date",
+    "com.android.systemui:id/keyguard_punch_hole_vi_view",
+    "com.android.systemui:id/keyguard_bottom_shortcut_area",
+    "com.android.systemui:id/keyguard_bottom_doze_area",
+    "com.android.systemui:id/preview_container",
+    "com.android.systemui:id/lock_icon_container"
+  ],
+  "nodes": [
+    {
+      "text": "",
+      "desc": "14:58",
+      "rid": "com.samsung.android.app.aodservice:id/common_time_area",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[335,520][744,659]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "14",
+      "desc": "",
+      "rid": "com.samsung.android.app.aodservice:id/common_hour",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[335,520][496,659]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": ":",
+      "desc": "",
+      "rid": "com.samsung.android.app.aodservice:id/common_colon",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[496,520][542,659]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "58",
+      "desc": "",
+      "rid": "com.samsung.android.app.aodservice:id/common_minute",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[542,520][744,659]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "niedz., 6 września",
+      "desc": "niedziela, 6 września",
+      "rid": "com.samsung.android.app.aodservice:id/common_date",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[356,688][717,743]",
+      "pkg": "com.android.systemui"
+    }
+  ],
+  "special": {
+    "verification_code": false,
+    "captcha": false,
+    "suspicious_login": false,
+    "splash_crash_hint": false
+  },
+  "fatal_logcat": "",
+  "screenshot": "13b_login_skip_retry_pre.jpg",
+  "screenshot_bytes": 40611,
+  "hierarchy_error": "",
+  "extra": {},
+  "ts": "2026-09-06T15:00:31"
+}

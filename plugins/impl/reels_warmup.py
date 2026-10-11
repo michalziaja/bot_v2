@@ -15,6 +15,8 @@ import random
 
 from v2.plugins import stepcall
 from v2.plugins.base import Budget, PluginResult
+from v2.plugins.progress_log import announce_progress, sync_plugin_stats
+from v2.plugins.reel_log import reel_progress_line, say
 from v2.plugins.registry import register
 from v2.steps import registry as steps
 
@@ -59,6 +61,9 @@ class ReelsWarmup:
             reel = ctx.scratch.get("reel") or {}
             marker = reel.get("marker")
             author = reel.get("author")
+            # Live X/Y (Bieżąca sesja) — ta sama ścieżka co reels_niche:
+            # announce → session_stats.set_progress → SSE session.progress.
+            _announce_reel(ctx, author, budget)
 
             if marker and marker == last_marker:
                 # ta sama rolka co poprzednio — swipe nie przewinął
@@ -93,6 +98,11 @@ class ReelsWarmup:
             if marker:
                 last_marker = marker
             budget.tick()
+            # Poll /api/stats czyta budget.items_done — bez sync zostaje 0 do końca.
+            sync_plugin_stats(
+                ctx, stats,
+                items_done=budget.items_done,
+                max_items=budget.max_items)
 
             if budget.stop_reason() is None:
                 nxt = _step(ctx, "reels.swipe_next", {
@@ -112,6 +122,21 @@ class ReelsWarmup:
 
         ctx.log("reels_warmup.done", stopped_by=stopped_by, **stats)
         return PluginResult.done(budget, stopped_by, **stats)
+
+
+def _announce_reel(ctx, author, budget: Budget) -> None:
+    """Ogłoś rolkę i/N — panel i log w tym samym takcie co watch."""
+    try:
+        cur = int(budget.items_done) + 1
+        announce_progress(
+            ctx, lambda msg: say(msg, prefix=LOG_PREFIX),
+            msg=reel_progress_line(author, cur, budget.max_items),
+            phase="reel", current=cur, total=budget.max_items,
+            label="Rolka",
+            detail=f"@{author}" if author else None)
+    except Exception:
+        # Postęp nie może wywalić pętli rozgrzewki
+        pass
 
 
 def _ensure_readable_meta(ctx) -> None:

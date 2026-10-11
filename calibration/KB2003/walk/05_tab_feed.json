@@ -1,0 +1,299 @@
+{
+  "slug": "05_tab_feed",
+  "note_pl": "po tap feed_tab",
+  "at": "2026-09-09T20:49:12Z",
+  "identify": {
+    "pkg": "com.instagram.androif",
+    "overlay": null,
+    "top": "home_feed",
+    "hits": 6,
+    "ambiguous": false,
+    "unknown": false
+  },
+  "pkg": "com.instagram.androif",
+  "slim": [
+    {
+      "rid": "",
+      "lab": "kontener panelu rolki",
+      "cls": "RecyclerView",
+      "bounds": "[0,271][1080,624]"
+    },
+    {
+      "rid": "outer_container",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[0,271][295,624]"
+    },
+    {
+      "rid": "",
+      "lab": "Relacja użytkownika karomazur4, 0 z 13, Nie wyświetlono.",
+      "cls": "Button",
+      "bounds": "[0,271][295,554]"
+    },
+    {
+      "rid": "avatar_image_view",
+      "lab": "Relacja użytkownika karomazur4, 0 z 13, Nie wyświetlono.",
+      "cls": "ImageView",
+      "bounds": "[39,310][256,527]"
+    },
+    {
+      "rid": "username",
+      "lab": "Twoja relacja",
+      "cls": "TextView",
+      "bounds": "[38,554][257,600]"
+    },
+    {
+      "rid": "outer_container",
+      "lab": "",
+      "cls": "Button",
+      "bounds": "[295,271][590,624]"
+    },
+    {
+      "rid": "",
+      "lab": "Relacja użytkownika wersow, 1 z 13, Nie wyświetlono.",
+      "cls": "Button",
+      "bounds": "[295,271][590,554]"
+    },
+    {
+      "rid": "avatar_image_view",
+      "lab": "Relacja użytkownika wersow, 1 z 13, Nie wyświetlono.",
+      "cls": "ImageView",
+      "bounds": "[334,310][551,527]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[349,440][535,548]"
+    },
+    {
+      "rid": "username",
+      "lab": "wersow",
+      "cls": "TextView",
+      "bounds": "[377,554][509,600]"
+    },
+    {
+      "rid": "outer_container",
+      "lab": "",
+      "cls": "Button",
+      "bounds": "[590,271][885,624]"
+    },
+    {
+      "rid": "",
+      "lab": "Relacja użytkownika annalewandowska, 2 z 13, Nie wyświetlono.",
+      "cls": "Button",
+      "bounds": "[590,271][885,554]"
+    },
+    {
+      "rid": "avatar_image_view",
+      "lab": "Relacja użytkownika annalewandowska, 2 z 13, Nie wyświetlono.",
+      "cls": "ImageView",
+      "bounds": "[629,310][846,527]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[644,440][830,548]"
+    },
+    {
+      "rid": "username",
+      "lab": "annalewandowska",
+      "cls": "TextView",
+      "bounds": "[602,554][873,600]"
+    },
+    {
+      "rid": "outer_container",
+      "lab": "",
+      "cls": "Button",
+      "bounds": "[885,271][1080,624]"
+    },
+    {
+      "rid": "",
+      "lab": "Relacja użytkownika piotrlatal, 3 z 13, Nie wyświetlono.",
+      "cls": "Button",
+      "bounds": "[885,271][1080,554]"
+    },
+    {
+      "rid": "avatar_image_view",
+      "lab": "Relacja użytkownika piotrlatal, 3 z 13, Nie wyświetlono.",
+      "cls": "ImageView",
+      "bounds": "[924,310][1080,527]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[939,440][1080,548]"
+    },
+    {
+      "rid": "username",
+      "lab": "piotrlatal",
+      "cls": "TextView",
+      "bounds": "[957,554][1080,600]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "ImageView",
+      "bounds": "[0,103][144,271]"
+    },
+    {
+      "rid": "action_bar_title_view",
+      "lab": "",
+      "cls": "ViewAnimator",
+      "bounds": "[144,125][936,248]"
+    },
+    {
+      "rid": "title_logo",
+      "lab": "Strona główna aktualności na Instagramie",
+      "cls": "ImageView",
+      "bounds": "[365,125][714,248]"
+    },
+    {
+      "rid": "notification",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[936,103][1080,271]"
+    },
+    {
+      "rid": "feed_tab",
+      "lab": "Strona główna",
+      "cls": "FrameLayout",
+      "bounds": "[0,2124][216,2268]"
+    },
+    {
+      "rid": "clips_tab",
+      "lab": "Rolki",
+      "cls": "FrameLayout",
+      "bounds": "[216,2124][432,2268]"
+    },
+    {
+      "rid": "direct_tab",
+      "lab": "Wiadomość",
+      "cls": "FrameLayout",
+      "bounds": "[432,2124][648,2268]"
+    },
+    {
+      "rid": "search_tab",
+      "lab": "Szukaj i poznaj",
+      "cls": "FrameLayout",
+      "bounds": "[648,2124][864,2268]"
+    },
+    {
+      "rid": "profile_tab",
+      "lab": "Profil",
+      "cls": "FrameLayout",
+      "bounds": "[864,2124][1080,2268]"
+    },
+    {
+      "rid": "clock",
+      "lab": "22:49 22:49",
+      "cls": "TextView",
+      "bounds": "[183,34][297,103]"
+    },
+    {
+      "rid": "wifi_combo",
+      "lab": "Wi-Fi: pełna moc sygnału.",
+      "cls": "FrameLayout",
+      "bounds": "[800,35][857,101]"
+    },
+    {
+      "rid": "battery",
+      "lab": "Bateria Rzecz na pasku stanu Ładowanie, Pozostało 77 procent energii baterii",
+      "cls": "LinearLayout",
+      "bounds": "[911,34][1007,103]"
+    },
+    {
+      "rid": "battery_percentage_view",
+      "lab": "77%",
+      "cls": "TextView",
+      "bounds": "[935,34][1007,103]"
+    },
+    {
+      "rid": "recent_apps",
+      "lab": "Przegląd",
+      "cls": "ImageView",
+      "bounds": "[160,2268][400,2400]"
+    },
+    {
+      "rid": "back",
+      "lab": "Wróć",
+      "cls": "ImageView",
+      "bounds": "[694,2268][934,2400]"
+    },
+    {
+      "rid": "home",
+      "lab": "Ekran główny",
+      "cls": "ImageView",
+      "bounds": "[428,2268][668,2400]"
+    }
+  ],
+  "ids_sample": [
+    "android:id/content",
+    "android:id/list",
+    "com.android.systemui:id/back",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_icon_view",
+    "com.android.systemui:id/battery_percentage_view",
+    "com.android.systemui:id/center_group",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/dynamic_icon_group",
+    "com.android.systemui:id/ends_group",
+    "com.android.systemui:id/home",
+    "com.android.systemui:id/horizontal",
+    "com.android.systemui:id/nav_buttons",
+    "com.android.systemui:id/navigation_bar_frame",
+    "com.android.systemui:id/navigation_bar_view",
+    "com.android.systemui:id/navigation_inflater",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/recent_apps",
+    "com.android.systemui:id/seeding_card_container",
+    "com.android.systemui:id/seedling_and_notification_container",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_end_side_container",
+    "com.android.systemui:id/status_bar_end_side_content",
+    "com.android.systemui:id/status_bar_launch_animation_container",
+    "com.android.systemui:id/status_bar_start_side_container",
+    "com.android.systemui:id/status_bar_start_side_content",
+    "com.android.systemui:id/status_bar_start_side_except_heads_up",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_inout",
+    "com.android.systemui:id/wifi_signal",
+    "com.instagram.android:id/action_bar_LinearLayout",
+    "com.instagram.android:id/action_bar_action_buttons",
+    "com.instagram.android:id/action_bar_buttons_container_left",
+    "com.instagram.android:id/action_bar_buttons_container_right"
+  ],
+  "texts_sample": [
+    "22:49",
+    "77%",
+    "annalewandowska",
+    "bateria rzecz na pasku stanu ładowanie, pozostało 77 procent energii baterii",
+    "ekran główny",
+    "kontener panelu rolki",
+    "piotrlatal",
+    "profil",
+    "przegląd",
+    "relacja użytkownika annalewandowska, 2 z 13, nie wyświetlono.",
+    "relacja użytkownika karomazur4, 0 z 13, nie wyświetlono.",
+    "relacja użytkownika piotrlatal, 3 z 13, nie wyświetlono.",
+    "relacja użytkownika wersow, 1 z 13, nie wyświetlono.",
+    "rolki",
+    "strona główna",
+    "strona główna aktualności na instagramie",
+    "szukaj i poznaj",
+    "twoja relacja",
+    "wersow",
+    "wi-fi: pełna moc sygnału.",
+    "wiadomość",
+    "wróć"
+  ],
+  "screenshot": "05_tab_feed.jpg"
+}

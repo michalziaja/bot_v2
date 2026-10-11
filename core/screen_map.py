@@ -24,6 +24,7 @@ POPUP_HINTS = {
     "suspicious_login":   ["challenge_two_factor", "suspicious_login"],
     "save_login_prompt":  ["save_login_prompt", "not_now_text"],
     "share_sheet":        ["bs_action_sheet_row", "share_sheet_container"],
+    "share_resolver":     ["android:id/resolver_list"],
 }
 
 # Systemowe pakiety które mogą przykryć IG a NIE są "foreign_app"
@@ -56,14 +57,40 @@ class ScreenMap:
     activities: dict = field(default_factory=dict)
 
     @classmethod
-    def load(cls, path: str | Path) -> "ScreenMap":
+    def load(cls, path: str | Path,
+             target_resolution: list | tuple | None = None) -> "ScreenMap":
         data = json.loads(Path(path).read_text(encoding="utf-8"))
-        return cls(
+        inst = cls(
             meta         = data.get("meta", {}),
             anchors      = data.get("anchors", {}),
             fingerprints = data.get("fingerprints", {}),
             activities   = data.get("activities", {}),
         )
+        # Fingerprinty są po resource-id (niezależne od telefonu). Kotwice
+        # mają bounds z kalibracji A50 — na innym ekranie skalujemy.
+        if target_resolution:
+            inst.scale_anchors_to(target_resolution)
+        return inst
+
+    def scale_anchors_to(self, target: list | tuple) -> None:
+        """Przeskaluj bounds kotwic z meta.resolution na rozdzielczość telefonu."""
+        src = self.meta.get("resolution")
+        if not (isinstance(src, (list, tuple)) and len(src) == 2):
+            return
+        if not (isinstance(target, (list, tuple)) and len(target) == 2):
+            return
+        sw, sh = int(src[0]), int(src[1])
+        tw, th = int(target[0]), int(target[1])
+        if sw <= 0 or sh <= 0 or (sw, sh) == (tw, th):
+            return
+        sx, sy = tw / sw, th / sh
+        for a in self.anchors.values():
+            b = a.get("bounds")
+            scaled = _scale_bounds(b, sx, sy, tw, th) if b else None
+            if scaled:
+                a["bounds"] = scaled
+        self.meta = {**self.meta, "resolution": [tw, th],
+                     "scaled_from": [sw, sh]}
 
     def anchor_bounds(self, name: str) -> str | None:
         a = self.anchors.get(name)
@@ -89,13 +116,22 @@ class ScreenMap:
                 return f"foreign_app:{pkg}"
         return None
 
-    def recognize(self, ids: set) -> list[tuple[str, list[str]]]:
+    def recognize(self, ids: set, texts: set | None = None) -> list[tuple[str, list[str]]]:
         """Zwraca [(screen_name, [matched_ids])] posortowane malejąco po liczbie hitów,
-        z zastosowaniem wins_over (overlay ekranów gasi swoje bazy)."""
+        z zastosowaniem wins_over (overlay ekranów gasi swoje bazy).
+
+        `texts` — znormalizowane napisy z drzewa; `must_have_text_any` łapie
+        ekrany bez resource-id (login / signup / DatePicker na OnePlus).
+        """
+        blob = texts or set()
         raw = []
         for screen, fp in self.fingerprints.items():
             must = fp.get("must_have_any") or []
             hits = [m for m in must if m in ids]
+            for needle in fp.get("must_have_text_any") or []:
+                n = _norm_text(needle)
+                if n and any(n in t for t in blob):
+                    hits.append(needle)
             if hits:
                 raw.append((screen, hits, fp.get("wins_over") or []))
         matched_names = {s for s, _, _ in raw}
@@ -108,9 +144,9 @@ class ScreenMap:
         results.sort(key=lambda t: -len(t[1]))
         return results
 
-    def identify(self, ids: set, pkg: str | None) -> ScreenState:
+    def identify(self, ids: set, pkg: str | None, texts: set | None = None) -> ScreenState:
         overlay = self.detect_overlay(ids, pkg)
-        matches = self.recognize(ids)
+        matches = self.recognize(ids, texts=texts)
         top     = matches[0][0] if matches else None
         hits    = len(matches[0][1]) if matches else 0
         ambiguous = (len(matches) > 1
@@ -135,7 +171,7 @@ class ScreenMap:
         """
         if self.detect_overlay(ids, pkg):
             return False
-        matches = self.recognize(ids)
+        matches = self.recognize(ids, texts=None)
         if not matches:
             return False
         return matches[0][0] == screen
@@ -150,6 +186,25 @@ class ScreenMap:
         ids = ids_from_flat(flat)
         pkg = dominant_package(flat)
         return self.is_screen(ids, pkg, screen)
+
+
+def _scale_bounds(s: str, sx: float, sy: float, tw: int, th: int) -> str | None:
+    """[x1,y1][x2,y2] → te same proporcje na innym ekranie, przycięte do krawędzi."""
+    try:
+        a, b = s.split("][")
+        x1, y1 = (int(v) for v in a.strip("[").split(","))
+        x2, y2 = (int(v) for v in b.strip("]").split(","))
+    except Exception:
+        return None
+    nx1 = max(0, min(tw, round(x1 * sx)))
+    ny1 = max(0, min(th, round(y1 * sy)))
+    nx2 = max(0, min(tw, round(x2 * sx)))
+    ny2 = max(0, min(th, round(y2 * sy)))
+    if nx2 <= nx1:
+        nx2 = min(tw, nx1 + 1)
+    if ny2 <= ny1:
+        ny2 = min(th, ny1 + 1)
+    return f"[{nx1},{ny1}][{nx2},{ny2}]"
 
 
 def _parse_bounds_center(s: str) -> tuple[int, int] | None:
@@ -200,6 +255,21 @@ def _walk(node: dict, out: list[dict]) -> None:
 
 def ids_from_flat(flat: list[dict]) -> set:
     return {n["resource-id"] for n in flat if n.get("resource-id")}
+
+
+def _norm_text(s: str) -> str:
+    return (s or "").replace("\xa0", " ").strip().lower()
+
+
+def texts_from_flat(flat: list[dict]) -> set[str]:
+    """Zbiór text + content-desc — do fingerprintów bez resource-id."""
+    out: set[str] = set()
+    for n in flat or []:
+        for key in ("text", "content-desc"):
+            t = _norm_text(n.get(key) or "")
+            if t:
+                out.add(t)
+    return out
 
 
 def dominant_package(flat: list[dict]) -> str | None:

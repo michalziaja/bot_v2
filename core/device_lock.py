@@ -16,6 +16,17 @@ import os
 import sys
 import time
 from pathlib import Path
+from typing import Callable
+
+
+# Komentarz: restore MAC przy puszczeniu locka (koniec sesji / atexit)
+_release_callbacks: list[Callable[[str], None]] = []
+
+
+def add_release_callback(cb: Callable[[str], None]) -> None:
+    """Zarejestruj hak wołany z DeviceLock.release(serial)."""
+    if cb not in _release_callbacks:
+        _release_callbacks.append(cb)
 
 
 class DeviceBusy(RuntimeError):
@@ -95,6 +106,11 @@ class DeviceLock:
             fh.close()
         except Exception:
             pass
+        for cb in list(_release_callbacks):
+            try:
+                cb(self.serial)
+            except Exception:
+                pass
         # nie usuwaj pliku — na Win plik zablokowany może zostać; treść i tak
         # nieważna gdy nikt nie trzyma flocka
 
@@ -136,3 +152,72 @@ def _read_holder(path: Path) -> dict | str:
         return json.loads(raw[0])
     except Exception:
         return "?"
+
+
+def _lock_path(data_root: Path, serial: str) -> Path:
+    """Ta sama ścieżka co DeviceLock — bez otwierania deskryptora."""
+    safe = "".join(c if c.isalnum() or c in "-_" else "_" for c in serial)
+    return Path(data_root) / "locks" / f"device_{safe}.lock"
+
+
+def _proc_locks_holds(path: Path) -> bool | None:
+    """Czy /proc/locks pokazuje exclusive lock na tym inode.
+
+    None = /proc niedostępny (nie zgadujemy). Nie wołamy flock —
+    drugi deskryptor w tym samym procesie mógłby puścić lock holdera.
+    """
+    try:
+        st = path.stat()
+        raw = Path("/proc/locks").read_text(encoding="utf-8")
+    except OSError:
+        return None
+    ino = str(st.st_ino)
+    maj, mino = os.major(st.st_dev), os.minor(st.st_dev)
+    # kernel bywa z/bez wiodącego zera w major:minor
+    tokens = {
+        f"{maj:x}:{mino:x}:{ino}",
+        f"{maj:02x}:{mino:02x}:{ino}",
+    }
+    for line in raw.splitlines():
+        parts = line.split()
+        if len(parts) < 6:
+            continue
+        if parts[5] in tokens or parts[5].endswith(":" + ino):
+            return True
+    return False
+
+
+def _pid_alive(pid: int) -> bool:
+    """Czy proces jeszcze żyje (signal 0) — fallback gdy brak /proc/locks."""
+    if not pid or pid <= 0:
+        return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except OSError:
+        return False
+
+
+def peek_device_lock(data_root: Path, serial: str) -> dict | None:
+    """Holder flocka albo None gdy serial wolny.
+
+    Plik `device_<serial>.lock` zostaje po release — samo istnienie
+    nie znaczy, że telefon jest zajęty. Najpierw /proc/locks, inaczej
+    PID z metadanych (mniej pewne po reuse PID).
+    """
+    if not serial:
+        return None
+    path = _lock_path(data_root, serial)
+    if not path.exists():
+        return None
+    held = _proc_locks_holds(path)
+    holder = _read_holder(path)
+    meta = holder if isinstance(holder, dict) else {"owner": str(holder)}
+    if held is True:
+        return meta
+    if held is False:
+        return None
+    # bez /proc — best-effort: żywy PID z pliku
+    if _pid_alive(int(meta.get("pid") or 0)):
+        return meta
+    return None

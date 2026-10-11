@@ -399,38 +399,82 @@ def expand_sheet_confirmed(ctx, *, max_pulls: int = 3) -> dict:
     }
 
 
+def _pop_cs_sheet_flags(ctx) -> None:
+    """Harvest z # skończył sheet — precz flagi, by FP comments nie dostał BACK."""
+    ctx.scratch.pop("_cs_opened_sheet", None)
+    ctx.scratch.pop("_cs_opened_comments", None)
+
+
 def return_to_reels(ctx) -> bool:
     """Zamknij overlay (max 3× back), aż wrócimy na reels_feed.
 
-    content_search: NIGDY ensure(clips_tab) — rolka z # nie jest main feedem.
-    Wystarczą BACK-i; wołający i tak wraca na search_results.
+    content_search: STOP na viewerze. Po liście lajkujących identify bywa
+    `reel_comments_sheet` (FP) — drugi BACK = search_results (live 02:59).
+    BACK z comments tylko gdy sami otworzyliśmy komentarze.
     """
+    cs = bool(ctx.scratch.get("content_search_active"))
+    sheets = {
+        "reel_likers_list",
+        "followers_list", "following_list",
+        "profile_other", "profile_self",
+        "story_viewer", "share_sheet", "profile_options_sheet",
+    }
     for _ in range(3):
         state = ctx.navigator.identify()
-        if state.top == REELS and not state.overlay:
+        top = state.top
+        if cs and top in ("search_results", "search_top", "search_input_active"):
+            ctx.log("reels.return_to_reels.overshoot_results", top=top)
+            _pop_cs_sheet_flags(ctx)
+            return False
+        if top == REELS and not state.overlay:
+            _pop_cs_sheet_flags(ctx)
             return True
-        # Już na siatce # — sukces dla content_search
-        if (ctx.scratch.get("content_search_active")
-                and state.top == "search_results" and not state.overlay):
-            return True
+        if cs:
+            # Nie BACK-uj overlayu / comments-FP viewera (jak _dismiss_sheet_stack)
+            should = top in sheets
+            if top == "reel_comments_sheet":
+                should = bool(ctx.scratch.get("_cs_opened_comments"))
+            if not should:
+                ctx.scratch["_cs_on_viewer"] = True
+                _pop_cs_sheet_flags(ctx)
+                return True
         ctx.device.press_back()
         ctx.humanizer.pause("tap")
-        # UI czasem jeszcze trzyma overlay — oddech przed kolejnym identify
         time.sleep(_BREATH_AFTER_BACK_S)
-    if ctx.scratch.get("content_search_active"):
-        # Bez clips_tab — zostaw ekran jak jest; plugin zrobi _back_to(RESULTS)
+        if cs:
+            nxt = ctx.navigator.identify().top
+            _pop_cs_sheet_flags(ctx)
+            if nxt in ("search_results", "search_top", "search_input_active"):
+                ctx.log("reels.return_to_reels.overshoot_results", top=nxt)
+                return False
+            if nxt == REELS:
+                return True
+            if nxt not in sheets:
+                # comments-FP / home / overlay — jeden BACK wystarczy
+                ctx.scratch["_cs_on_viewer"] = True
+                return True
+    if cs:
         top = ctx.navigator.identify().top
-        return top in (REELS, "search_results")
+        _pop_cs_sheet_flags(ctx)
+        return top == REELS
     return ctx.navigator.ensure(REELS, max_steps=4)
 
 
 def open_likers_sheet(ctx) -> bool:
     """Tap w link „Liczba polubień: X" / „Polubione przez"."""
-    return _tap_first_clickable(ctx, LIKERS_LINK_HINTS, pause="between_steps")
+    ok = _tap_first_clickable(ctx, LIKERS_LINK_HINTS, pause="between_steps")
+    if ok and ctx.scratch.get("content_search_active"):
+        ctx.scratch["_cs_opened_sheet"] = True
+    return ok
 
 
 def open_comments_sheet(ctx) -> bool:
-    return _tap_first_clickable(ctx, COMMENTS_ICON_HINTS, pause="read_comments")
+    ok = _tap_first_clickable(ctx, COMMENTS_ICON_HINTS, pause="read_comments")
+    if ok and ctx.scratch.get("content_search_active"):
+        ctx.scratch["_cs_opened_sheet"] = True
+        # Osobno od lajkujących: comments-FP po likers NIE jest prawdziwym sheetem
+        ctx.scratch["_cs_opened_comments"] = True
+    return ok
 
 
 def _tap_first_clickable(ctx, hints, pause: str) -> bool:

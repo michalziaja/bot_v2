@@ -13,7 +13,10 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT.parent))
 
 from v2.core import verification_code as vc
-from v2.steps.system.enter_verification_code_if_needed import EnterVerificationCodeIfNeeded
+from v2.steps.system.enter_verification_code_if_needed import (
+    EnterVerificationCodeIfNeeded,
+    _find_code_input,
+)
 
 
 def edit_text(desc, x1=84, y1=1041, x2=901, y2=1098):
@@ -111,6 +114,25 @@ class EnterVerificationCodeTests(unittest.TestCase):
         self.assertEqual(res.status, "skipped")
         self.assertEqual(res.payload["reason"], "code_not_provided_in_time")
         self.assertEqual(ctx.device.shells, [])   # nic nie wpisano
+
+    def test_otp_kratki_bez_hintu_sa_wpisywane(self):
+        # Komentarz: live klon2 — 6 kratek bez „Wprowadź kod” na EditText
+        boxes = [
+            edit_text("", x1=80 + i * 140, y1=700, x2=200 + i * 140, y2=820)
+            for i in range(6)
+        ]
+        title = {"resource-id": "", "class": "android.view.View",
+                 "text": "Wprowadź kod potwierdzający",
+                 "content-desc": "Wprowadź kod potwierdzający",
+                 "bounds": "[48,200][1032,300]"}
+        first = _find_code_input(boxes + [title])
+        self.assertIsNotNone(first)
+        self.assertEqual(first["bounds"], boxes[0]["bounds"])
+        ctx = FakeCtx(boxes + [title, REAL_SUBMIT_BTN], self.data_root)
+        vc.submit_code(self.data_root, "test_acc", "667721")
+        res = EnterVerificationCodeIfNeeded().run(ctx, {"timeout_s": 3})
+        self.assertEqual(res.status, "ok", res.error)
+        self.assertTrue(any("667721" in s for s in ctx.device.shells))
 
     def test_missing_submit_button_is_reported_not_guessed(self):
         ctx = FakeCtx([REAL_CODE_FIELD], self.data_root)

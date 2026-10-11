@@ -1,0 +1,836 @@
+{
+  "name": "11_live_content",
+  "note_pl": "LIVE trial: Zawartość — pierwszy ekran",
+  "pkg": "com.instagram.androia",
+  "activity": "",
+  "nodes": [
+    {
+      "text": "Ogólne",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[113,262][247,311]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Zawartość",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[439,262][641,306]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Odbiorcy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[815,262][986,311]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Cała zawartość",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,414][413,479]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "30 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[853,418][984,476]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Najnowsze",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[0,527][324,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Najnowsze",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[84,559][261,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wyświetlenia",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[324,527][648,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[366,559][585,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Widzowie",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[648,527][911,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Widzowie",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[690,559][848,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Obserwatorzy",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[911,527][1080,635]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Obserwatorzy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[953,559][1080,603]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "4 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,700][261,743]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "147",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[968,690][1038,748]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,754][242,797]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,754][332,797]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[401,754][422,797]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,764][1038,807]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "4 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,889][261,932]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "172",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[967,879][1038,937]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,943][242,986]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,943][332,986]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[401,943][422,986]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,953][1038,996]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "#rekrutacja #szukampracy #ofertypracy #kariera #praca\n\n Aplikujesz. Cisza. Aplikujesz jeszcze raz. Znowu cisza.\n\nStatystycznie co piąta z tych ofert nie miała szans się skończyć zatrudnieniem. Nie dlatego, że byłeś słaby. Dlatego, że nie było czego obsadzać.\n\nBadania z USA i Europy Zachodniej szacują skalę na 21-22% ogłoszeń. Dla Polski takich danych po prostu nie ma - nikt ich nie zebrał. Nie zakładam więc, że u nas jest tak samo. Zakładam, że warto wiedzieć, że takie zjawisko istnieje.\n\nJak rozpoznać podejrzane ogłoszenie? Wisi ponad 45 dni bez zmian. Pojawia się cyklicznie co kilka tygodni. Nie ma widełek, nie ma nazwiska osoby prowadzącej, opis jest ogólny jak instrukcja obsługi czajnika.\n\nŻadne dopasowanie CV nie pomoże na etat, który nie istnieje.\n\nŹródła w komentarzu",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1074][678,1125]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "4 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[683,1082][760,1125]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "379",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[961,1068][1038,1126]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1136][242,1179]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "2",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,1136][331,1179]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[400,1136][421,1179]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[490,1136][511,1179]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1142][1038,1185]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "5 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1267][262,1310]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "162",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[965,1257][1038,1315]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1321][235,1364]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[304,1321][318,1364]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[387,1321][408,1364]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1331][1038,1374]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "5 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1456][262,1499]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "179",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[967,1446][1038,1504]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "2",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1510][241,1553]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[310,1510][331,1553]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[400,1510][414,1553]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1520][1038,1563]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "brak odpowiedzi po CV, cisza od rekrutera.\n\nWysyłasz aplikację. Potem czekasz.\n\nTydzień. Drugi. Trzeci.\n\nI nic. Nie „nie”, nie „na razie nie”, nie „wybraliśmy kogoś innego”. Po prostu nic.\n\nPonad 90% kandydatów w Polsce ma to za sobą. A 84% mówi, że to nie był jednorazowy wypadek przy pracy, tylko standard.\n\nNajgorsze w ciszy nie jest to, że boli. Najgorsze jest to, że nie da się z niej niczego wyczytać. Odmowa daje informację. Cisza nie daje nic - poza czasem, który spędzasz na sprawdzaniu skrzynki.\n\nJeśli więc liczysz brak odpowiedzi jako swoją porażkę: przestań. To nie jest ocena. To jest przepustowość.\n\nŹródło w komentarzu.\n\n#rynekpracy #rekrutacja #szukampracy #praca\n#jobsaver.app",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1641][677,1692]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "5 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[682,1649][760,1692]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "394",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[956,1635][1038,1693]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1703][242,1746]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,1703][325,1746]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[394,1703][415,1746]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[484,1703][498,1746]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1709][1038,1752]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "49 aplikacji na ofertę.\n\nTyle, średnio, spływa zgłoszeń na jedno ogłoszenie.\nJedno ogłoszenie. Kilkadziesiąt CV.\n\nRekruter nie czyta każdego pliku.\nZanim ktoś z HR otworzy plik, system już sortuje kolejkę.\n\nŹródło: Traffit, Stan rekrutacji 2025 (1. kwartał 2025).\n\n#rekrutacja #praca #szukampracy #CV #rynekpracy \nkariera, aplikacje, oferta, ogłoszenie, CV, rekrutacja, rekruter.",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,1830][671,1881]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1 tyg.",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[676,1838][760,1881]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "42",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[983,1824][1038,1882]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,1892][242,1935]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,1892][332,1935]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[401,1892][422,1935]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[491,1892][512,1935]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,1898][1038,1941]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "7,8 miesiąca.\n\nTyle, według GUS, trwa szukanie pracy.\nŚredni czas poszukiwania pracy\nprzez osoby bezrobotne (BAEL, II kw. 2025).\n\nTo nie jest sprint.\nTo projekt, który rozciąga się na sezony.\n\nŹródło: GUS, Sytuacja społeczno-gospodarcza kraju / BAEL.\n\n#szukampracy #praca #rynekpracy #kariera #bezrobocie zmianapracy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,2019][671,2070]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1 tyg.",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[676,2027][760,2070]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "54",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[982,2013][1038,2071]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,2081][242,2124]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[311,2081][332,2124]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[401,2081][422,2124]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[491,2081][512,2124]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,2087][1038,2130]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1 tyg.",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[184,2212][268,2255]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "196",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[965,2202][1038,2260]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[221,2266][235,2309]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[304,2266][325,2309]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[394,2266][415,2309]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[828,2276][1038,2319]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,83][1080,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar_new_title_container",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,83][879,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wstecz",
+      "rid": "com.instagram.android:id/action_bar_button_back",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[0,83][147,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Statystyki",
+      "desc": "Statystyki",
+      "rid": "com.instagram.android:id/action_bar_title",
+      "click": true,
+      "cls": "TextView",
+      "bounds": "[189,122][478,191]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Informacje",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[932,83][1059,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "20:38",
+      "desc": "20:38",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[54,0][151,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Google: Jutro 19° (Opole)",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[159,0][206,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Podróże Wojownika",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[206,0][253,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Instagram: who.is.aleksandra",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[253,0][300,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[300,0][347,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Kosmiczne Opowieści",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[318,0][365,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[724,23][764,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[767,23][808,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[811,23][858,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[858,23][897,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[905,0][1026,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[905,0][1000,83]",
+      "pkg": "com.android.systemui"
+    }
+  ]
+}

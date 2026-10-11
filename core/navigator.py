@@ -12,7 +12,8 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Callable
 
 from v2.core.screen_map import (ScreenMap, ScreenState,
-                                flatten_hierarchy, ids_from_flat, dominant_package)
+                                flatten_hierarchy, ids_from_flat, dominant_package,
+                                texts_from_flat)
 
 if TYPE_CHECKING:
     from v2.core.device import UiAuto2Device
@@ -70,7 +71,8 @@ class Navigator:
         flat = flatten_hierarchy(self.device.hierarchy())
         ids  = ids_from_flat(flat)
         pkg  = dominant_package(flat) or self.device.current_pkg()
-        return self.screen_map.identify(ids, pkg)
+        # Komentarz: teksty — login/signup na OnePlus nie mają resource-id
+        return self.screen_map.identify(ids, pkg, texts=texts_from_flat(flat))
 
     # ---- ladder ----
     def ensure(self, target: str, max_steps: int = 6,

@@ -24,6 +24,8 @@ class ProfileLogSmokeTests(unittest.TestCase):
             profile_log.say(profile_log.grid_capture_line())
             profile_log.say(profile_log.grid_ai_wait_line())
             profile_log.say_grid_ai_result({
+                "audience_fit": "match",
+                "audience_reason": "trener, siatka lifestyle",
                 "tiles": {
                     "1": {"category": "niche", "reason": "CNC w warsztacie"},
                     "2": {"category": "excluded", "reason": "Reklama sklepu"},
@@ -46,12 +48,13 @@ class ProfileLogSmokeTests(unittest.TestCase):
         self.assertIn("Relacja — ogladam", joined)
         self.assertIn("Siatka — robie zrzut", joined)
         self.assertIn("czekam na AI", joined)
-        self.assertIn("niche 2", joined)
+        self.assertIn("Grupa docelowa — match: trener, siatka lifestyle", joined)
+        self.assertIn("safe 2", joined)
         self.assertIn("excluded 1", joined)
-        # Kafelki niche z reason (glowny cel logu AI siatki)
+        # Kafelki safe (legacy niche→safe) z reason
         self.assertIn("pasuje: 1, 5", joined)
-        self.assertIn("Kafelek 1 — niche: CNC w warsztacie", joined)
-        self.assertIn("Kafelek 5 — niche: Narzedzia na stole", joined)
+        self.assertIn("Kafelek 1 — safe: CNC w warsztacie", joined)
+        self.assertIn("Kafelek 5 — safe: Narzedzia na stole", joined)
         self.assertIn("Kafelek 2 — excluded: Reklama sklepu", joined)
         self.assertIn("OK (siatka)", joined)
         self.assertIn("Lajki kafelkow", joined)
@@ -130,8 +133,8 @@ class ProfileLogSmokeTests(unittest.TestCase):
             builtins.print = real_print
         joined = "\n".join(lines)
         self.assertIn("pasuje: 2, 7", joined)
-        self.assertIn("Kafelek 2 — niche: Frezarka w akcji", joined)
-        self.assertIn("Kafelek 7 — niche: Warsztat CNC", joined)
+        self.assertIn("Kafelek 2 — safe: Frezarka w akcji", joined)
+        self.assertIn("Kafelek 7 — safe: Warsztat CNC", joined)
         # Jedno podsumowanie (drugie wywołanie z flagą nic nie dodało)
         self.assertEqual(joined.count("Siatka AI —"), 1)
 
@@ -154,8 +157,35 @@ class ProfileLogSmokeTests(unittest.TestCase):
             builtins.print = real_print
         joined = "\n".join(lines)
         self.assertIn("pasuje: 3", joined)
-        self.assertIn("Kafelek 3 — niche: Tokarka", joined)
+        self.assertIn("Kafelek 3 — safe: Tokarka", joined)
         self.assertIn("Kafelek 5 — excluded: Sklep", joined)
+
+    def test_match_fail_audience_fit_is_human(self):
+        line = profile_log.match_fail_line("audience_fit=off")
+        self.assertIn("grupa docelowa", line)
+        self.assertIn("audience_fit=off", line)
+
+    def test_tiles_like_despite_skip_line(self):
+        self.assertIn("bez follow", profile_log.tiles_like_despite_skip_line())
+
+    def test_grid_ai_workspace_id_error_is_human(self):
+        lines = []
+        real_print = print
+
+        def capture(*args, **kwargs):
+            lines.append(" ".join(str(a) for a in args))
+
+        builtins.print = capture
+        try:
+            profile_log.say_grid_ai_result({"_error": "anthropic_workspace_id"})
+        finally:
+            builtins.print = real_print
+        self.assertIn("workspace ID", "\n".join(lines))
+
+    def test_norm_tile_category_legacy_aliases(self):
+        self.assertEqual(profile_log.norm_tile_category("niche"), "safe")
+        self.assertEqual(profile_log.norm_tile_category("Neutral"), "skipped")
+        self.assertEqual(profile_log.norm_tile_category("safe"), "safe")
 
 
 if __name__ == "__main__":

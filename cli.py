@@ -18,6 +18,7 @@ from v2.config.schema     import load_account
 from v2.core.device       import UiAuto2Device
 from v2.core.uiauto_server import ensure_running as ensure_uiauto
 from v2.core.scrcpy_client import ScrcpyClient
+from v2.panel.preview     import start_preview_writer, stop_preview_writer
 from v2.core.human_touch  import HumanTouch
 from v2.core.humanizer    import Humanizer
 from v2.core.events       import EventLogger, new_session_id
@@ -45,6 +46,24 @@ def _log_humanizer_pause(events: EventLogger, **kwargs) -> None:
     events.log("humanizer.pause", **kwargs)
 
 
+CANONICAL_UI_MAP = CALIB_ROOT / "SM_A505FN_draft.json"
+
+
+def _resolve_ui_map(hw: dict) -> Path:
+    """Kalibracja modelu, a gdy jej nie ma — kanoniczna mapa A50 (resource-id)."""
+    model = (hw.get("model") or "").replace("-", "_").strip()
+    if model:
+        specific = CALIB_ROOT / f"{model}_draft.json"
+        if specific.exists():
+            return specific
+    if CANONICAL_UI_MAP.exists():
+        return CANONICAL_UI_MAP
+    raise SystemExit(
+        f"[cli] brak mapy UI dla modelu {model or '?'} "
+        f"(ani {CANONICAL_UI_MAP.name}) — uruchom kalibrację"
+    )
+
+
 def build_context(account_id: str, speed: float | None = None) -> Context:
     """`speed` nadpisuje globalną prędkość z configu — do przebiegów testowych,
     żeby nie trzeba było ruszać pliku konta."""
@@ -55,10 +74,9 @@ def build_context(account_id: str, speed: float | None = None) -> Context:
     # w innym terminalu) — używamy go i NIE ubijamy przy exit.
     ensure_uiauto(hw["uiautodev"]["base_url"])
 
-    # Screen map — na razie zawsze SM_A505FN_draft.json
-    map_path = CALIB_ROOT / f"{hw['model']}_draft.json"
-    if not map_path.exists():
-        raise SystemExit(f"[cli] brak mapy UI: {map_path} — uruchom kalibrację")
+    # Mapa UI: najpierw kalibracja tego modelu, inaczej kanoniczna A50
+    # (fingerprinty po resource-id; kotwice przeskalujemy do resolution).
+    map_path = _resolve_ui_map(hw)
 
     ig_pkg     = account.device["app_clone_package"]
     # Jeden proces na adb serial — inaczej dwa joby przeplatają input text
@@ -87,8 +105,20 @@ def build_context(account_id: str, speed: float | None = None) -> Context:
     except Exception as e:
         print(f"[scrcpy] START FAILED — kroki reels będą używać screenshot HTTP: {e}")
         fb = None
+    # Miniaturka dla panelu: ten sam FB co Vision, nie drugi scrcpy.
+    # Cadence JPEG = min(scrcpy.max_fps, 15); PATCH na Na żywo skraca od razu.
+    dev_alias = account.device.get("device_alias")
+    if fb is not None and dev_alias:
+        start_preview_writer(
+            fb, dev_alias, DATA_ROOT, config_root=V2_ROOT / "config",
+        )
+        atexit.register(stop_preview_writer, dev_alias)
 
-    screen_map = ScreenMap.load(map_path)
+    screen_map = ScreenMap.load(map_path, target_resolution=hw.get("resolution"))
+    expected_map = f"{(hw.get('model') or '').replace('-', '_')}_draft.json"
+    if map_path.name != expected_map:
+        print(f"[cli] mapa UI: fallback {map_path.name} (brak kalibracji "
+              f"dla {hw.get('model')}), kotwice → {hw.get('resolution')}")
     humanizer  = Humanizer.load(account.humanizer.get("profile_name", "default"),
                                 overrides=account.humanizer.get("overrides") or None,
                                 speed=speed if speed is not None
@@ -217,14 +247,35 @@ def _dry_run_queue(args) -> int:
     return 0
 
 
-def cmd_login(args):
-    """Flow logowania: wake → unlock → uruchom klon → wpisz login/hasło →
-    potwierdź popupy → jeśli IG prosi o kod e-mail/SMS, czekaj aż panel go
-    dostarczy i wpisz.
+def _finish_short_account_flow(ctx, get_step):
+    """Po loginie / signupie / profilu — zgaś IG, potem MAC telefonu.
 
-    Świadomie NIE idzie dalej niż to — captcha/suspicious login/ban kończy się
-    ręcznie na telefonie (patrz `steps/system/login_if_needed.py` i
-    `steps/system/enter_verification_code_if_needed.py`)."""
+    `force` na close_ig: te czynności zawsze zamykają apkę, nawet gdy
+    toggle close_ig jest off w bot.json (runy i tak mają własny epilog).
+    """
+    from v2.steps.system import login_log
+    try:
+        cres = get_step("system.close_ig")().run(ctx, {"force": True})
+        login_log.say(f"Zamykam IG ({ctx.ig_package})")
+        print(f"   {cres.status:8s} system.close_ig  {cres.payload}"
+              + (f"  error={cres.error}" if cres.error else ""), flush=True)
+        ctx.log("step", step="system.close_ig", status=cres.status,
+                payload=cres.payload)
+    except Exception as e:
+        print(f"[cli] close IG: {e}", flush=True)
+    try:
+        rest = get_step("system.restore_clone_identity")()
+        rres = rest.run(ctx, {})
+        print(f"   {rres.status:8s} system.restore_clone_identity  {rres.payload}",
+              flush=True)
+    except Exception as e:
+        print(f"[cli] restore MAC: {e}", flush=True)
+
+
+def cmd_login(args):
+    """Flow: wake → unlock → klon → login → kod → avatar/bio → zamknij IG.
+
+    Captcha / suspicious login / ban nadal kończy się ręcznie na telefonie."""
     load_all()
     ctx = build_context(args.account)
     print(f"\n[cli] account={args.account}  tryb=logowanie  session={ctx.session_id}")
@@ -236,25 +287,120 @@ def cmd_login(args):
     steps = [
         ("system.wake", {}, "Budzenie telefonu"),
         ("system.unlock", {}, "Odblokowanie"),
+        ("system.apply_clone_identity", {}, "Tożsamość klona (MAC)"),
         ("system.ensure_ig_running", {}, "Uruchamiam Instagram"),
         ("system.login_if_needed", {}, "Logowanie (login/hasło + popupy)"),
         ("system.enter_verification_code_if_needed", {}, "Kod weryfikacyjny (jeśli jest)"),
+        ("system.dismiss_notifications", {}, "Zamknięcie powiadomień"),
+        ("system.sweep_tabs", {}, "Zakładki + popupy + weryfikacja"),
+        ("profile.set_avatar", {}, "Zdjęcie profilowe (jeśli wybrane)"),
+        ("profile.set_bio", {}, "Biogram (jeśli wpisany)"),
     ]
-    for name, params, label in steps:
-        login_log.say(f"— {label}")
-        step = get_step(name)()
-        res = step.run(ctx, params)
-        print(f"   {res.status:8s} {name}  {res.payload}"
-              + (f"  error={res.error}" if res.error else ""), flush=True)
-        ctx.log("step", step=name, status=res.status, payload=res.payload)
-        if res.status == "failed":
-            login_log.say(f"PRZERWANO: {res.error}")
-            print(f"\n[cli] PRZERWANO na {name} — {res.error}\n")
-            return 1
+    rc = 0
+    try:
+        for name, params, label in steps:
+            login_log.say(f"— {label}")
+            step = get_step(name)()
+            res = step.run(ctx, params)
+            print(f"   {res.status:8s} {name}  {res.payload}"
+                  + (f"  error={res.error}" if res.error else ""), flush=True)
+            ctx.log("step", step=name, status=res.status, payload=res.payload)
+            if res.status == "failed":
+                login_log.say(f"PRZERWANO: {res.error}")
+                print(f"\n[cli] PRZERWANO na {name} — {res.error}\n")
+                rc = 1
+                break
+        else:
+            login_log.say("GOTOWE — jeśli został captcha/2FA poza panelem, dokończ ręcznie")
+            print("\n[cli] KONIEC — jeśli telefon poprosił o 2FA/potwierdzenie, dokończ ręcznie.\n")
+    finally:
+        _finish_short_account_flow(ctx, get_step)
+    return rc
 
-    login_log.say("GOTOWE — jeśli został captcha/2FA poza panelem, dokończ ręcznie")
-    print("\n[cli] KONIEC — jeśli telefon poprosił o 2FA/potwierdzenie, dokończ ręcznie.\n")
-    return 0
+
+def cmd_signup(args):
+    """Flow: wake → unlock → klon → rejestracja → kod → avatar/bio → zamknij IG.
+
+    Captcha / checkpoint kończy się ręcznie na telefonie — jak przy logowaniu.
+    """
+    load_all()
+    ctx = build_context(args.account)
+    print(f"\n[cli] account={args.account}  tryb=zakładanie  session={ctx.session_id}")
+    print(f"[cli] events → {ctx.events.file_path}\n")
+
+    from v2.steps.registry import get as get_step
+    from v2.steps.system import login_log
+    steps = [
+        ("system.wake", {}, "Budzenie telefonu"),
+        ("system.unlock", {}, "Odblokowanie"),
+        ("system.apply_clone_identity", {}, "Tożsamość klona (MAC)"),
+        ("system.ensure_ig_running", {}, "Uruchamiam Instagram"),
+        ("system.signup_if_needed", {}, "Rejestracja (dane + Dalej)"),
+        ("system.enter_verification_code_if_needed", {}, "Kod weryfikacyjny (jeśli jest)"),
+        ("system.dismiss_notifications", {}, "Zamknięcie powiadomień"),
+        ("system.sweep_tabs", {}, "Zakładki + popupy + weryfikacja"),
+        ("profile.set_avatar", {}, "Zdjęcie profilowe (jeśli wybrane)"),
+        ("profile.set_bio", {}, "Biogram (jeśli wpisany)"),
+    ]
+    rc = 0
+    try:
+        for name, params, label in steps:
+            login_log.say(f"— {label}")
+            step = get_step(name)()
+            res = step.run(ctx, params)
+            print(f"   {res.status:8s} {name}  {res.payload}"
+                  + (f"  error={res.error}" if res.error else ""), flush=True)
+            ctx.log("step", step=name, status=res.status, payload=res.payload)
+            if res.status == "failed":
+                login_log.say(f"PRZERWANO: {res.error}")
+                print(f"\n[cli] PRZERWANO na {name} — {res.error}\n")
+                rc = 1
+                break
+        else:
+            login_log.say("GOTOWE — captcha/2FA poza panelem dokończ ręcznie")
+            print("\n[cli] KONIEC zakładania konta.\n")
+    finally:
+        _finish_short_account_flow(ctx, get_step)
+    return rc
+
+
+def cmd_profile(args):
+    """Flow: wake → unlock → klon → bio + zdjęcie → zamknij IG."""
+    load_all()
+    ctx = build_context(args.account)
+    print(f"\n[cli] account={args.account}  tryb=profil  session={ctx.session_id}")
+    print(f"[cli] events → {ctx.events.file_path}\n")
+
+    from v2.steps.registry import get as get_step
+    from v2.steps.system import login_log
+    steps = [
+        ("system.wake", {}, "Budzenie telefonu"),
+        ("system.unlock", {}, "Odblokowanie"),
+        ("system.apply_clone_identity", {}, "Tożsamość klona (MAC)"),
+        ("system.ensure_ig_running", {}, "Uruchamiam Instagram"),
+        ("profile.set_bio", {}, "Biogram (jeśli wpisany)"),
+        ("profile.set_avatar", {}, "Zdjęcie profilowe (jeśli wybrane)"),
+    ]
+    rc = 0
+    try:
+        for name, params, label in steps:
+            login_log.say(f"— {label}")
+            step = get_step(name)()
+            res = step.run(ctx, params)
+            print(f"   {res.status:8s} {name}  {res.payload}"
+                  + (f"  error={res.error}" if res.error else ""), flush=True)
+            ctx.log("step", step=name, status=res.status, payload=res.payload)
+            if res.status == "failed":
+                login_log.say(f"PRZERWANO: {res.error}")
+                print(f"\n[cli] PRZERWANO na {name} — {res.error}\n")
+                rc = 1
+                break
+        else:
+            login_log.say("GOTOWE — bio i avatar (puste pola = skip)")
+            print("\n[cli] KONIEC profilu IG.\n")
+    finally:
+        _finish_short_account_flow(ctx, get_step)
+    return rc
 
 
 def cmd_stats(args):
@@ -369,29 +515,44 @@ def cmd_where(args):
     return 0
 
 
+def cmd_calibrate(args):
+    """Agent/CLI: przejmij telefon, obchodź znane ekrany, zapisz mapę modelu."""
+    load_all()
+    ctx = build_context(args.account)
+    from v2.core.device_calibrate import run_calibration
+    print(f"\n[cli] kalibracja account={args.account} session={ctx.session_id}\n")
+    # Komentarz: data_root = stan needs_agent dla panelu (jak kod 2FA)
+    info = run_calibration(ctx, calib_root=CALIB_ROOT, data_root=DATA_ROOT)
+    print(f"[cli] mapa → {info['map']}")
+    print(f"[cli] zrzuty → {info['walk']}")
+    print(f"[cli] harvest {info['harvested'] or '(brak — fallback nav)'}")
+    print(f"[cli] last top={info['last_top']}  steps={info['steps']}")
+    return 0
+
+
 def cmd_scheduler(args):
     """Scheduler bez UI — do uruchamiania w tle bez przeglądarki.
 
-    Ten sam `scheduler/tick.py` co wątek w panelu, ale bez FastAPI: pilnuje
-    jednego subprocessu `run-queue` zamiast `SessionManager`. Blokada
-    „jedno urządzenie = jedna aktywna sesja" wynika z tego, że jest tylko
-    jeden `state["proc"]" na raz.
+    Ten sam `scheduler/tick.py` co wątek w panelu, ale bez FastAPI: mapa
+    `device_alias → Popen`, żeby dwa telefony mogły jechać równolegle.
 
     UWAGA: nie uruchamiaj tego razem z `panel` — panel ma własną pętlę
     schedulera i dwa procesy sięgałyby po ten sam telefon.
     """
     import os
     import subprocess
+    from v2.scheduler.device_planner import device_for_account
     from v2.scheduler.state import is_enabled
     from v2.scheduler.tick import run_forever
 
-    state = {"proc": None}
+    state: dict = {"procs": {}}  # device_alias → Popen
 
-    def is_busy() -> bool:
-        p = state["proc"]
+    def is_busy(device: str) -> bool:
+        p = state["procs"].get(device)
         return bool(p and p.poll() is None)
 
     def start(account: str, scenario: str | None, max_duration_s: float | None = None):
+        device = device_for_account(V2_ROOT / "config", account) or account
         cmd = [sys.executable, "-u", "-m", "v2.cli", "run-queue", f"--account={account}"]
         if scenario:
             cmd.append(f"--queue={scenario}")
@@ -400,7 +561,7 @@ def cmd_scheduler(args):
         log_dir = DATA_ROOT / "accounts" / account / "sessions"
         log_dir.mkdir(parents=True, exist_ok=True)
         ts = time.strftime("%Y%m%d-%H%M%S")
-        state["proc"] = subprocess.Popen(
+        state["procs"][device] = subprocess.Popen(
             cmd, cwd=str(V2_ROOT.parent),
             stdout=(log_dir / f"{ts}-scheduler-stdout.log").open("wb"),
             stderr=(log_dir / f"{ts}-scheduler-stderr.log").open("wb"),
@@ -436,8 +597,10 @@ def cmd_panel(args):
     Foreground w tym procesie — bez Popen/detached. Shutdown (sygnały,
     atexit, SetConsoleCtrlHandler) jest w `panel.server.run`.
     """
-    from v2.panel.server import run
+    from v2.panel.server import CONFIG_ROOT, V2_ROOT, run
     print(f"[panel] startuję na http://{args.host}:{args.port}")
+    # Komentarz: katalog pakietu, nie CWD — `python -m v2.cli panel` z ~ też trafia tu
+    print(f"[panel] pakiet: {V2_ROOT}  config: {CONFIG_ROOT}")
     print(f"[panel] zatrzymanie: Ctrl+C w tym terminalu (zwalnia port {args.port})")
     if args.no_browser:
         print("[panel] --no-browser: nie zamykaj terminala bez Ctrl+C — inaczej proces "
@@ -538,6 +701,28 @@ def _resolve_adb_serial(*, account: str | None, device: str | None) -> str:
     return serial
 
 
+def cmd_clone_app(args):
+    """Wygeneruj unikalną tożsamość, zbuduj APK (appcloner) i zainstaluj na telefonie."""
+    from v2.cloner.job import CloneBusy, CloneJobError, create_clone
+    from v2.config.schema import CONFIG_ROOT
+
+    print(f"[clone] device={args.device}  generate → build → install")
+    try:
+        result = create_clone(
+            args.device, config_root=CONFIG_ROOT, data_root=DATA_ROOT)
+    except CloneBusy as e:
+        print(f"[clone] BUSY: {e}")
+        return 1
+    except CloneJobError as e:
+        print(f"[clone] FAIL: {e}")
+        return 1
+    ident = result["identity"]
+    print(f"[clone] OK  package={ident.get('package')}")
+    print(f"[clone]     mac={ident.get('mac')}  imei={ident.get('imei')}")
+    print(f"[clone]     apk={result.get('apk')}")
+    return 0
+
+
 def cmd_airplane_toggle(args):
     """Jednorazowy test ADB: airplane ON → pauza → OFF (Wi‑Fi wraca).
 
@@ -584,6 +769,14 @@ def main(argv=None):
     pl.add_argument("--account", required=True)
     pl.set_defaults(func=cmd_login)
 
+    psu = sub.add_parser("signup", help="krótki flow: wake→unlock→klon→załóż konto IG")
+    psu.add_argument("--account", required=True)
+    psu.set_defaults(func=cmd_signup)
+
+    ppr = sub.add_parser("profile", help="krótki flow: wake→IG→bio + zdjęcie profilowe")
+    ppr.add_argument("--account", required=True)
+    ppr.set_defaults(func=cmd_profile)
+
     pst = sub.add_parser("stats", help="podsumowanie pracy konta (bez telefonu)")
     pst.add_argument("--account", required=True)
     pst.add_argument("--days", type=int, default=7)
@@ -597,6 +790,12 @@ def main(argv=None):
     pw = sub.add_parser("where", help="diagnostyka: pokaż aktualny stan ekranu")
     pw.add_argument("--account", required=True)
     pw.set_defaults(func=cmd_where)
+
+    pcal = sub.add_parser(
+        "calibrate",
+        help="nowy telefon: wake→unlock→IG→taby, zrzuty + {MODEL}_draft.json")
+    pcal.add_argument("--account", required=True)
+    pcal.set_defaults(func=cmd_calibrate)
 
     psc = sub.add_parser("scheduler", help="scheduler bez UI — odpala sesje wg harmonogramu kont")
     psc.add_argument("--interval", type=int, default=60, help="co ile sekund sprawdzać sloty")
@@ -624,7 +823,7 @@ def main(argv=None):
         help="filtr HTTP: raw_profiles → target_candidates (bez telefonu)")
     pf.add_argument("--account", required=True)
     pf.add_argument("--limit", type=int, default=None,
-                    help="ile username sprawdzić (domyślnie z profile_filter.limit_per_run)")
+                    help="ile targetów zapisać (jak proxy1; max 100 sprawdzeń)")
     pf.add_argument("--proxy", default=None,
                     help="webshare | rayobyte | losowo (nadpisuje config)")
     pf.add_argument("--dry-run", action="store_true",
@@ -644,6 +843,13 @@ def main(argv=None):
     pa.add_argument("--pause", type=float, default=3.0,
                     help="sekundy miedzy ON a OFF (domyslnie 3)")
     pa.set_defaults(func=cmd_airplane_toggle)
+
+    pc = sub.add_parser(
+        "clone-app",
+        help="nowy klon IG: unikalna tożsamość → APK (appcloner) → adb install")
+    pc.add_argument("--device", required=True,
+                    help="alias urządzenia (config/devices/<alias>.json)")
+    pc.set_defaults(func=cmd_clone_app)
 
     args = p.parse_args(argv)
     return args.func(args)

@@ -1,0 +1,41 @@
+{
+  "limits": {
+    "daily_likes": 100,
+    "daily_follows": 30,
+    "daily_comments": 15,
+    "daily_dms": 0,
+    "per_hour_caps": {
+      "likes": 20,
+      "follows": 8,
+      "comments": 4
+    },
+    "cooldown_after_warning_hours": 24
+  },
+  "humanizer": {
+    "profile_name": "default",
+    "speed": 1.0,
+    "after_each_step": false,
+    "overrides": {}
+  },
+  "toggles": {
+    "steps": {
+      "stats_snapshot": {
+        "enabled": true,
+        "on_session_start": true,
+        "on_session_end": false
+      },
+      "wake": {
+        "enabled": true
+      },
+      "unlock": {
+        "enabled": true
+      },
+      "close_ig": {
+        "enabled": true
+      },
+      "sleep_screen": {
+        "enabled": true
+      }
+    }
+  }
+}

@@ -1,0 +1,395 @@
+{
+  "name": "03b_views_cards_swipe",
+  "note_pl": "Ogólne po swipe w lewo po kafelkach metryk",
+  "pkg": "com.instagram.androia",
+  "activity": "",
+  "nodes": [
+    {
+      "text": "Ogólne",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[113,262][247,306]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Zawartość",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[439,262][641,311]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Odbiorcy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[815,262][986,311]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Cała zawartość",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,414][413,479]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "30 dni",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[853,418][984,476]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wyświetlenia",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[0,533][158,754]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,575][23,619]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Obserwatorzy netto",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[158,533][599,754]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Obserwatorzy netto",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[232,575][557,619]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "-10",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[232,652][301,717]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Interakcje",
+      "rid": "",
+      "click": true,
+      "cls": "ViewGroup",
+      "bounds": "[599,533][1080,754]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Interakcje",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[673,575][834,619]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "13",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[673,652][724,717]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "98,7%",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,796][158,847]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "obserwatorzy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[158,796][424,847]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1,3%",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,847][129,898]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "osoby nieobserwujące",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[129,847][556,898]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlenia według typu zawartości",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,1649][851,1707]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Widzowie",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,1764][960,1815]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "267",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[960,1760][1038,1818]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Obserwatorzy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[84,1896][307,1939]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Osoby nieobserwujące",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[412,1896][772,1939]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Posty",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,2003][1038,2054]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "1,1 tys.",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[918,2060][1038,2112]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Relacje",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,2144][1038,2195]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "856",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[966,2201][1038,2253]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Rolki",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,2285][1038,2336]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,83][1080,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar_new_title_container",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,83][879,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wstecz",
+      "rid": "com.instagram.android:id/action_bar_button_back",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[0,83][147,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Statystyki",
+      "desc": "Statystyki",
+      "rid": "com.instagram.android:id/action_bar_title",
+      "click": true,
+      "cls": "TextView",
+      "bounds": "[189,122][478,191]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Informacje",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[932,83][1059,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "19:58",
+      "desc": "19:58",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[54,0][151,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Podróże Wojownika",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[159,0][206,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Instagram: who.is.aleksandra",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[206,0][253,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[253,0][300,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Kosmiczne Opowieści",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[300,0][347,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[724,23][764,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[767,23][808,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[811,23][858,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[858,23][897,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[905,0][1026,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[905,0][1000,83]",
+      "pkg": "com.android.systemui"
+    }
+  ]
+}

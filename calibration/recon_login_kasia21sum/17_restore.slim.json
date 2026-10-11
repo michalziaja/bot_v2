@@ -1,0 +1,32 @@
+{
+  "name": "17_restore",
+  "note_pl": "finally restore",
+  "pkg": "com.instagram.androib",
+  "identify_top": null,
+  "overlay": null,
+  "focused_package": "com.instagram.androib",
+  "focused_activity": "com.instagram.modal.ModalActivity",
+  "dominant_package": "com.android.systemui",
+  "clone_owns_focus": true,
+  "visible_texts": [],
+  "resource_ids": [
+    "com.android.systemui:id/scrim_behind",
+    "com.android.systemui:id/rounded_corners_top",
+    "com.android.systemui:id/left",
+    "com.android.systemui:id/display_cutout",
+    "com.android.systemui:id/right"
+  ],
+  "nodes": [],
+  "special": {
+    "verification_code": false,
+    "captcha": false,
+    "suspicious_login": false,
+    "splash_crash_hint": false
+  },
+  "fatal_logcat": "",
+  "screenshot": "17_restore.jpg",
+  "screenshot_bytes": 94978,
+  "hierarchy_error": "",
+  "extra": {},
+  "ts": "2026-09-06T15:01:08"
+}

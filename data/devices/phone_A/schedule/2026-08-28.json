@@ -1,0 +1,269 @@
+{
+  "version": 3,
+  "date": "2026-08-28",
+  "device": "phone_A",
+  "cycle_index": 0,
+  "active_hours": [
+    0,
+    24
+  ],
+  "materialized_at": "2026-08-28T18:55:28",
+  "blocks": [
+    {
+      "id": "bd883fe",
+      "account": "a50_clone2",
+      "scenario": "default",
+      "start": "02:29",
+      "duration_s": 660,
+      "gap_s": 960,
+      "est": {
+        "breakdown": {
+          "tasks_s": 480,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 60
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tdfbca0",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {
+              "max_items": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "bf31a99",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "02:56",
+      "duration_s": 660,
+      "gap_s": 426,
+      "est": {
+        "breakdown": {
+          "tasks_s": 480,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 60
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "t326e45",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {
+              "max_items": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "missed",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b90c607",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "19:05",
+      "duration_s": 3696,
+      "gap_s": 581,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3000,
+          "gaps_s": 240,
+          "overhead_s": 120,
+          "buffer_s": 336
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tb5fe8d",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t8777aa",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t7fee5f",
+            "plugin": "profile_interact",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": false
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-28T19:05:28",
+      "ended_at": "2026-08-28T20:07:29"
+    },
+    {
+      "id": "b825a41",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "20:20",
+      "duration_s": 3696,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3000,
+          "gaps_s": 240,
+          "overhead_s": 120,
+          "buffer_s": 336
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tb5fe8d",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t8777aa",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t7fee5f",
+            "plugin": "profile_interact",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": false
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-28T20:20:29",
+      "ended_at": "2026-08-28T21:22:30"
+    },
+    {
+      "id": "baa9ab6",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "21:55",
+      "duration_s": 1122,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 900,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 102
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tb5fe8d",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": false
+          },
+          {
+            "id": "t8777aa",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": false
+          },
+          {
+            "id": "t7fee5f",
+            "plugin": "profile_interact",
+            "note": "",
+            "budget": {
+              "max_duration_min": 15
+            },
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-28T21:55:30",
+      "ended_at": "2026-08-28T22:14:30"
+    }
+  ],
+  "dropped": []
+}

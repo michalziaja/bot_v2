@@ -1,0 +1,178 @@
+{
+  "account": "jobsaver",
+  "ig_username": "jobsaver.app",
+  "package": "com.instagram.androia",
+  "ig_version": "440.1.0.46.86",
+  "device": "phone_A SM_A505FN",
+  "captured": "2026-09-05",
+  "note_pl": "Z telefonu, nie z pamięci. UI PL. Brak WebView. Metryki prawie bez resource-id — para label+value po tekście i Y.",
+  "entry": {
+    "primary": {
+      "from": "profile_self",
+      "action": "tap karta na profilu",
+      "text_pl": "Pulpit profesjonalny",
+      "desc_pl": "Punkt wejściowy pulpitu profesjonalnego",
+      "text_en_unverified": "Professional dashboard",
+      "rid": null,
+      "clickable_flag": false,
+      "dump": "01_profile",
+      "teaser": {
+        "text_pl": "2,0 tys. wyświetleń w ciągu ostatnich 30 dni.",
+        "rid": null
+      }
+    },
+    "alt_hamburger": {
+      "from": "profile_self",
+      "action": "tap Opcje (hamburger, bez rid) → Ustawienia i aktywność → Pulpit profesjonalny",
+      "section_pl": "Twoje statystyki i narzędzia",
+      "dump": "09_hamburger",
+      "slower": true
+    },
+    "nav": [
+      {"screen": "home_feed", "dump": "00_after_launch", "tap_rid": "com.instagram.android:id/profile_tab", "desc": "Profil"},
+      {"screen": "profile_self", "dump": "01_profile", "ids": ["profile_header_familiar_followers_value", "action_bar_title"], "texts": ["jobsaver.app", "Pulpit profesjonalny"]},
+      {"screen": "pro_dashboard", "dump": "02_pro_dash", "title_rid": "com.instagram.android:id/action_bar_title", "title": "Pulpit profesjonalny", "back_rid": "com.instagram.android:id/action_bar_button_back"},
+      {"screen": "insights_overview", "dump": "03_views", "title": "Statystyki", "how": "tap wiersz Wyświetlenia na pulpicie"},
+      {"screen": "insights_content", "dump": "04_content", "tab_pl": "Zawartość", "tab_en_unverified": "Content"},
+      {"screen": "insights_audience", "dump": "05_audience", "tab_pl": "Odbiorcy", "tab_en_unverified": "Audience"},
+      {"screen": "date_range_sheet", "dump": "06_date_range", "title_pl": "Okres"}
+    ]
+  },
+  "activity": "com.instagram.androia/com.instagram.android.activity.MainTabActivity",
+  "webview": false,
+  "fields_readable": {
+    "profile_teaser": [
+      {"key": "views_30d_teaser", "pl": "2,0 tys. wyświetleń w ciągu ostatnich 30 dni.", "en_unverified": "views in the last 30 days", "rid": null}
+    ],
+    "pro_dashboard": {
+      "dump": "02_pro_dash",
+      "date_range_pl": "6 sie – 4 wrz",
+      "date_range_rid": null,
+      "rows": [
+        {"key": "views", "label_pl": "Wyświetlenia", "label_en_unverified": "Views", "value": "2,0 tys.", "rid": null},
+        {"key": "new_followers", "label_pl": "Nowi obserwatorzy", "label_en_unverified": "New followers", "value": "6", "rid": null},
+        {"key": "content_shared", "label_pl": "Udostępniona przez Ciebie zawartość", "label_en_unverified": "Content you shared", "value": "10", "rid": null}
+      ],
+      "not_on_this_screen": ["accounts_reached / zasięg kont", "profile_visits / odwiedziny profilu", "interactions (tu tylko po wejściu w Statystyki)"]
+    },
+    "insights_overview": {
+      "dump": ["03_views", "03b_views_cards_swipe", "03c_views_scrolled"],
+      "tabs_pl": ["Ogólne", "Zawartość", "Odbiorcy"],
+      "tabs_en_unverified": ["Overview", "Content", "Audience"],
+      "scope_pl": "Cała zawartość",
+      "range_pl": "30 dni",
+      "cards": [
+        {"key": "views", "label_pl": "Wyświetlenia", "value": "2,001", "rid": null, "note": "dokładna liczba, nie skrót tys."},
+        {"key": "net_followers", "label_pl": "Obserwatorzy netto", "value": "-10", "rid": null},
+        {"key": "interactions", "label_pl": "Interakcje", "value": "13", "rid": null}
+      ],
+      "cards_note": "Na tym koncie widać 3 karty. Dalszy swipe nie odkrył 4. (zasięg / odwiedziny nie wyszły).",
+      "split_followers": {"followers_pct": "98,7%", "nonfollowers_pct": "1,3%", "dump": "03b_views_cards_swipe"},
+      "views_by_type": [
+        {"pl": "Widzowie", "en_unverified": "Viewers", "value": "267"},
+        {"pl": "Posty", "en_unverified": "Posts", "value": "1,1 tys."},
+        {"pl": "Relacje", "en_unverified": "Stories", "value": "856"},
+        {"pl": "Rolki", "en_unverified": "Reels", "value": "0"},
+        {"pl": "Transmisje wideo na żywo", "en_unverified": "Live", "value": "0"}
+      ],
+      "top_content_thumbs": {
+        "heading_pl": "Najpopularniejsza zawartość według wyświetleń",
+        "see_all_pl": "Zobacz wszystkie",
+        "rows_seen": [
+          {"desc": "Multimedia – posty", "views": "394"},
+          {"desc": "Multimedia – posty", "views": "379"},
+          {"desc": "Multimedia – posty", "views": "278"},
+          {"desc": "Multimedia – relacje", "views": "196"}
+        ]
+      },
+      "interactions_by_type": {
+        "heading_pl": "Interakcje według typu zawartości",
+        "chips_pl": ["Wszystkie", "Polubienia", "Komentarze", "Reposty"],
+        "values_all": {"Posty": "7", "Relacje": "6", "Rolki": "0", "Transmisje wideo na żywo": "0"}
+      },
+      "chart": "linia widoczna na JPG; oś/serie NIE w hierarchii — bez OCR nie zbierzemy punktów"
+    },
+    "insights_content": {
+      "dump": "04_content",
+      "sort_chips_pl": ["Najnowsze", "Wyświetlenia", "Widzowie", "Obserwatorzy"],
+      "row_shape": "miniatura + wiek + 4 liczniki (lajk/komentarz/udostępnij/zapis, bez etykiet, tylko X) + wartość sortu + etykieta Wyświetlenia",
+      "rid": null,
+      "rows_visible": [
+        {"age": "3 dni", "views": "147", "l_c_s_sv": [0, 0, 0, null]},
+        {"age": "3 dni", "views": "172", "l_c_s_sv": [0, 0, 0, null]},
+        {"age": "3 dni", "views": "379", "l_c_s_sv": [0, 2, 0, 0], "caption_in_dump": true},
+        {"age": "5 dni", "views": "162", "l_c_s_sv": [1, 1, 0, null]},
+        {"age": "5 dni", "views": "179", "l_c_s_sv": [2, 0, 1, null]},
+        {"age": "5 dni", "views": "394", "l_c_s_sv": [0, 1, 0, 1], "caption_in_dump": true},
+        {"views": "42"},
+        {"views": "54"},
+        {"views": "196", "l_c_s_sv": [1, 0, 0, null]}
+      ]
+    },
+    "insights_audience": {
+      "dump": ["05_audience", "05b_audience_scrolled"],
+      "followers_now": "922",
+      "delta_pl": "-1,1% od Aug 5",
+      "growth_chips_pl": ["Ogółem", "Obserwowania", "Rezygnacje z obserwowania"],
+      "gender": {"Kobiety": "9,9%", "Mężczyźni": "90,1%"},
+      "age": {
+        "13-17": "0,2%", "18-24": "13,0%", "25-34": "40,5%",
+        "35-44": "32,5%", "45-54": "10,4%", "55-64": "2,3%", "65+": "1,0%"
+      },
+      "countries_visible": {"Polska": "63,2%", "Niemcy": "4,2%", "Wielka Brytania": "2,4%", "Stany Zjednoczone": "cut_off"},
+      "cities_tab_pl": "Miejscowości",
+      "cities_dumped": false
+    },
+    "date_range": {
+      "dump": "06_date_range",
+      "title_pl": "Okres",
+      "options_pl": ["7 dni", "14 dni", "30 dni", "60 dni", "90 dni", "180 dni", "Niestandardowy"],
+      "paywall": "180 dni = Meta One",
+      "rid": null,
+      "note": "dump overlay: current_pkg=None, prawie tylko pozycje sheetu"
+    }
+  },
+  "blockers": {
+    "insights_delay_banner": false,
+    "empty_state": false,
+    "login_as_professional": false,
+    "2fa": false,
+    "webview": false,
+    "see_more": ["Pokaż wszystkie (narzędzia pulpitu)", "Zobacz wszystkie (top content)"],
+    "meta_one_paywall": ["Statystyki na tle konkurencji", "180 dni"],
+    "no_resource_ids": "prawie wszystkie KPI to android.view.View / Button bez rid",
+    "clickable_false": "tytuł Pulpit i wiersze KPI mają clickable=false — tap po bounds i tak działa",
+    "chart_not_in_dump": true,
+    "abbreviation": "pulpit 2,0 tys. vs Insights 2,001",
+    "missing_classic_kpis": ["accounts reached / zasięg", "profile visits / odwiedziny profilu"],
+    "share_export": "nie widzieliśmy przycisku eksportu/udostępnij CSV"
+  },
+  "parse_strategy": {
+    "recommended": "UI dump + para tekstów (label po lewej, liczba po prawej, ten sam pas Y ±30px)",
+    "ocr": "tylko seria wykresu; liczby KPI są w hierarchii",
+    "share_export": "brak na tych ekranach — nie opierać harvestu"
+  },
+  "recommended_step": {
+    "name": "system.pro_dash_snapshot",
+    "not": "system.stats_snapshot (to tylko posty/followers/following na profilu)",
+    "params": {
+      "when": "null | session_start | session_end",
+      "depth": "dashboard | insights (default dashboard)",
+      "insights_tabs": ["overview", "content", "audience"],
+      "range_days": "30 (7/14/30/60/90; 180 = paywall)",
+      "include_content_rows": false,
+      "include_audience_demo": false
+    },
+    "harvest_v1_safe": [
+      "wejście: profile_tab → tap Pulpit profesjonalny",
+      "odczyt 3 KPI pulpitu + zakres dat",
+      "opcjonalnie tap Wyświetlenia i 3 karty Ogólne (Wyświetlenia / netto / Interakcje) + Widzowie"
+    ],
+    "harvest_v1_skip": [
+      "pełny scroll Ogólne",
+      "wiersze Zawartość (kruche: 4 gołe liczby bez etykiet)",
+      "demografia / miasta",
+      "OCR wykresu"
+    ]
+  }
+}

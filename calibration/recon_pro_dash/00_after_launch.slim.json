@@ -1,0 +1,332 @@
+{
+  "name": "00_after_launch",
+  "note_pl": "Po wake/unlock/launch klona jobsaver (com.instagram.androia)",
+  "pkg": "com.instagram.androia",
+  "activity": "",
+  "nodes": [
+    {
+      "text": "",
+      "desc": "kontener panelu rolki",
+      "rid": "",
+      "click": false,
+      "cls": "RecyclerView",
+      "bounds": "[0,230][1080,578]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/outer_container",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,230][294,578]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Relacja użytkownika jobsaver.app, 0 z 1, Nie wyświetlono.",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[0,230][294,513]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Relacja użytkownika jobsaver.app, 0 z 1, Nie wyświetlono.",
+      "rid": "com.instagram.android:id/avatar_image_view",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[35,265][258,488]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Dodaj do relacji",
+      "rid": "com.instagram.android:id/reel_empty_badge",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[195,425][273,503]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Twoja relacja",
+      "desc": "",
+      "rid": "com.instagram.android:id/username",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,513][252,557]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Wyświetlono najnowsze posty z kont, które obserwujesz.",
+      "desc": "",
+      "rid": "com.instagram.android:id/subtitle",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[127,620][1048,716]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Propozycje dla Ciebie",
+      "desc": "",
+      "rid": "com.instagram.android:id/title",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[0,761][734,828]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Starsze posty",
+      "rid": "com.instagram.android:id/link",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[734,751][1080,838]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Starsze posty",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[776,769][1038,820]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/media_group",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[0,865][1080,2225]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Użytkownik karierazglowa opublikował video 2 dni temu",
+      "rid": "com.instagram.android:id/row_feed_profile_header",
+      "click": false,
+      "cls": "ViewGroup",
+      "bounds": "[0,865][1080,1002]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Zdjęcie profilowe karierazglowa",
+      "rid": "com.instagram.android:id/row_feed_photo_profile_imageview",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[39,894][118,973]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "karierazglowa",
+      "desc": "karierazglowa",
+      "rid": "com.instagram.android:id/row_feed_photo_profile_name",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[128,865][700,932]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Dua Lipa · Training Season (Live from the Royal Albert Hall)",
+      "desc": "Dua Lipa · Training Season (Live from the Royal Albert Hall)",
+      "rid": "com.instagram.android:id/secondary_label",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[128,932][700,1002]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Obserwuj",
+      "desc": "Obserwuj Justyna Oczadły-Rutkowska | Kariera, Psychologia, Biznes",
+      "rid": "com.instagram.android:id/inline_follow_button",
+      "click": true,
+      "cls": "TextView",
+      "bounds": "[700,891][965,975]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Więcej działań dla tego posta",
+      "rid": "com.instagram.android:id/media_option_button",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[965,870][1080,997]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar_title_view",
+      "click": true,
+      "cls": "ViewAnimator",
+      "bounds": "[127,116][953,197]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Dla Ciebie",
+      "desc": "",
+      "rid": "com.instagram.android:id/title_text",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[363,116][666,192]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/notification",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[953,83][1080,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Strona główna",
+      "rid": "com.instagram.android:id/feed_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[0,2225][216,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Rolki",
+      "rid": "com.instagram.android:id/clips_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[216,2225][432,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wiadomość",
+      "rid": "com.instagram.android:id/direct_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[432,2225][648,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Szukaj i poznaj",
+      "rid": "com.instagram.android:id/search_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[648,2225][864,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Profil",
+      "rid": "com.instagram.android:id/profile_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[864,2225][1080,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "19:56",
+      "desc": "19:56",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[54,0][151,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Podróże Wojownika",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[159,0][206,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Instagram: who.is.aleksandra",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[206,0][253,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[253,0][300,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Kosmiczne Opowieści",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[300,0][347,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[724,23][764,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[767,23][808,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[811,23][858,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[858,23][897,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[905,0][1026,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[905,0][1000,83]",
+      "pkg": "com.android.systemui"
+    }
+  ]
+}

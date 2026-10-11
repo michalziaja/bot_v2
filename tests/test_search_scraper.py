@@ -9,11 +9,13 @@ from __future__ import annotations
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT.parent))
 
+from v2.data.session_stats import SessionStats
 from v2.plugins.base import Budget
 from v2.plugins.impl.content_search import ContentSearch, _pick_phrases, _query_for
 from v2.plugins.impl.reels_warmup import ReelsWarmup
@@ -378,6 +380,26 @@ class PhraseTests(unittest.TestCase):
         s = {"phrases": {"list": ["a", "b", "c", "d"], "order": "sequential",
                          "per_session": {"min": 2, "max": 2}}}
         self.assertEqual(len(_pick_phrases(s, random.Random(1))), 2)
+
+    def test_least_recent_puts_never_checked_first(self):
+        import random
+        from v2.plugins.impl.content_search import _sort_least_recent
+        usage = {
+            "#b": {"last_checked": "2026-08-01T00:00:00", "count": 1},
+            "#c": {"last_checked": "2026-08-20T00:00:00", "count": 1},
+        }
+        out = _sort_least_recent(["#c", "#a", "#b"], usage)
+        self.assertEqual(out, ["#a", "#b", "#c"])
+        s = {
+            "source": "hashtag",
+            "phrases": {
+                "hashtags": ["#c", "#a", "#b"],
+                "order": "least_recent",
+                "per_session": {"min": 3, "max": 3},
+            },
+        }
+        picked = _pick_phrases(s, random.Random(0), usage={"hashtags": usage})
+        self.assertEqual(picked, ["#a", "#b", "#c"])
 
 
 class TypeQueryHashEscapeTests(unittest.TestCase):
@@ -901,6 +923,97 @@ class ContentSearchTests(unittest.TestCase):
         self.assertLess(i_a_query, i_a_grid)
         self.assertLess(i_a_grid, i_b_query)
 
+    def test_run_scope_phrases_skips_branch_b(self):
+        """Karta „hashtagi” — nie otwieraj znaczników z mapy w tym zadaniu."""
+        s = {
+            **self.BASE,
+            "run_scope": "phrases",
+            "discover_tag_variants": {"enabled": False},
+            "tag_variants_budget": {
+                "max_phrases": 2, "tiles_per_phrase": 1, "scrolls": 0,
+                "source": "from_map",
+            },
+        }
+        self.mod.steps.get = fake_registry(self._spec(), self.recorder)
+        ctx = FakeCtx()
+        ctx.account = type("A", (), {
+            "account_id": "demo",
+            "niche": {"tag_variants": {"#koty": ["#kotki"]}},
+        })()
+        ContentSearch().run(ctx, s, Budget(max_items=10))
+        queries = [p.get("query") for n, p in self.recorder
+                   if n == "search.type_query"]
+        self.assertEqual(queries, ["#koty"])
+
+    def test_run_scope_tag_variants_skips_phrase_list(self):
+        """Karta „znaczniki z mapy” — pomiń keywords, only from_map."""
+        s = {
+            **self.BASE,
+            "source": "keyword",
+            "run_scope": "tag_variants",
+            "phrases": {
+                "keywords": ["praca"], "hashtags": ["#koty"],
+                "order": "sequential", "per_session": 1,
+            },
+            "discover_tag_variants": {"enabled": False},
+            "tag_variants_budget": {
+                "max_phrases": 1, "tiles_per_phrase": 1, "scrolls": 0,
+                "source": "live_collect",
+            },
+        }
+        spec = self._spec(**{
+            "search.type_query": [StepResult.ok(submitted=True)] * 4,
+            "post.open_from_grid": [StepResult.ok(kind="post", landed="x")] * 2,
+        })
+        self.mod.steps.get = fake_registry(spec, self.recorder)
+        ctx = FakeCtx()
+        ctx.account = type("A", (), {
+            "account_id": "demo",
+            "niche": {"tag_variants": {"#koty": ["#kotki"]}},
+        })()
+        res = ContentSearch().run(ctx, s, Budget(max_items=10))
+        queries = [p.get("query") for n, p in self.recorder
+                   if n == "search.type_query"]
+        self.assertNotIn("praca", queries)
+        self.assertNotIn("#koty", queries)
+        self.assertEqual(queries, ["#kotki"])
+        self.assertEqual(res.stats.get("tag_variants_phrases"), 1)
+        self.assertEqual(res.stats.get("phrases"), 0)
+
+    def test_tag_variants_uses_per_phrase_viewer_scrolls(self):
+        """„Ile scrolli w viewerze” (14–21) musi działać też przy znacznikach z mapy."""
+        s = {
+            **self.BASE,
+            "run_scope": "tag_variants",
+            "per_phrase": {"items": 1, "grid_pool_size": 4,
+                           "scrolls_in_viewer": {"min": 2, "max": 2}},
+            "discover_tag_variants": {"enabled": False},
+            "tag_variants_budget": {
+                "max_phrases": 1, "tiles_per_phrase": 1, "scrolls": 0,
+                "source": "from_map",
+            },
+        }
+        spec = self._spec(**{
+            "search.type_query": [StepResult.ok(submitted=True)] * 4,
+            "post.open_from_grid": [
+                StepResult.ok(kind="reel", landed="reels_feed")],
+            "reels.watch": [StepResult.ok()] * 3,
+            "reels.swipe_next": [StepResult.ok()] * 2,
+        })
+        nav, dev = self._nav_back_to_results()
+        self.mod.steps.get = fake_registry(spec, self.recorder)
+        ctx = FakeCtx(nav)
+        ctx.device = dev
+        ctx.account = type("A", (), {
+            "account_id": "demo",
+            "niche": {"tag_variants": {"#koty": ["#kotki"]}},
+        })()
+        res = ContentSearch().run(ctx, s, Budget(max_items=10))
+        names = [n for n, _ in self.recorder]
+        self.assertEqual(names.count("reels.swipe_next"), 2)
+        self.assertEqual(res.stats["items"], 3)
+        self.assertIn("content_search.viewer_scroll", ctx.kinds())
+
     def test_back_to_climbs_reels_feed_to_search_results(self):
         """Regresja: BACK z rolki # zatrzymywał się na powiązanej rolce."""
         from v2.plugins.impl import content_search as mod
@@ -1224,6 +1337,173 @@ class ContentSearchTests(unittest.TestCase):
         from_viewer = [t for t in dev.back_from if t == "reels_feed"]
         self.assertEqual(len(from_viewer), 1)
 
+    def test_harvest_post_likers_one_back_then_scrolls(self):
+        """Live 02:31: post + harvest lajkujących — 1 BACK (likers→comments-FP).
+
+        Drugi BACK zamykał post (top=search_results) i pętla scrolli umierała.
+        """
+        s = {**self.BASE,
+             "per_phrase": {"items": 1, "grid_pool_size": 4,
+                            "scrolls_in_viewer": 2},
+             "likers": {"harvest": {"enabled": True, "collect": 5},
+                        "hot_interact": {"enabled": False}}}
+        spec = self._spec(**{
+            "post.open_from_grid": [
+                StepResult.ok(kind="post", landed="x")],
+            "post.open_likers": [StepResult.ok()] * 3,
+            "list.harvest_usernames": [StepResult.ok(saved=16)] * 3,
+        })
+
+        class Nav:
+            def __init__(self):
+                # Viewer posta z # bywa reel_comments_sheet (false positive)
+                self.top = "reel_comments_sheet"
+
+            def identify(self):
+                return type("S", (), {"top": self.top, "overlay": "sheet",
+                                      "package": None})()
+
+            def ensure(self, target, max_steps=6):
+                self.top = target
+                return True
+
+        class Dev:
+            def __init__(self, nav):
+                self.nav = nav
+                self.backs = 0
+                self.back_from = []
+
+            def press_back(self):
+                self.backs += 1
+                self.back_from.append(self.nav.top)
+                if self.nav.top == "reel_likers_list":
+                    # Jeden BACK: lista → viewer (identify: comments-FP)
+                    self.nav.top = "reel_comments_sheet"
+                else:
+                    # Drugi BACK = overshoot (live: viewer_lost search_results)
+                    self.nav.top = "search_results"
+
+            def hierarchy(self, force=False):
+                return {}
+
+            def wait_for_stable_ui(self, **kw):
+                return True
+
+        inner = fake_registry(spec, self.recorder)
+
+        def get(name):
+            factory = inner(name)
+            if name != "post.open_likers":
+                return factory
+            step = factory()
+            orig = step.run
+
+            def run(ctx, params):
+                ctx.navigator.top = "reel_likers_list"
+                return orig(ctx, params)
+
+            step.run = run
+            return lambda: step
+
+        self.mod.steps.get = get
+        nav = Nav()
+        dev = Dev(nav)
+        ctx = FakeCtx(nav)
+        ctx.device = dev
+        ctx.ht = type("Ht", (), {"swipe": staticmethod(lambda *a, **k: True)})()
+        res = ContentSearch().run(ctx, s, Budget(max_items=10))
+        self.assertEqual(res.stats["items"], 3)
+        self.assertEqual(res.stats["posts"], 3)
+        self.assertNotIn("content_search.viewer_lost", ctx.kinds())
+        self.assertIn("content_search.viewer_scroll", ctx.kinds())
+        # Harvest: BACK z listy; RESULTS tylko na końcu kafelka
+        self.assertEqual(dev.back_from.count("reel_likers_list"), 3)
+        self.assertEqual(dev.back_from.count("reel_comments_sheet"), 1)
+
+    def test_harvest_reel_likers_one_back_then_scrolls(self):
+        """Live 02:59: rolka + harvest lajkujących — 1 BACK (likers→comments-FP).
+
+        harvest.return_to_reels robił drugi BACK → search_results, 0 scrolli.
+        """
+        s = {**self.BASE,
+             "per_phrase": {"items": 1, "grid_pool_size": 4,
+                            "scrolls_in_viewer": 2},
+             "likers": {"harvest": {"enabled": True, "collect": 5},
+                        "hot_interact": {"enabled": False}}}
+        spec = self._spec(**{
+            "post.open_from_grid": [
+                StepResult.ok(kind="reel", landed="reels_feed")],
+            "reels.watch": [StepResult.ok()] * 3,
+            "reels.swipe_next": [StepResult.ok()] * 2,
+            "reels.harvest_likers": [
+                StepResult.ok(saved=11, dupes_skipped=0)] * 3,
+        })
+
+        class Nav:
+            def __init__(self):
+                self.top = "reels_feed"
+
+            def identify(self):
+                return type("S", (), {"top": self.top, "overlay": "sheet",
+                                      "package": None})()
+
+            def ensure(self, target, max_steps=6):
+                self.top = target
+                return True
+
+        class Dev:
+            def __init__(self, nav):
+                self.nav = nav
+                self.backs = 0
+                self.back_from = []
+
+            def press_back(self):
+                self.backs += 1
+                self.back_from.append(self.nav.top)
+                if self.nav.top == "reel_likers_list":
+                    self.nav.top = "reel_comments_sheet"
+                else:
+                    self.nav.top = "search_results"
+
+            def hierarchy(self, force=False):
+                return {}
+
+            def wait_for_stable_ui(self, **kw):
+                return True
+
+        inner = fake_registry(spec, self.recorder)
+
+        def get(name):
+            factory = inner(name)
+            if name != "reels.harvest_likers":
+                return factory
+            step = factory()
+            orig = step.run
+
+            def run(ctx, params):
+                ctx.navigator.top = "reel_likers_list"
+                return orig(ctx, params)
+
+            step.run = run
+            return lambda: step
+
+        self.mod.steps.get = get
+        nav = Nav()
+        dev = Dev(nav)
+        ctx = FakeCtx(nav)
+        ctx.device = dev
+        res = ContentSearch().run(ctx, s, Budget(max_items=10))
+        self.assertEqual(res.stats["items"], 3)
+        self.assertEqual(res.stats["reels"], 3)
+        self.assertNotIn("content_search.viewer_lost", ctx.kinds())
+        self.assertNotIn("reels.return_to_reels.overshoot_results", ctx.kinds())
+        self.assertIn("content_search.viewer_scroll", ctx.kinds())
+        self.assertTrue(all(
+            p.get("keep_sheet_open")
+            for n, p in self.recorder if n == "reels.harvest_likers"))
+        self.assertEqual(dev.back_from.count("reel_likers_list"), 3)
+        self.assertEqual(dev.back_from.count("reel_comments_sheet"), 1)
+
     def test_scroll_aborts_when_content_lost_then_back(self):
         """Po swipe poza treścią — stop pętli i BACK (bez kolejnych watch)."""
         s = {**self.BASE,
@@ -1253,6 +1533,143 @@ class ContentSearchTests(unittest.TestCase):
         self.assertEqual(res.stats["items"], 1)
         self.assertIn("content_search.viewer_lost", ctx.kinds())
         self.assertGreaterEqual(dev.backs, 1)
+
+
+class ReturnToReelsContentSearchTests(unittest.TestCase):
+    """Live 02:07: harvest lajkujących → search_results → zero scrolli."""
+
+    def _ctx(self, tops: list[str]):
+        idx = {"i": 0}
+
+        class Nav:
+            def identify(self):
+                t = tops[min(idx["i"], len(tops) - 1)]
+                return type("S", (), {"top": t, "overlay": None})()
+
+        class Dev:
+            def press_back(self):
+                idx["i"] += 1
+
+        ctx = FakeCtx(Nav())
+        ctx.device = Dev()
+        ctx.scratch["content_search_active"] = True
+        return ctx, idx
+
+    def test_stops_on_home_feed_viewer_not_second_back(self):
+        from v2.steps.reels._sheet import return_to_reels
+        ctx, idx = self._ctx(
+            ["reel_likers_list", "home_feed", "search_results"])
+        self.assertTrue(return_to_reels(ctx))
+        self.assertEqual(idx["i"], 1)
+        self.assertEqual(ctx.navigator.identify().top, "home_feed")
+        self.assertTrue(ctx.scratch.get("_cs_on_viewer"))
+
+    def test_search_results_is_overshoot_not_success(self):
+        from v2.steps.reels._sheet import return_to_reels
+        ctx, idx = self._ctx(["search_results"])
+        self.assertFalse(return_to_reels(ctx))
+        self.assertEqual(idx["i"], 0)
+
+    def test_closes_real_comments_once_then_stays_on_viewer(self):
+        from v2.steps.reels._sheet import return_to_reels
+        ctx, idx = self._ctx(
+            ["reel_comments_sheet", "home_feed", "search_results"])
+        ctx.scratch["_cs_opened_comments"] = True
+        self.assertTrue(return_to_reels(ctx))
+        self.assertEqual(idx["i"], 1)
+        self.assertEqual(ctx.navigator.identify().top, "home_feed")
+
+    def test_likers_then_comments_fp_does_not_second_back(self):
+        """Live 02:59: po harvest likers identify=comments-FP; drugi BACK = RESULTS."""
+        from v2.steps.reels._sheet import return_to_reels
+        ctx, idx = self._ctx(
+            ["reel_likers_list", "reel_comments_sheet", "search_results"])
+        ctx.scratch["_cs_opened_sheet"] = True  # otworzyliśmy LAJKUJĄCYCH
+        self.assertTrue(return_to_reels(ctx))
+        self.assertEqual(idx["i"], 1)
+        self.assertEqual(ctx.navigator.identify().top, "reel_comments_sheet")
+        self.assertTrue(ctx.scratch.get("_cs_on_viewer"))
+
+    def test_likers_then_comments_fp_stops_even_with_overlay(self):
+        from v2.steps.reels._sheet import return_to_reels
+        idx = {"i": 0}
+        tops = ["reel_likers_list", "reel_comments_sheet", "search_results"]
+
+        class Nav:
+            def identify(self):
+                t = tops[min(idx["i"], len(tops) - 1)]
+                ov = "sheet" if t == "reel_comments_sheet" else None
+                return type("S", (), {"top": t, "overlay": ov})()
+
+        class Dev:
+            def press_back(self):
+                idx["i"] += 1
+
+        ctx = FakeCtx(Nav())
+        ctx.device = Dev()
+        ctx.scratch["content_search_active"] = True
+        ctx.scratch["_cs_opened_sheet"] = True
+        self.assertTrue(return_to_reels(ctx))
+        self.assertEqual(idx["i"], 1)
+        self.assertEqual(ctx.navigator.identify().top, "reel_comments_sheet")
+
+
+class DismissSheetStackTests(unittest.TestCase):
+    """Live 02:31: harvest na poście — jeden BACK, comments-FP = viewer."""
+
+    def _ctx(self, tops: list[str], *, overlay=None):
+        idx = {"i": 0}
+
+        class Nav:
+            def identify(self):
+                t = tops[min(idx["i"], len(tops) - 1)]
+                ov = overlay if overlay is not None else None
+                if overlay == "per_top":
+                    ov = "sheet" if t == "reel_comments_sheet" else None
+                return type("S", (), {"top": t, "overlay": ov})()
+
+        class Dev:
+            def press_back(self):
+                idx["i"] += 1
+
+        ctx = FakeCtx(Nav())
+        ctx.device = Dev()
+        ctx.scratch["content_search_active"] = True
+        ctx.scratch["content_search_sheet"] = True
+        return ctx, idx
+
+    def test_one_back_from_likers_stops_on_comments_fp(self):
+        from v2.plugins.impl.content_search import (
+            _dismiss_sheet_stack, _still_in_content)
+        ctx, idx = self._ctx(
+            ["reel_likers_list", "reel_comments_sheet", "search_results"])
+        _dismiss_sheet_stack(ctx)
+        self.assertEqual(idx["i"], 1)
+        self.assertEqual(ctx.navigator.identify().top, "reel_comments_sheet")
+        self.assertTrue(ctx.scratch.get("_cs_on_viewer"))
+        self.assertFalse(ctx.scratch.get("content_search_sheet"))
+        self.assertTrue(_still_in_content(ctx, "post"))
+
+    def test_one_back_stops_when_comments_fp_has_overlay(self):
+        """Overlay na comments-FP nie może pchać drugiego BACK (viewer posta)."""
+        from v2.plugins.impl.content_search import (
+            _dismiss_sheet_stack, _still_in_content)
+        ctx, idx = self._ctx(
+            ["reel_likers_list", "reel_comments_sheet", "search_results"],
+            overlay="per_top")
+        _dismiss_sheet_stack(ctx)
+        self.assertEqual(idx["i"], 1)
+        self.assertEqual(ctx.navigator.identify().top, "reel_comments_sheet")
+        self.assertTrue(_still_in_content(ctx, "post"))
+
+    def test_real_comments_sheet_one_back_then_viewer(self):
+        from v2.plugins.impl.content_search import _dismiss_sheet_stack
+        ctx, idx = self._ctx(
+            ["reel_comments_sheet", "home_feed", "search_results"])
+        _dismiss_sheet_stack(ctx)
+        self.assertEqual(idx["i"], 1)
+        self.assertEqual(ctx.navigator.identify().top, "home_feed")
+        self.assertTrue(ctx.scratch.get("_cs_on_viewer"))
 
 
 class ContentSearchStepcallRoutingTests(unittest.TestCase):
@@ -1321,6 +1738,41 @@ class ContentSearchStepcallRoutingTests(unittest.TestCase):
         res = stepcall.call(Reg(), ctx, "reels.watch", {}, source="reels_niche")
         self.assertEqual(res.status, "ok")
         self.assertEqual(ensure_calls, ["reels_feed"])
+
+    def test_does_not_fail_swipe_when_viewer_misidentified_as_home(self):
+        """Viewer z # bywa home_feed — swipe musi iść, nie fail ani clips."""
+        from v2.plugins import stepcall
+        from v2.runner.step import StepResult
+
+        ensure_calls = []
+        ran = []
+
+        class Nav:
+            def identify(self):
+                return type("S", (), {"top": "home_feed", "overlay": None})()
+
+            def ensure(self, target, max_steps=6, **kw):
+                ensure_calls.append(target)
+                return True
+
+        class FakeStep:
+            requires_screen = "reels_feed"
+
+            def run(self, ctx, params):
+                ran.append(params)
+                return StepResult.ok()
+
+        class Reg:
+            def get(self, name):
+                return FakeStep
+
+        ctx = FakeCtx(Nav())
+        ctx.scratch["baseline_screen"] = "search_results"
+        res = stepcall.call(Reg(), ctx, "reels.swipe_next", {"announce": False},
+                            source="content_search")
+        self.assertEqual(res.status, "ok")
+        self.assertEqual(ensure_calls, [])
+        self.assertEqual(len(ran), 1)
 
 
 # ============================================================
@@ -1794,6 +2246,30 @@ class ReelsWarmupTests(unittest.TestCase):
         self.assertEqual(by_name["reels.swipe_next"].get("log_prefix"),
                          "reels_warmup")
         self.assertEqual(by_name["reels.like"].get("log_prefix"), "reels_warmup")
+
+    def test_announce_progress_per_reel(self):
+        """Każda rolka → session.progress current/total (Bieżąca sesja X/Y)."""
+        tmp = TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        ss = SessionStats("acc", Path(tmp.name))
+        ss.begin(session_id="s")
+        ss.set_task(plugin="reels_warmup", task_id="t",
+                    task_i=1, task_n=1, budget={"max_items": 3})
+        events = []
+        ss._on_progress = lambda prog: events.append(dict(prog))
+        spec = {"reels.open": [], "reels.watch": [StepResult.ok()] * 5,
+                "reels.swipe_next": []}
+        self.mod.steps.get = fake_registry(spec, self.recorder)
+        ctx = FakeCtx()
+        ctx.session_stats = ss
+        ReelsWarmup().run(ctx, self.BASE, Budget(max_items=3))
+        self.assertEqual([e["current"] for e in events], [1, 2, 3])
+        self.assertEqual(events[-1]["phase"], "reel")
+        self.assertEqual(events[-1]["total"], 3)
+        data = ss.as_dict()
+        self.assertEqual(data["progress"]["current"], 3)
+        self.assertEqual(data["progress"]["total"], 3)
+        self.assertEqual(data["budget"]["items_done"], 3)
 
     def test_two_swipe_failures_mark_failed(self):
         spec = {"reels.open": [], "reels.watch": [StepResult.ok()] * 5,

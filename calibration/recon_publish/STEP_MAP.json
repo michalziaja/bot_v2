@@ -1,0 +1,78 @@
+{
+  "account": "technature699",
+  "package": "com.instagram.android",
+  "ig_version": "444.0.0.46.85",
+  "device": "phone_A SM_A505FN",
+  "captured": "2026-09-05",
+  "note_pl": "Z telefonu, nie z pamięci. Miniatury galerii nie mają nazwy pliku.",
+  "post": [
+    {
+      "screen": "home_feed",
+      "dump": "01_home",
+      "ids": ["action_bar_buttons_container_left", "feed_tab"],
+      "texts": ["Dla Ciebie", "Twoja relacja"],
+      "action": "plus w lewym górnym (kontener bez własnego id) albo ACTION_SEND"
+    },
+    {
+      "screen": "resolver",
+      "dump": "06_resolver",
+      "ids": ["android:id/resolver_list", "android:id/button_once"],
+      "texts": ["Wykonaj czynność przez...", "Feed", "Stories", "Tylko raz"],
+      "action": "omijamy przez -n ShareHandlerActivity; gdy wróci — tap Feed + Tylko raz"
+    },
+    {
+      "screen": "gallery_post",
+      "dump": "03_dest_feed",
+      "ids": ["new_post_title", "next_button_textview", "cam_dest_feed", "gallery_folder_menu_tv"],
+      "texts": ["Nowy post", "Dalej", "OPUBLIKUJ", "Ostatnie"],
+      "action": "NIE tap Dalej na Recents. Intent pomija ten ekran."
+    },
+    {
+      "screen": "editor",
+      "dump": "10_share_realjpg",
+      "activity": "instagram.features.creation.activity.MediaCaptureActivity",
+      "ids": ["media_thumbnail_tray_button"],
+      "texts": ["Dalej", "Dźwięk", "Tekst", "Edytuj"],
+      "action": "tap Dalej"
+    },
+    {
+      "screen": "caption",
+      "dump": "11_caption",
+      "ids": ["caption_input_text_view", "share_footer_button", "action_bar_textview_title"],
+      "texts": ["Nowy post", "Dodaj opis…", "Napisz opis", "Udostępnij"],
+      "action": "wpisz caption, tap Udostępnij (live NIE tapaliśmy — nie publikujemy)"
+    }
+  ],
+  "story": [
+    {
+      "screen": "home_or_plus",
+      "action": "plus albo StoryShareHandlerActivity"
+    },
+    {
+      "screen": "story_camera",
+      "dump": "13_dest_story",
+      "ids": ["camera_shutter_button", "gallery_preview_button", "cam_dest_story"],
+      "texts": ["RELACJA", "Galeria", "Migawka"],
+      "action": "intent pomija aparat; fallback tap Galeria"
+    },
+    {
+      "screen": "gallery_story",
+      "dump": "14_story_gallery",
+      "ids": ["gallery_title_text", "gallery_folder_menu_tv"],
+      "texts": ["Dodaj do relacji", "Ostatnie"],
+      "action": "NIE Recents — album bot_v2/alias"
+    },
+    {
+      "screen": "story_share",
+      "dump": "15_story_editor",
+      "ids": ["your_story_share_shortcut_button", "add_caption_textview"],
+      "texts": ["Twoja relacja", "Dodaj napisy…", "Bliscy znajomi"],
+      "action": "tap Twoja relacja; NIE Bliscy znajomi"
+    }
+  ],
+  "intent": {
+    "post": "am start -a android.intent.action.SEND -n $pkg/com.instagram.share.handleractivity.ShareHandlerActivity --eu android.intent.extra.STREAM content://… --grant-read-uri-permission",
+    "story": "…StoryShareHandlerActivity",
+    "note": "-p pakiet sam otwiera resolver (4 ikony IG). file:// bywa cichy; content:// + prawdziwy JPEG działa."
+  }
+}

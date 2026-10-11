@@ -35,14 +35,19 @@ def load_all_system_steps():
     """Wygodny import — importuje moduły w steps/system żeby dekoratory się wykonały."""
     import v2.steps.system.wake              # noqa: F401
     import v2.steps.system.unlock            # noqa: F401
+    import v2.steps.system.apply_clone_identity  # noqa: F401
     import v2.steps.system.ensure_ig_running # noqa: F401
     import v2.steps.system.login_if_needed   # noqa: F401
+    import v2.steps.system.signup_if_needed  # noqa: F401
     import v2.steps.system.enter_verification_code_if_needed  # noqa: F401
     import v2.steps.system.ensure_screen     # noqa: F401
     import v2.steps.system.stats_snapshot    # noqa: F401
     import v2.steps.system.browse_feed       # noqa: F401
     import v2.steps.system.close_ig          # noqa: F401
+    import v2.steps.system.restore_clone_identity  # noqa: F401
     import v2.steps.system.sleep_screen      # noqa: F401
+    import v2.steps.system.dismiss_notifications  # noqa: F401
+    import v2.steps.system.sweep_tabs        # noqa: F401
 
 
 def load_all_reels_steps():
@@ -84,6 +89,13 @@ def load_all_post_steps():
     import v2.steps.post.open_engagement   # noqa: F401
 
 
+def load_all_publish_steps():
+    """Creator post/relacja — intent + uiauto (nie Recents)."""
+    import v2.steps.publish.send_intent      # noqa: F401
+    import v2.steps.publish.drive_creator    # noqa: F401
+    import v2.steps.publish.fallback_album   # noqa: F401
+
+
 def load_all_feed_steps():
     import v2.steps.feed.scroll            # noqa: F401
     import v2.steps.feed.open_tray_story   # noqa: F401
@@ -95,6 +107,8 @@ def load_all_profile_steps():
     import v2.steps.profile.visit                  # noqa: F401
     import v2.steps.profile.visit_next_from_queue  # noqa: F401
     import v2.steps.profile.open_followers         # noqa: F401
+    import v2.steps.profile.set_avatar             # noqa: F401
+    import v2.steps.profile.set_bio                # noqa: F401
 
 
 def load_all():
@@ -106,3 +120,4 @@ def load_all():
     load_all_feed_steps()
     load_all_list_steps()
     load_all_post_steps()
+    load_all_publish_steps()

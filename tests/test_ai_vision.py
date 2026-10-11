@@ -10,7 +10,10 @@ sys.path.insert(0, str(ROOT.parent))
 
 from v2.ai.vision import (
     AiVision, _format, _resolve_model, _parse_json_response,
-    _extract_usage, accumulate_usage, empty_usage_totals,
+    _extract_usage, accumulate_usage, empty_usage_totals, merge_usage_totals,
+    _record_session_ai_usage,
+    _strictness_hint, _STRICTNESS_HINTS, _STRICTNESS_HINTS_GRID,
+    _anthropic_client_kwargs, _is_workspace_id_error,
 )
 
 
@@ -110,6 +113,27 @@ class AccumulateUsageTests(unittest.TestCase):
         self.assertIn("sonnet", totals["models"])
         self.assertEqual(totals["by_mode"]["niche_discover_posts"]["tokens_in"], 100)
         self.assertEqual(totals["by_mode"]["niche_discover_account"]["tokens_out"], 30)
+        self.assertEqual(totals["by_model"]["haiku"]["tokens_in"], 100)
+        self.assertEqual(totals["by_model"]["sonnet"]["tokens_out"], 30)
+        self.assertIn("cost_usd", totals)
+        self.assertIn("cost_usd", totals["by_model"]["haiku"])
+
+    def test_merge_usage_totals_sums_models(self):
+        a = empty_usage_totals()
+        accumulate_usage(a, {
+            "_usage": {"model": "claude-haiku-4-5", "mode": "grid",
+                       "tokens_in": 10, "tokens_out": 2},
+        })
+        b = empty_usage_totals()
+        accumulate_usage(b, {
+            "_usage": {"model": "claude-haiku-4-5", "mode": "grid",
+                       "tokens_in": 5, "tokens_out": 1},
+        })
+        merge_usage_totals(a, b)
+        self.assertEqual(a["tokens_in"], 15)
+        self.assertEqual(a["tokens_out"], 3)
+        self.assertEqual(a["calls"], 2)
+        self.assertEqual(a["by_model"]["claude-haiku-4-5"]["calls"], 2)
 
     def test_missing_usage_does_not_crash(self):
         totals = empty_usage_totals()
@@ -117,6 +141,38 @@ class AccumulateUsageTests(unittest.TestCase):
         self.assertEqual(totals["tokens_in"], 0)
         self.assertTrue(totals["usage_missing"])
         self.assertEqual(totals["calls"], 1)
+
+
+class RecordSessionAiUsageTests(unittest.TestCase):
+    def test_skips_stub_and_zero_tokens(self):
+        called = []
+        ctx = SimpleNamespace(
+            session_stats=SimpleNamespace(
+                add_ai_usage=lambda *a, **k: called.append(1)),
+            log=lambda *a, **k: None,
+        )
+        _record_session_ai_usage(ctx, {
+            "_usage": {"model": "stub", "tokens_in": 10, "tokens_out": 1},
+        })
+        _record_session_ai_usage(ctx, {
+            "_usage": {"model": "claude-haiku-4-5", "tokens_in": 0, "tokens_out": 0},
+        })
+        self.assertEqual(called, [])
+
+    def test_records_real_usage(self):
+        called = []
+        ctx = SimpleNamespace(
+            session_stats=SimpleNamespace(
+                add_ai_usage=lambda *a, **k: called.append((a, k))),
+            log=lambda *a, **k: None,
+        )
+        result = {"_usage": {
+            "model": "claude-haiku-4-5-20251001",
+            "mode": "profile_grid",
+            "tokens_in": 80, "tokens_out": 20,
+        }}
+        _record_session_ai_usage(ctx, result)
+        self.assertEqual(len(called), 1)
 
 
 class StubModeTests(unittest.TestCase):
@@ -149,6 +205,24 @@ class StubModeTests(unittest.TestCase):
         self.assertIn(r["verdict"], ("match", "partial"))
         self.assertIsInstance(r["niche_score"], int)
 
+    def test_profile_grid_stub_has_audience_fit_and_safe_tiles(self):
+        """Stub bez API — nowy kontrakt, nie category=niche."""
+        v = AiVision(account={"ai": {"stub": True}})
+        r = v.run("profile_grid", inputs={
+            "opis": "trenerzy piłkarscy",
+            "username": "coach.jan",
+            "bio": "trener U12",
+            "wykluczenia": [],
+        })
+        self.assertTrue(r.get("_stub"))
+        self.assertIn(r.get("audience_fit"), ("match", "partial"))
+        self.assertTrue(str(r.get("audience_reason") or "").strip())
+        tiles = r.get("tiles") or {}
+        self.assertTrue(tiles)
+        cats = {t.get("category") for t in tiles.values()}
+        self.assertTrue(cats <= {"safe", "skipped", "excluded"})
+        self.assertNotIn("niche", cats)
+
     def test_stub_fallback_when_no_api_key(self):
         # bez klucza (env + secrets) → stub; mockujemy get_api_key
         with mock.patch("v2.ai.vision._api_key", return_value=None):
@@ -169,6 +243,38 @@ class StubModeTests(unittest.TestCase):
         self.assertEqual(u.get("tokens_in"), 0)
         self.assertEqual(u.get("tokens_out"), 0)
         self.assertTrue(str(u.get("model", "")).startswith("stub"))
+
+
+class GridStrictnessHintTests(unittest.TestCase):
+    def test_grid_hint_separates_tiles_from_niche(self):
+        """Siatka nie może dostać hintu rolek („związek z niszą”)."""
+        h = _strictness_hint("balanced", mode="profile_grid")
+        self.assertNotEqual(h, _STRICTNESS_HINTS["balanced"])
+        self.assertIn("safe", h.lower())
+        self.assertEqual(len(set(_STRICTNESS_HINTS_GRID.values())), 3)
+
+
+class AnthropicWorkspaceTests(unittest.TestCase):
+    def test_client_kwargs_include_workspace_header(self):
+        with mock.patch("v2.ai.vision._api_key", return_value="sk-ant-x"), \
+             mock.patch("v2.ai.vision._workspace_id", return_value="wrkspc_abc"):
+            kw = _anthropic_client_kwargs()
+        self.assertEqual(kw["api_key"], "sk-ant-x")
+        self.assertEqual(kw["default_headers"]["anthropic-workspace-id"],
+                         "wrkspc_abc")
+
+    def test_client_kwargs_omit_header_when_no_workspace(self):
+        with mock.patch("v2.ai.vision._api_key", return_value="sk-ant-x"), \
+             mock.patch("v2.ai.vision._workspace_id", return_value=None):
+            kw = _anthropic_client_kwargs()
+        self.assertNotIn("default_headers", kw)
+
+    def test_detects_identity_linked_400(self):
+        err = Exception(
+            "Error code: 400 - anthropic-workspace-id is required when "
+            "authenticating with an identity-linked API key")
+        self.assertTrue(_is_workspace_id_error(err))
+        self.assertFalse(_is_workspace_id_error(Exception("rate limit")))
 
 
 if __name__ == "__main__":

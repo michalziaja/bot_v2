@@ -260,6 +260,90 @@
         "profile_other",
         "profile_self"
       ]
+    },
+    "login_screen": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "zaloguj się",
+        "utwórz nowe konto",
+        "create new account"
+      ]
+    },
+    "signup_contact": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "podaj numer swojego telefonu",
+        "zarejestruj się przy użyciu adresu e-mail",
+        "numer telefonu komórkowego"
+      ],
+      "wins_over": ["login_screen"]
+    },
+    "signup_code": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "wprowadź kod potwierdzający",
+        "kod potwierdzający"
+      ],
+      "wins_over": ["login_screen", "signup_contact"]
+    },
+    "signup_birthday": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "podaj swoją datę urodzenia",
+        "datę urodzenia"
+      ],
+      "wins_over": ["login_screen"]
+    },
+    "ig_map_intro": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "przedstawiamy mapę",
+        "mapę instagramu"
+      ],
+      "wins_over": [
+        "home_feed",
+        "direct_inbox",
+        "profile_self"
+      ]
+    },
+    "date_picker": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "ustaw datę",
+        "set date"
+      ],
+      "wins_over": [
+        "signup_birthday",
+        "login_screen"
+      ]
+    },
+    "creator_gallery": {
+      "must_have_any": [
+        "com.instagram.android:id/gallery_title_text",
+        "com.instagram.android:id/new_post_title",
+        "com.instagram.android:id/cam_dest_feed"
+      ],
+      "wins_over": ["home_feed", "profile_self", "reels_feed"]
+    },
+    "creator_editor": {
+      "must_have_any": [
+        "com.instagram.android:id/media_thumbnail_tray_button",
+        "com.instagram.android:id/media_edit_action_bar"
+      ],
+      "wins_over": ["home_feed", "creator_gallery"]
+    },
+    "creator_caption": {
+      "must_have_any": [
+        "com.instagram.android:id/caption_input_text_view",
+        "com.instagram.android:id/share_footer_button"
+      ],
+      "wins_over": ["home_feed", "creator_editor", "creator_gallery"]
+    },
+    "creator_story_share": {
+      "must_have_any": [
+        "com.instagram.android:id/your_story_share_shortcut_button"
+      ],
+      "wins_over": ["home_feed", "creator_gallery"]
     }
   },
   "activities": {

@@ -1,0 +1,330 @@
+{
+  "slug": "03_ig",
+  "note_pl": "po launch klona",
+  "at": "2026-09-09T20:47:31Z",
+  "identify": {
+    "pkg": "com.instagram.androif",
+    "overlay": null,
+    "top": "reels_feed",
+    "hits": 5,
+    "ambiguous": false,
+    "unknown": false
+  },
+  "pkg": "com.instagram.androif",
+  "slim": [
+    {
+      "rid": "clips_media_component",
+      "lab": "Rolka użytkownika dziarskitata. Dotknij dwukrotnie, aby odtworzyć lub wstrzymać.",
+      "cls": "ViewGroup",
+      "bounds": "[0,103][1080,2124]"
+    },
+    {
+      "rid": "clips_video_container",
+      "lab": "Rolka dziarskitata. Dotknij dwukrotnie, aby odtworzyć lub wstrzymać.",
+      "cls": "FrameLayout",
+      "bounds": "[0,103][1080,2124]"
+    },
+    {
+      "rid": "clips_author_info_component",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[48,1819][463,1981]"
+    },
+    {
+      "rid": "clips_author_profile_pic",
+      "lab": "Zdjęcie profilowe dziarskitata",
+      "cls": "ImageView",
+      "bounds": "[60,1861][168,1969]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[180,1888][463,1942]"
+    },
+    {
+      "rid": "clips_author_username",
+      "lab": "dziarskitata dziarskitata",
+      "cls": "Button",
+      "bounds": "[180,1888][463,1942]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[463,1851][786,1979]"
+    },
+    {
+      "rid": "inline_follow_button",
+      "lab": "Obserwuj Obserwuj Dziarski Tata ✌..",
+      "cls": "TextView",
+      "bounds": "[481,1875][744,1961]"
+    },
+    {
+      "rid": "",
+      "lab": "Wyświetl więcej",
+      "cls": "ViewGroup",
+      "bounds": "[48,1981][916,2052]"
+    },
+    {
+      "rid": "like_button",
+      "lab": "Lubię to!",
+      "cls": "ImageView",
+      "bounds": "[920,790][1052,922]"
+    },
+    {
+      "rid": "like_count",
+      "lab": "Liczba polubień: 41174. Wyświetl polubienia. Liczba polubień: 41174. Wyświetl po",
+      "cls": "Button",
+      "bounds": "[919,922][1052,992]"
+    },
+    {
+      "rid": "comment_button",
+      "lab": "Komentarz",
+      "cls": "ImageView",
+      "bounds": "[920,992][1052,1124]"
+    },
+    {
+      "rid": "comment_count",
+      "lab": "Liczba komentarzy: 204. Wyświetl komentarze. Liczba komentarzy: 204. Wyświetl ko",
+      "cls": "Button",
+      "bounds": "[920,1124][1052,1194]"
+    },
+    {
+      "rid": "",
+      "lab": "Repost",
+      "cls": "ImageView",
+      "bounds": "[920,1194][1052,1326]"
+    },
+    {
+      "rid": "repost_count",
+      "lab": "Repostowano 2953 razy Repostowano 2953 razy",
+      "cls": "Button",
+      "bounds": "[920,1326][1052,1396]"
+    },
+    {
+      "rid": "direct_share_button",
+      "lab": "Udostępnij",
+      "cls": "ImageView",
+      "bounds": "[920,1396][1052,1528]"
+    },
+    {
+      "rid": "ufi_text_component",
+      "lab": "Liczba ponownych udostępnień: 13604 Liczba ponownych udostępnień: 13604",
+      "cls": "Button",
+      "bounds": "[916,1528][1056,1598]"
+    },
+    {
+      "rid": "save_button",
+      "lab": "Zapisz",
+      "cls": "ImageView",
+      "bounds": "[920,1598][1052,1730]"
+    },
+    {
+      "rid": "save_count",
+      "lab": "Liczba zapisań to 11954 Liczba zapisań to 11954",
+      "cls": "Button",
+      "bounds": "[919,1730][1053,1800]"
+    },
+    {
+      "rid": "clips_ufi_more_button_component",
+      "lab": "Więcej",
+      "cls": "ImageView",
+      "bounds": "[920,1800][1052,1932]"
+    },
+    {
+      "rid": "media_album_art_button",
+      "lab": "Audio",
+      "cls": "ImageView",
+      "bounds": "[941,1956][1031,2046]"
+    },
+    {
+      "rid": "scrubber",
+      "lab": "3821.0 Pasek przeszukiwania",
+      "cls": "SeekBar",
+      "bounds": "[0,2094][1080,2124]"
+    },
+    {
+      "rid": "",
+      "lab": "Utwórz rolkę",
+      "cls": "ImageView",
+      "bounds": "[0,130][144,271]"
+    },
+    {
+      "rid": "",
+      "lab": "Rolki",
+      "cls": "LinearLayout",
+      "bounds": "[234,150][470,251]"
+    },
+    {
+      "rid": "text1",
+      "lab": "Rolki",
+      "cls": "TextView",
+      "bounds": "[240,150][410,251]"
+    },
+    {
+      "rid": "",
+      "lab": "Znajomi",
+      "cls": "LinearLayout",
+      "bounds": "[470,150][899,251]"
+    },
+    {
+      "rid": "text1",
+      "lab": "Znajomi",
+      "cls": "TextView",
+      "bounds": "[476,150][734,251]"
+    },
+    {
+      "rid": "feed_tab",
+      "lab": "Strona główna",
+      "cls": "FrameLayout",
+      "bounds": "[0,2124][216,2268]"
+    },
+    {
+      "rid": "clips_tab",
+      "lab": "Rolki",
+      "cls": "FrameLayout",
+      "bounds": "[216,2124][432,2268]"
+    },
+    {
+      "rid": "direct_tab",
+      "lab": "Wiadomość",
+      "cls": "FrameLayout",
+      "bounds": "[432,2124][648,2268]"
+    },
+    {
+      "rid": "search_tab",
+      "lab": "Szukaj i poznaj",
+      "cls": "FrameLayout",
+      "bounds": "[648,2124][864,2268]"
+    },
+    {
+      "rid": "profile_tab",
+      "lab": "Profil",
+      "cls": "FrameLayout",
+      "bounds": "[864,2124][1080,2268]"
+    },
+    {
+      "rid": "clock",
+      "lab": "22:47 22:47",
+      "cls": "TextView",
+      "bounds": "[181,34][295,103]"
+    },
+    {
+      "rid": "wifi_combo",
+      "lab": "Wi-Fi: pełna moc sygnału.",
+      "cls": "FrameLayout",
+      "bounds": "[798,35][855,101]"
+    },
+    {
+      "rid": "battery",
+      "lab": "Bateria Rzecz na pasku stanu Ładowanie, Pozostało 77 procent energii baterii",
+      "cls": "LinearLayout",
+      "bounds": "[909,34][1005,103]"
+    },
+    {
+      "rid": "battery_percentage_view",
+      "lab": "77%",
+      "cls": "TextView",
+      "bounds": "[933,34][1005,103]"
+    },
+    {
+      "rid": "recent_apps",
+      "lab": "Przegląd",
+      "cls": "ImageView",
+      "bounds": "[158,2268][398,2400]"
+    },
+    {
+      "rid": "back",
+      "lab": "Wróć",
+      "cls": "ImageView",
+      "bounds": "[692,2268][932,2400]"
+    },
+    {
+      "rid": "home",
+      "lab": "Ekran główny",
+      "cls": "ImageView",
+      "bounds": "[426,2268][666,2400]"
+    }
+  ],
+  "ids_sample": [
+    "android:id/content",
+    "android:id/icon",
+    "android:id/text1",
+    "com.android.systemui:id/back",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_icon_view",
+    "com.android.systemui:id/battery_percentage_view",
+    "com.android.systemui:id/center_group",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/dynamic_icon_group",
+    "com.android.systemui:id/ends_group",
+    "com.android.systemui:id/home",
+    "com.android.systemui:id/horizontal",
+    "com.android.systemui:id/nav_buttons",
+    "com.android.systemui:id/navigation_bar_frame",
+    "com.android.systemui:id/navigation_bar_view",
+    "com.android.systemui:id/navigation_inflater",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/recent_apps",
+    "com.android.systemui:id/seeding_card_container",
+    "com.android.systemui:id/seedling_and_notification_container",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_end_side_container",
+    "com.android.systemui:id/status_bar_end_side_content",
+    "com.android.systemui:id/status_bar_launch_animation_container",
+    "com.android.systemui:id/status_bar_start_side_container",
+    "com.android.systemui:id/status_bar_start_side_content",
+    "com.android.systemui:id/status_bar_start_side_except_heads_up",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_inout",
+    "com.android.systemui:id/wifi_signal",
+    "com.instagram.android:id/action_bar_root",
+    "com.instagram.android:id/action_bar_tab_layout",
+    "com.instagram.android:id/activity_and_camera_shared_views_main_container"
+  ],
+  "texts_sample": [
+    "22:47",
+    "3821.0",
+    "77%",
+    "audio",
+    "bateria rzecz na pasku stanu ładowanie, pozostało 77 procent energii baterii",
+    "dziarskitata",
+    "ekran główny",
+    "komentarz",
+    "liczba komentarzy: 204. wyświetl komentarze.",
+    "liczba polubień: 41174. wyświetl polubienia.",
+    "liczba ponownych udostępnień: 13604",
+    "liczba zapisań to 11954",
+    "lubię to!",
+    "obserwuj",
+    "obserwuj dziarski tata ✌..",
+    "pasek przeszukiwania",
+    "profil",
+    "przegląd",
+    "repost",
+    "repostowano 2953 razy",
+    "rolka dziarskitata. dotknij dwukrotnie, aby odtworzyć lub wstrzymać.",
+    "rolka użytkownika dziarskitata. dotknij dwukrotnie, aby odtworzyć lub wstrzymać.",
+    "rolki",
+    "strona główna",
+    "szukaj i poznaj",
+    "udostępnij",
+    "utwórz rolkę",
+    "wi-fi: pełna moc sygnału.",
+    "wiadomość",
+    "więcej",
+    "wróć",
+    "wyświetl więcej",
+    "zapisz",
+    "zdjęcie profilowe dziarskitata",
+    "znajomi"
+  ],
+  "screenshot": "03_ig.jpg"
+}

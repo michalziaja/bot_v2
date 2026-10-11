@@ -1,0 +1,1327 @@
+{
+  "source": "image_trace",
+  "note_pl": "Drill-in wszystkich postów i relacji jobsaver — ślad 40_*.jpg. Chip 14 nie ma na Zawartość; 14 z Ogólne gdy zmienia overlay, inaczej luka albo identyczne JPG.",
+  "as_of_date": "2026-09-05",
+  "live_tooltips": false,
+  "gaps": [],
+  "items": [
+    {
+      "id": "post_379_379",
+      "kind": "post",
+      "views": 379,
+      "daily_mode": "cumulative",
+      "series_by_window": {
+        "7": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 367,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 376,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 379,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 379,
+            "source": "image_trace"
+          }
+        ],
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 367,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 376,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 379,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 379,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 367,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 376,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 379,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 379,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "typical_by_window": {
+        "7": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 253,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 264,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 268,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 271,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 249,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 161,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 55,
+            "source": "image_trace"
+          }
+        ],
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 253,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 264,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 268,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 271,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 249,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 161,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 55,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 253,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 264,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 268,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 271,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 249,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 161,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 55,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "window_gaps": {
+        "7": "brak na liście 7 dni",
+        "trace": "auto-ślad zastąpiony ręcznym 30_typical_post (oś 1–8 wrz)"
+      },
+      "window_jpgs": {
+        "7": "41_post_379_7d.jpg",
+        "14": "41_post_379_14d.jpg",
+        "30": "41_post_379_30d.jpg"
+      },
+      "chart_kind": "line",
+      "ig_windows_identical": false,
+      "daily": [
+        {
+          "date": "2026-09-01",
+          "views": 0,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 367,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 376,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 379,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 379,
+          "source": "image_trace"
+        }
+      ],
+      "typical_daily": [
+        {
+          "date": "2026-09-01",
+          "views": 0,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 253,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 264,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 268,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 271,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-06",
+          "views": 249,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-07",
+          "views": 161,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 55,
+          "source": "image_trace"
+        }
+      ]
+    },
+    {
+      "id": "post_394_394",
+      "kind": "post",
+      "views": 394,
+      "daily_mode": "cumulative",
+      "series_by_window": {
+        "7": [
+          {
+            "date": "2026-09-01",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 15,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 14,
+            "source": "image_trace"
+          }
+        ],
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 15,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 14,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 15,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 14,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 14,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "typical_by_window": {
+        "7": [
+          {
+            "date": "2026-09-01",
+            "views": 44,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 289,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 294,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 169,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 207,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 298,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 292,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 253,
+            "source": "image_trace"
+          }
+        ],
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 44,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 289,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 294,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 169,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 207,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 298,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 292,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 253,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 44,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 289,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 294,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 169,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 207,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 298,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 292,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 253,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "window_gaps": {
+        "7": "brak na liście 7 dni"
+      },
+      "window_jpgs": {
+        "7": "41_post_394_7d.jpg",
+        "14": "41_post_394_14d.jpg",
+        "30": "41_post_394_30d.jpg"
+      },
+      "chart_kind": "line",
+      "ig_windows_identical": false,
+      "daily": [
+        {
+          "date": "2026-09-01",
+          "views": 14,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 15,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 14,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 14,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 14,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-06",
+          "views": 14,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-07",
+          "views": 14,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 14,
+          "source": "image_trace"
+        }
+      ],
+      "typical_daily": [
+        {
+          "date": "2026-09-01",
+          "views": 44,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 289,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 294,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 169,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 207,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-06",
+          "views": 298,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-07",
+          "views": 292,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 253,
+          "source": "image_trace"
+        }
+      ]
+    },
+    {
+      "id": "post_42_42",
+      "kind": "post",
+      "views": 42,
+      "daily_mode": "cumulative",
+      "series_by_window": {
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 4,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 24,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 34,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 36,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 39,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 42,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 42,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 42,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 4,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 24,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 34,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 36,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 39,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 42,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 42,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 42,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "typical_by_window": {},
+      "window_gaps": {
+        "7": "brak na liście 7 dni"
+      },
+      "window_jpgs": {
+        "7": "41_post_42_7d_fail.jpg",
+        "14": "41_post_42_14d.jpg",
+        "30": "41_post_42_30d.jpg"
+      },
+      "chart_kind": "line",
+      "ig_windows_identical": false,
+      "daily": [
+        {
+          "date": "2026-09-01",
+          "views": 4,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 24,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 34,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 36,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 39,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-06",
+          "views": 42,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-07",
+          "views": 42,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 42,
+          "source": "image_trace"
+        }
+      ],
+      "typical_daily": []
+    },
+    {
+      "id": "post_54_54",
+      "kind": "post",
+      "views": 54,
+      "daily_mode": "cumulative",
+      "series_by_window": {
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 6,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 48,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 54,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 6,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 48,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 54,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 54,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "typical_by_window": {
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 0,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 0,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 0,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "window_gaps": {
+        "7": "brak na liście 7 dni"
+      },
+      "window_jpgs": {
+        "7": "41_post_54_7d_fail.jpg",
+        "14": "41_post_54_14d.jpg",
+        "30": "41_post_54_30d.jpg"
+      },
+      "chart_kind": "line",
+      "ig_windows_identical": false,
+      "daily": [
+        {
+          "date": "2026-09-01",
+          "views": 6,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 48,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 54,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 54,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 54,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-06",
+          "views": 54,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-07",
+          "views": 54,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 54,
+          "source": "image_trace"
+        }
+      ],
+      "typical_daily": [
+        {
+          "date": "2026-09-01",
+          "views": 0,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 0,
+          "source": "image_trace"
+        }
+      ]
+    },
+    {
+      "id": "post_278_278",
+      "kind": "post",
+      "views": 278,
+      "daily_mode": "cumulative",
+      "series_by_window": {
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 15,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 278,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 16,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 17,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 16,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 16,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 17,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 278,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 15,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 278,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 16,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 17,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 16,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-06",
+            "views": 16,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-07",
+            "views": 17,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 278,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "typical_by_window": {
+        "14": [
+          {
+            "date": "2026-09-01",
+            "views": 51,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 122,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 121,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 128,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 191,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 20,
+            "source": "image_trace"
+          }
+        ],
+        "30": [
+          {
+            "date": "2026-09-01",
+            "views": 51,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-02",
+            "views": 122,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-03",
+            "views": 121,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-04",
+            "views": 128,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-05",
+            "views": 191,
+            "source": "image_trace"
+          },
+          {
+            "date": "2026-09-08",
+            "views": 20,
+            "source": "image_trace"
+          }
+        ]
+      },
+      "window_gaps": {
+        "7": "brak na liście 7 dni"
+      },
+      "window_jpgs": {
+        "7": "41_post_278_7d_fail.jpg",
+        "14": "41_post_278_14d.jpg",
+        "30": "41_post_278_30d.jpg"
+      },
+      "chart_kind": "line",
+      "ig_windows_identical": false,
+      "daily": [
+        {
+          "date": "2026-09-01",
+          "views": 15,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 278,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 16,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 17,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 16,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-06",
+          "views": 16,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-07",
+          "views": 17,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 278,
+          "source": "image_trace"
+        }
+      ],
+      "typical_daily": [
+        {
+          "date": "2026-09-01",
+          "views": 51,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-02",
+          "views": 122,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-03",
+          "views": 121,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-04",
+          "views": 128,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-05",
+          "views": 191,
+          "source": "image_trace"
+        },
+        {
+          "date": "2026-09-08",
+          "views": 20,
+          "source": "image_trace"
+        }
+      ]
+    },
+    {
+      "id": "story_147_147",
+      "kind": "story",
+      "views": 147,
+      "daily_mode": null,
+      "series_by_window": {},
+      "typical_by_window": {},
+      "window_gaps": {
+        "line": "donut Widzowie — brak linii na drill-in relacji"
+      },
+      "window_jpgs": {
+        "7": "41_story_147_7d.jpg",
+        "14": "41_story_147_14d.jpg",
+        "30": "41_story_147_30d.jpg"
+      },
+      "chart_kind": "donut",
+      "daily": [],
+      "typical_daily": []
+    },
+    {
+      "id": "story_172_172",
+      "kind": "story",
+      "views": 172,
+      "daily_mode": null,
+      "series_by_window": {},
+      "typical_by_window": {},
+      "window_gaps": {
+        "line": "donut Widzowie — brak linii na drill-in relacji"
+      },
+      "window_jpgs": {
+        "7": "41_story_172_7d.jpg",
+        "14": "41_story_172_14d.jpg",
+        "30": "41_story_172_30d.jpg"
+      },
+      "chart_kind": "donut",
+      "daily": [],
+      "typical_daily": []
+    },
+    {
+      "id": "story_162_162",
+      "kind": "story",
+      "views": 162,
+      "daily_mode": null,
+      "series_by_window": {},
+      "typical_by_window": {},
+      "window_gaps": {
+        "line": "donut Widzowie — brak linii na drill-in relacji"
+      },
+      "window_jpgs": {
+        "7": "41_story_162_7d.jpg",
+        "14": "41_story_162_14d.jpg",
+        "30": "41_story_162_30d.jpg"
+      },
+      "chart_kind": "donut",
+      "daily": [],
+      "typical_daily": []
+    },
+    {
+      "id": "story_179_179",
+      "kind": "story",
+      "views": 179,
+      "daily_mode": null,
+      "series_by_window": {},
+      "typical_by_window": {},
+      "window_gaps": {
+        "line": "donut Widzowie — brak linii na drill-in relacji"
+      },
+      "window_jpgs": {
+        "7": "41_story_179_7d.jpg",
+        "14": "41_story_179_14d.jpg",
+        "30": "41_story_179_30d.jpg"
+      },
+      "chart_kind": "donut",
+      "daily": [],
+      "typical_daily": []
+    },
+    {
+      "id": "story_196_196",
+      "kind": "story",
+      "views": 196,
+      "daily_mode": null,
+      "series_by_window": {},
+      "typical_by_window": {},
+      "window_gaps": {
+        "line": "donut Widzowie — brak linii na drill-in relacji"
+      },
+      "window_jpgs": {
+        "7": "41_story_196_7d_fail.jpg",
+        "14": "41_story_196_14d.jpg",
+        "30": "41_story_196_30d.jpg"
+      },
+      "chart_kind": "donut",
+      "daily": [],
+      "typical_daily": []
+    }
+  ]
+}

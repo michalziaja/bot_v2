@@ -1,0 +1,397 @@
+{
+  "meta": {
+    "device_model": "KB2003",
+    "device_product": "a50eea",
+    "resolution": [
+      1080,
+      2400
+    ],
+    "ig_package": "com.instagram.android",
+    "ig_version": "TODO (fetch via `adb shell dumpsys package com.instagram.android | grep versionName`)",
+    "captured_at": "2026-09-09T20:49:30Z",
+    "note": "wygenerowane przez cli calibrate — kotwice z telefonu"
+  },
+  "anchors": {
+    "nav.feed_tab": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/feed_tab",
+      "bounds": "[0,2124][216,2268]",
+      "note": "live harvest"
+    },
+    "nav.clips_tab": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/clips_tab",
+      "bounds": "[216,2124][432,2268]",
+      "note": "live harvest"
+    },
+    "nav.direct_tab": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/direct_tab",
+      "bounds": "[432,2124][648,2268]",
+      "note": "live harvest"
+    },
+    "nav.search_tab": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/search_tab",
+      "bounds": "[648,2124][864,2268]",
+      "note": "live harvest"
+    },
+    "nav.profile_tab": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/profile_tab",
+      "bounds": "[864,2124][1080,2268]",
+      "note": "live harvest"
+    },
+    "search.input": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/action_bar_search_edit_text",
+      "bounds": "[36,103][924,209]",
+      "note": "live harvest"
+    },
+    "search.results_tab_bar": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/scrollable_tab_layout",
+      "bounds": "[0,230][1080,346]",
+      "note": "HorizontalScrollView zakładek wyników (Dla Ciebie/Tags); live 45_search_tags_tab"
+    },
+    "search.row_hashtag_name": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/row_hashtag_textview_tag_name",
+      "note": "nazwa # na liście zakładki Znaczniki; live 45_search_tags_tab"
+    },
+    "search.row_hashtag_subtitle": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/row_hashtag_textview_tag_subtitle",
+      "note": "subtitle liczby postów (np. '174 mln postów'); live 45_search_tags_tab"
+    },
+    "profile.options": {
+      "kind": "content-desc",
+      "value": "Opcje",
+      "bounds": "[932,83][1059,230]"
+    },
+    "home.notifications": {
+      "kind": "resource-id",
+      "value": "com.instagram.android:id/notification",
+      "bounds": "[936,103][1080,271]",
+      "note": "live harvest"
+    }
+  },
+  "fingerprints": {
+    "home_feed": {
+      "must_have_any": [
+        "com.instagram.android:id/notification",
+        "com.instagram.android:id/row_feed_profile_header",
+        "com.instagram.android:id/main_feed_action_bar",
+        "com.instagram.android:id/row_feed_photo_profile_name",
+        "com.instagram.android:id/action_bar_buttons_container_right",
+        "com.instagram.android:id/outer_container"
+      ]
+    },
+    "search_top": {
+      "must_have_any": [
+        "com.instagram.android:id/explore_action_bar_container",
+        "com.instagram.android:id/image_preview",
+        "com.instagram.android:id/play_count_logo",
+        "com.instagram.android:id/explore_action_bar",
+        "com.instagram.android:id/grid_card_layout_container"
+      ]
+    },
+    "reels_feed": {
+      "must_have_any": [
+        "com.instagram.android:id/clips_media_component",
+        "com.instagram.android:id/clips_item_overlay_component",
+        "com.instagram.android:id/clips_author_info_component",
+        "com.instagram.android:id/clips_author_username",
+        "com.instagram.android:id/clips_swipe_refresh_container"
+      ]
+    },
+    "profile_self": {
+      "must_have_any": [
+        "com.instagram.android:id/row_profile_header_imageview_frame_layout",
+        "com.instagram.android:id/profile_header_post_count_front_familiar",
+        "com.instagram.android:id/profile_tab_layout",
+        "com.instagram.android:id/profile_tab_icon_view",
+        "com.instagram.android:id/profile_header_familiar_followers_value"
+      ]
+    },
+    "direct_inbox": {
+      "must_have_any": [
+        "com.instagram.android:id/row_inbox_container",
+        "com.instagram.android:id/inbox_refreshable_thread_list_recyclerview",
+        "com.instagram.android:id/direct_quick_snap_consumption_preview",
+        "com.instagram.android:id/direct_inbox_action_bar",
+        "com.instagram.android:id/row_inbox_digest"
+      ]
+    },
+    "profile_options_sheet": {
+      "must_have_any": []
+    },
+    "search_input_active": {
+      "must_have_any": [
+        "com.instagram.android:id/row_search_user_username",
+        "com.instagram.android:id/row_search_user_fullname",
+        "com.instagram.android:id/action_bar_container",
+        "com.instagram.android:id/row_search_user_container",
+        "com.instagram.android:id/row_search_avatar_with_ring"
+      ]
+    },
+    "notifications": {
+      "must_have_any": [
+        "com.instagram.android:id/activity_feed_root",
+        "com.instagram.android:id/activity_feed_list",
+        "com.instagram.android:id/newsfeed_you"
+      ]
+    },
+    "story_viewer": {
+      "must_have_any": [
+        "com.instagram.android:id/reel_viewer_root",
+        "com.instagram.android:id/reel_viewer_media_container",
+        "com.instagram.android:id/reel_viewer_progress_bar",
+        "com.instagram.android:id/reel_viewer_header",
+        "com.instagram.android:id/message_composer_container"
+      ],
+      "wins_over": [
+        "home_feed",
+        "profile_other",
+        "profile_self",
+        "reels_feed",
+        "follow_list"
+      ]
+    },
+    "reel_likers_list": {
+      "must_have_any": [
+        "com.instagram.android:id/like_and_view_count_header_container",
+        "com.instagram.android:id/like_count_text",
+        "com.instagram.android:id/like_title",
+        "com.instagram.android:id/row_user_container_base",
+        "com.instagram.android:id/row_follow_button"
+      ],
+      "wins_over": [
+        "reels_feed",
+        "story_viewer",
+        "home_feed"
+      ]
+    },
+    "search_results": {
+      "must_have_any": [
+        "com.instagram.android:id/search_tab_bar_layout",
+        "com.instagram.android:id/scrollable_tab_layout",
+        "com.instagram.android:id/tabbed_pager",
+        "com.instagram.android:id/view_switcher_container"
+      ],
+      "wins_over": [
+        "search_input_active",
+        "search_top"
+      ]
+    },
+    "profile_other": {
+      "must_have_any": [
+        "com.instagram.android:id/profile_header_follow_button",
+        "com.instagram.android:id/profile_header_user_action_follow_button",
+        "com.instagram.android:id/similar_accounts_carousel_view"
+      ],
+      "wins_over": [
+        "profile_self"
+      ]
+    },
+    "reel_comments_sheet": {
+      "must_have_any": [
+        "com.instagram.android:id/comment_composer_parent_updated",
+        "com.instagram.android:id/layout_comment_thread_edittext_multiline",
+        "com.instagram.android:id/comment_overswipe_dismiss_container",
+        "com.instagram.android:id/comment_composer_text_view"
+      ],
+      "wins_over": [
+        "reels_feed",
+        "story_viewer",
+        "home_feed"
+      ]
+    },
+    "follow_list": {
+      "must_have_any": [
+        "com.instagram.android:id/follow_list_username",
+        "com.instagram.android:id/follow_list_container",
+        "com.instagram.android:id/follow_list_user_imageview"
+      ],
+      "wins_over": [
+        "profile_other",
+        "profile_self"
+      ]
+    },
+    "share_sheet": {
+      "must_have_any": [
+        "com.instagram.android:id/bs_action_sheet_row",
+        "com.instagram.android:id/share_sheet_container"
+      ],
+      "wins_over": [
+        "reels_feed",
+        "reel_likers_list",
+        "reel_comments_sheet",
+        "profile_other",
+        "profile_self",
+        "search_results"
+      ]
+    },
+    "save_login_prompt": {
+      "must_have_any": [
+        "com.instagram.android:id/save_login_prompt",
+        "com.instagram.android:id/not_now_text"
+      ],
+      "wins_over": [
+        "home_feed",
+        "profile_self"
+      ]
+    },
+    "rate_limit": {
+      "must_have_any": [
+        "com.instagram.android:id/action_try_later",
+        "com.instagram.android:id/rate_limit_dialog"
+      ],
+      "wins_over": [
+        "home_feed",
+        "reels_feed",
+        "profile_other",
+        "profile_self",
+        "search_results",
+        "search_top"
+      ]
+    },
+    "suspicious_login": {
+      "must_have_any": [
+        "com.instagram.android:id/challenge_two_factor",
+        "com.instagram.android:id/suspicious_login"
+      ],
+      "wins_over": [
+        "home_feed",
+        "reels_feed",
+        "profile_other",
+        "profile_self"
+      ]
+    },
+    "login_screen": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "zaloguj się",
+        "utwórz nowe konto",
+        "create new account"
+      ]
+    },
+    "signup_contact": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "podaj numer swojego telefonu",
+        "zarejestruj się przy użyciu adresu e-mail",
+        "numer telefonu komórkowego"
+      ],
+      "wins_over": [
+        "login_screen"
+      ]
+    },
+    "signup_code": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "wprowadź kod potwierdzający",
+        "kod potwierdzający"
+      ],
+      "wins_over": [
+        "login_screen",
+        "signup_contact"
+      ]
+    },
+    "signup_birthday": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "podaj swoją datę urodzenia",
+        "datę urodzenia"
+      ],
+      "wins_over": [
+        "login_screen"
+      ]
+    },
+    "ig_map_intro": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "przedstawiamy mapę",
+        "mapę instagramu"
+      ],
+      "wins_over": [
+        "home_feed",
+        "direct_inbox",
+        "profile_self"
+      ]
+    },
+    "date_picker": {
+      "must_have_any": [],
+      "must_have_text_any": [
+        "ustaw datę",
+        "set date"
+      ],
+      "wins_over": [
+        "signup_birthday",
+        "login_screen"
+      ]
+    },
+    "creator_gallery": {
+      "must_have_any": [
+        "com.instagram.android:id/gallery_title_text",
+        "com.instagram.android:id/new_post_title",
+        "com.instagram.android:id/cam_dest_feed"
+      ],
+      "wins_over": [
+        "home_feed",
+        "profile_self",
+        "reels_feed"
+      ]
+    },
+    "creator_editor": {
+      "must_have_any": [
+        "com.instagram.android:id/media_thumbnail_tray_button",
+        "com.instagram.android:id/media_edit_action_bar"
+      ],
+      "wins_over": [
+        "home_feed",
+        "creator_gallery"
+      ]
+    },
+    "creator_caption": {
+      "must_have_any": [
+        "com.instagram.android:id/caption_input_text_view",
+        "com.instagram.android:id/share_footer_button"
+      ],
+      "wins_over": [
+        "home_feed",
+        "creator_editor",
+        "creator_gallery"
+      ]
+    },
+    "creator_story_share": {
+      "must_have_any": [
+        "com.instagram.android:id/your_story_share_shortcut_button"
+      ],
+      "wins_over": [
+        "home_feed",
+        "creator_gallery"
+      ]
+    }
+  },
+  "activities": {
+    "home_feed": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "search_top": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "reels_feed": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "profile_self": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "direct_inbox": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "profile_options_sheet": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "search_input_active": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "notifications": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "story_viewer": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "reel_likers_list": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "search_results": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "profile_other": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "reel_comments_sheet": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "follow_list": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "share_sheet": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "save_login_prompt": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "rate_limit": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity",
+    "suspicious_login": "com.instagram.android/com.instagram.mainactivity.InstagramMainActivity"
+  }
+}

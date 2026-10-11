@@ -3,7 +3,7 @@
  niche_discover_posts / reels / account / merge).
 
 Ma dwa tryby działania:
-  - REAL: woła Anthropic API (jeśli klucz w env ANTHROPIC_API_KEY i pakiet zainstalowany)
+  - REAL: woła Anthropic API (klucz + opcjonalnie workspace ID przy identity-linked)
   - STUB: zwraca deterministyczną odpowiedź (do testów bez API i płacenia)
 
 Przełącznik: `account.ai.stub = true` w configu wymusza STUB.
@@ -20,15 +20,20 @@ from typing import Any
 
 import yaml
 
+from v2.config.secrets import get_api_key, get_workspace_id
+from v2.ai.pricing import apply_costs, cost_usd
+
 PROMPTS_DIR = Path(__file__).parent / "prompts"
 
-
-class AiError(Exception): pass
+# TYMCZASOWO: pełny prompt + surowa odpowiedź w terminalu przy profile_grid.
+# Wyłączyć / usunąć, gdy nie będzie już potrzebne do strojenia promptu.
+_DUMP_PROFILE_GRID_IO = True
 
 
 @dataclass
 class AiVision:
     account: dict = field(default_factory=dict)   # dostęp do account.ai.*
+    ctx: Any = None                                # opcjonalnie: session_stats + events
     _client: Any = None                            # anthropic.Anthropic lazy
     _stub: bool = False
 
@@ -46,15 +51,17 @@ class AiVision:
         strict = (opts or {}).get("strictness")
         inputs = {
             **inputs,
-            "strictness_hint": _strictness_hint(strict),
+            "strictness_hint": _strictness_hint(strict, mode=mode),
             # discovery finalize/merge — osobny ton (luźny → restrykcyjny)
             "precision_hint": inputs.get("precision_hint")
             or _precision_hint(strict or inputs.get("precision")),
         }
-        # Prompt NIE idzie na stdout — tylko odpowiedź + scoring (czytelniej w CLI)
         sys_prompt = _format(prompt["system"], inputs)
         user_prompt = _format(prompt["user"], inputs)
         frame_paths = list(inputs.get("frames") or [])
+        # TYMCZASOWO: operator widzi, co poszło do modelu przy profile_interact
+        if mode == "profile_grid" and _DUMP_PROFILE_GRID_IO:
+            _dump_profile_grid_prompt(sys_prompt, user_prompt, len(frame_paths))
 
         if self._stub:
             result = _stub_response(mode, inputs, prompt)
@@ -62,8 +69,11 @@ class AiVision:
             result = _attach_usage(result, _usage_stub(mode))
             _print_ai_response(mode, result)
             return result
-        return self._call_anthropic(
+        result = self._call_anthropic(
             mode, inputs, prompt, sys_prompt, user_prompt, frame_paths)
+        # Tokeny + koszt → session_stats / events (nie stub)
+        _record_session_ai_usage(self.ctx, result)
+        return result
 
     # ---- real call ----
     def _call_anthropic(self, mode: str, inputs: dict, prompt: dict,
@@ -80,8 +90,9 @@ class AiVision:
             return result
 
         if self._client is None:
-            # klucz z env albo z config/secrets.json (env wygrywa)
-            self._client = Anthropic(api_key=_api_key())
+            # klucz z env albo z config/secrets.json (env wygrywa);
+            # workspace ID przy kluczu identity-linked
+            self._client = Anthropic(**_anthropic_client_kwargs())
 
         # pobierz model per tryb z accountu (fallback: model_default z YAML promptu)
         model_map = ((self.account or {}).get("ai") or {}).get("model_per_mode") or {}
@@ -100,17 +111,38 @@ class AiVision:
                 }
             })
 
-        resp = self._client.messages.create(
-            model=model_id,
-            max_tokens=int(prompt.get("max_tokens", 400)),
-            system=sys_prompt,
-            messages=[{"role": "user", "content": content_parts}],
-        )
+        try:
+            resp = self._client.messages.create(
+                model=model_id,
+                max_tokens=int(prompt.get("max_tokens", 400)),
+                system=sys_prompt,
+                messages=[{"role": "user", "content": content_parts}],
+            )
+        except Exception as e:
+            # Identity-linked key bez workspace — nie wywalaj całej kolejki
+            if _is_workspace_id_error(e):
+                print(
+                    "[vision] Brak anthropic-workspace-id (klucz identity-linked). "
+                    "Ustaw ANTHROPIC_WORKSPACE_ID albo w panelu Ustawienia → "
+                    "workspace (wrkspc_… z console.anthropic.com).",
+                    flush=True,
+                )
+                result = {
+                    "_error": "anthropic_workspace_id",
+                    "_note": str(e),
+                    "tiles": {},
+                }
+                result = _attach_usage(result, _usage_stub(mode, note="workspace_id"))
+                _print_ai_response(mode, result)
+                return result
+            raise
         # zwykle odpowiedź to jeden blok text
         text = "".join(b.text for b in resp.content if getattr(b, "type", None) == "text")
         usage = _extract_usage(resp, model_id=model_id, mode=mode)
         result = _attach_usage(_parse_json_response(text, mode), usage)
-        # Najpierw parse — na stdout idzie scoring + JSON, bez promptu
+        # TYMCZASOWO: surowy tekst modelu, zanim poleci czytelne podsumowanie
+        if mode == "profile_grid" and _DUMP_PROFILE_GRID_IO:
+            _dump_profile_grid_raw(text)
         _print_ai_response(mode, result)
         return result
 
@@ -119,7 +151,7 @@ class AiVision:
 # helpers — usage / tokeny
 # ============================================================
 def empty_usage_totals() -> dict:
-    """Pusty akumulator na cały przebieg discovery (lub inny multi-call)."""
+    """Pusty akumulator na sesję / discovery (tokeny + koszt per model)."""
     return {
         "model": "",
         "models": [],
@@ -128,6 +160,9 @@ def empty_usage_totals() -> dict:
         "calls": 0,
         "usage_missing": False,
         "by_mode": {},
+        "by_model": {},
+        "cost_usd": 0.0,
+        "cost_unknown": False,
     }
 
 
@@ -181,7 +216,91 @@ def accumulate_usage(totals: dict, result_or_usage: dict | None,
     slot["calls"] = int(slot.get("calls") or 0) + 1
     by[m] = slot
     totals["by_mode"] = by
+    # per model (do statystyk / kosztu)
+    by_m = dict(totals.get("by_model") or {})
+    mslot = dict(by_m.get(model) or {
+        "tokens_in": 0, "tokens_out": 0, "calls": 0, "cost_usd": 0.0,
+    })
+    mslot["tokens_in"] = int(mslot.get("tokens_in") or 0) + tin
+    mslot["tokens_out"] = int(mslot.get("tokens_out") or 0) + tout
+    mslot["calls"] = int(mslot.get("calls") or 0) + 1
+    by_m[model] = mslot
+    totals["by_model"] = by_m
+    apply_costs(totals)
     return totals
+
+
+def merge_usage_totals(dst: dict, src: dict | None) -> dict:
+    """Zsumuj dwa akumulatory usage (agregat sesji). In-place na dst."""
+    if not isinstance(dst, dict):
+        dst = empty_usage_totals()
+    if not isinstance(src, dict):
+        return dst
+    dst.setdefault("by_model", {})
+    dst.setdefault("by_mode", {})
+    dst.setdefault("models", [])
+    dst["tokens_in"] = int(dst.get("tokens_in") or 0) + int(src.get("tokens_in") or 0)
+    dst["tokens_out"] = int(dst.get("tokens_out") or 0) + int(src.get("tokens_out") or 0)
+    dst["calls"] = int(dst.get("calls") or 0) + int(src.get("calls") or 0)
+    if src.get("usage_missing"):
+        dst["usage_missing"] = True
+    models = list(dst.get("models") or [])
+    for m in src.get("models") or []:
+        if m and m not in models:
+            models.append(m)
+    dst["models"] = models
+    dst["model"] = models[0] if len(models) == 1 else (
+        "+".join(models) if models else "")
+    for key in ("by_mode", "by_model"):
+        bucket = dst.setdefault(key, {})
+        raw = src.get(key) or {}
+        if not isinstance(raw, dict):
+            continue
+        for name, slot in raw.items():
+            if not name or not isinstance(slot, dict):
+                continue
+            cur = dict(bucket.get(name) or {
+                "tokens_in": 0, "tokens_out": 0, "calls": 0,
+            })
+            cur["tokens_in"] = int(cur.get("tokens_in") or 0) + int(slot.get("tokens_in") or 0)
+            cur["tokens_out"] = int(cur.get("tokens_out") or 0) + int(slot.get("tokens_out") or 0)
+            cur["calls"] = int(cur.get("calls") or 0) + int(slot.get("calls") or 0)
+            if slot.get("model"):
+                cur["model"] = slot.get("model")
+            bucket[name] = cur
+        dst[key] = bucket
+    apply_costs(dst)
+    return dst
+
+
+def _record_session_ai_usage(ctx, result: dict | None) -> None:
+    """Dopisz call do session_stats + event `ai.usage` (pomija stub / 0 tokenów)."""
+    if ctx is None or not isinstance(result, dict):
+        return
+    usage = result.get("_usage")
+    if not isinstance(usage, dict):
+        return
+    model = str(usage.get("model") or "")
+    if model.startswith("stub"):
+        return
+    tin = int(usage.get("tokens_in") or 0)
+    tout = int(usage.get("tokens_out") or 0)
+    if tin <= 0 and tout <= 0:
+        return
+    ss = getattr(ctx, "session_stats", None)
+    if ss is not None and hasattr(ss, "add_ai_usage"):
+        try:
+            ss.add_ai_usage(result, mode=usage.get("mode"))
+        except Exception:
+            pass
+    log = getattr(ctx, "log", None)
+    if callable(log):
+        usd, priced = cost_usd(model, tin, tout)
+        try:
+            log("ai.usage", model=model, mode=usage.get("mode"),
+                tokens_in=tin, tokens_out=tout, cost_usd=usd, priced=priced)
+        except Exception:
+            pass
 
 
 def _as_nonneg_int(v) -> int:
@@ -258,6 +377,37 @@ def _attach_usage(result: dict, usage: dict) -> dict:
 # ============================================================
 # helpers — log / prompt
 # ============================================================
+def _dump_profile_grid_prompt(sys_prompt: str, user_prompt: str,
+                              n_frames: int) -> None:
+    """TYMCZASOWO: system + user prompt siatki w terminalu (prefix pluginu)."""
+    from v2.plugins.profile_log import say
+    say("===== AI PROMPT (profile_grid) — tymczasowo =====")
+    say(f"— klatek: {n_frames}")
+    say("— system —")
+    _say_multiline(say, sys_prompt)
+    say("— user —")
+    _say_multiline(say, user_prompt)
+    say("===== KONIEC PROMPT =====")
+
+
+def _dump_profile_grid_raw(text: str) -> None:
+    """TYMCZASOWO: surowa odpowiedź modelu (przed parse JSON)."""
+    from v2.plugins.profile_log import say
+    say("===== AI RAW (profile_grid) — tymczasowo =====")
+    _say_multiline(say, text or "(pusta)")
+    say("===== KONIEC RAW =====")
+
+
+def _say_multiline(say, body: str) -> None:
+    """Każda linia osobno — panel koloruje prefix profile_interact."""
+    lines = (body or "").splitlines()
+    if not lines:
+        say("(puste)")
+        return
+    for line in lines:
+        say(line)
+
+
 def _print_ai_response(mode: str, result: dict) -> None:
     """Odpowiedź AI na stdout — dla reel_niche / profile_grid czytelnie, bez JSON."""
     usage = result.get("_usage") if isinstance(result, dict) else None
@@ -286,6 +436,17 @@ def _print_ai_response(mode: str, result: dict) -> None:
         # Przenieś flagę na pełny result (payload to kopia bez _usage)
         if isinstance(result, dict) and payload.get("_grid_ai_said"):
             result["_grid_ai_said"] = True
+        # TYMCZASOWO: sparsowany JSON (stub i real po parse)
+        if _DUMP_PROFILE_GRID_IO:
+            dump = {k: v for k, v in payload.items()
+                    if k not in ("_grid_ai_said",)}
+            try:
+                body = json.dumps(dump, ensure_ascii=False, indent=2)
+            except (TypeError, ValueError):
+                body = str(dump)
+            say("===== AI JSON (profile_grid) — tymczasowo =====")
+            _say_multiline(say, body)
+            say("===== KONIEC JSON =====")
         if usage:
             say(f"(model={usage.get('model')}, "
                 f"in={usage.get('tokens_in', 0)}, "
@@ -329,8 +490,28 @@ def _print_ai_exchange(mode, *, response, usage=None, result=None):
 
 def _api_key() -> str | None:
     """Klucz do Anthropic API — env ma pierwszeństwo nad config/secrets.json."""
-    from v2.config.secrets import get_api_key
     return get_api_key()
+
+
+def _workspace_id() -> str | None:
+    """ID workspace (wrkspc_…) — wymagane przy identity-linked API key."""
+    return get_workspace_id()
+
+
+def _anthropic_client_kwargs() -> dict:
+    """Argumenty klienta SDK: klucz + opcjonalny nagłówek workspace."""
+    kwargs: dict = {"api_key": _api_key()}
+    ws = _workspace_id()
+    if ws:
+        kwargs["default_headers"] = {"anthropic-workspace-id": ws}
+    return kwargs
+
+
+def _is_workspace_id_error(exc: BaseException) -> bool:
+    """400: identity-linked key wymaga nagłówka anthropic-workspace-id."""
+    msg = str(exc).lower()
+    return ("anthropic-workspace-id" in msg
+            or "identity-linked api key" in msg)
 
 
 # Instrukcja rygoru wstrzykiwana do promptu jako {strictness_hint}.
@@ -343,6 +524,18 @@ _STRICTNESS_HINTS = {
                 "dosłownego pokrycia z opisem niszy.",
     "strict": "Bądź rygorystyczny: uznawaj dopasowanie tylko gdy związek z niszą "
               "jest jednoznaczny i widoczny. Przy wątpliwości oceniaj negatywnie.",
+}
+
+# Siatka: rygor = audience_fit. Kafelki = bezpieczny like, NIE „czy o niszy”.
+_STRICTNESS_HINTS_GRID = {
+    "loose": "Audience: bywaj hojny (partial raczej niż off). Kafelki: lajkuj "
+             "prawie wszystko poza listą wykluczeń — lifestyle = safe + should_like.",
+    "balanced": "Audience: sygnał grupy ma być wiarygodny, ale NIE wymagaj postów "
+                "o niszy. Kafelki: zwykłe zdjęcia tej osoby = safe + should_like; "
+                "skipped tylko gdy nieczytelne. Nie skipuj za „brak tematu niszy”.",
+    "strict": "Audience: off gdy to wyraźnie inna grupa. Kafelki NADAL niezależne: "
+              "portret/hobby/lifestyle = safe + should_like, chyba że wykluczenie "
+              "albo ewidentna reklama/spam.",
 }
 
 # Ton discovery (finalize / merge) — {precision_hint}
@@ -368,8 +561,10 @@ _PRECISION_HINTS = {
 }
 
 
-def _strictness_hint(level: str | None) -> str:
-    return _STRICTNESS_HINTS.get(level or "balanced", _STRICTNESS_HINTS["balanced"])
+def _strictness_hint(level: str | None, mode: str | None = None) -> str:
+    """Rygor do promptu — siatka ma osobną tabelę (lajk ≠ treść niszy)."""
+    table = _STRICTNESS_HINTS_GRID if mode == "profile_grid" else _STRICTNESS_HINTS
+    return table.get(level or "balanced", table["balanced"])
 
 
 def _precision_hint(level: str | None) -> str:
@@ -584,19 +779,25 @@ def _stub_response(mode: str, inputs: dict, prompt: dict, note: str = "stub_mode
         opis   = (inputs.get("opis") or "").lower()
         h = sum(ord(c) for c in u) % 100
         tiles: dict = {}
-        cats = ["niche", "neutral", "niche", "neutral", "niche", "neutral"] if opis else \
-               ["neutral"] * 6
+        # audience-fit: kafelki safe/skipped/excluded (nie „czy treść niszy”)
+        cats = ["safe", "skipped", "safe", "skipped", "safe", "skipped"] if opis else \
+               ["skipped"] * 6
         if any(x in u for x in exclus if x):
-            cats = ["excluded", "excluded", "neutral", "neutral", "niche", "neutral"]
+            cats = ["excluded", "excluded", "skipped", "skipped", "safe", "skipped"]
         elif h % 7 == 0:
             cats[2] = "excluded"
         for i, c in enumerate(cats, 1):
             tiles[str(i)] = {
                 "category": c,
-                "should_like": c == "niche",
+                "should_like": c == "safe",
                 "reason": f"stub_hash={h}",
             }
-        return {"tiles": tiles, "_stub": True, "_note": note}
+        audience = "match" if opis else "partial"
+        return {
+            "audience_fit": audience,
+            "audience_reason": "stub — bio/opis niszy" if opis else "stub — brak opisu",
+            "tiles": tiles, "_stub": True, "_note": note,
+        }
     if mode == "comment_gen":
         return {"comment": "", "confidence": 0.0, "_stub": True, "_note": note}
     if mode == "recovery_identify":

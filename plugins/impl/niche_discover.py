@@ -609,7 +609,7 @@ class NicheDiscover:
         # rolki zawsze 1:1; posty zbiorczo (panel: ai.batch_size, default 4)
         batch = _analysis_batch_size(mode, ai_cfg)
         partials = []
-        vision = AiVision(account=ctx.account.raw)
+        vision = AiVision(account=ctx.account.raw, ctx=ctx)
         frames_dir = _frames_dir(ctx)
         for chunk_i, chunk in enumerate(_chunks(samples, batch)):
             captions = _captions_numbered(chunk)
@@ -657,7 +657,7 @@ class NicheDiscover:
                           seed, existing, source_kind, source_account, username,
                           ai_cfg, stats, observed_hashtags: list | None = None
                           ) -> dict:
-        vision = AiVision(account=ctx.account.raw)
+        vision = AiVision(account=ctx.account.raw, ctx=ctx)
         # Bez description/audience — nowa analiza ZAWSZE nadpisuje opis;
         # keywords/hashtags tylko jako kontekst (nie „zachowaj poprzedni”).
         existing_pub = {
@@ -712,7 +712,7 @@ class NicheDiscover:
         return result
 
     def _run_merge(self, ctx, account_results, seed, ai_cfg, stats) -> dict:
-        vision = AiVision(account=ctx.account.raw)
+        vision = AiVision(account=ctx.account.raw, ctx=ctx)
         # own na początku — model widzi priorytet kolejności + source_kind
         ordered = sorted(
             account_results,
@@ -950,6 +950,9 @@ def _finalize_usage(stats: dict) -> dict:
         "calls": int(raw.get("calls") or 0),
         "usage_missing": bool(raw.get("usage_missing")),
         "by_mode": dict(raw.get("by_mode") or {}),
+        "by_model": dict(raw.get("by_model") or {}),
+        "cost_usd": float(raw.get("cost_usd") or 0),
+        "cost_unknown": bool(raw.get("cost_unknown")),
     }
     stats["ai_usage"] = out
     # płaskie klucze w stats PluginResult — wygodne w logu / panelu events
@@ -969,6 +972,7 @@ def _log_usage_summary(ctx, stats: dict) -> None:
         f"tokens_in:  {usage.get('tokens_in', 0)}\n"
         f"tokens_out: {usage.get('tokens_out', 0)}\n"
         f"calls:      {usage.get('calls', 0)}\n"
+        f"cost_usd:   {usage.get('cost_usd', 0)}\n"
         f"===== END AI USAGE =====\n",
         flush=True,
     )
@@ -985,8 +989,11 @@ def _stats_for_log(stats: dict) -> dict:
             "tokens_in": usage.get("tokens_in"),
             "tokens_out": usage.get("tokens_out"),
             "calls": usage.get("calls"),
+            "cost_usd": usage.get("cost_usd"),
+            "cost_unknown": usage.get("cost_unknown"),
             "usage_missing": usage.get("usage_missing"),
             "by_mode": usage.get("by_mode") or {},
+            "by_model": usage.get("by_model") or {},
         }
     return out
 

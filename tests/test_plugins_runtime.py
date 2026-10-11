@@ -323,17 +323,40 @@ class JobRunnerTests(unittest.TestCase):
             [{"id": "t1", "plugin": "p", "enabled": True}],
             lambda c, s, b: (calls.append("plugin"), PluginResult.done(b, "items"))[1])
         names = [n for n, _ in self.recorder]
-        # prolog: wake → unlock → IG → stats_start; epilog: stats_end → close → sleep
-        self.assertEqual(names[:4], ["system.wake", "system.unlock",
+        # prolog: wake → unlock → MAC → IG → stats_start;
+        # epilog: stats_end → close → restore MAC → sleep
+        self.assertEqual(names[:5], ["system.wake", "system.unlock",
+                                     "system.apply_clone_identity",
                                      "system.ensure_ig_running",
                                      "system.stats_snapshot"])
-        self.assertEqual(names[-3:], ["system.stats_snapshot",
-                                      "system.close_ig", "system.sleep_screen"])
+        self.assertEqual(names[-4:], ["system.stats_snapshot",
+                                      "system.close_ig",
+                                      "system.restore_clone_identity",
+                                      "system.sleep_screen"])
         # params when=session_start / session_end — flaga w configu filtruje skip
-        self.assertEqual(self.recorder[3][1].get("when"), "session_start")
-        self.assertEqual(self.recorder[-3][1].get("when"), "session_end")
+        self.assertEqual(self.recorder[4][1].get("when"), "session_start")
+        self.assertEqual(self.recorder[-4][1].get("when"), "session_end")
         self.assertEqual(calls, ["plugin"])
         self.assertTrue(summary["ok"])
+
+    def test_prologue_failed_wake_skips_tasks(self):
+        """Live: wake failed, a kolejka i tak odpalała pluginy na martwym ADB."""
+        sys_steps = {n: [] for n, _ in
+                     self.mod.PROLOGUE_STEPS + self.mod.EPILOGUE_STEPS}
+        sys_steps.setdefault("system.stats_snapshot", [])
+        sys_steps["system.wake"] = [
+            StepResult.failed("dumpsys power pusty — telefon nie odpowiada (USB/ADB?)",
+                              was_on=False)]
+        self.mod.step_registry.get = fake_registry(sys_steps, self.recorder)
+        calls = []
+        ctx, summary = self._run(
+            [{"id": "t1", "plugin": "p", "enabled": True}],
+            lambda c, s, b: (calls.append("plugin"), PluginResult.done(b, "items"))[1])
+        self.assertEqual(calls, [])
+        self.assertEqual(summary["aborted_by"], "prologue")
+        self.assertEqual([n for n, _ in self.recorder][0], "system.wake")
+        self.assertIn("system.close_ig", [n for n, _ in self.recorder])
+        self.assertTrue(any(k == "queue.prologue_abort" for k, _ in ctx.logs))
 
     def test_empty_queue_skips_prologue(self):
         ctx, summary = self._run([], lambda c, s, b: PluginResult.done(b, "items"))
@@ -392,6 +415,33 @@ class JobRunnerTests(unittest.TestCase):
             settings={"enabled": False, "budget": {}})
         self.assertEqual(seen, [])
         self.assertEqual(summary["tasks_skipped"], 1)
+
+    def test_publish_media_w_kolejce_omija_disabled_konta(self):
+        """Start „dodaj” nie może cicho skipnąć — item_ids są w zadaniu."""
+        seen = []
+        ctx, summary = self._run(
+            [{"id": "t1", "plugin": "publish_media", "enabled": True}],
+            lambda c, s, b: (seen.append(1), PluginResult.done(b, "items"))[1],
+            settings={"enabled": False, "budget": {}})
+        self.assertEqual(seen, [1])
+        self.assertEqual(summary["tasks_ok"], 1)
+        self.assertEqual(summary["tasks_skipped"], 0)
+
+    def test_oneshot_respektuje_max_items_override(self):
+        """CLI --plugin + --max-items=1 nie zeruje budżetu (publish_media)."""
+        seen = []
+
+        def run(c, s, b):
+            seen.append(b.max_items)
+            return PluginResult.done(b, "items")
+
+        self._wire([{"id": "t1", "plugin": "p", "enabled": True}], run)
+        ctx = FakeCtx()
+        self.mod.JobRunner(
+            ctx=ctx, data_root=self.data_root,
+            plugin_oneshot="p", max_items_override=1,
+        ).run("acc1")
+        self.assertEqual(seen, [1])
 
     def test_daily_limit_aborts_whole_queue(self):
         seen = []

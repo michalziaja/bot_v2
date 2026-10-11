@@ -160,6 +160,10 @@
   table.sessions tr.active td { background: var(--panel3); }
   table.sessions .mono { font-family: Consolas, monospace; font-size: 11px; }
 
+  /* Tokeny / koszt AI — bez hover-click jak lista sesji */
+  table.ai-models tr:hover td { background: transparent; cursor: default; }
+  .ai-warn { color: var(--warn); font-size: 11px; margin-top: 8px; }
+
   /* Wykresy Chart.js — spójne z kartami */
   #charts { display: flex; flex-direction: column; gap: 16px; }
   #charts.hidden { display: none; }
@@ -256,6 +260,12 @@
     <div class="card full" id="card-account-stats">
       <h2 id="account-stats-title">Konto (obserwujący / obserwowani)</h2>
       <div id="account-stats" class="empty">—</div>
+    </div>
+
+    <!-- Tokeny IN/OUT per model + koszt USD -->
+    <div class="card full" id="card-ai">
+      <h2 id="ai-title">AI (tokeny / koszt)</h2>
+      <div id="ai-usage" class="empty">—</div>
     </div>
 
     <!-- Counters -->
@@ -796,6 +806,66 @@ function renderByPlugin(byPlugin) {
   }).join("");
 }
 
+/** Format USD do karty AI (4 miejsca; bardzo małe kwoty — 6). */
+function formatUsd(n) {
+  const x = Number(n);
+  if (!Number.isFinite(x) || x === 0) return "$0.00";
+  if (Math.abs(x) < 0.0001) return "$" + x.toFixed(6);
+  return "$" + x.toFixed(4);
+}
+
+/** Karta tokenów IN/OUT + koszt per model (live i agregat). */
+function renderAiUsage(ai) {
+  const el = document.getElementById("ai-usage");
+  const calls = Number((ai && ai.calls) || 0);
+  const tin = Number((ai && ai.tokens_in) || 0);
+  const tout = Number((ai && ai.tokens_out) || 0);
+  if (!ai || (calls <= 0 && tin <= 0 && tout <= 0)) {
+    el.className = "empty";
+    el.textContent = "Brak wywołań AI w tym widoku.";
+    return;
+  }
+  const byModel = ai.by_model || {};
+  const rows = Object.entries(byModel).sort((a, b) => a[0].localeCompare(b[0]));
+  const table = rows.length
+    ? `<table class="sessions ai-models">
+        <thead><tr>
+          <th>Model</th><th>IN</th><th>OUT</th><th>Wywołania</th><th>Koszt</th>
+        </tr></thead>
+        <tbody>${rows.map(([mid, slot]) => `
+          <tr class="no-click">
+            <td class="mono">${esc(mid)}</td>
+            <td>${esc((slot && slot.tokens_in) || 0)}</td>
+            <td>${esc((slot && slot.tokens_out) || 0)}</td>
+            <td>${esc((slot && slot.calls) || 0)}</td>
+            <td>${esc(formatUsd(slot && slot.cost_usd))}</td>
+          </tr>`).join("")}</tbody>
+      </table>`
+    : "";
+  const warn = ai.cost_unknown
+    ? `<div class="ai-warn">Część modeli bez stawki — koszt niepełny.</div>`
+    : "";
+  el.className = "";
+  el.innerHTML = `<div class="counters">
+      <div class="counter">
+        <div class="label">Tokeny IN</div>
+        <div class="value">${esc(tin)}</div>
+      </div>
+      <div class="counter">
+        <div class="label">Tokeny OUT</div>
+        <div class="value">${esc(tout)}</div>
+      </div>
+      <div class="counter">
+        <div class="label">Wywołania</div>
+        <div class="value">${esc(calls)}</div>
+      </div>
+      <div class="counter">
+        <div class="label">Koszt (szacunek)</div>
+        <div class="value">${esc(formatUsd(ai.cost_usd))}</div>
+      </div>
+    </div>${table}${warn}`;
+}
+
 function renderMeta(data, sessionRunning) {
   const el = document.getElementById("meta");
   if (!data) {
@@ -1088,6 +1158,7 @@ function applyStats(data, sessionRunning, accountStats) {
   renderAccountStats(accountStats || null, { aggregate: false });
   renderCounters(data && data.counters);
   renderByPlugin(data && data.by_plugin);
+  renderAiUsage(data && data.ai);
   renderSessionCharts(
     data && data.by_plugin,
     data && data.counters,
@@ -1101,6 +1172,7 @@ function applyAggregate(payload) {
   renderAccountStats(payload && payload.account_stats, { aggregate: true });
   renderCounters(payload && payload.counters);
   renderByPlugin(payload && payload.by_plugin);
+  renderAiUsage(payload && payload.ai);
   renderSessionsList(payload && payload.sessions, { clickable: false });
   renderAggregateCharts(payload);
 }
@@ -1121,6 +1193,8 @@ function syncModeUi() {
     isLive ? "Liczniki (sesja)" : "Liczniki (suma)";
   document.getElementById("by-plugin-title").textContent =
     isLive ? "Według pluginu" : "Suma według pluginu";
+  document.getElementById("ai-title").textContent =
+    isLive ? "AI (tokeny / koszt)" : "AI (suma tokenów / koszt)";
   document.getElementById("sessions-title").textContent =
     isLive ? "Snapshoty sesji" : "Sesje w agregacie";
 

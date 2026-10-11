@@ -10,12 +10,17 @@ konta:
 Domyślna kolejka to po prostu scenariusz o zarezerwowanej nazwie `default`
 (patrz `DEFAULT_SCENARIO` niżej) — jedna lista, bez ukrytego drugiego bytu.
 
+Zapisane akcje (presety kroku) — NIE runy — to nazwane zestawy
+plugin + overrides, analogicznie w osobnym katalogu:
+    config/accounts/<alias>.actions/<slug>.json
+
 Ustawienia rozwiązujemy trójstopniowo (ostatni wygrywa):
     catalog.defaults  ←  config konta  ←  overrides zadania z kolejki
 """
 from __future__ import annotations
 
 import json
+import re
 import uuid
 from pathlib import Path
 
@@ -628,6 +633,14 @@ def clear_niche(account: str) -> dict:
 # `accounts/` i pomyliłby plik kolejki z kontem.
 DEFAULT_SCENARIO = "default"
 
+# Slug pliku zapisanej akcji — ten sam alfabet co nazwa runu w panelu.
+ACTION_SLUG_RE = re.compile(r"^[a-zA-Z0-9._-]{1,40}$")
+# Polskie znaki w nazwie wyświetlanej → ASCII w slugu pliku.
+_PL_SLUG_TRANS = str.maketrans({
+    "ą": "a", "ć": "c", "ę": "e", "ł": "l", "ń": "n",
+    "ó": "o", "ś": "s", "ź": "z", "ż": "z",
+})
+
 # Kolejki efemeryczne harmonogramu: blok na osi czasu, który ma własne zmiany
 # (override per slot), materializuje się w plik o tym prefiksie tuż przed
 # startem. Dzięki temu JobRunner i CLI dostają zwykły scenariusz i nie muszą
@@ -708,6 +721,49 @@ def read_queue(account: str, name: str | None = None) -> dict:
     return deep_merge(json.loads(json.dumps(EMPTY_QUEUE)), data)
 
 
+def enable_queued_plugins(account: str, tasks: list[dict] | None = None) -> list[str]:
+    """Włącz na koncie pluginy z włączonych zadań kolejki.
+
+    Katalog: „Wyłączony nie da się dodać do kolejki.” Nowe pluginy
+    (np. publish_media) startują z ``enabled: False``. Zapis runy / Start
+    to decyzja operatora — bez tego JobRunner cicho skipuje
+    ``plugin_disabled_for_account`` i sesja wygląda na OK.
+    Scheduler nie woła tej funkcji (zostaje kill-switch).
+    """
+    pids: list[str] = []
+    for t in tasks or []:
+        if not isinstance(t, dict):
+            continue
+        if t.get("enabled", True) is False:
+            continue
+        pid = t.get("plugin")
+        if pid and pid in plugin_ids() and pid not in pids:
+            pids.append(pid)
+    if not pids:
+        return []
+    settings = read_settings(account)
+    to_on = [pid for pid in pids if not settings[pid].get("enabled")]
+    if not to_on:
+        return []
+    # Tylko flaga enabled — bez write_settings/load_account (to by
+    # odpalało probe ADB przy każdym zapisie runy).
+    path = _account_path(account)
+    cfg = json.loads(path.read_text(encoding="utf-8"))
+    merged = cfg.get("plugins") or {}
+    if not isinstance(merged, dict):
+        merged = {}
+    for pid in to_on:
+        prev = merged.get(pid)
+        prev = dict(prev) if isinstance(prev, dict) else {}
+        prev["enabled"] = True
+        merged[pid] = prev
+    cfg["plugins"] = merged
+    backup = path.with_suffix(".json.bak")
+    backup.write_bytes(path.read_bytes())
+    path.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
+    return to_on
+
+
 def write_queue(account: str, data: dict, name: str | None = None) -> dict:
     """Zapisz kolejkę (domyślną albo nazwany scenariusz). Waliduje id
     pluginów i nadaje brakujące id zadań."""
@@ -726,14 +782,20 @@ def write_queue(account: str, data: dict, name: str | None = None) -> dict:
         ov = t.get("overrides") or {}
         if not isinstance(ov, dict):
             raise ValueError(f"zadanie #{i + 1}: 'overrides' musi być obiektem JSON")
-        clean.append({
+        item = {
             "id":        t.get("id") or f"t{uuid.uuid4().hex[:6]}",
             "plugin":    pid,
             "note":      (t.get("note") or "").strip(),
             "budget":    t.get("budget") or {},
             "overrides": ov,
             "enabled":   bool(t.get("enabled", True)),
-        })
+        }
+        # Opcjonalny wskaźnik na zapisaną akcję — kopia, nie live-link.
+        # Runtime go ignoruje; panel używa do „Zaktualizuj zapisaną”.
+        fa = (t.get("from_action") or "").strip()
+        if fa and ACTION_SLUG_RE.match(fa):
+            item["from_action"] = fa
+        clean.append(item)
 
     out = {
         "queue": clean,
@@ -745,7 +807,10 @@ def write_queue(account: str, data: dict, name: str | None = None) -> dict:
     if p.exists():
         p.with_suffix(".json.bak").write_bytes(p.read_bytes())
     p.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
-    return {"ok": True, "tasks": len(clean), "path": str(p)}
+    # Zapis runy = operator chce te pluginy odpalić (nie cichy skip).
+    enabled = enable_queued_plugins(account, clean)
+    return {"ok": True, "tasks": len(clean), "path": str(p),
+            "enabled_plugins": enabled}
 
 
 def delete_queue_preset(account: str, name: str) -> None:
@@ -760,6 +825,203 @@ def delete_queue_preset(account: str, name: str) -> None:
     bak = p.with_suffix(".json.bak")
     if bak.exists():
         bak.unlink()
+
+
+# ============================================================
+# Zapisane akcje — named preset kroku (plugin + overrides)
+# ============================================================
+# To NIE jest nowy typ runu. Run nadal = lista tasków w
+# `<alias>.queues/<nazwa>.json`. Zapisana akcja to nazwany zestaw
+# plugin_id + overrides (+ budżet), analogicznie per konto w
+# `<alias>.actions/<slug>.json`. Wstawienie do runu kopiuje pola
+# (osobny task.id) — edycja kroku nie rusza presetu, dopóki user
+# nie „Zapisz jako” / „Zaktualizuj zapisaną”.
+
+
+def _actions_dir(account: str) -> Path:
+    return CONFIG_ROOT / "accounts" / f"{account}.actions"
+
+
+def _action_path(account: str, slug: str) -> Path:
+    _account_path(account)  # konto musi istnieć
+    if not ACTION_SLUG_RE.match(slug or ""):
+        raise ValueError(
+            "id zapisanej akcji: 1–40 znaków, litery/cyfry/._- (bez spacji)")
+    return _actions_dir(account) / f"{slug}.json"
+
+
+def slugify_action_id(name: str, plugin: str = "") -> str:
+    """Nazwa wyświetlana → slug pliku (ASCII, jak nazwa runu)."""
+    raw = (name or "").strip().casefold().translate(_PL_SLUG_TRANS)
+    raw = re.sub(r"[\s+/]+", "-", raw)
+    raw = re.sub(r"[^a-z0-9._-]+", "", raw)
+    raw = re.sub(r"-{2,}", "-", raw).strip(".-_")
+    if not raw:
+        raw = re.sub(r"[^a-z0-9._-]+", "", (plugin or "akcja").casefold()) or "akcja"
+    return raw[:40]
+
+
+def _unique_action_slug(account: str, base: str) -> str:
+    """Dobierz wolny slug — przy kolizji `hashtagi`, `hashtagi-2`, …"""
+    d = _actions_dir(account)
+    slug = base[:40] or "akcja"
+    n = 2
+    while (d / f"{slug}.json").exists():
+        suffix = f"-{n}"
+        slug = (base[: max(1, 40 - len(suffix))] + suffix)
+        n += 1
+        if n > 99:
+            slug = (base[:33] + "-" + uuid.uuid4().hex[:6])[:40]
+            break
+    return slug
+
+
+def _clone_json(obj):
+    """Głęboka kopia przez JSON — ten sam wzorzec co pusta kolejka."""
+    return json.loads(json.dumps(obj))
+
+
+def _clean_action_payload(data: dict) -> dict:
+    """Walidacja jak przy zapisie taska kolejki + nazwa/komentarz."""
+    if not isinstance(data, dict):
+        raise ValueError("ciało zapisanej akcji musi być obiektem JSON")
+    pid = data.get("plugin")
+    if pid not in plugin_ids():
+        raise ValueError(f"nieznany plugin {pid!r}")
+    ov = data.get("overrides") or {}
+    if not isinstance(ov, dict):
+        raise ValueError("'overrides' musi być obiektem JSON")
+    budget = data.get("budget") or {}
+    if not isinstance(budget, dict):
+        raise ValueError("'budget' musi być obiektem JSON")
+    name = (data.get("name") or "").strip()
+    if not name:
+        raise ValueError("pole 'name' (nazwa wyświetlana) jest wymagane")
+    comment = (data.get("comment") or data.get("notes") or "").strip()
+    return {
+        "name": name,
+        "comment": comment,
+        "plugin": pid,
+        "overrides": _clone_json(ov),
+        "budget": _clone_json(budget),
+        "note": (data.get("note") or "").strip(),
+    }
+
+
+def list_actions(account: str) -> list[dict]:
+    """Wszystkie zapisane akcje konta — pełne obiekty (do biblioteki)."""
+    _account_path(account)
+    d = _actions_dir(account)
+    if not d.exists():
+        return []
+    out = []
+    for p in sorted(d.glob("*.json")):
+        if p.stem.endswith(".bak"):
+            continue
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if not isinstance(data, dict):
+            continue
+        item = dict(data)
+        item["id"] = p.stem
+        out.append(item)
+    return out
+
+
+def read_action(account: str, slug: str) -> dict:
+    p = _action_path(account, slug)
+    if not p.exists():
+        raise FileNotFoundError(f"zapisana akcja '{slug}' nie istnieje")
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError(f"zapisana akcja '{slug}' nie jest obiektem JSON")
+    data["id"] = slug
+    return data
+
+
+def create_action(account: str, data: dict) -> dict:
+    """Nowa zapisana akcja. `id`/`slug` opcjonalne — inaczej z `name`."""
+    clean = _clean_action_payload(data)
+    raw_id = (data.get("id") or data.get("slug") or "").strip()
+    if raw_id:
+        if not ACTION_SLUG_RE.match(raw_id):
+            raise ValueError(
+                "id zapisanej akcji: 1–40 znaków, litery/cyfry/._- (bez spacji)")
+        slug = raw_id
+        if _action_path(account, slug).exists():
+            raise FileExistsError(f"zapisana akcja '{slug}' już istnieje")
+    else:
+        slug = _unique_action_slug(
+            account, slugify_action_id(clean["name"], clean["plugin"]))
+    p = _action_path(account, slug)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    body = dict(clean)
+    p.write_text(json.dumps(body, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {"ok": True, "id": slug, "path": str(p), **body}
+
+
+def update_action(account: str, slug: str, data: dict) -> dict:
+    """Nadpisz preset (nazwa / komentarz / overrides). Plugin można zmienić."""
+    p = _action_path(account, slug)
+    if not p.exists():
+        raise FileNotFoundError(f"zapisana akcja '{slug}' nie istnieje")
+    prev = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(prev, dict):
+        prev = {}
+    merged = dict(prev)
+    merged.update(data or {})
+    # PUT może przysłać samo name/comment — dopełnij plugin z pliku.
+    if not merged.get("plugin"):
+        merged["plugin"] = prev.get("plugin")
+    if "overrides" not in (data or {}) and "overrides" in prev:
+        merged["overrides"] = prev["overrides"]
+    if "budget" not in (data or {}) and "budget" in prev:
+        merged["budget"] = prev["budget"]
+    if not (merged.get("name") or "").strip():
+        merged["name"] = prev.get("name") or slug
+    clean = _clean_action_payload(merged)
+    p.with_suffix(".json.bak").write_bytes(p.read_bytes())
+    p.write_text(json.dumps(clean, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {"ok": True, "id": slug, "path": str(p), **clean}
+
+
+def delete_action(account: str, slug: str) -> None:
+    p = _action_path(account, slug)
+    if not p.exists():
+        raise FileNotFoundError(f"zapisana akcja '{slug}' nie istnieje")
+    p.unlink()
+    bak = p.with_suffix(".json.bak")
+    if bak.exists():
+        bak.unlink()
+
+
+def action_to_task(action: dict) -> dict:
+    """Kopia presetu → nowy task kolejki (osobne id, bez live-linku)."""
+    if not isinstance(action, dict):
+        raise ValueError("zapisana akcja musi być obiektem")
+    pid = action.get("plugin")
+    if pid not in plugin_ids():
+        raise ValueError(f"nieznany plugin {pid!r}")
+    ov = action.get("overrides") or {}
+    if not isinstance(ov, dict):
+        raise ValueError("'overrides' musi być obiektem JSON")
+    budget = action.get("budget") or {}
+    if not isinstance(budget, dict):
+        raise ValueError("'budget' musi być obiektem JSON")
+    slug = (action.get("id") or "").strip()
+    task = {
+        "id": f"t{uuid.uuid4().hex[:6]}",
+        "plugin": pid,
+        "note": (action.get("note") or action.get("name") or "").strip(),
+        "budget": _clone_json(budget),
+        "overrides": _clone_json(ov),
+        "enabled": True,
+    }
+    if slug and ACTION_SLUG_RE.match(slug):
+        task["from_action"] = slug
+    return task
 
 
 def resolve_tasks(account: str, tasks: list[dict]) -> list[dict]:

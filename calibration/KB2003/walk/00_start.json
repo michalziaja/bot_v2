@@ -1,0 +1,301 @@
+{
+  "slug": "00_start",
+  "note_pl": "stan wejściowy — zanim ruszamy gestami",
+  "at": "2026-09-09T20:47:19Z",
+  "identify": {
+    "pkg": "com.android.systemui",
+    "overlay": "system_ui",
+    "top": null,
+    "hits": 0,
+    "ambiguous": false,
+    "unknown": true
+  },
+  "pkg": "com.android.launcher",
+  "slim": [
+    {
+      "rid": "clock",
+      "lab": "22:47 22:47",
+      "cls": "TextView",
+      "bounds": "[181,34][295,103]"
+    },
+    {
+      "rid": "wifi_combo",
+      "lab": "Wi-Fi: pełna moc sygnału.",
+      "cls": "FrameLayout",
+      "bounds": "[798,35][855,101]"
+    },
+    {
+      "rid": "battery",
+      "lab": "Bateria Rzecz na pasku stanu Ładowanie, Pozostało 77 procent energii baterii",
+      "cls": "LinearLayout",
+      "bounds": "[909,34][1005,103]"
+    },
+    {
+      "rid": "battery_percentage_view",
+      "lab": "77%",
+      "cls": "TextView",
+      "bounds": "[933,34][1005,103]"
+    },
+    {
+      "rid": "recent_apps",
+      "lab": "Przegląd",
+      "cls": "ImageView",
+      "bounds": "[158,2268][398,2400]"
+    },
+    {
+      "rid": "back",
+      "lab": "Wróć",
+      "cls": "ImageView",
+      "bounds": "[692,2268][932,2400]"
+    },
+    {
+      "rid": "home",
+      "lab": "Ekran główny",
+      "cls": "ImageView",
+      "bounds": "[426,2268][666,2400]"
+    },
+    {
+      "rid": "",
+      "lab": "Widżet OnePlus",
+      "cls": "CustomLauncherAppWidgetHostView",
+      "bounds": "[48,163][1032,741]"
+    },
+    {
+      "rid": "day_text",
+      "lab": "środa środa",
+      "cls": "TextView",
+      "bounds": "[87,202][365,399]"
+    },
+    {
+      "rid": "clock_group",
+      "lab": "",
+      "cls": "RelativeLayout",
+      "bounds": "[87,399][359,546]"
+    },
+    {
+      "rid": "clock_hour",
+      "lab": "22 22",
+      "cls": "TextView",
+      "bounds": "[87,399][211,546]"
+    },
+    {
+      "rid": "clock_colon",
+      "lab": "∶",
+      "cls": "TextView",
+      "bounds": "[211,399][235,546]"
+    },
+    {
+      "rid": "clock_minute",
+      "lab": "47 47",
+      "cls": "TextView",
+      "bounds": "[235,399][359,546]"
+    },
+    {
+      "rid": "date_text",
+      "lab": "9 września 9 września",
+      "cls": "TextView",
+      "bounds": "[87,546][279,612]"
+    },
+    {
+      "rid": "",
+      "lab": "Wyszukiwarka",
+      "cls": "CustomLauncherAppWidgetHostView",
+      "bounds": "[48,1030][1032,1319]"
+    },
+    {
+      "rid": "googleapp_search_widget_background",
+      "lab": "Wyszukiwarka Google",
+      "cls": "ImageView",
+      "bounds": "[72,1101][1008,1247]"
+    },
+    {
+      "rid": "googleapp_search_widget_google_logo",
+      "lab": "Aplikacja Google",
+      "cls": "ImageButton",
+      "bounds": "[72,1101][216,1247]"
+    },
+    {
+      "rid": "googleapp_search_widget_voice_btn",
+      "lab": "Wyszukiwanie głosowe",
+      "cls": "ImageButton",
+      "bounds": "[708,1101][852,1247]"
+    },
+    {
+      "rid": "googleapp_search_widget_lens_btn",
+      "lab": "Wyszukiwanie wizualne",
+      "cls": "ImageButton",
+      "bounds": "[852,1101][996,1247]"
+    },
+    {
+      "rid": "googleapp_search_widget_ghost_google_logo",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[96,1088][240,1259]"
+    },
+    {
+      "rid": "googleapp_search_widget_ghost_text_search",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[240,1088][684,1259]"
+    },
+    {
+      "rid": "googleapp_search_widget_ghost_voice_search",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[684,1088][828,1259]"
+    },
+    {
+      "rid": "googleapp_search_widget_ghost_lens",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[828,1088][984,1259]"
+    },
+    {
+      "rid": "",
+      "lab": "Folder:  OnePlus",
+      "cls": "FrameLayout",
+      "bounds": "[294,1319][540,1608]"
+    },
+    {
+      "rid": "folder_icon_name",
+      "lab": "OnePlus",
+      "cls": "TextView",
+      "bounds": "[303,1513][531,1608]"
+    },
+    {
+      "rid": "",
+      "lab": "Folder: Google",
+      "cls": "FrameLayout",
+      "bounds": "[48,1608][294,1897]"
+    },
+    {
+      "rid": "folder_icon_name",
+      "lab": "Google",
+      "cls": "TextView",
+      "bounds": "[57,1802][285,1897]"
+    },
+    {
+      "rid": "",
+      "lab": "Asystent Asystent",
+      "cls": "TextView",
+      "bounds": "[294,1608][540,1897]"
+    },
+    {
+      "rid": "",
+      "lab": "Meet Meet",
+      "cls": "TextView",
+      "bounds": "[540,1608][786,1897]"
+    },
+    {
+      "rid": "",
+      "lab": "Sklep Play Sklep Play",
+      "cls": "TextView",
+      "bounds": "[786,1608][1032,1897]"
+    },
+    {
+      "rid": "page_indicator",
+      "lab": "Szukaj",
+      "cls": "View",
+      "bounds": "[424,1911][656,1995]"
+    },
+    {
+      "rid": "",
+      "lab": "Telefon",
+      "cls": "TextView",
+      "bounds": "[48,2016][294,2268]"
+    },
+    {
+      "rid": "",
+      "lab": "Wiadomości",
+      "cls": "TextView",
+      "bounds": "[294,2016][540,2268]"
+    },
+    {
+      "rid": "",
+      "lab": "Chrome",
+      "cls": "TextView",
+      "bounds": "[540,2016][786,2268]"
+    },
+    {
+      "rid": "",
+      "lab": "Aparat",
+      "cls": "TextView",
+      "bounds": "[786,2016][1032,2268]"
+    }
+  ],
+  "ids_sample": [
+    "android:id/content",
+    "com.android.launcher:id/drag_layer",
+    "com.android.launcher:id/folder_icon_name",
+    "com.android.launcher:id/hotseat",
+    "com.android.launcher:id/launcher",
+    "com.android.launcher:id/page_indicator",
+    "com.android.launcher:id/recent_container",
+    "com.android.launcher:id/toggle_state_toolbar",
+    "com.android.launcher:id/workspace",
+    "com.android.systemui:id/back",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_icon_view",
+    "com.android.systemui:id/battery_percentage_view",
+    "com.android.systemui:id/center_group",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/dynamic_icon_group",
+    "com.android.systemui:id/ends_group",
+    "com.android.systemui:id/home",
+    "com.android.systemui:id/horizontal",
+    "com.android.systemui:id/nav_buttons",
+    "com.android.systemui:id/navigation_bar_frame",
+    "com.android.systemui:id/navigation_bar_view",
+    "com.android.systemui:id/navigation_inflater",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/recent_apps",
+    "com.android.systemui:id/seeding_card_container",
+    "com.android.systemui:id/seedling_and_notification_container",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_end_side_container",
+    "com.android.systemui:id/status_bar_end_side_content",
+    "com.android.systemui:id/status_bar_launch_animation_container",
+    "com.android.systemui:id/status_bar_start_side_container",
+    "com.android.systemui:id/status_bar_start_side_content",
+    "com.android.systemui:id/status_bar_start_side_except_heads_up",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/wifi_combo"
+  ],
+  "texts_sample": [
+    "22",
+    "22:47",
+    "47",
+    "77%",
+    "9 września",
+    "aparat",
+    "aplikacja google",
+    "asystent",
+    "bateria rzecz na pasku stanu ładowanie, pozostało 77 procent energii baterii",
+    "chrome",
+    "ekran główny",
+    "folder:  oneplus",
+    "folder: google",
+    "google",
+    "meet",
+    "oneplus",
+    "przegląd",
+    "sklep play",
+    "szukaj",
+    "telefon",
+    "wi-fi: pełna moc sygnału.",
+    "wiadomości",
+    "widżet oneplus",
+    "wróć",
+    "wyszukiwanie głosowe",
+    "wyszukiwanie wizualne",
+    "wyszukiwarka",
+    "wyszukiwarka google",
+    "środa",
+    "∶"
+  ],
+  "screenshot": "00_start.jpg"
+}

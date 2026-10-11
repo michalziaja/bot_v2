@@ -40,15 +40,30 @@ from v2.steps import registry as step_registry
 PROLOGUE_STEPS = [
     ("system.wake", {}),
     ("system.unlock", {}),
+    ("system.apply_clone_identity", {}),  # MAC na wlan0; skip gdy brak spoofed_mac
     ("system.ensure_ig_running", {}),
 ]
-# Epilog: opcjonalna migawka końca (on_session_end, domyślnie false) → close → sleep.
+# Epilog: opcjonalna migawka końca (on_session_end, domyślnie false) → close → restore MAC → sleep.
 EPILOGUE_STEPS = [
     ("system.stats_snapshot", {"when": "session_end"}),
     ("system.close_ig", {}),
+    ("system.restore_clone_identity", {}),
     ("system.sleep_screen", {}),
 ]
 HOME = "home_feed"
+
+# Prolog bez działającego telefonu nie ma prawa iść w pluginy (live: wake
+# failed + pkg_after=null, a kolejka i tak startowała zadania).
+_PROLOGUE_REQUIRED = {"system.wake", "system.unlock", "system.ensure_ig_running"}
+
+
+class PrologueError(Exception):
+    """Krok wymagany w prologu zwrócił failed — kolejka się urywa."""
+
+    def __init__(self, step: str, error: str | None):
+        self.step = step
+        self.error = error or "failed"
+        super().__init__(f"{step}: {self.error}")
 
 
 @dataclass
@@ -131,7 +146,13 @@ class JobRunner:
             except Exception:
                 pass
 
-        self._prologue()
+        try:
+            self._prologue()
+        except PrologueError as e:
+            print(f"\n   STOP — prolog padł na {e.step}: {e.error}")
+            self.ctx.log("queue.prologue_abort", step=e.step, error=e.error)
+            self._epilogue()
+            return self._summary(account, results, "prologue", ran_prologue=True)
 
         for i, task in enumerate(tasks):
             if self._user_stopped(account):
@@ -179,7 +200,11 @@ class JobRunner:
 
         # plugin wyłączony dla konta = świadoma decyzja użytkownika w panelu;
         # one-shot (np. discovery z przycisku) omija ten gate — użytkownik
-        # właśnie kliknął „uruchom”
+        # właśnie kliknął „uruchom”.
+        # publish_media jest operator-only (item_ids w runie) — obecność
+        # włączonego zadania = publikuj; inaczej Start „dodaj” cicho skipuje.
+        if pid == "publish_media" and task.get("enabled", True):
+            settings["enabled"] = True
         if not settings.get("enabled") and not (
                 self.plugin_oneshot or task.get("_oneshot")):
             print("   POMINIĘTE — plugin wyłączony dla tego konta")
@@ -203,7 +228,9 @@ class JobRunner:
         # One-shot spoza kolejki (np. discovery niszy): bez limitu treści/czasu —
         # zbieramy tyle, ile w ustawieniach collect; zatrzymuje tylko STOP.
         if self.plugin_oneshot or task.get("_oneshot"):
-            budget.max_items = None
+            # --max-items z CLI zostaje (np. jeden plik publish_media).
+            if self.max_items_override is None:
+                budget.max_items = None
             budget.max_duration_s = None
         else:
             # Rama kolejki jest ważniejsza niż limit zadania: bez tego ostatnie
@@ -274,9 +301,9 @@ class JobRunner:
     # ------------------------------------------------------------------
     def _prologue(self):
         # ensure_ig → home → stats (własny profil) → z powrotem home pod pluginy
-        self._banner("PROLOG", "wybudzenie -> odblokowanie -> IG -> home -> stats")
+        self._banner("PROLOG", "wybudzenie -> odblokowanie -> MAC -> IG -> home -> stats")
         for name, params in PROLOGUE_STEPS:
-            self._system_step(name, params)
+            self._system_step(name, params, required=name in _PROLOGUE_REQUIRED)
         self.ctx.navigator.ensure(HOME)
         # followers/following → event stats_snapshot; skip gdy flaga wyłączona
         self._system_step("system.stats_snapshot", {"when": "session_start"})
@@ -285,12 +312,12 @@ class JobRunner:
 
     def _epilogue(self):
         # stats_end w EPILOGUE_STEPS; przy on_session_end=false → skipped (OK)
-        self._banner("EPILOG", "stats(opcjonalnie) -> zamkniecie IG -> wygaszenie")
+        self._banner("EPILOG", "stats(opcjonalnie) -> zamkniecie IG -> restore MAC -> wygaszenie")
         self.ctx.navigator.ensure(HOME)
         for name, params in EPILOGUE_STEPS:
             self._system_step(name, params)
 
-    def _system_step(self, name: str, params: dict):
+    def _system_step(self, name: str, params: dict, *, required: bool = False):
         """Kroki systemowe idą przez istniejący rejestr kroków — nie duplikujemy
         logiki prologu, którą FlowRunner już ma sprawdzoną."""
         try:
@@ -298,14 +325,23 @@ class JobRunner:
         except KeyError:
             self.ctx.log("queue.unknown_step", step=name)
             print(f"   ! nieznany krok systemowy: {name}")
+            if required:
+                raise PrologueError(name, "unknown_step")
             return
         try:
             res = step.run(self.ctx, params)
-            print(f"   {res.status:8s} {name}")
+            extra = f"  {res.error}" if res.status == "failed" and res.error else ""
+            print(f"   {res.status:8s} {name}{extra}")
             self.ctx.log("step", step=name, status=res.status, payload=res.payload)
+            if required and res.status == "failed":
+                raise PrologueError(name, res.error)
+        except PrologueError:
+            raise
         except Exception as e:
             self.ctx.log("queue.step_error", step=name, error=str(e))
             print(f"   FAIL     {name} — {e}")
+            if required:
+                raise PrologueError(name, str(e)) from e
 
     # ------------------------------------------------------------------
     def _pause_between(self, q: dict):

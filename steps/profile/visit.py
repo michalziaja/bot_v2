@@ -10,9 +10,9 @@ Params z YAML flow-a:
   gate:    {is_private_ok, min_posts, min_followers, max_followers,
            min_ratio, bio_exclusions}                              — opcjonalne
   story:   {enabled: bool}                                          — opcjonalne
-  match:   {mode, min_niche_tiles, min_niche_ratio, min_valid_tiles,
-            max_excluded_ratio, pick_strategy, tiles_count,
-            scrolls_to_grid}                                        — opcjonalne
+  match:   {mode, allow_verdict, min_niche_tiles, min_niche_ratio,
+            min_valid_tiles, max_excluded_ratio, pick_strategy,
+            tiles_count, scrolls_to_grid}                         — opcjonalne
   like_tiles: {enabled, max}                                        — opcjonalne
   follow:  {allow: bool, min_scoring: float, chance: {p|formula}}   — opcjonalne
 """
@@ -26,7 +26,9 @@ from v2.plugins.profile_log import (
     story_watching_line, story_none_line, story_fail_line,
     grid_capture_line, grid_ai_wait_line, grid_capture_fail_line,
     say_grid_ai_result, match_fail_line, match_ok_line, tiles_like_line,
+    tiles_like_despite_skip_line,
     follow_ok_line, follow_skip_line, follow_limit_line, left_profile_line,
+    norm_tile_category,
 )
 from v2.steps.reels._sheet import operator_say
 from v2.runner.step import StepResult
@@ -150,7 +152,7 @@ class ProfileVisit:
                 return StepResult.skipped("left_profile",
                                           username=header.get("username"),
                                           skip_until=SKIP_TARGET)
-            # Zawsze wypisz wynik AI (liczby + Kafelek N — niche: reason).
+            # Zawsze wypisz wynik AI (audience-fit + Kafelek N — safe: reason).
             # Vision.run też woła say_grid_ai_result — flaga `_grid_ai_said`
             # blokuje duplikat; early-error bez Vision (capture/nisza) tu dopiero.
             say_grid_ai_result(ai_verdict)
@@ -160,10 +162,24 @@ class ProfileVisit:
                     mres.get("why") or "match",
                     n_niche=mres.get("n_niche"),
                     n_excluded=mres.get("n_excluded")))
+                tiles_liked = 0
+                why = mres.get("why") or "match"
+                # audience_fit=off: 1 niewykluczony like, potem skip follow.
+                # excluded_ratio / brak kafelków — nie lajkujemy.
+                if (tilecfg.get("enabled")
+                        and _like_after_audience_reject(why)
+                        and (ai_verdict.get("tiles")
+                             or ctx.scratch.get("profile_grid_tiles"))):
+                    say(tiles_like_despite_skip_line())
+                    like_cfg = {**tilecfg, "count": {"min": 1, "max": 1}}
+                    tiles_liked = _like_grid_tiles(
+                        ctx, ai_verdict, like_cfg, match)
                 _save_visited(ctx, header, ai_verdict, action="skip",
-                              reason=f"match:{mres['why']}",
-                              story_watched=story_watched, tiles_liked=0)
-                ctx.log("profile.visit.match_fail", **mres)
+                              reason=f"match:{why}",
+                              story_watched=story_watched,
+                              tiles_liked=tiles_liked)
+                ctx.log("profile.visit.match_fail", tiles_liked=tiles_liked,
+                        **mres)
                 return StepResult.skipped("match_failed",
                                           username=header.get("username"),
                                           skip_until=SKIP_TARGET)
@@ -484,17 +500,22 @@ def _analyze_grid(ctx, opts: dict | None = None) -> dict:
         say(grid_capture_fail_line())
         return {"tiles": {}, "_error": "grid_capture_failed"}
 
-    # Pełny brief niszy + wykluczenia POSTÓW (grid_ai.exclusions | niche)
-    from v2.ai.niche_inputs import effective_exclusions, niche_prompt_fields
+    # Brief niszy (keywords/hashtags obcięte) + wykluczenia POSTÓW
+    from v2.ai.niche_inputs import (
+        GRID_MAX_HASHTAGS, GRID_MAX_KEYWORDS,
+        effective_exclusions, niche_prompt_fields,
+    )
     niche = ctx.account.niche or {}
+    # Hashtagi na miniaturze i tak niewidoczne — nie płacimy za 50 wariantów
     niche_fields = niche_prompt_fields(
-        niche, exclusions=effective_exclusions(niche, opts))
+        niche, exclusions=effective_exclusions(niche, opts),
+        max_keywords=GRID_MAX_KEYWORDS, max_hashtags=GRID_MAX_HASHTAGS)
 
     # Czekamy na profilu na wynik Vision — nie scrolluj / nie wychodź w trakcie
     ctx.log("profile.visit.grid_ai_wait", username=username,
             tiles=len(shot["tiles"]), scrolls=shot["scrolls"])
     say(grid_ai_wait_line())
-    vision = AiVision(account=ctx.account.raw)
+    vision = AiVision(account=ctx.account.raw, ctx=ctx)
     verdict = vision.run("profile_grid", inputs={
         **niche_fields,
         "username":    username,
@@ -530,15 +551,25 @@ def _restore_header_view(ctx) -> None:
     ctx.log("profile.visit.grid_scroll_back", scrolls=n)
 
 
+def _like_after_audience_reject(why: str) -> bool:
+    """Czy lajkować 1 kafelek mimo ODRZUT siatki.
+
+    Tylko gdy powód to audience_fit (obca grupa) — nie gdy siatka jest
+    zdominowana wykluczeniami albo AI nie zwróciło kafelków.
+    """
+    return str(why or "").startswith("audience_fit=")
+
+
 def _eval_match(ai_verdict: dict, match: dict) -> dict:
     """Czy profil kwalifikuje się na podstawie kategoryzacji kafelków siatki.
 
-    Dwa tryby (`mode`), bo konta dzielą się na dwa typy:
+    Dwa tryby (`mode`):
 
-    - `niche_match` — konto o ostro zdefiniowanej niszy. Wymagamy POZYTYWNEGO
-      dopasowania: min_niche_tiles / min_niche_ratio.
-    - `exclude_only` — konto ogólne. Nie wymagamy trafienia w niszę; wystarczy,
-      że po odrzuceniu wykluczeń zostaje min_valid_tiles kafelków do pracy.
+    - `niche_match` — grupa docelowa (audience_fit). Domyślnie pass przy
+      match/partial. Brak audience_fit w JSON = stary fallback min_niche_tiles
+      / min_niche_ratio (category niche|safe).
+    - `exclude_only` — konto ogólne. Nie wymagamy audience; wystarczy
+      min_valid_tiles po wykluczeniach.
 
     Pojedyncze wykluczenie NIGDY nie dyskwalifikuje profilu — wyrzuca tylko ten
     kafelek z puli do polubienia (patrz `_like_grid_tiles`). Profil odpada
@@ -547,12 +578,14 @@ def _eval_match(ai_verdict: dict, match: dict) -> dict:
     tiles = ai_verdict.get("tiles") or {}
     if not tiles:
         return {"pass": False, "why": "no_ai_tiles"}
-    cats = [t.get("category") for t in tiles.values()]
-    n_niche    = sum(1 for c in cats if c == "niche")
+    cats = [norm_tile_category(t.get("category")) for t in tiles.values()]
+    n_safe     = sum(1 for c in cats if c == "safe")
     n_excluded = sum(1 for c in cats if c == "excluded")
     n_total    = len(cats)
     n_valid    = n_total - n_excluded
-    base = {"n_niche": n_niche, "n_excluded": n_excluded, "n_total": n_total}
+    # n_niche = alias (stare logi / testy) — safe zawiera też legacy "niche"
+    base = {"n_niche": n_safe, "n_safe": n_safe, "n_excluded": n_excluded,
+            "n_total": n_total}
 
     max_excl = match.get("max_excluded_ratio")
     if max_excl is not None and n_total > 0:
@@ -568,11 +601,21 @@ def _eval_match(ai_verdict: dict, match: dict) -> dict:
                     "n_valid": n_valid, **base}
         return {"pass": True, "n_valid": n_valid, **base}
 
-    # niche_match (domyślny)
-    if "min_niche_tiles" in match and n_niche < match["min_niche_tiles"]:
+    # niche_match — najpierw audience_fit (nowy kontrakt)
+    fit = str(ai_verdict.get("audience_fit") or "").strip().lower()
+    if fit:
+        allowed = match.get("allow_verdict") or ["match", "partial"]
+        allowed = [str(x).strip().lower() for x in allowed]
+        if fit not in allowed:
+            return {"pass": False, "why": f"audience_fit={fit}",
+                    "audience_fit": fit, **base}
+        return {"pass": True, "audience_fit": fit, **base}
+
+    # legacy JSON bez audience_fit — licz kafelki niszowe/safe
+    if "min_niche_tiles" in match and n_safe < match["min_niche_tiles"]:
         return {"pass": False, "why": f"niche_tiles<{match['min_niche_tiles']}", **base}
     if "min_niche_ratio" in match and n_total > 0:
-        ratio = n_niche / n_total
+        ratio = n_safe / n_total
         if ratio < match["min_niche_ratio"]:
             return {"pass": False, "why": f"ratio<{match['min_niche_ratio']}",
                     "ratio": round(ratio, 2), **base}
@@ -584,28 +627,29 @@ def _pick_like_candidates(tiles: dict, match: dict | None = None) -> list:
 
     - excluded nigdy
     - exclude_only: wszystkie niewykluczone
-    - niche_match: should_like; przy strictness=loose i pustej puli → fallback
-      na wszystkie niewykluczone
+    - niche_match: should_like; gdy pusta pula — fallback na niewykluczone
+      (model często skipuje lifestyle jako „nie o niszy”)
+    - sort best: najpierw safe (w tym legacy niche)
     """
     match = match or {}
     exclude_only = match.get("mode") == "exclude_only"
-    loose = (not exclude_only
-             and (match.get("strictness") or "balanced") == "loose")
 
     candidates = [num for num, t in tiles.items()
-                  if t.get("category") != "excluded"
+                  if norm_tile_category(t.get("category")) != "excluded"
                   and (exclude_only or t.get("should_like"))]
 
-    if loose and not candidates:
+    # Fallback: AI nic nie zaznaczyło, a zdjęcia nie są wykluczone
+    if not exclude_only and not candidates:
         candidates = [num for num, t in tiles.items()
-                      if t.get("category") != "excluded"]
+                      if norm_tile_category(t.get("category")) != "excluded"]
 
     if match.get("pick_strategy") == "random":
         # losowanie zostawiamy wołającemu (ma RNG / side-effect log)
         return candidates
     candidates = sorted(
         candidates,
-        key=lambda n: ((tiles[n].get("category") != "niche"), str(n)))
+        key=lambda n: ((norm_tile_category(tiles[n].get("category")) != "safe"),
+                       str(n)))
     return candidates
 
 
@@ -615,10 +659,8 @@ def _like_grid_tiles(ctx, ai_verdict: dict, cfg: dict, match: dict | None = None
     Wykluczone kafelki są odrzucane ZAWSZE — to jedyne miejsce, gdzie
     wykluczenie faktycznie działa (nie dyskwalifikuje profilu, tylko wypada
     z puli). W trybie `exclude_only` kandydatem jest każdy niewykluczony
-    kafelek; w `niche_match` tylko te, które AI oznaczyło `should_like`.
-
-    Przy `niche_match` + `strictness=loose`: gdy brak kandydatów should_like,
-    dołączamy wszystkie niewykluczone (neutral fallback).
+    kafelek; w `niche_match` `should_like`, a gdy pusto — niewykluczone
+    (lifestyle, który model oznaczył skipped „bo nie o niszy”).
 
     Bez AI (`_mode=chance_only` / pusty match): wszystkie widoczne + losowanie.
 
@@ -648,19 +690,15 @@ def _like_grid_tiles(ctx, ai_verdict: dict, cfg: dict, match: dict | None = None
 
     candidates = _pick_like_candidates(tiles, pick_match)
 
-    # Log gdy loose fallback faktycznie dołożył neutrale (brak should_like)
-    if ((pick_match.get("strictness") or "balanced") == "loose"
-            and pick_match.get("mode") != "exclude_only"
+    # Fallback: zero should_like, ale są niewykluczone (log pod diagnostykę)
+    if (pick_match.get("mode") != "exclude_only"
             and candidates
             and not any((tiles.get(n) or {}).get("should_like") for n in tiles)):
-        ctx.log("profile.visit.like_loose_fallback", n_candidates=len(candidates))
+        ctx.log("profile.visit.like_safe_fallback", n_candidates=len(candidates))
 
     if pick_match.get("pick_strategy") == "random" or chance_only:
         random.shuffle(candidates)
-    else:
-        candidates = sorted(
-            candidates,
-            key=lambda n: ((tiles[n].get("category") != "niche"), str(n)))
+    # best: _pick_like_candidates już ustawia safe (legacy niche) na początku
     # bierzemy zapas kandydatów — chance może odrzucić część
     pool = candidates[: max(max_tiles * 3, max_tiles)]
 
@@ -802,8 +840,11 @@ def _tile_count(cfg: dict) -> int:
     return int(cfg.get("max", 3))
 
 
-SCORE_WEIGHTS = {"niche_ratio": 0.50, "story": 0.10,
+SCORE_WEIGHTS = {"audience_fit": 0.50, "story": 0.10,
                  "tiles": 0.05, "follower_ratio": 0.15}
+
+# match=nasza grupa, partial=słabszy sygnał, off=obca grupa
+_AUDIENCE_FIT_SCORE = {"match": 1.0, "partial": 0.6, "off": 0.0}
 
 
 def _score_profile(header: dict, ai: dict, story_watched: bool, tiles_liked: int,
@@ -823,10 +864,15 @@ def _score_profile(header: dict, ai: dict, story_watched: bool, tiles_liked: int
     z czego wynik powstał.
     """
     parts: dict = {}
-    tiles = ai.get("tiles") or {}
-    if tiles:
-        cats = [t.get("category") for t in tiles.values()]
-        parts["niche_ratio"] = sum(1 for c in cats if c == "niche") / max(len(cats), 1)
+    fit = str(ai.get("audience_fit") or "").strip().lower()
+    if fit in _AUDIENCE_FIT_SCORE:
+        parts["audience_fit"] = _AUDIENCE_FIT_SCORE[fit]
+    else:
+        tiles = ai.get("tiles") or {}
+        if tiles:
+            cats = [norm_tile_category(t.get("category")) for t in tiles.values()]
+            parts["audience_fit"] = (
+                sum(1 for c in cats if c == "safe") / max(len(cats), 1))
     if story_stage:
         parts["story"] = 1.0 if story_watched else 0.0
     if tiles_stage:

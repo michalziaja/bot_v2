@@ -8,6 +8,7 @@ pola logowania NIE MAJĄ resource-id — cała treść siedzi w content-desc.
 """
 from __future__ import annotations
 
+import copy
 import sys
 import unittest
 from pathlib import Path
@@ -18,7 +19,11 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT.parent))
 
 from v2.config import credentials
-from v2.steps.system.login_if_needed import LoginIfNeeded, _confirm_post_login_popups
+from v2.steps.system.login_if_needed import (
+    LoginIfNeeded,
+    _confirm_post_login_popups,
+    _mentions_captcha,
+)
 
 
 def edit_text(desc, x1=84, y1=1037, x2=901, y2=1094, rid=""):
@@ -39,25 +44,63 @@ REAL_LOGIN_BTN = button("Zaloguj się", x1=42, y1=1344, x2=1038, y2=1460)
 
 
 class FakeNav:
-    def __init__(self, top="login_screen"):
+    def __init__(self, top="login_screen", overlay=None):
         self.top = top
+        self.overlay = overlay
     def identify(self):
         class S: pass
-        s = S(); s.top = self.top; s.overlay = None
+        s = S(); s.top = self.top; s.overlay = self.overlay
         return s
 
 
+# Komentarz: po tapnięciu Zaloguj się testy muszą zejść z formularza
+HOME_AFTER_LOGIN = [
+    {"resource-id": "", "class": "android.widget.TextView",
+     "content-desc": "", "text": "Strona główna",
+     "bounds": "[0,0][200,80]"},
+]
+
+
+def frames_then_home(flat, n=12):
+    """n klatek formularza, potem home — ekran się zmienił."""
+    return [copy.deepcopy(flat) for _ in range(n)] + [copy.deepcopy(HOME_AFTER_LOGIN)]
+
+
 class FakeDevice:
-    def __init__(self, frames):
-        self.frames = list(frames)
+    def __init__(self, frames, fill_input=True):
+        # Komentarz: kopia, bo input text mutuje text EditText
+        self.frames = [copy.deepcopy(f) if isinstance(f, list) else f for f in frames]
         self.shells = []
+        self._hi = 0
+        self.fill_input = fill_input
 
     def hierarchy(self, force=False):
-        return self.frames[0] if self.frames else []
+        if not self.frames:
+            return []
+        # kolejne dumpy (retry przycisku) — ostatnia klatka zostaje
+        i = min(self._hi, len(self.frames) - 1)
+        self._hi += 1
+        return self.frames[i]
 
     def shell(self, cmd):
         self.shells.append(cmd)
+        if self.fill_input and 'input text "' in cmd:
+            typed = cmd.split('input text "', 1)[1].rsplit('"', 1)[0]
+            typed = typed.replace("%s", " ")
+            # Komentarz: każda klatka formularza — kolejny dump też widzi wpis
+            for frame in self.frames:
+                if not isinstance(frame, list):
+                    continue
+                for e in frame:
+                    if "EditText" not in (e.get("class") or ""):
+                        continue
+                    if not (e.get("text") or "").strip():
+                        e["text"] = typed
+                        break
         return ""
+
+    def press_back(self):
+        self.shells.append("press_back")
 
 
 class FakeCtx:
@@ -111,7 +154,7 @@ class LoginIfNeededTests(unittest.TestCase):
         kończył się `login_screen_not_detected`."""
         credentials.set("test_acc", "jan_kowalski", "sekret123")
         flat = [REAL_USER_FIELD, REAL_PASS_FIELD, REAL_LOGIN_BTN]
-        ctx = FakeCtx(frames=[flat])
+        ctx = FakeCtx(frames=frames_then_home(flat))
         res = LoginIfNeeded().run(ctx, {})
         self.assertEqual(res.status, "ok")
         self.assertTrue(res.payload["submitted"])
@@ -127,7 +170,7 @@ class LoginIfNeededTests(unittest.TestCase):
                 edit_text("cokolwiek", rid="com.instagram.android:id/login_password",
                           y1=200, y2=260),
                 button(rid="com.instagram.android:id/log_in_button", y1=900, y2=960)]
-        ctx = FakeCtx(frames=[flat])
+        ctx = FakeCtx(frames=frames_then_home(flat))
         res = LoginIfNeeded().run(ctx, {})
         self.assertEqual(res.status, "ok")
 
@@ -145,9 +188,79 @@ class LoginIfNeededTests(unittest.TestCase):
         flat = [edit_text("Username, email or mobile number", 84, 1037, 901, 1094),
                 edit_text("Password", 84, 1228, 901, 1285),
                 button("Log in", x1=42, y1=1344, x2=1038, y2=1460)]
-        ctx = FakeCtx(frames=[flat])
+        ctx = FakeCtx(frames=frames_then_home(flat))
         res = LoginIfNeeded().run(ctx, {})
         self.assertEqual(res.status, "ok")
+
+    def test_login_button_appears_after_keyboard_hides(self):
+        """Live galaxy: po `input text` hasła dump nie miał CTA, po schowaniu
+        IME Button „Zaloguj się" wracał. Retry ma to łapać, nie FAIL-ować."""
+        credentials.set("test_acc", "jan", "sekret123")
+        fields = [REAL_USER_FIELD, REAL_PASS_FIELD]
+        with_btn = [REAL_USER_FIELD, REAL_PASS_FIELD, REAL_LOGIN_BTN]
+        ctx = FakeCtx(frames=[copy.deepcopy(fields)] * 3 + [copy.deepcopy(with_btn)] * 8
+                      + [copy.deepcopy(HOME_AFTER_LOGIN)])
+        res = LoginIfNeeded().run(ctx, {})
+        self.assertEqual(res.status, "ok", res.error or res.payload)
+        self.assertTrue(res.payload["submitted"])
+
+    def test_gms_passkey_is_dismissed_then_fields_found(self):
+        """Overlay AssistedSignIn przykrywa pola — X, potem login."""
+        credentials.set("test_acc", "jan", "sekret123")
+        gms = [
+            perm_node("Zaloguj się w inny sposób", 80, 1500, 1000, 1600,
+                      cls="android.widget.TextView",
+                      pkg="com.google.android.gms"),
+            perm_node("Użyj klucza z innego urządzenia", 80, 1620, 1000, 1720,
+                      cls="android.widget.TextView",
+                      pkg="com.google.android.gms"),
+            {"resource-id": "com.google.android.gms:id/cancel",
+             "class": "android.widget.ImageButton",
+             "text": "", "content-desc": "Anuluj",
+             "package": "com.google.android.gms",
+             "clickable": True,
+             "bounds": "[936,1866][1062,1992]"},
+        ]
+        login = [REAL_USER_FIELD, REAL_PASS_FIELD, REAL_LOGIN_BTN]
+        ctx = FakeCtx(frames=[gms] + frames_then_home(login, 12))
+        res = LoginIfNeeded().run(ctx, {})
+        self.assertEqual(res.status, "ok", res.error or res.payload)
+        self.assertTrue(any("jan" in s for s in ctx.device.shells))
+
+    def test_login_fails_when_captcha_after_submit(self):
+        """Po Zaloguj się captcha = failed, nie ok."""
+        credentials.set("test_acc", "jan", "sekret123")
+        login = [REAL_USER_FIELD, REAL_PASS_FIELD, REAL_LOGIN_BTN]
+        captcha = [
+            perm_node("Wpisz widoczne znaki", 0, 200, 900, 400,
+                      cls="android.widget.TextView"),
+            perm_node("Kontynuuj", 42, 2081, 1038, 2191),
+        ]
+        ctx = FakeCtx(frames=[copy.deepcopy(login) for _ in range(12)]
+                      + [copy.deepcopy(captcha) for _ in range(6)])
+        res = LoginIfNeeded().run(ctx, {})
+        self.assertEqual(res.status, "failed")
+        self.assertEqual(res.error, "captcha_requires_human")
+        self.assertTrue(res.payload.get("submitted"))
+
+    def test_fails_when_login_screen_does_not_change(self):
+        """Po Zaloguj się pola nadal na ekranie — nie udawaj sukcesu."""
+        credentials.set("test_acc", "jan", "sekret123")
+        flat = [REAL_USER_FIELD, REAL_PASS_FIELD, REAL_LOGIN_BTN]
+        ctx = FakeCtx(frames=[copy.deepcopy(flat) for _ in range(20)])
+        res = LoginIfNeeded().run(ctx, {})
+        self.assertEqual(res.status, "failed")
+        self.assertEqual(res.error, "login_screen_unchanged")
+
+    def test_fails_when_username_not_in_field(self):
+        """input text poszedł w próżnię (overlay) — FAIL, nie idź w hasło."""
+        credentials.set("test_acc", "jan", "sekret123")
+        flat = [REAL_USER_FIELD, REAL_PASS_FIELD, REAL_LOGIN_BTN]
+        ctx = FakeCtx(frames=[copy.deepcopy(flat) for _ in range(12)])
+        ctx.device.fill_input = False
+        res = LoginIfNeeded().run(ctx, {})
+        self.assertEqual(res.status, "failed")
+        self.assertEqual(res.error, "username_not_filled")
 
 
 def perm_node(text, x1, y1, x2, y2, cls="android.widget.Button", pkg="com.instagram.androip"):
@@ -391,6 +504,52 @@ class ConfirmPostLoginPopupsTests(unittest.TestCase):
         self.assertEqual(ctx.taps[0][:2], (540, 2197))  # Nie zezwalaj
         self.assertEqual(ctx.logs[0][1].get("action"), "deny")
 
+    def test_notification_intro_skips_not_turn_on(self):
+        """Włącz powiadomienia — Pomiń, nigdy Włącz."""
+        screen = [
+            perm_node("Włącz powiadomienia, żeby nic Ci nie umknęło",
+                      0, 100, 900, 700, cls="android.widget.TextView"),
+            perm_node("Włącz", 42, 1900, 1038, 2010),
+            perm_node("Nie teraz", 42, 2081, 1038, 2191),
+        ]
+        ctx = ScriptedCtx([(None, screen), ("home_feed", [])])
+        n = _confirm_post_login_popups(ctx)
+        self.assertEqual(n, 1)
+        self.assertEqual(ctx.taps[0][:2], (540, 2136))
+        self.assertEqual(ctx.logs[0][1].get("action"), "skip")
+
+    def test_captcha_does_not_tap_continue(self):
+        """Live kasia21sum 2026-09-06: „Kontynuuj” na captchy to submit
+        pustego pola — bot ma STANĄĆ, nie klikać."""
+        screen = [
+            perm_node("Wpisz widoczne znaki", 0, 200, 900, 400,
+                      cls="android.widget.TextView"),
+            perm_node("We just need to make sure there's a real human "
+                      "behind this login attempt.",
+                      0, 420, 900, 600, cls="android.widget.TextView"),
+            perm_node("Wygeneruj nowy kod", 42, 1700, 1038, 1800,
+                      cls="android.widget.TextView"),
+            perm_node("Kontynuuj", 42, 2081, 1038, 2191),
+        ]
+        self.assertTrue(_mentions_captcha(screen))
+        ctx = ScriptedCtx([(None, screen)])
+        n = _confirm_post_login_popups(ctx)
+        self.assertEqual(n, 0)
+        self.assertEqual(ctx.taps, [])
+
+    def test_login_chrome_not_tapped_as_popup(self):
+        """Live kasia21sum: „pokaż hasło” + IME Dalej/OK przy polach = 0 tapów."""
+        screen = [
+            REAL_USER_FIELD, REAL_PASS_FIELD, REAL_LOGIN_BTN,
+            perm_node("Pokaż hasło", 900, 1228, 1000, 1285),
+            perm_node("Dalej", 800, 2100, 1000, 2200),
+            perm_node("OK", 900, 2100, 1040, 2200),
+        ]
+        ctx = ScriptedCtx([(None, screen)])
+        n = _confirm_post_login_popups(ctx)
+        self.assertEqual(n, 0)
+        self.assertEqual(ctx.taps, [])
+
 
 class RealLoginScreenSampleTests(unittest.TestCase):
     """Prawdziwy dump z `calibration/samples/50_login_screen` (klon
@@ -419,7 +578,7 @@ class RealLoginScreenSampleTests(unittest.TestCase):
         import json
         p = ROOT / "calibration" / "samples" / "50_login_screen.flat.json"
         flat = json.loads(p.read_text(encoding="utf-8"))
-        ctx = FakeCtx(frames=[flat])
+        ctx = FakeCtx(frames=frames_then_home(flat))
         res = LoginIfNeeded().run(ctx, {})
         self.assertEqual(res.status, "ok", res.error)
         self.assertTrue(any("jan_kowalski" in s for s in ctx.device.shells))

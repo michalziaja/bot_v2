@@ -23,6 +23,7 @@ from v2.runner.step import StepResult
 from v2.steps.registry import register
 from v2.steps.system import login_log
 from v2.steps.system._ui_helpers import BUTTON_CLASSES, center, escape_input_text, find_field
+from v2.steps.system.signup_if_needed import _code_screen, _dismiss_help_sheet
 
 DATA_ROOT = Path(__file__).resolve().parent.parent.parent / "data"
 
@@ -41,8 +42,14 @@ class EnterVerificationCodeIfNeeded:
 
     def run(self, ctx, params):
         flat = flatten_hierarchy(ctx.device.hierarchy(force=True))
-        code_field = find_field(flat, (), CODE_FIELD_HINTS, "EditText")
-        if not code_field:
+        # Komentarz: live OnePlus — sheet „Potrzebujesz pomocy?” zasłania EditText
+        if _dismiss_help_sheet(ctx, flat):
+            login_log.say("Zamknąłem sheet pomocy przy kodzie")
+            time.sleep(0.6)
+            flat = flatten_hierarchy(ctx.device.hierarchy(force=True))
+        # Komentarz: live OnePlus klon2 — 6 kratek OTP bez hintu EditText
+        code_field = _find_code_input(flat)
+        if not code_field and not _code_screen(flat):
             login_log.say("Brak ekranu kodu weryfikacyjnego — skip")
             return StepResult.skipped("no_code_screen_detected")
 
@@ -65,8 +72,14 @@ class EnterVerificationCodeIfNeeded:
         # ekran mógł się przez czas oczekiwania odświeżyć — świeży dump
         login_log.say("Wpisuję kod weryfikacyjny…")
         flat2 = flatten_hierarchy(ctx.device.hierarchy(force=True))
-        field2 = find_field(flat2, (), CODE_FIELD_HINTS, "EditText") or code_field
-        ctx.ht.tap(*center(field2["bounds"]), pause_kind="tap")
+        if _dismiss_help_sheet(ctx, flat2):
+            time.sleep(0.5)
+            flat2 = flatten_hierarchy(ctx.device.hierarchy(force=True))
+        field2 = _find_code_input(flat2) or code_field
+        if field2:
+            ctx.ht.tap(*center(field2["bounds"]), pause_kind="tap")
+            time.sleep(0.2)
+        # Komentarz: kratki OTP przyjmują cały kod przez input text po focusie
         ctx.device.shell(f'input text "{escape_input_text(code)}"')
         time.sleep(0.6)
 
@@ -93,6 +106,30 @@ class EnterVerificationCodeIfNeeded:
                 landed_on=top_after, popups_confirmed=popups)
         return StepResult.ok(submitted=True, landed_on=top_after,
                              popups_confirmed=popups)
+
+
+def _find_code_input(flat: list[dict]) -> dict | None:
+    """Pole kodu: hint EditText, albo pierwsza kratka OTP (6× EditText)."""
+    hinted = find_field(flat, (), CODE_FIELD_HINTS, "EditText")
+    if hinted:
+        return hinted
+    edits = [
+        e for e in flat
+        if "EditText" in (e.get("class") or "")
+    ]
+    if not edits:
+        return None
+
+    def _left(node: dict) -> int:
+        # Komentarz: sort od lewej — pierwsza kratka OTP
+        raw = str(node.get("bounds") or "[0,0][0,0]")
+        try:
+            return int(raw.split(",")[0].strip("["))
+        except ValueError:
+            return 0
+
+    edits.sort(key=_left)
+    return edits[0]
 
 
 def _screen_prompt(flat: list[dict]) -> str:

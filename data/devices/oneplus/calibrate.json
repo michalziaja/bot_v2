@@ -1,0 +1,16 @@
+{
+  "status": "done",
+  "account": "klon1",
+  "device_alias": "oneplus",
+  "step": "end",
+  "map": "KB2003_draft.json",
+  "harvested": [
+    "home.notifications",
+    "nav.clips_tab",
+    "nav.direct_tab",
+    "nav.feed_tab",
+    "nav.profile_tab",
+    "nav.search_tab",
+    "search.input"
+  ]
+}

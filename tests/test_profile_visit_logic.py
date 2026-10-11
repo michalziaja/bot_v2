@@ -11,7 +11,9 @@ sys.path.insert(0, str(ROOT.parent))
 from v2.runner.step import StepResult
 from v2.steps.profile.visit import (
     _eval_match, _score_profile, _decide_action, _like_grid_tiles,
-    _soft_return_to_profile, _analyze_grid, _watch_story, ProfileVisit,
+    _pick_like_candidates, _like_after_audience_reject,
+    _soft_return_to_profile, _analyze_grid,
+    _watch_story, ProfileVisit,
 )
 from v2.data.stores import VisitedProfilesStore
 
@@ -88,6 +90,58 @@ class MatchEvalTests(unittest.TestCase):
                          {"min_niche_ratio": 0.5})
         self.assertFalse(r2["pass"])
 
+    def test_audience_fit_match_passes_lifestyle_grid(self):
+        """Trener/HR/mama: grupa docelowa, zero kafelków produktowych."""
+        verdict = {
+            "audience_fit": "match",
+            "audience_reason": "trener piłkarski",
+            "tiles": {
+                "1": {"category": "safe", "should_like": True},
+                "2": {"category": "skipped", "should_like": False},
+                "3": {"category": "skipped", "should_like": False},
+            },
+        }
+        # min_niche_tiles ignorowane gdy jest audience_fit
+        r = _eval_match(verdict, {"mode": "niche_match", "min_niche_tiles": 2})
+        self.assertTrue(r["pass"])
+        self.assertEqual(r["audience_fit"], "match")
+
+    def test_audience_fit_off_fails_despite_safe_tiles(self):
+        """off odpada nawet przy kafelkach, które kiedyś liczyły się jako nisza."""
+        verdict = {
+            "audience_fit": "off",
+            "tiles": {
+                "1": {"category": "safe", "should_like": True},
+                "2": {"category": "safe", "should_like": True},
+                "3": {"category": "niche", "should_like": True},
+            },
+        }
+        r = _eval_match(verdict, {"mode": "niche_match", "min_niche_tiles": 1})
+        self.assertFalse(r["pass"])
+        self.assertEqual(r["why"], "audience_fit=off")
+
+    def test_legacy_niche_json_without_audience_fit_still_works(self):
+        """Stary JSON (category=niche, bez audience_fit) — fallback kafelków."""
+        r = _eval_match(_tiles(["niche", "niche", "neutral"]),
+                        {"mode": "niche_match", "min_niche_tiles": 2})
+        self.assertTrue(r["pass"])
+        self.assertEqual(r["n_safe"], 2)
+
+    def test_partial_rejected_when_allow_verdict_is_match_only(self):
+        verdict = {
+            "audience_fit": "partial",
+            "tiles": {"1": {"category": "safe", "should_like": True}},
+        }
+        r = _eval_match(verdict, {"mode": "niche_match",
+                                  "allow_verdict": ["match"]})
+        self.assertFalse(r["pass"])
+
+    def test_like_after_audience_reject_not_on_exclusions(self):
+        """Bezpieczny like tylko przy audience_fit — nie przy excluded_ratio."""
+        self.assertTrue(_like_after_audience_reject("audience_fit=off"))
+        self.assertFalse(_like_after_audience_reject("excluded_ratio>0.5"))
+        self.assertFalse(_like_after_audience_reject("no_ai_tiles"))
+
 
 class ScoreTests(unittest.TestCase):
     @staticmethod
@@ -141,6 +195,36 @@ class ScoreTests(unittest.TestCase):
                                   story_watched=False, tiles_liked=0,
                                   story_stage=False, tiles_stage=False)
         self.assertEqual(set(parts), {"follower_ratio"})
+
+    def test_audience_fit_drives_score_not_product_tiles(self):
+        """Follow nie karze za brak postów o produkcie — waży audience_fit."""
+        header = {"followers": 1000, "following": 200}
+        lifestyle = {
+            "audience_fit": "match",
+            "tiles": {
+                "1": {"category": "skipped", "should_like": False},
+                "2": {"category": "skipped", "should_like": False},
+            },
+        }
+        product_off = {
+            "audience_fit": "off",
+            **_tiles(["niche", "niche", "niche", "niche"]),
+        }
+        s_match = self._score(header, lifestyle, True, 1)
+        s_off = self._score(header, product_off, True, 1)
+        self.assertGreater(s_match, s_off)
+
+    def test_pick_safe_and_legacy_niche_equivalent(self):
+        """safe + should_like jak dawniej niche; excluded nigdy."""
+        tiles = {
+            "1": {"category": "safe", "should_like": True},
+            "2": {"category": "excluded", "should_like": True},
+            "3": {"category": "niche", "should_like": True},
+            "4": {"category": "skipped", "should_like": False},
+        }
+        got = _pick_like_candidates(
+            tiles, {"mode": "niche_match", "pick_strategy": "best"})
+        self.assertEqual(got, ["1", "3"])
 
 
 class DecideTests(unittest.TestCase):

@@ -17,11 +17,22 @@ Wynik zawsze jako zakres `{min, max}` (zaokrąglony w górę na max, w dół na 
 """
 from __future__ import annotations
 
+import json
 import math
+from datetime import datetime
+from pathlib import Path
 from typing import Any
+
+from v2.core.limits import classify_action
 
 
 ACTION_KINDS = ("likes", "follows", "comments")
+# classify_action zwraca liczbę pojedynczą; utilization i panel mówią w liczbie mnogiej
+_USED_KIND_MAP = {
+    "like": "likes",
+    "follow": "follows",
+    "comment": "comments",
+}
 
 
 def _empty_actions() -> dict:
@@ -338,12 +349,52 @@ def estimate_queue_actions(account: str, queue_name: str | None = None, *,
     return est
 
 
-def utilization_vs_limits(actions: dict, limits: dict | None) -> dict:
+def count_used_today(account: str, data_root, *, now: datetime | None = None) -> dict:
+    """Dzisiejsze lajki / follow / komentarze z `events.jsonl` konta.
+
+    Ta sama `classify_action` co limiter — panel i runtime liczą to samo.
+    Brak pliku albo uszkodzone linie = zera, nie wyjątek.
+    """
+    out = {k: 0 for k in ACTION_KINDS}
+    path = Path(data_root) / "accounts" / account / "events.jsonl"
+    if not path.exists():
+        return out
+    now = now or datetime.now()
+    day_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    try:
+        with path.open(encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    ev = json.loads(line)
+                except ValueError:
+                    continue
+                mapped = _USED_KIND_MAP.get(classify_action(ev) or "")
+                if not mapped:
+                    continue
+                try:
+                    ts = datetime.strptime(ev["ts"], "%Y-%m-%dT%H:%M:%S")
+                except (KeyError, TypeError, ValueError):
+                    continue
+                if ts >= day_start:
+                    out[mapped] += 1
+    except OSError:
+        return out
+    return out
+
+
+def utilization_vs_limits(actions: dict, limits: dict | None,
+                          used_today: dict | None = None) -> dict:
     """Porównaj zakres akcji z limitami dziennymi konta.
 
-    Zwraca per kind: {min, max, limit, pct_min, pct_max}.
+    Do decyzji „czy się zmieści” zawsze bierzemy górę zakresu (`max`).
+    `used_today` / `remaining` — ile już poszło dziś z events.jsonl
+    (żółto gdy max > remaining; `over` zostaje na max > limit).
     """
     lim = limits or {}
+    used_map = used_today or {}
     key_map = {
         "likes": "daily_likes",
         "follows": "daily_follows",
@@ -355,6 +406,8 @@ def utilization_vs_limits(actions: dict, limits: dict | None) -> dict:
         limit = int(lim.get(lim_key) or 0)
         lo = int(a.get("min", 0) or 0)
         hi = int(a.get("max", 0) or 0)
+        used = int(used_map.get(kind, 0) or 0)
+        remaining = max(0, limit - used) if limit > 0 else None
         if limit > 0:
             pct_min = round(100.0 * lo / limit, 1)
             pct_max = round(100.0 * hi / limit, 1)
@@ -362,7 +415,10 @@ def utilization_vs_limits(actions: dict, limits: dict | None) -> dict:
             pct_min = pct_max = None
         out[kind] = {
             "min": lo, "max": hi, "limit": limit,
+            "used_today": used,
+            "remaining": remaining,
             "pct_min": pct_min, "pct_max": pct_max,
             "over": bool(limit > 0 and hi > limit),
+            "over_remaining": bool(remaining is not None and hi > remaining),
         }
     return out

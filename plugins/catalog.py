@@ -178,8 +178,9 @@ _b.section(
             ai_key=["ai", "enabled"], chance_key=["like_reel", "chance"],
             default_mode="ai_then_p",
         ),
-        B.chance_field(["like_reel"], "chance", label="Szansa / formuła lajka",
-                       desc="Szczegóły szansy (stała albo formuła z wyniku AI).",
+        B.chance_field(["like_reel"], "chance", label="Szansa / z wyniku AI",
+                       desc="Stała % = ten sam rzut na każdej rolce. "
+                            "Z wyniku AI = szansa równa ocenie (80 pkt → 80%).",
                        advanced=True),
     ],
 ).vals({"like_reel": {"enabled": True, "chance": B.chance("formula", "score/100")}})
@@ -277,15 +278,18 @@ REELS_NICHE = _plugin(
 _b = _Builder()
 _b.section(
     "Źródło i frazy",
-    "Wyszukiwarka IG: hashtag / słowo / lokalizacja. AI domyślnie wyłączona — "
-    "fraza celuje w niszę.",
+    "Wyszukiwarka IG. Listy fraz są osobne (hashtagi / słowa / lokalizacje); "
+    "źródło na sesję wybierasz na karcie zadania w kolejce. "
+    "To pole to tylko fallback, gdy zadanie nie ma własnego overrides.",
     [
-        {"key": ["source"], "type": "select", "label": "Typ źródła",
+        {"key": ["source"], "type": "select", "label": "Domyślne źródło",
          "options": ["hashtag", "keyword", "location"],
          "option_labels": {
              "hashtag": "Hashtag", "keyword": "Słowo kluczowe", "location": "Lokalizacja",
          },
-         "desc": "hashtag → Tagi; keyword → wyniki po Enterze; location → Miejsca."},
+         "desc": "Fallback, gdy zadanie w kolejce nie ma własnego źródła. "
+                 "Na karcie: lista (# / słowa / lokalizacje), znaczniki z mapy "
+                 "albo mix (lista + znaczniki losowo z jednej puli)."},
     ],
     B.phrase_list(("phrases",), what="fraz", per_session=(1, 3),
                   placeholder="#fitnessmotivation",
@@ -346,8 +350,9 @@ _b.section(
                  "w sekcji niżej). Tylko % = bez Vision, stała szansa. "
                  "Posty z siatki zawsze bez AI (tylko %).",
         ),
-        B.chance_field(["like_content"], "chance", label="Szansa / formuła lajka",
-                       desc="Przy wyłączonym AI użyj stałej wartości (nie formuły score/100).",
+        B.chance_field(["like_content"], "chance", label="Szansa / z wyniku AI",
+                       desc="Stała % = ten sam rzut. Z wyniku AI = szansa = ocena / 100. "
+                            "Bez AI bierz stałą, nie wynik.",
                        advanced=True),
     ],
 ).vals({"like_content": {"enabled": True, "chance": B.chance("p", 0.5)}})
@@ -402,8 +407,8 @@ _b.section(
          "desc": "Ile wejść z siatki jednego znacznika. Przy scrollach > 0 zalecane 1."},
         {"key": ["tag_variants_budget", "scrolls"], "type": "num",
          "label": "Scrolle na #", "min": 0, "max": 20,
-         "desc": "Ile swipe'ów w viewerze po otwarciu kafelka znacznika "
-                 "(łącznie treści ≈ 1 + scrolle)."},
+         "desc": "Fallback, gdy „Ile scrolli w viewerze” = 0. "
+                 "Przy ustawionym zakresie z siatki wyników ten slajder jest ignorowany."},
         {"key": ["tag_variants_budget", "source"], "type": "select",
          "label": "Źródło znaczników",
          "options": ["live_collect", "from_map", "both"],
@@ -414,6 +419,16 @@ _b.section(
          },
          "desc": "live = zbierz Tags w sesji i z tego otwieraj; mapa = tylko zapisane; "
                  "oba = mapa + świeży collect."},
+        {"key": ["tag_variants_budget", "map_seed_kind"], "type": "select",
+         "label": "Znaczniki z mapy: po jakim kluczu",
+         "options": ["hashtag", "keyword", "both"],
+         "option_labels": {
+             "hashtag": "Z kluczy #",
+             "keyword": "Z kluczy keywords",
+             "both": "Z # i keywords",
+         },
+         "desc": "Mapa ma osobne wpisy dla hashtagów (#kariera) i słów (portale pracy). "
+                 "Tu wybierasz, z których kluczy brać warianty do otwarcia."},
         {"key": ["discover_tag_variants", "write_to_account"], "type": "bool",
          "label": "Zapisz mapę (niche.tag_variants)",
          "desc": "Persist zebrane # w JSON konta."},
@@ -460,6 +475,7 @@ _b.section(
         "tiles_per_phrase": 1,
         "scrolls": 4,
         "source": "live_collect",
+        "map_seed_kind": "both",
     },
 })
 
@@ -570,16 +586,16 @@ _b.section(
         B.like_decision_field(
             ai_key=["grid_ai", "enabled"], chance_key=["like_tiles", "chance"],
             default_mode="ai_only",
-            desc="Tylko AI = kategoryzacja siatki, lajk niszowych (szansa 100%). "
+            desc="Tylko AI = grupa docelowa + lajk bezpiecznych postów (szansa 100%). "
                  "Tylko % = bez Vision, losowe kafelki ze stałą szansą. "
-                 "AI, potem % = bramka AI, potem rzut chance na kandydatach.",
+                 "AI, potem % = bramka audience, potem rzut chance na kandydatach.",
         ),
         {"key": ["like_tiles", "count"], "type": "range", "label": "Ile kafelków",
          "unit": "szt.", "step": 1,
          "desc": "Górny limit polubień na profil (po filtrze AI / losowaniu)."},
-        B.chance_field(["like_tiles"], "chance", label="Szansa / formuła lajka",
+        B.chance_field(["like_tiles"], "chance", label="Szansa / z wyniku AI",
                        desc="Przy Tylko % i AI potem % — szansa na lajk kafelka. "
-                            "Formuła score/100 używa wyniku niszy profilu gdy jest.",
+                            "Z wyniku AI = ocena profilu / 100 (gdy jest scoring).",
                        advanced=True),
     ],
     # Parametry match AI — enabled steruje like_decision (ukryte tu)
@@ -601,8 +617,9 @@ _b.section(
         {"key": ["follow", "min_scoring"], "type": "num", "label": "Min. scoring do follow",
          "min": 0, "max": 1, "step": 0.05,
          "desc": "Minimalny łączny wynik profilu (0–1) do follow-a."},
-        B.chance_field(["follow"], "chance", label="Szansa follow",
-                       desc="Szansa na follow przy spełnionym progu."),
+        B.chance_field(["follow"], "chance", label="Szansa follow %",
+                       allow_formula=False,
+                       desc="Na ilu procent kwalifikujących się profili bot da follow."),
     ],
 ).vals({"follow": {"allow": True, "min_scoring": 0.5, "chance": B.chance("p", 0.8)}})
 PROFILE_INTERACT = _plugin(
@@ -799,9 +816,12 @@ _b.section(
          "desc": "Biznesowy parametr: ile sekund bot 'ogląda' jedną rolkę. "
                   "Obecnie używany gdy `reels.watch` pracuje w trybie czasu oglądania."},
         {"key": ["like", "enabled"], "type": "bool", "label": "Lajkuj podczas rozgrzewki",
-         "desc": "Czy lajkować cokolwiek podczas rozgrzewki."},
-        B.chance_field(["like"], "chance", label="Szansa lajka %",
-                       desc="Szansa na lajk rolki. Trzymaj nisko — to rozgrzewka."),
+         "desc": "Czy w ogóle dawać lajki, czy tylko oglądać."},
+        B.chance_field(["like"], "chance", label="Szansa na lajk %",
+                       allow_formula=False,
+                       desc="Na ilu procent oglądanych rolek bot da lajka. "
+                            "Rozgrzewka — trzymaj nisko (np. 15%). "
+                            "Bez AI: to zwykły rzut monetą, nie ocena treści."),
         {"key": ["skip_ads"], "type": "bool", "label": "Przewijaj reklamy szybciej",
          "desc": "Przewijaj reklamy szybciej niż zwykłe rolki."},
     ],
@@ -918,6 +938,52 @@ NICHE_DISCOVER = _plugin(
 
 
 # ============================================================
+# P8 — publish_media (kolejka Treści → ACTION_SEND do klona)
+# ============================================================
+_b = _Builder()
+_b.section(
+    "Co publikować",
+    "W Runach zaznaczasz konkretne pliki z Treści tego konta. "
+    "Puste zaznaczenie = nic nie publikujemy (nie zgadujemy „najnowszego”). "
+    "W sesji: push w locie, potem creator aż do Udostępnij / Twoja relacja.",
+    [
+        {"key": ["item_ids"], "type": "tags", "label": "Pliki z Treści",
+         "desc": "Id pozycji z zakładki Treści. Inspector pokazuje miniatury "
+                 "— nie wpisuj ręcznie. Puste = plugin się zatrzyma."},
+        {"key": ["kind"], "type": "select", "label": "Filtr typu",
+         "options": ["post", "story", "both"],
+         "option_labels": {
+             "post": "Posty",
+             "story": "Relacje",
+             "both": "Posty i relacje",
+         },
+         "advanced": True,
+         "desc": "Tylko filtr listy w inspectorze — nie zastępuje wyboru pliku."},
+        {"key": ["stop_before_share"], "type": "bool",
+         "label": "Stop przed Udostępnij",
+         "advanced": True,
+         "desc": "Dry-run: push + intent + editor/story_share, bez tapu "
+                 "Udostępnij / Twoja relacja. Domyślnie wyłączone — publikujemy "
+                 "naprawdę."},
+    ],
+    B.budget(("budget",), unit_label="sztuk",
+             unit_desc="Ile zaznaczonych plików opublikować w tej sesji.",
+             items=(1, 3), minutes=15,
+             items_label="Max sztuk", duration_label="Max czas (min)"),
+).vals({"item_ids": [], "kind": "both", "stop_before_share": False})
+
+PUBLISH_MEDIA = _plugin(
+    "publish_media", "Publikacja treści", "publish", "ready",
+    "home_feed", "home_feed",
+    "Publikuje WYBRANE pliki z Treści (zaznaczenie w kroku Runów). "
+    "Wrzutka na PC wystarczy (ready). Tuż przed Udostępnij plugin wypycha "
+    "plik i jedzie creator (ShareHandler / StoryShareHandler). "
+    "Bez wyboru pliku — nic nie zgaduje.",
+    _b,
+)
+
+
+# ============================================================
 PLUGINS = [
     FEED_BROWSER,
     REELS_NICHE,
@@ -926,6 +992,7 @@ PLUGINS = [
     MASS_STORIES,
     TARGET_SCRAPER,
     REELS_WARMUP,
+    PUBLISH_MEDIA,
     NICHE_DISCOVER,
 ]
 

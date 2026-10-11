@@ -107,6 +107,11 @@
     "followers_max": 20000,
     "reject_arabic_bio": true,
     "require_public": true,
-    "min_posts": 1
+    "min_posts": 1,
+    "sleep_between_s": 0,
+    "sleep_request_s": 2,
+    "retry_backoff_base_s": 4.0,
+    "retry_backoff_max_s": 30.0,
+    "request_timeout_s": 30.0
   }
 }

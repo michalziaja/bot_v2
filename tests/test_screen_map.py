@@ -8,7 +8,9 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT.parent))
 
-from v2.core.screen_map import ScreenMap, flatten_hierarchy, ids_from_flat, dominant_package
+from v2.core.screen_map import (
+    ScreenMap, flatten_hierarchy, ids_from_flat, dominant_package, texts_from_flat,
+)
 
 MAP_PATH = ROOT / "calibration" / "SM_A505FN_draft.json"
 SAMPLES  = ROOT / "calibration" / "samples"
@@ -41,6 +43,16 @@ class ScreenMapLoadTests(unittest.TestCase):
         self.assertIsNotNone(c)
         self.assertEqual(c, (108, 2277))
 
+    def test_scale_anchors_to_shorter_screen(self):
+        """A5 1080×1920 — dolny nav nie może zostać na y=2277 (poza ekranem)."""
+        mp = ScreenMap.load(MAP_PATH, target_resolution=[1080, 1920])
+        c = mp.anchor_center("nav.feed_tab")
+        self.assertIsNotNone(c)
+        self.assertEqual(c[0], 108)
+        self.assertLess(c[1], 1920)
+        self.assertGreater(c[1], 1700)
+        self.assertEqual(mp.meta["scaled_from"], [1080, 2340])
+
 
 class RecognizeTests(unittest.TestCase):
     def setUp(self):
@@ -54,6 +66,18 @@ class RecognizeTests(unittest.TestCase):
         self.assertEqual(s.top, expected,
                          f"{sample}: expected {expected}, got {s.top} (matches={s.matches[:3]})")
         self.assertGreaterEqual(s.hits, min_hits)
+
+    def test_login_screen_po_tekscie(self):
+        # Komentarz: OnePlus / IG 446 — pola bez resource-id, tylko content-desc
+        flat = [
+            {"resource-id": "", "text": "", "content-desc": "Zaloguj się",
+             "class": "android.widget.Button", "package": "com.instagram.androif"},
+            {"resource-id": "", "text": "Utwórz nowe konto", "content-desc": "",
+             "class": "android.widget.Button", "package": "com.instagram.androif"},
+        ]
+        s = self.mp.identify(set(), "com.instagram.androif", texts=texts_from_flat(flat))
+        self.assertEqual(s.top, "login_screen")
+        self.assertFalse(s.unknown)
 
     def test_home_feed(self):        self._assert_top("01_home", "home_feed", 5)
     def test_reels_feed(self):       self._assert_top("03_reels", "reels_feed", 5)

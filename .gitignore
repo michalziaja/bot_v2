@@ -27,6 +27,10 @@ data/*.db-shm
 debug/
 logs/
 
+# Bazowe APK Instagrama (źródło klonów)
+appcloner/*.apk
+appcloner/apks/
+
 # Python
 __pycache__/
 *.pyc

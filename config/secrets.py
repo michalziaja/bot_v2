@@ -10,6 +10,9 @@ Dlaczego osobny plik, a nie pole w `accounts/<alias>.json`:
 Pierwszeństwo ma zmienna środowiskowa: jeśli `ANTHROPIC_API_KEY` jest ustawiona,
 wygrywa z plikiem. Dzięki temu uruchomienie z CI/innego środowiska nie wymaga
 dotykania plików.
+
+Klucze identity-linked wymagają też `ANTHROPIC_WORKSPACE_ID` / pola
+`anthropic_workspace_id` (wartość `wrkspc_…` z konsoli Anthropic).
 """
 from __future__ import annotations
 
@@ -20,6 +23,8 @@ from pathlib import Path
 SECRETS_PATH = Path(__file__).parent / "secrets.json"
 
 ENV_VAR = "ANTHROPIC_API_KEY"
+# Klucze identity-linked wymagają nagłówka anthropic-workspace-id (wrkspc_…).
+ENV_WORKSPACE = "ANTHROPIC_WORKSPACE_ID"
 
 
 def _read_file() -> dict:
@@ -48,9 +53,34 @@ def set_api_key(key: str | None) -> None:
         data["anthropic_api_key"] = key
     else:
         data.pop("anthropic_api_key", None)
+    _write_file(data)
+
+
+def get_workspace_id() -> str | None:
+    """Workspace Anthropic: env ANTHROPIC_WORKSPACE_ID → plik → None."""
+    env = os.environ.get(ENV_WORKSPACE)
+    if env and env.strip():
+        return env.strip()
+    ws = (_read_file().get("anthropic_workspace_id") or "").strip()
+    return ws or None
+
+
+def set_workspace_id(workspace_id: str | None) -> None:
+    """Zapisz (lub wyczyść) workspace ID — wymagane przy kluczu identity-linked."""
+    data = _read_file()
+    ws = (workspace_id or "").strip()
+    if ws:
+        data["anthropic_workspace_id"] = ws
+    else:
+        data.pop("anthropic_workspace_id", None)
+    _write_file(data)
+
+
+def _write_file(data: dict) -> None:
+    """Zapis secrets.json + chmod 0600."""
     SECRETS_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2),
                             encoding="utf-8")
-    try:                       # 0600 tam, gdzie system to respektuje
+    try:
         os.chmod(SECRETS_PATH, 0o600)
     except OSError:
         pass
@@ -70,12 +100,20 @@ def status() -> dict:
     env = os.environ.get(ENV_VAR)
     file_key = (_read_file().get("anthropic_api_key") or "").strip()
     key = env or file_key or None
+    env_ws = (os.environ.get(ENV_WORKSPACE) or "").strip()
+    file_ws = (_read_file().get("anthropic_workspace_id") or "").strip()
+    workspace = env_ws or file_ws or None
     return {
         "configured": bool(key),
         "source": "env" if env else ("file" if file_key else None),
         "masked": mask(key),
         "env_overrides_file": bool(env and file_key),
         "path": str(SECRETS_PATH),
+        # workspace ID to identyfikator, nie sekret — pokazujemy, żeby operator
+        # widział czy identity-linked key ma gdzie działać
+        "workspace_id": workspace,
+        "workspace_source": ("env" if env_ws else ("file" if file_ws else None)),
+        "workspace_env_overrides_file": bool(env_ws and file_ws),
     }
 
 
@@ -129,12 +167,7 @@ def set_filter_proxies(proxies: dict[str, str | list[str]] | None) -> None:
                 if s:
                     cleaned[str(k)] = s
         data["filter_proxies"] = cleaned
-    SECRETS_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2),
-                            encoding="utf-8")
-    try:
-        os.chmod(SECRETS_PATH, 0o600)
-    except OSError:
-        pass
+    _write_file(data)
 
 
 def filter_proxies_status() -> dict:
@@ -150,3 +183,24 @@ def filter_proxies_status() -> dict:
         "url_count": url_count,
         "path": str(SECRETS_PATH),
     }
+
+
+def filter_proxies_for_edit() -> dict[str, str]:
+    """URL-e do edycji w panelu — lista sticky jako kolejne linie."""
+    out: dict[str, str] = {}
+    for name, val in get_filter_proxies().items():
+        if isinstance(val, list):
+            out[name] = "\n".join(val)
+        else:
+            out[name] = val
+    return out
+
+
+def parse_filter_proxy_text(text: str) -> str | list[str] | None:
+    """Textarea → jeden URL albo lista (puste = usuń)."""
+    lines = [ln.strip() for ln in (text or "").splitlines() if ln.strip()]
+    if not lines:
+        return None
+    if len(lines) == 1:
+        return lines[0]
+    return lines

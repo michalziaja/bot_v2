@@ -10,8 +10,8 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT.parent))
 
-from v2.config.schema import (load_account, new_account_from_template,
-                              ConfigError, CONFIG_ROOT)
+from v2.config.schema import (load_account, load_bot, save_bot,
+                              new_account_from_template, ConfigError, CONFIG_ROOT)
 
 
 class ConfigTests(unittest.TestCase):
@@ -99,6 +99,138 @@ class ConfigTests(unittest.TestCase):
                                              config_root=tmp)
             cfg = load_account("clone_alias", config_root=tmp)
             self.assertEqual(cfg.device["app_clone_package"], "com.instagram.androip")
+        finally:
+            shutil.rmtree(tmp)
+
+    def _fleet_tmp(self):
+        """Tmp config: kompletny device (bez ADB) + szkielet konta."""
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "accounts").mkdir()
+        (tmp / "devices").mkdir()
+        shutil.copy(CONFIG_ROOT / "devices" / "phone_A.json",
+                    tmp / "devices" / "phone_A.json")
+        return tmp
+
+    def _write_account(self, tmp: Path, alias: str, **sections):
+        data = {
+            "meta": {"account_id": alias, "ig_username": alias},
+            "device": {"device_alias": "phone_A"},
+        }
+        data.update(sections)
+        (tmp / "accounts" / f"{alias}.json").write_text(
+            json.dumps(data), encoding="utf-8")
+
+    def test_limits_merge_bot_100_konto_50(self):
+        """bot.json daily_likes=100, konto 50 → effective 50."""
+        tmp = self._fleet_tmp()
+        try:
+            (tmp / "bot.json").write_text(json.dumps({
+                "limits": {"daily_likes": 100, "daily_follows": 30},
+                "humanizer": {"profile_name": "default", "speed": 1.0},
+            }), encoding="utf-8")
+            self._write_account(tmp, "ovr", limits={"daily_likes": 50})
+            cfg = load_account("ovr", config_root=tmp)
+            self.assertEqual(cfg.limits["daily_likes"], 50)
+            self.assertEqual(cfg.limits["daily_follows"], 30)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_limits_dziedzicza_z_bota_gdy_brak_klucza(self):
+        tmp = self._fleet_tmp()
+        try:
+            (tmp / "bot.json").write_text(json.dumps({
+                "limits": {"daily_likes": 100},
+                "humanizer": {"profile_name": "default"},
+            }), encoding="utf-8")
+            self._write_account(tmp, "inh", limits={})
+            cfg = load_account("inh", config_root=tmp)
+            self.assertEqual(cfg.limits["daily_likes"], 100)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_zero_na_koncie_to_brak_limitu_nie_global(self):
+        tmp = self._fleet_tmp()
+        try:
+            (tmp / "bot.json").write_text(json.dumps({
+                "limits": {"daily_likes": 100},
+                "humanizer": {"profile_name": "default"},
+            }), encoding="utf-8")
+            self._write_account(tmp, "zero", limits={"daily_likes": 0})
+            cfg = load_account("zero", config_root=tmp)
+            self.assertEqual(cfg.limits["daily_likes"], 0)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_humanizer_speed_override(self):
+        tmp = self._fleet_tmp()
+        try:
+            (tmp / "bot.json").write_text(json.dumps({
+                "humanizer": {"profile_name": "default", "speed": 1.0},
+            }), encoding="utf-8")
+            self._write_account(tmp, "spd", humanizer={"speed": 0.4})
+            cfg = load_account("spd", config_root=tmp)
+            self.assertEqual(cfg.humanizer["speed"], 0.4)
+            self.assertEqual(cfg.humanizer["profile_name"], "default")
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_load_bot_czyta_plik(self):
+        tmp = self._fleet_tmp()
+        try:
+            (tmp / "bot.json").write_text(json.dumps({
+                "limits": {"daily_likes": 80},
+            }), encoding="utf-8")
+            bot = load_bot(tmp)
+            self.assertEqual(bot["limits"]["daily_likes"], 80)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_save_bot_80_dziedziczy_override_zostaje(self):
+        """POST-kształt: global 80 → konto bez klucza 80, konto z 50 zostaje 50."""
+        tmp = self._fleet_tmp()
+        try:
+            (tmp / "bot.json").write_text(json.dumps({
+                "limits": {"daily_likes": 100, "daily_follows": 30},
+                "humanizer": {"profile_name": "default"},
+            }), encoding="utf-8")
+            self._write_account(tmp, "inh", limits={})
+            self._write_account(tmp, "ovr", limits={"daily_likes": 50})
+            saved = save_bot({"limits": {"daily_likes": 80}}, tmp)
+            self.assertEqual(saved["limits"]["daily_likes"], 80)
+            self.assertEqual(load_account("inh", config_root=tmp).limits["daily_likes"], 80)
+            self.assertEqual(load_account("ovr", config_root=tmp).limits["daily_likes"], 50)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_save_bot_odrzuca_ujemne(self):
+        tmp = self._fleet_tmp()
+        try:
+            with self.assertRaises(ConfigError):
+                save_bot({"limits": {"daily_likes": -1}}, tmp)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_template_copies_clone_identity_spoof_fields(self):
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            (tmp / "_template").mkdir()
+            (tmp / "devices").mkdir()
+            (tmp / "accounts").mkdir()
+            shutil.copy(CONFIG_ROOT / "_template" / "account.json", tmp / "_template" / "account.json")
+            dev = json.loads((CONFIG_ROOT / "devices" / "phone_A.json").read_text(encoding="utf-8"))
+            dev["clones"] = [{
+                "slot": 2, "package": "com.instagram.androia",
+                "identity": {"mac": "02:11:22:33:44:55", "imei": "490154203237518",
+                             "android_id": "0123456789abcdef"},
+            }]
+            (tmp / "devices" / "phone_A.json").write_text(json.dumps(dev), encoding="utf-8")
+            new_account_from_template("spoof_alias", "user", "phone_A",
+                                      app_clone_package="com.instagram.androia",
+                                      config_root=tmp)
+            cfg = load_account("spoof_alias", config_root=tmp)
+            self.assertEqual(cfg.device["spoofed_mac"], "02:11:22:33:44:55")
+            self.assertEqual(cfg.device["spoofed_imei"], "490154203237518")
+            self.assertEqual(cfg.device["spoofed_android_id"], "0123456789abcdef")
         finally:
             shutil.rmtree(tmp)
 

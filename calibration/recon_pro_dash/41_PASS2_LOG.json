@@ -1,0 +1,265 @@
+{
+  "overview": [
+    {
+      "days": 7,
+      "ok": true,
+      "kpis": {
+        "views": 1521,
+        "follows": -2,
+        "interactions": 12,
+        "viewers": 220,
+        "range_days": 7,
+        "range_label": "7 dni"
+      },
+      "nodes": 45
+    },
+    {
+      "days": 14,
+      "ok": true,
+      "kpis": {
+        "views": 2001,
+        "follows": -8,
+        "interactions": 13,
+        "viewers": 267,
+        "range_days": 14,
+        "range_label": "14 dni"
+      },
+      "nodes": 45
+    },
+    {
+      "days": 30,
+      "ok": true,
+      "kpis": {
+        "views": 2001,
+        "follows": -10,
+        "interactions": 13,
+        "viewers": 267,
+        "range_days": 30,
+        "range_label": "30 dni"
+      },
+      "nodes": 45
+    }
+  ],
+  "post": [
+    {
+      "ok": true,
+      "name": "41_post_379_7d",
+      "views": 379,
+      "kind": "post",
+      "days": 7,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_post_394_7d",
+      "views": 394,
+      "kind": "post",
+      "days": 7,
+      "views_on_screen": true
+    },
+    {
+      "ok": false,
+      "name": "41_post_42_7d",
+      "reason": "overlay",
+      "views": 42
+    },
+    {
+      "ok": false,
+      "name": "41_post_54_7d",
+      "reason": "overlay",
+      "views": 54
+    },
+    {
+      "ok": false,
+      "name": "41_post_278_7d",
+      "reason": "overlay",
+      "views": 278
+    },
+    {
+      "ok": true,
+      "name": "41_post_379_30d",
+      "views": 379,
+      "kind": "post",
+      "days": 30,
+      "views_on_screen": true
+    },
+    {
+      "ok": false,
+      "name": "41_post_394_30d",
+      "reason": "overlay",
+      "views": 394
+    },
+    {
+      "ok": false,
+      "name": "41_post_42_30d",
+      "reason": "overlay",
+      "views": 42
+    },
+    {
+      "ok": false,
+      "name": "41_post_54_30d",
+      "reason": "overlay",
+      "views": 54
+    },
+    {
+      "ok": false,
+      "name": "41_post_278_30d",
+      "reason": "overlay",
+      "views": 278
+    },
+    {
+      "ok": true,
+      "name": "41_post_379_14d",
+      "views": 379,
+      "kind": "post",
+      "days": 14,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_post_394_14d",
+      "views": 394,
+      "kind": "post",
+      "days": 14,
+      "views_on_screen": true
+    },
+    {
+      "ok": false,
+      "name": "41_post_42_14d",
+      "reason": "overlay",
+      "views": 42
+    },
+    {
+      "ok": false,
+      "name": "41_post_54_14d",
+      "reason": "overlay",
+      "views": 54
+    },
+    {
+      "ok": false,
+      "name": "41_post_278_14d",
+      "reason": "overlay",
+      "views": 278
+    }
+  ],
+  "story": [
+    {
+      "ok": true,
+      "name": "41_story_147_7d",
+      "views": 147,
+      "kind": "story",
+      "days": 7,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_172_7d",
+      "views": 172,
+      "kind": "story",
+      "days": 7,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_162_7d",
+      "views": 162,
+      "kind": "story",
+      "days": 7,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_179_7d",
+      "views": 179,
+      "kind": "story",
+      "days": 7,
+      "views_on_screen": true
+    },
+    {
+      "ok": false,
+      "name": "41_story_196_7d",
+      "reason": "overlay",
+      "views": 196
+    },
+    {
+      "ok": true,
+      "name": "41_story_147_30d",
+      "views": 147,
+      "kind": "story",
+      "days": 30,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_172_30d",
+      "views": 172,
+      "kind": "story",
+      "days": 30,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_162_30d",
+      "views": 162,
+      "kind": "story",
+      "days": 30,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_179_30d",
+      "views": 179,
+      "kind": "story",
+      "days": 30,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_196_30d",
+      "views": 196,
+      "kind": "story",
+      "days": 30,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_147_14d",
+      "views": 147,
+      "kind": "story",
+      "days": 14,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_172_14d",
+      "views": 172,
+      "kind": "story",
+      "days": 14,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_162_14d",
+      "views": 162,
+      "kind": "story",
+      "days": 14,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_179_14d",
+      "views": 179,
+      "kind": "story",
+      "days": 14,
+      "views_on_screen": true
+    },
+    {
+      "ok": true,
+      "name": "41_story_196_14d",
+      "views": 196,
+      "kind": "story",
+      "days": 14,
+      "views_on_screen": true
+    }
+  ]
+}

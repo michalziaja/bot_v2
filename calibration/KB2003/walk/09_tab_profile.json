@@ -1,0 +1,455 @@
+{
+  "slug": "09_tab_profile",
+  "note_pl": "po tap profile_tab",
+  "at": "2026-09-09T20:49:29Z",
+  "identify": {
+    "pkg": "com.instagram.androif",
+    "overlay": null,
+    "top": "profile_self",
+    "hits": 5,
+    "ambiguous": false,
+    "unknown": false
+  },
+  "pkg": "com.instagram.androif",
+  "slim": [
+    {
+      "rid": "row_profile_header_imageview_frame_layout",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[69,292][291,514]"
+    },
+    {
+      "rid": "row_profile_header_imageview",
+      "lab": "Twój profil. Wyświetlona relacja.",
+      "cls": "Button",
+      "bounds": "[69,292][291,514]"
+    },
+    {
+      "rid": "profile_header_full_name_above_vanity",
+      "lab": "karolina mazur",
+      "cls": "TextView",
+      "bounds": "[360,313][652,363]"
+    },
+    {
+      "rid": "profile_header_post_count_front_familiar",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[360,363][478,518]"
+    },
+    {
+      "rid": "profile_header_familiar_post_count_value",
+      "lab": "0",
+      "cls": "TextView",
+      "bounds": "[360,389][389,450]"
+    },
+    {
+      "rid": "profile_header_familiar_post_count_label",
+      "lab": "posty",
+      "cls": "TextView",
+      "bounds": "[360,450][448,492]"
+    },
+    {
+      "rid": "profile_header_followers_stacked_familiar",
+      "lab": "0obserwatorzy",
+      "cls": "",
+      "bounds": "[478,363][757,518]"
+    },
+    {
+      "rid": "profile_header_familiar_followers_value",
+      "lab": "0",
+      "cls": "TextView",
+      "bounds": "[496,387][525,448]"
+    },
+    {
+      "rid": "profile_header_familiar_followers_label",
+      "lab": "obserwatorzy",
+      "cls": "TextView",
+      "bounds": "[496,448][727,494]"
+    },
+    {
+      "rid": "profile_header_following_stacked_familiar",
+      "lab": "0obserwowanie",
+      "cls": "",
+      "bounds": "[757,363][1032,518]"
+    },
+    {
+      "rid": "profile_header_familiar_following_value",
+      "lab": "0",
+      "cls": "TextView",
+      "bounds": "[775,387][804,448]"
+    },
+    {
+      "rid": "profile_header_familiar_following_label",
+      "lab": "obserwowanie",
+      "cls": "TextView",
+      "bounds": "[775,448][1020,494]"
+    },
+    {
+      "rid": "profile_header_name_and_bio_upsell",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[48,535][337,585]"
+    },
+    {
+      "rid": "edit_name_and_bio_description",
+      "lab": "Dodaj biogram",
+      "cls": "TextView",
+      "bounds": "[48,535][337,585]"
+    },
+    {
+      "rid": "button_container",
+      "lab": "Edytuj profil",
+      "cls": "Button",
+      "bounds": "[36,633][474,729]"
+    },
+    {
+      "rid": "",
+      "lab": "Edytuj profil",
+      "cls": "TextView",
+      "bounds": "[133,654][376,708]"
+    },
+    {
+      "rid": "button_container",
+      "lab": "Udostępnij profil",
+      "cls": "Button",
+      "bounds": "[492,633][930,729]"
+    },
+    {
+      "rid": "",
+      "lab": "Udostępnij profil",
+      "cls": "TextView",
+      "bounds": "[545,654][876,708]"
+    },
+    {
+      "rid": "row_profile_header_button_chaining",
+      "lab": "Poznawaj ludzi",
+      "cls": "Button",
+      "bounds": "[948,633][1044,729]"
+    },
+    {
+      "rid": "similar_accounts_carousel_title",
+      "lab": "Zacznij obserwować konta, aby rozpocząć",
+      "cls": "TextView",
+      "bounds": "[48,792][890,846]"
+    },
+    {
+      "rid": "netego_carousel_cta",
+      "lab": "Wyświetl wszystkie",
+      "cls": "Button",
+      "bounds": "[602,792][1032,846]"
+    },
+    {
+      "rid": "contact_import_card_container",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[36,885][504,1491]"
+    },
+    {
+      "rid": "contact_import_card_title",
+      "lab": "Połącz kontakty",
+      "cls": "TextView",
+      "bounds": "[108,1221][432,1271]"
+    },
+    {
+      "rid": "contact_import_card_subtitle",
+      "lab": "Znajdź osoby, które znasz",
+      "cls": "TextView",
+      "bounds": "[72,1280][468,1323]"
+    },
+    {
+      "rid": "contact_import_card_cta",
+      "lab": "Połącz",
+      "cls": "TextView",
+      "bounds": "[72,1359][468,1455]"
+    },
+    {
+      "rid": "dismiss_button_prism_style",
+      "lab": "Odrzuć",
+      "cls": "ImageView",
+      "bounds": "[414,885][504,975]"
+    },
+    {
+      "rid": "suggested_entity_card_container",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[516,885][984,1491]"
+    },
+    {
+      "rid": "suggested_entity_card_name",
+      "lab": "DJ THE M",
+      "cls": "TextView",
+      "bounds": "[630,1221][870,1271]"
+    },
+    {
+      "rid": "suggested_entity_card_context",
+      "lab": "Popularne",
+      "cls": "TextView",
+      "bounds": "[664,1280][835,1323]"
+    },
+    {
+      "rid": "suggested_user_card_follow_button",
+      "lab": "Obserwuj Obserwuj DJ THE M",
+      "cls": "TextView",
+      "bounds": "[552,1359][948,1455]"
+    },
+    {
+      "rid": "dismiss_button_prism_style",
+      "lab": "Odrzuć",
+      "cls": "ImageView",
+      "bounds": "[894,885][984,975]"
+    },
+    {
+      "rid": "suggested_entity_card_container",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[996,885][1080,1491]"
+    },
+    {
+      "rid": "suggested_user_card_follow_button",
+      "lab": "Obserwuj Obserwuj Ola Nowak",
+      "cls": "TextView",
+      "bounds": "[1032,1359][1080,1455]"
+    },
+    {
+      "rid": "profile_tab_icon_view",
+      "lab": "Widok siatki",
+      "cls": "ImageView",
+      "bounds": "[0,1556][360,1700]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[360,1556][720,1700]"
+    },
+    {
+      "rid": "profile_tab_icon_view",
+      "lab": "Rolki",
+      "cls": "ImageView",
+      "bounds": "[360,1556][720,1700]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[720,1556][1080,1700]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[720,1556][1080,1700]"
+    },
+    {
+      "rid": "profile_tab_icon_view",
+      "lab": "Zdjęcia, na których jesteś",
+      "cls": "ImageView",
+      "bounds": "[864,1592][936,1664]"
+    },
+    {
+      "rid": "empty_state_view_root",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[0,1701][1080,2124]"
+    },
+    {
+      "rid": "igds_empty_state_title",
+      "lab": "Utwórz pierwszy post",
+      "cls": "TextView",
+      "bounds": "[204,1911][876,2065]"
+    },
+    {
+      "rid": "igds_empty_state_body_text",
+      "lab": "Dostosuj tę przestrzeń.",
+      "cls": "TextView",
+      "bounds": "[204,2089][876,2124]"
+    },
+    {
+      "rid": "profile_header_create_button",
+      "lab": "Utwórz nowe",
+      "cls": "ImageView",
+      "bounds": "[0,103][144,271]"
+    },
+    {
+      "rid": "action_bar_username_container",
+      "lab": "",
+      "cls": "LinearLayout",
+      "bounds": "[192,103][768,271]"
+    },
+    {
+      "rid": "action_bar_title",
+      "lab": "karomazur4 karomazur4",
+      "cls": "TextView",
+      "bounds": "[337,103][712,271]"
+    },
+    {
+      "rid": "",
+      "lab": "Wyświetl profil w aplikacji Threads",
+      "cls": "ImageView",
+      "bounds": "[768,103][912,271]"
+    },
+    {
+      "rid": "",
+      "lab": "Opcje",
+      "cls": "ImageView",
+      "bounds": "[912,103][1056,271]"
+    },
+    {
+      "rid": "feed_tab",
+      "lab": "Strona główna",
+      "cls": "FrameLayout",
+      "bounds": "[0,2124][216,2268]"
+    },
+    {
+      "rid": "clips_tab",
+      "lab": "Rolki",
+      "cls": "FrameLayout",
+      "bounds": "[216,2124][432,2268]"
+    },
+    {
+      "rid": "direct_tab",
+      "lab": "Wiadomość",
+      "cls": "FrameLayout",
+      "bounds": "[432,2124][648,2268]"
+    },
+    {
+      "rid": "search_tab",
+      "lab": "Szukaj i poznaj",
+      "cls": "FrameLayout",
+      "bounds": "[648,2124][864,2268]"
+    },
+    {
+      "rid": "profile_tab",
+      "lab": "Profil",
+      "cls": "FrameLayout",
+      "bounds": "[864,2124][1080,2268]"
+    },
+    {
+      "rid": "clock",
+      "lab": "22:49 22:49",
+      "cls": "TextView",
+      "bounds": "[183,34][297,103]"
+    },
+    {
+      "rid": "wifi_combo",
+      "lab": "Wi-Fi: pełna moc sygnału.",
+      "cls": "FrameLayout",
+      "bounds": "[800,35][857,101]"
+    },
+    {
+      "rid": "battery",
+      "lab": "Bateria Rzecz na pasku stanu Ładowanie, Pozostało 77 procent energii baterii",
+      "cls": "LinearLayout",
+      "bounds": "[911,34][1007,103]"
+    },
+    {
+      "rid": "battery_percentage_view",
+      "lab": "77%",
+      "cls": "TextView",
+      "bounds": "[935,34][1007,103]"
+    },
+    {
+      "rid": "recent_apps",
+      "lab": "Przegląd",
+      "cls": "ImageView",
+      "bounds": "[160,2268][400,2400]"
+    },
+    {
+      "rid": "back",
+      "lab": "Wróć",
+      "cls": "ImageView",
+      "bounds": "[694,2268][934,2400]"
+    },
+    {
+      "rid": "home",
+      "lab": "Ekran główny",
+      "cls": "ImageView",
+      "bounds": "[428,2268][668,2400]"
+    }
+  ],
+  "ids_sample": [
+    "android:id/content",
+    "android:id/list",
+    "com.android.systemui:id/back",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_icon_view",
+    "com.android.systemui:id/battery_percentage_view",
+    "com.android.systemui:id/center_group",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/dynamic_icon_group",
+    "com.android.systemui:id/ends_group",
+    "com.android.systemui:id/home",
+    "com.android.systemui:id/horizontal",
+    "com.android.systemui:id/nav_buttons",
+    "com.android.systemui:id/navigation_bar_frame",
+    "com.android.systemui:id/navigation_bar_view",
+    "com.android.systemui:id/navigation_inflater",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/recent_apps",
+    "com.android.systemui:id/seeding_card_container",
+    "com.android.systemui:id/seedling_and_notification_container",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_end_side_container",
+    "com.android.systemui:id/status_bar_end_side_content",
+    "com.android.systemui:id/status_bar_launch_animation_container",
+    "com.android.systemui:id/status_bar_start_side_container",
+    "com.android.systemui:id/status_bar_start_side_content",
+    "com.android.systemui:id/status_bar_start_side_except_heads_up",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_inout",
+    "com.android.systemui:id/wifi_signal",
+    "com.instagram.android:id/action_bar_layout",
+    "com.instagram.android:id/action_bar_root",
+    "com.instagram.android:id/action_bar_title",
+    "com.instagram.android:id/action_bar_title_chevron"
+  ],
+  "texts_sample": [
+    "0",
+    "0obserwatorzy",
+    "0obserwowanie",
+    "22:49",
+    "77%",
+    "bateria rzecz na pasku stanu ładowanie, pozostało 77 procent energii baterii",
+    "dj the m",
+    "dodaj biogram",
+    "dostosuj tę przestrzeń.",
+    "edytuj profil",
+    "ekran główny",
+    "karolina mazur",
+    "karomazur4",
+    "obserwatorzy",
+    "obserwowanie",
+    "obserwuj",
+    "obserwuj dj the m",
+    "obserwuj ola nowak",
+    "odrzuć",
+    "opcje",
+    "popularne",
+    "posty",
+    "poznawaj ludzi",
+    "połącz",
+    "połącz kontakty",
+    "profil",
+    "przegląd",
+    "rolki",
+    "strona główna",
+    "szukaj i poznaj",
+    "twój profil. wyświetlona relacja.",
+    "udostępnij profil",
+    "utwórz nowe",
+    "utwórz pierwszy post",
+    "wi-fi: pełna moc sygnału.",
+    "wiadomość",
+    "widok siatki",
+    "wróć",
+    "wyświetl profil w aplikacji threads",
+    "wyświetl wszystkie"
+  ],
+  "screenshot": "09_tab_profile.jpg"
+}

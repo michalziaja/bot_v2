@@ -219,6 +219,28 @@ class TestCatalogIntegrity(unittest.TestCase):
         with self.assertRaises(KeyError):
             get_plugin("nie_ma_takiego")
 
+    def test_warmup_like_chance_tylko_procent(self):
+        """Rozgrzewka bez AI — suwak %, bez formuły score/100."""
+        pl = get_plugin("reels_warmup")
+        chance = None
+        for sec in pl["sections"]:
+            for f in sec.get("fields") or []:
+                if f.get("type") == "chance" and f.get("key") == ["like", "chance"]:
+                    chance = f
+        self.assertIsNotNone(chance)
+        self.assertFalse(chance.get("allow_formula"))
+        self.assertIn("%", chance.get("label") or "")
+
+    def test_follow_chance_tez_bez_formuly(self):
+        pl = get_plugin("profile_interact")
+        found = False
+        for sec in pl["sections"]:
+            for f in sec.get("fields") or []:
+                if f.get("key") == ["follow", "chance"]:
+                    found = True
+                    self.assertFalse(f.get("allow_formula"))
+        self.assertTrue(found)
+
 
 class TestDeepMerge(unittest.TestCase):
     def test_override_wins(self):
@@ -391,10 +413,129 @@ class TestSettingsAndQueue(unittest.TestCase):
         # reszta budżetu z defaultów, nie skasowana przez częściowy override
         self.assertIn("max_items", r[0]["resolved"]["budget"])
 
-    def test_resolve_queue_flags_disabled_plugin(self):
-        store.write_queue("acc1", {"queue": [{"plugin": "feed_browser"}]})
+    def test_two_content_search_tasks_keep_independent_overrides(self):
+        """Dwa content_search w jednym runie — osobne source/harvest po zapisie."""
+        store.write_queue("acc1", {"queue": [
+            {
+                "id": "cs_hash",
+                "plugin": "content_search",
+                "overrides": {
+                    "source": "hashtag",
+                    "run_scope": "phrases",
+                    "likers": {"harvest": {"enabled": True}},
+                },
+            },
+            {
+                "id": "cs_kw",
+                "plugin": "content_search",
+                "overrides": {
+                    "source": "keyword",
+                    "run_scope": "phrases",
+                    "likers": {"harvest": {"enabled": False}},
+                },
+            },
+        ]})
+        q = store.read_queue("acc1")
+        self.assertEqual(len(q["queue"]), 2)
+        self.assertEqual(q["queue"][0]["id"], "cs_hash")
+        self.assertEqual(q["queue"][1]["id"], "cs_kw")
+        self.assertEqual(q["queue"][0]["overrides"]["source"], "hashtag")
+        self.assertEqual(q["queue"][1]["overrides"]["source"], "keyword")
+        self.assertTrue(q["queue"][0]["overrides"]["likers"]["harvest"]["enabled"])
+        self.assertFalse(q["queue"][1]["overrides"]["likers"]["harvest"]["enabled"])
+        r = store.resolve_queue("acc1")
+        self.assertEqual(r[0]["resolved"]["source"], "hashtag")
+        self.assertEqual(r[1]["resolved"]["source"], "keyword")
+        self.assertTrue(r[0]["resolved"]["likers"]["harvest"]["enabled"])
+        self.assertFalse(r[1]["resolved"]["likers"]["harvest"]["enabled"])
+
+    def test_resolve_queue_merges_content_search_source_override(self):
+        """Karta kolejki: source + run_scope wygrywają z ustawień konta."""
+        path = store.CONFIG_ROOT / "accounts" / "acc1.json"
+        cfg = json.loads(path.read_text(encoding="utf-8"))
+        cfg["plugins"] = {"content_search": {"enabled": True, "source": "keyword"}}
+        path.write_text(json.dumps(cfg, ensure_ascii=False), encoding="utf-8")
+        store.write_queue("acc1", {"queue": [{
+            "plugin": "content_search",
+            "overrides": {"source": "hashtag", "run_scope": "phrases"},
+        }]})
+        r = store.resolve_queue("acc1")
+        self.assertEqual(r[0]["resolved"]["source"], "hashtag")
+        self.assertEqual(r[0]["resolved"]["run_scope"], "phrases")
+
+    def test_resolve_queue_merges_mix_and_map_seed_kind(self):
+        """Karta: mix # + znaczniki oraz map_seed_kind z overrides."""
+        path = store.CONFIG_ROOT / "accounts" / "acc1.json"
+        cfg = json.loads(path.read_text(encoding="utf-8"))
+        cfg["plugins"] = {"content_search": {
+            "enabled": True, "source": "keyword",
+            "tag_variants_budget": {"map_seed_kind": "both"},
+        }}
+        path.write_text(json.dumps(cfg, ensure_ascii=False), encoding="utf-8")
+        store.write_queue("acc1", {"queue": [{
+            "plugin": "content_search",
+            "overrides": {
+                "run_scope": "mix",
+                "mix_from": ["hashtag", "tag_variants"],
+                "tag_variants_budget": {
+                    "source": "from_map", "map_seed_kind": "hashtag",
+                },
+            },
+        }]})
+        r = store.resolve_queue("acc1")
+        self.assertEqual(r[0]["resolved"]["run_scope"], "mix")
+        self.assertEqual(r[0]["resolved"]["mix_from"],
+                         ["hashtag", "tag_variants"])
+        self.assertEqual(
+            r[0]["resolved"]["tag_variants_budget"]["map_seed_kind"], "hashtag")
+
+    def test_content_search_catalog_has_map_seed_kind(self):
+        pl = get_plugin("content_search")
+        found = None
+        for sec in pl["sections"]:
+            for f in sec.get("fields") or []:
+                if tuple(f.get("key") or []) == (
+                        "tag_variants_budget", "map_seed_kind"):
+                    found = f
+        self.assertIsNotNone(found)
+        self.assertEqual(found["options"], ["hashtag", "keyword", "both"])
+
+    def test_content_search_order_has_least_recent(self):
+        pl = get_plugin("content_search")
+        order = None
+        for sec in pl["sections"]:
+            for f in sec.get("fields") or []:
+                if tuple(f.get("key") or []) == ("phrases", "order"):
+                    order = f
+        self.assertIsNotNone(order)
+        self.assertIn("least_recent", order["options"])
+
+    def test_write_queue_enables_plugin_on_account(self):
+        """Zapis runy = operator chce plugin — nie cichy skip disabled."""
+        self.assertFalse(store.read_settings("acc1")["publish_media"]["enabled"])
+        out = store.write_queue("acc1", {"queue": [{"plugin": "publish_media"}]})
+        self.assertEqual(out["enabled_plugins"], ["publish_media"])
+        r = store.resolve_queue("acc1")
+        self.assertTrue(r[0]["plugin_enabled_for_account"])
+        raw = json.loads((store.CONFIG_ROOT / "accounts" / "acc1.json")
+                         .read_text(encoding="utf-8"))
+        self.assertTrue(raw["plugins"]["publish_media"]["enabled"])
+
+    def test_write_queue_does_not_enable_disabled_task(self):
+        """Wyłączony krok w kolejce nie zapala pluginu na koncie."""
+        store.write_queue("acc1", {"queue": [
+            {"plugin": "feed_browser", "enabled": False},
+        ]})
+        self.assertFalse(store.read_settings("acc1")["feed_browser"]["enabled"])
         r = store.resolve_queue("acc1")
         self.assertFalse(r[0]["plugin_enabled_for_account"])
+
+    def test_enable_queued_plugins_idempotent(self):
+        store.enable_queued_plugins(
+            "acc1", [{"plugin": "publish_media", "enabled": True}])
+        again = store.enable_queued_plugins(
+            "acc1", [{"plugin": "publish_media", "enabled": True}])
+        self.assertEqual(again, [])
 
     # ---- nazwane scenariusze (presety kolejki) ----
     def test_no_presets_by_default(self):
@@ -465,6 +606,25 @@ class TestSettingsAndQueue(unittest.TestCase):
         r = store.resolve_queue("acc1", name="grzanie")
         self.assertEqual(len(r), 1)
         self.assertEqual(r[0]["plugin"], "feed_browser")
+
+
+class TestPublishMediaCatalog(unittest.TestCase):
+    """Ósemka w Runach: queueable, nie ukryty."""
+
+    def test_publish_media_queueable_nie_ukryty(self):
+        p = get_plugin("publish_media")
+        self.assertTrue(p["queueable"])
+        self.assertFalse(p["ui_hidden"])
+        self.assertEqual(p["group"], "publish")
+        self.assertIn("publish_media", plugin_ids())
+        self.assertFalse(p["defaults"].get("stop_before_share"))
+        self.assertEqual(p["defaults"].get("item_ids"), [])
+        self.assertIn("WYBRANE", p["desc"])
+        keys = [tuple(f["key"]) for s in p["sections"] for f in s["fields"]]
+        self.assertIn(("item_ids",), keys)
+        self.assertIn(("stop_before_share",), keys)
+        # Domyślnie off — zapis/Start runy zapala enabled (enable_queued_plugins).
+        self.assertFalse(p["defaults"].get("enabled"))
 
 
 if __name__ == "__main__":

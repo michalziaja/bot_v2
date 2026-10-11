@@ -1,0 +1,22 @@
+{
+  "mCurrentFocus": "mCurrentFocus=Window{f9525e u0 com.instagram.androib/com.instagram.modal.ModalActivity}",
+  "mFocusedApp": "mFocusedApp=ActivityRecord{4d720b9 u0 com.instagram.androib/com.instagram.modal.ModalActivity t190}",
+  "mResumedActivity": "mResumedActivity: ActivityRecord{4d720b9 u0 com.instagram.androib/com.instagram.modal.ModalActivity t190}",
+  "topResumedActivity": "",
+  "focus_lines": [
+    "mCurrentFocus=Window{f9525e u0 com.instagram.androib/com.instagram.modal.ModalActivity}",
+    "mFocusedApp=ActivityRecord{4d720b9 u0 com.instagram.androib/com.instagram.modal.ModalActivity t190}",
+    "mResumedActivity: ActivityRecord{4d720b9 u0 com.instagram.androib/com.instagram.modal.ModalActivity t190}"
+  ],
+  "focused_package": "com.instagram.androib",
+  "focused_activity": "com.instagram.modal.ModalActivity",
+  "current_pkg": "com.instagram.androib",
+  "pidof_clone": "27646",
+  "pidof_stock": "28123",
+  "clone_owns_focus": true,
+  "clone_resumed_line": "mCurrentFocus=Window{f9525e u0 com.instagram.androib/com.instagram.modal.ModalActivity}",
+  "stock_on_focus": false,
+  "raw_window": "mCurrentFocus=Window{f9525e u0 com.instagram.androib/com.instagram.modal.ModalActivity}\n  mFocusedApp=ActivityRecord{4d720b9 u0 com.instagram.androib/com.instagram.modal.ModalActivity t190}",
+  "raw_activity": "mResumedActivity: ActivityRecord{4d720b9 u0 com.instagram.androib/com.instagram.modal.ModalActivity t190}",
+  "note_pl": "sukces launchu = clone_owns_focus, NIE pidof"
+}

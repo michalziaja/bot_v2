@@ -96,9 +96,12 @@ class SwipeNext:
 
 
 def _recover_before_marker(ctx) -> tuple[dict, str | None, str | None]:
-    """ensure reels_feed + dłuższy settle + ponowny odczyt meta."""
+    """ensure reels_feed + dłuższy settle + ponowny odczyt meta.
+
+    Z siatki # NIE wołaj ensure(reels_feed) — to otwiera Clips i zamyka viewer.
+    """
     nav = getattr(ctx, "navigator", None)
-    if nav is not None:
+    if nav is not None and not getattr(ctx, "scratch", {}).get("content_search_active"):
         try:
             nav.ensure(REELS, max_steps=3)
         except Exception:

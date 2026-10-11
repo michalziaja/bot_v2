@@ -1,0 +1,210 @@
+{
+  "name": "05_system_login_if_needed",
+  "note_pl": "Logowanie (login/hasło + popupy) status=skipped",
+  "pkg": "com.google.android.gms",
+  "identify_top": null,
+  "overlay": "system_ui",
+  "focused_package": "com.google.android.gms",
+  "focused_activity": "com.google.android.gms.auth.api.credentials.assistedsignin.ui.AssistedSignInActivity",
+  "dominant_package": "com.android.systemui",
+  "clone_owns_focus": false,
+  "visible_texts": [
+    "Anuluj",
+    "Zaloguj się w inny sposób",
+    "Użyj klucza z innego urządzenia",
+    "14:58",
+    "Tryb oszczędzania energii włączony",
+    "Dzwonek z wibracjami.",
+    "Wi-Fi: pełna moc sygnału.",
+    "Telefon: pełna moc sygnału.",
+    "Ładuję baterię, 100 procent.",
+    "100%"
+  ],
+  "resource_ids": [
+    "com.android.systemui:id/rounded_corners_top",
+    "com.android.systemui:id/left",
+    "com.android.systemui:id/display_cutout",
+    "com.android.systemui:id/right",
+    "com.google.android.gms:id/action_bar_root",
+    "android:id/content",
+    "com.google.android.gms:id/container",
+    "com.google.android.gms:id/coordinator",
+    "com.google.android.gms:id/touch_outside",
+    "com.google.android.gms:id/design_bottom_sheet",
+    "com.google.android.gms:id/main",
+    "com.google.android.gms:id/dialog_container_1",
+    "com.google.android.gms:id/dialog_container_2",
+    "com.google.android.gms:id/main_container",
+    "com.google.android.gms:id/header_with_logo_no_text",
+    "com.google.android.gms:id/header_icon",
+    "com.google.android.gms:id/cancel",
+    "com.google.android.gms:id/title",
+    "com.google.android.gms:id/hybrid_container",
+    "com.google.android.gms:id/qrcode_icon",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/phone_status_bar_background",
+    "com.android.systemui:id/status_bar_area",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_left_side_container",
+    "com.android.systemui:id/status_bar_left_side",
+    "com.android.systemui:id/left_clock_container",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/notification_icon_area_inner",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/divided_status_icon_area",
+    "com.android.systemui:id/system_icon_area",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_iconset",
+    "com.android.systemui:id/wifi_signal",
+    "com.android.systemui:id/wifi_activity",
+    "com.android.systemui:id/mobile_combo",
+    "com.android.systemui:id/mobile_group",
+    "com.android.systemui:id/signal_combo",
+    "com.android.systemui:id/mobile_signal",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_percentage_view"
+  ],
+  "nodes": [
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.google.android.gms:id/touch_outside",
+      "click": true,
+      "cls": "View",
+      "bounds": "[0,0][1080,2340]",
+      "pkg": "com.google.android.gms"
+    },
+    {
+      "text": "",
+      "desc": "Anuluj",
+      "rid": "com.google.android.gms:id/cancel",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[936,1866][1062,1992]",
+      "pkg": "com.google.android.gms"
+    },
+    {
+      "text": "Zaloguj się w inny sposób",
+      "desc": "",
+      "rid": "com.google.android.gms:id/title",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[63,2023][1017,2116]",
+      "pkg": "com.google.android.gms"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.google.android.gms:id/hybrid_container",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[0,2129][1080,2287]",
+      "pkg": "com.google.android.gms"
+    },
+    {
+      "text": "Użyj klucza z innego urządzenia",
+      "desc": "",
+      "rid": "com.google.android.gms:id/title",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[174,2177][762,2238]",
+      "pkg": "com.google.android.gms"
+    },
+    {
+      "text": "14:58",
+      "desc": "14:58",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[59,0][156,82]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[719,22][759,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[762,22][803,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[806,22][853,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[853,22][892,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[900,0][1021,82]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[900,0][995,82]",
+      "pkg": "com.android.systemui"
+    }
+  ],
+  "special": {
+    "verification_code": false,
+    "captcha": false,
+    "suspicious_login": false,
+    "splash_crash_hint": false
+  },
+  "fatal_logcat": "",
+  "screenshot": "05_system_login_if_needed.jpg",
+  "screenshot_bytes": 94570,
+  "hierarchy_error": "",
+  "extra": {
+    "want_fatal": false,
+    "step_status": "skipped",
+    "step_payload": {
+      "reason": "login_screen_not_detected",
+      "top": null
+    },
+    "step_error": null,
+    "login_log": [
+      "Szukam ekranu logowania (@kasia21sum)…",
+      "Jeszcze nie ma pól logowania — czekam (1/5)",
+      "Jeszcze nie ma pól logowania — czekam (2/5)",
+      "Jeszcze nie ma pól logowania — czekam (3/5)",
+      "Jeszcze nie ma pól logowania — czekam (4/5)",
+      "Ekran logowania nie wykryty (top=None) — skip"
+    ]
+  },
+  "ts": "2026-09-06T14:58:17"
+}

@@ -11,6 +11,8 @@ import time
 from pathlib import Path
 from typing import Any, Callable
 
+from v2.ai.vision import accumulate_usage, empty_usage_totals
+
 
 def _iso_now() -> str:
     """Timestamp lokalny bez strefy — spójny z events.jsonl / queue_state."""
@@ -72,6 +74,8 @@ class SessionStats:
             "progress": None,
             "counters": {},
             "by_plugin": {},
+            # Tokeny AI per model + koszt USD (nie mylić z counters akcji)
+            "ai": empty_usage_totals(),
             # Czas trwania kolejki / zadań — pod ETA w panelu
             "timing": {
                 "total_s": 0.0,
@@ -221,6 +225,15 @@ class SessionStats:
             bp = self._state.setdefault("by_plugin", {}).setdefault(plugin, {})
             bp[key] = int(bp.get(key) or 0) + n
             self._plugin_base[key] = int(self._plugin_base.get(key) or 0) + n
+        self.flush()
+
+    def add_ai_usage(self, result_or_usage: dict | None,
+                     *, mode: str | None = None) -> None:
+        """Dopisz wywołanie Vision do `ai` (tokeny IN/OUT per model + koszt)."""
+        if not self._state:
+            return
+        ai = self._state.setdefault("ai", empty_usage_totals())
+        accumulate_usage(ai, result_or_usage, mode=mode)
         self.flush()
 
     def set_counters(self, stats: dict | None) -> None:

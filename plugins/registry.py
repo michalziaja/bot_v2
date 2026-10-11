@@ -56,3 +56,4 @@ def load_all():
     import v2.plugins.impl.reels_niche        # noqa: F401
     import v2.plugins.impl.reels_warmup       # noqa: F401
     import v2.plugins.impl.target_scraper     # noqa: F401
+    import v2.plugins.impl.publish_media      # noqa: F401

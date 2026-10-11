@@ -2,8 +2,8 @@
   "alias": "phone_A",
   "adb_id": "R58M74B5FRN",
   "model": "SM_A505FN",
-  "product": "a50eea",
-  "manufacturer": "Samsung",
+  "product": "a50",
+  "manufacturer": "samsung",
   "android_version": "11",
   "resolution": [
     1080,
@@ -31,6 +31,84 @@
       "slot": 4,
       "package": "com.instagram.androia",
       "note": "dodany z panelu"
+    },
+    {
+      "slot": 5,
+      "package": "com.instagram.androie",
+      "note": "z panelu",
+      "identity": {
+        "package": "com.instagram.androie",
+        "android_id": "86b463f657b1f712",
+        "gaid": "c8e0e399-b26a-48b2-b107-ee3dd55c5557",
+        "fingerprint": "samsung/a50/a50:11/RP1A.200720.012/YF8TAYJPZ6:user/release-keys",
+        "mac": "c6:b5:1a:b1:a6:a3",
+        "imei": "027995086029097",
+        "model": "SM A505FN"
+      }
+    },
+    {
+      "slot": 6,
+      "package": "com.instagram.androib",
+      "note": "z panelu",
+      "identity": {
+        "package": "com.instagram.androib",
+        "android_id": "f7de0f2879478933",
+        "gaid": "791290c0-3ccd-4de6-83ff-0ae486e7961a",
+        "fingerprint": "samsung/dm1qxxx/dm1q:14/UP1A.231005.007/M4PBZTNVHP:user/release-keys",
+        "mac": "1e:6e:8f:71:77:13",
+        "imei": "382837687012248",
+        "model": "Samsung Galaxy S23",
+        "media_drm_id": "KHo8tVDZ/Zz2haWyAflRHmXQFgFKXpxHDYVcLE3qW3c=",
+        "build_time": "2026-06-19 22:40:38",
+        "boot_time": "2026-08-12 19:54:38",
+        "gps_lat": 51.09784,
+        "gps_lon": 17.07836,
+        "dns": "1.1.1.1,1.0.0.1",
+        "sim_country": "PL",
+        "sim_operator": "Play",
+        "sim_operator_code": "26006",
+        "apk": "/home/michal/bot_v2/appcloner/apks/instagram-444.0.0.46.85.apk"
+      }
+    },
+    {
+      "slot": 7,
+      "package": "com.instagram.androic",
+      "note": "z panelu",
+      "identity": {
+        "package": "com.instagram.androic",
+        "android_id": "76423a2474954fa5",
+        "gaid": "",
+        "fingerprint": "samsung/a54xeea/a54x:14/UP1A.231005.007/HR1ZNHY9H8:user/release-keys",
+        "mac": "",
+        "imei": "",
+        "model": "Samsung Galaxy A54 5G",
+        "media_drm_id": "",
+        "build_time": "",
+        "boot_time": "",
+        "gps_lat": null,
+        "gps_lon": null,
+        "dns": "",
+        "sim_country": "",
+        "sim_operator": "",
+        "sim_operator_code": "",
+        "apk": "/home/michal/bot_v2/appcloner/apks/instagram-444.0.0.46.85.apk",
+        "use": {
+          "model": true,
+          "android_id": true,
+          "fingerprint": true,
+          "gaid": false,
+          "mac": false,
+          "imei": false,
+          "media_drm_id": false,
+          "build_time": false,
+          "boot_time": false,
+          "gps": false,
+          "dns": false,
+          "sim_country": false,
+          "sim_operator": false,
+          "sim_operator_code": false
+        }
+      }
     }
   ],
   "uiautodev": {
@@ -39,6 +117,7 @@
   "scrcpy": {
     "port": 27183,
     "max_size": 900,
-    "max_fps": 15
-  }
+    "max_fps": 37
+  },
+  "scheduler_enabled": false
 }

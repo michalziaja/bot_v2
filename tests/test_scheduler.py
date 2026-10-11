@@ -97,6 +97,14 @@ class CycleIndexTests(unittest.TestCase):
         b = dp.cycle_index("2026-08-06", 3)
         self.assertEqual(a, b)
 
+    def test_js_ordinal_matches_python_toordinal(self):
+        """UI mapuje datę kolumny tym samym wzorem co cycle_index (719163)."""
+        from datetime import date
+        d = date(2026, 8, 3)
+        unix_days = (d - date(1970, 1, 1)).days
+        self.assertEqual(unix_days + 719163, d.toordinal())
+        self.assertEqual((unix_days + 719163) % 3, dp.cycle_index("2026-08-03", 3))
+
 
 class _PlannerCase(unittest.TestCase):
     """Wspólny tmpdir: jedno urządzenie, konta o zadanych czasach sesji."""
@@ -254,6 +262,18 @@ class BlockEditingTests(_PlannerCase):
                             b["id"], target)
         self.assertTrue(next(x for x in out["days"][0]["blocks"]
                              if x["id"] == b["id"])["locked"])
+
+    def test_set_block_locked_pins_and_unpins(self):
+        day = self.day0()
+        b = day["blocks"][0]
+        on = dp.set_block_locked("phone_A", self.data_root, self.config_root, 0,
+                                 b["id"], True)
+        self.assertTrue(next(x for x in on["days"][0]["blocks"]
+                             if x["id"] == b["id"])["locked"])
+        off = dp.set_block_locked("phone_A", self.data_root, self.config_root, 0,
+                                  b["id"], False)
+        self.assertFalse(next(x for x in off["days"][0]["blocks"]
+                              if x["id"] == b["id"])["locked"])
 
     def test_regeneration_keeps_locked_blocks(self):
         day = self.day0()
@@ -437,7 +457,7 @@ class TickTests(_PlannerCase):
         plan = self._materialize()
         started, start = self._start_collector()
         hh, mm = map(int, plan["blocks"][0]["start"].split(":"))
-        tick_mod.tick_once(self.data_root, self.config_root, lambda: False, start,
+        tick_mod.tick_once(self.data_root, self.config_root, lambda device: False, start,
                            now=datetime(2026, 8, 8, hh, mm))
         self.assertEqual(started, [])
 
@@ -447,7 +467,7 @@ class TickTests(_PlannerCase):
         block = plan["blocks"][0]
         hh, mm = map(int, block["start"].split(":"))
         started, start = self._start_collector()
-        actions = tick_mod.tick_once(self.data_root, self.config_root, lambda: False,
+        actions = tick_mod.tick_once(self.data_root, self.config_root, lambda device: False,
                                      start, now=datetime(2026, 8, 8, hh, mm))
         self.assertEqual([a["result"] for a in actions], ["started"])
         self.assertEqual(started[0][0], block["account"])
@@ -462,13 +482,13 @@ class TickTests(_PlannerCase):
         on_time = datetime(2026, 8, 8, hh, mm)
 
         started, start = self._start_collector()
-        tick_mod.tick_once(self.data_root, self.config_root, lambda: False, start,
+        tick_mod.tick_once(self.data_root, self.config_root, lambda device: False, start,
                            now=on_time)
         full = started[0][2]
 
         dp.mark_block("phone_A", self.data_root, self.date, block["id"], "planned")
         started2, start2 = self._start_collector()
-        tick_mod.tick_once(self.data_root, self.config_root, lambda: False, start2,
+        tick_mod.tick_once(self.data_root, self.config_root, lambda device: False, start2,
                            now=on_time + timedelta(minutes=4))
         self.assertLess(started2[0][2], full)
 
@@ -478,7 +498,7 @@ class TickTests(_PlannerCase):
         block = plan["blocks"][0]
         hh, mm = map(int, block["start"].split(":"))
         started, start = self._start_collector()
-        actions = tick_mod.tick_once(self.data_root, self.config_root, lambda: True,
+        actions = tick_mod.tick_once(self.data_root, self.config_root, lambda device: True,
                                      start, now=datetime(2026, 8, 8, hh, mm))
         self.assertIn("device_busy", [a["result"] for a in actions])
         self.assertEqual(started, [])
@@ -489,7 +509,7 @@ class TickTests(_PlannerCase):
         self._materialize()
         sched_state.set_enabled(self.data_root, True)
         started, start = self._start_collector()
-        actions = tick_mod.tick_once(self.data_root, self.config_root, lambda: False,
+        actions = tick_mod.tick_once(self.data_root, self.config_root, lambda device: False,
                                      start, now=datetime(2026, 8, 8, 23, 55))
         self.assertTrue(actions)
         self.assertTrue(all(a["result"] == "missed" for a in actions))
@@ -501,7 +521,7 @@ class TickTests(_PlannerCase):
         sched_state.set_enabled(self.data_root, True)
         first = min(dp.block_start_min(b) for b in plan["blocks"])
         started, start = self._start_collector()
-        tick_mod.tick_once(self.data_root, self.config_root, lambda: False, start,
+        tick_mod.tick_once(self.data_root, self.config_root, lambda device: False, start,
                            now=datetime(2026, 8, 8, (first - 30) // 60, (first - 30) % 60))
         self.assertEqual(started, [])
 
@@ -512,6 +532,84 @@ class TickTests(_PlannerCase):
         closed = tick_mod.finish_running_blocks(self.data_root, self.config_root,
                                                 now=datetime(2026, 8, 8, 23, 59))
         self.assertEqual([c["block"] for c in closed], [block["id"]])
+
+
+class TwoDeviceTickTests(unittest.TestCase):
+    """Flota: busy na A nie blokuje due na B; scheduler_enabled=false pomija."""
+
+    DATE = "2026-08-08"
+
+    def setUp(self):
+        self._tmp = TemporaryDirectory()
+        root = Path(self._tmp.name)
+        self.config_root, self.data_root = root / "config", root / "data"
+        (self.config_root / "accounts").mkdir(parents=True)
+        (self.config_root / "devices").mkdir(parents=True)
+        for alias, acc in (("phone_A", "acc_a"), ("galaxy", "acc_b")):
+            (self.config_root / "devices" / f"{alias}.json").write_text(
+                "{}", encoding="utf-8")
+            (self.config_root / "accounts" / f"{acc}.json").write_text(json.dumps({
+                "device": {"device_alias": alias},
+                "schedule": {"enabled": True,
+                             "sessions_per_day": {"min": 1, "max": 1},
+                             "scenarios": ["default"]},
+            }), encoding="utf-8")
+            # Gotowy plan dnia — omijamy budowę cyklu.
+            path = dp.plan_path(alias, self.data_root, self.DATE)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps({
+                "version": 3,
+                "date": self.DATE,
+                "device": alias,
+                "blocks": [{
+                    "id": f"{alias}-due",
+                    "account": acc,
+                    "scenario": "default",
+                    "start": "10:00",
+                    "duration_s": 3600,
+                    "status": "planned",
+                    "queue_override": None,
+                }],
+            }), encoding="utf-8")
+        sched_state.set_enabled(self.data_root, True)
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def _start_collector(self):
+        started = []
+        return started, lambda acc, scenario, max_s=None: started.append(
+            (acc, scenario, max_s))
+
+    def test_busy_only_on_a_starts_b(self):
+        """phone_A zajęty → device_busy; galaxy wolny → started."""
+        started, start = self._start_collector()
+        actions = tick_mod.tick_once(
+            self.data_root, self.config_root,
+            is_busy=lambda device: device == "phone_A",
+            start=start,
+            now=datetime(2026, 8, 8, 10, 0),
+        )
+        by_dev = {a["device"]: a["result"] for a in actions}
+        self.assertEqual(by_dev["phone_A"], "device_busy")
+        self.assertEqual(by_dev["galaxy"], "started")
+        self.assertEqual([s[0] for s in started], ["acc_b"])
+
+    def test_device_scheduler_off_skips_without_busy(self):
+        """Global ON + galaxy scheduler_enabled=false → scheduler_off, nie start."""
+        (self.config_root / "devices" / "galaxy.json").write_text(
+            json.dumps({"scheduler_enabled": False}), encoding="utf-8")
+        started, start = self._start_collector()
+        actions = tick_mod.tick_once(
+            self.data_root, self.config_root,
+            is_busy=lambda device: False,
+            start=start,
+            now=datetime(2026, 8, 8, 10, 0),
+        )
+        by_dev = {a["device"]: a["result"] for a in actions}
+        self.assertEqual(by_dev["galaxy"], "scheduler_off")
+        self.assertEqual(by_dev["phone_A"], "started")
+        self.assertEqual([s[0] for s in started], ["acc_a"])
 
 
 class TimelineHygieneTests(_PlannerCase):

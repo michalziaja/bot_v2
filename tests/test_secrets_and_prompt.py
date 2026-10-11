@@ -20,12 +20,16 @@ class SecretsTests(unittest.TestCase):
         self._orig_path = secrets.SECRETS_PATH
         secrets.SECRETS_PATH = Path(self._tmp.name) / "secrets.json"
         self._orig_env = os.environ.pop(secrets.ENV_VAR, None)
+        self._orig_ws = os.environ.pop(secrets.ENV_WORKSPACE, None)
 
     def tearDown(self):
         secrets.SECRETS_PATH = self._orig_path
         os.environ.pop(secrets.ENV_VAR, None)
+        os.environ.pop(secrets.ENV_WORKSPACE, None)
         if self._orig_env is not None:
             os.environ[secrets.ENV_VAR] = self._orig_env
+        if self._orig_ws is not None:
+            os.environ[secrets.ENV_WORKSPACE] = self._orig_ws
         self._tmp.cleanup()
 
     def test_missing_file_means_no_key(self):
@@ -80,10 +84,37 @@ class SecretsTests(unittest.TestCase):
         # Status nie ujawnia URL
         self.assertNotIn("u:p", str(st))
 
+    def test_filter_proxies_for_edit_and_parse(self):
+        secrets.set_filter_proxies({
+            "webshare": "http://u:p@h:80/",
+            "mars": ["http://a:b@x:1", "http://c:d@x:2"],
+        })
+        edited = secrets.filter_proxies_for_edit()
+        self.assertEqual(edited["webshare"], "http://u:p@h:80/")
+        self.assertEqual(edited["mars"], "http://a:b@x:1\nhttp://c:d@x:2")
+        self.assertEqual(secrets.parse_filter_proxy_text(""), None)
+        self.assertEqual(
+            secrets.parse_filter_proxy_text("http://u:p@h/\n\nhttp://a:b@x/"),
+            ["http://u:p@h/", "http://a:b@x/"])
+
     def test_filter_proxies_clear(self):
         secrets.set_filter_proxies({"webshare": "http://u:p@h/"})
         secrets.set_filter_proxies(None)
         self.assertEqual(secrets.get_filter_proxies(), {})
+
+    def test_workspace_id_roundtrip_and_env_wins(self):
+        """Identity-linked key: workspace z pliku / env."""
+        self.assertIsNone(secrets.get_workspace_id())
+        secrets.set_workspace_id("wrkspc_fileid")
+        self.assertEqual(secrets.get_workspace_id(), "wrkspc_fileid")
+        self.assertEqual(secrets.status()["workspace_source"], "file")
+        os.environ[secrets.ENV_WORKSPACE] = "wrkspc_envid"
+        self.assertEqual(secrets.get_workspace_id(), "wrkspc_envid")
+        self.assertEqual(secrets.status()["workspace_source"], "env")
+        self.assertTrue(secrets.status()["workspace_env_overrides_file"])
+        secrets.set_workspace_id("")
+        os.environ.pop(secrets.ENV_WORKSPACE, None)
+        self.assertIsNone(secrets.get_workspace_id())
 
 
 class PromptOptionsTests(unittest.TestCase):

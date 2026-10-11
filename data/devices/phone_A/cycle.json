@@ -3,146 +3,163 @@
   "device": "phone_A",
   "cycle_days": 1,
   "active_hours": [
-    1,
+    18,
     24
   ],
-  "generated_at": "2026-08-12T01:52:23",
+  "generated_at": "2026-09-06T15:26:15",
   "days": [
     {
       "index": 0,
       "blocks": [
         {
-          "id": "bd3187b",
-          "account": "clone3",
+          "id": "b41d5b6",
+          "account": "jobsaver",
           "scenario": "default",
-          "start": "02:00",
-          "duration_s": 660,
-          "gap_s": 1063,
+          "start": "18:25",
+          "duration_s": 1452,
+          "gap_s": 515,
           "est": {
             "breakdown": {
-              "tasks_s": 480,
+              "tasks_s": 1200,
               "gaps_s": 0,
               "overhead_s": 120,
-              "buffer_s": 60
+              "buffer_s": 132
             },
             "task_count": 1,
             "warnings": []
           },
-          "queue_override": {
-            "queue": [
-              {
-                "id": "t322866",
-                "plugin": "feed_browser",
-                "note": "",
-                "budget": {
-                  "max_items": {
-                    "min": 4,
-                    "max": 8
-                  }
-                },
-                "overrides": {},
-                "enabled": true
-              }
-            ],
-            "between_tasks_s": {
-              "min": 60,
-              "max": 240
-            },
-            "on_task_error": "continue"
-          },
+          "queue_override": null,
           "locked": true
         },
         {
-          "id": "bd883fe",
-          "account": "a50_clone2",
-          "scenario": "default",
-          "start": "02:29",
-          "duration_s": 660,
-          "gap_s": 960,
+          "id": "b177539",
+          "account": "jobsaver",
+          "scenario": "rolki",
+          "start": "19:00",
+          "duration_s": 1782,
+          "gap_s": 300,
           "est": {
             "breakdown": {
-              "tasks_s": 480,
-              "gaps_s": 0,
+              "tasks_s": 1200,
+              "gaps_s": 300,
               "overhead_s": 120,
-              "buffer_s": 60
+              "buffer_s": 162
             },
-            "task_count": 1,
+            "task_count": 2,
             "warnings": []
           },
-          "queue_override": {
-            "queue": [
-              {
-                "id": "tdfbca0",
-                "plugin": "feed_browser",
-                "note": "",
-                "budget": {
-                  "max_items": {
-                    "min": 4,
-                    "max": 8
-                  }
-                },
-                "overrides": {},
-                "enabled": true
-              }
-            ],
-            "between_tasks_s": {
-              "min": 60,
-              "max": 240
-            },
-            "on_task_error": "continue"
-          },
+          "queue_override": null,
           "locked": true
         },
         {
-          "id": "bf31a99",
-          "account": "technature699",
+          "id": "bd00138",
+          "account": "jobsaver",
           "scenario": "default",
-          "start": "02:56",
-          "duration_s": 660,
-          "gap_s": 426,
+          "start": "19:47",
+          "duration_s": 1452,
+          "gap_s": 1003,
           "est": {
             "breakdown": {
-              "tasks_s": 480,
+              "tasks_s": 1200,
               "gaps_s": 0,
               "overhead_s": 120,
-              "buffer_s": 60
+              "buffer_s": 132
             },
             "task_count": 1,
             "warnings": []
           },
-          "queue_override": {
-            "queue": [
-              {
-                "id": "t326e45",
-                "plugin": "feed_browser",
-                "note": "",
-                "budget": {
-                  "max_items": {
-                    "min": 4,
-                    "max": 8
-                  }
-                },
-                "overrides": {},
-                "enabled": true
-              }
-            ],
-            "between_tasks_s": {
-              "min": 4,
-              "max": 10
+          "queue_override": null,
+          "locked": true
+        },
+        {
+          "id": "ba62e2f",
+          "account": "jobsaver",
+          "scenario": "rolki",
+          "start": "20:29",
+          "duration_s": 1782,
+          "gap_s": 786,
+          "est": {
+            "breakdown": {
+              "tasks_s": 1200,
+              "gaps_s": 300,
+              "overhead_s": 120,
+              "buffer_s": 162
             },
-            "on_task_error": "continue"
+            "task_count": 2,
+            "warnings": []
           },
+          "queue_override": null,
+          "locked": true
+        },
+        {
+          "id": "b35c528",
+          "account": "jobsaver",
+          "scenario": "default",
+          "start": "21:13",
+          "duration_s": 1452,
+          "gap_s": 556,
+          "est": {
+            "breakdown": {
+              "tasks_s": 1200,
+              "gaps_s": 0,
+              "overhead_s": 120,
+              "buffer_s": 132
+            },
+            "task_count": 1,
+            "warnings": []
+          },
+          "queue_override": null,
+          "locked": true
+        },
+        {
+          "id": "b4b4615",
+          "account": "jobsaver",
+          "scenario": "rolki",
+          "start": "21:48",
+          "duration_s": 1782,
+          "gap_s": 300,
+          "est": {
+            "breakdown": {
+              "tasks_s": 1200,
+              "gaps_s": 300,
+              "overhead_s": 120,
+              "buffer_s": 162
+            },
+            "task_count": 2,
+            "warnings": []
+          },
+          "queue_override": null,
+          "locked": true
+        },
+        {
+          "id": "b02231d",
+          "account": "jobsaver",
+          "scenario": "tok",
+          "start": "22:34",
+          "duration_s": 1452,
+          "gap_s": 920,
+          "est": {
+            "breakdown": {
+              "tasks_s": 1200,
+              "gaps_s": 0,
+              "overhead_s": 120,
+              "buffer_s": 132
+            },
+            "task_count": 1,
+            "warnings": []
+          },
+          "queue_override": null,
           "locked": true
         }
       ],
       "dropped": [],
       "collisions": [],
-      "load_pct": 5,
+      "load_pct": 74,
       "label": "Codziennie"
     }
   ],
   "window": {
-    "from_min": 60,
+    "from_min": 1080,
     "to_min": 1440
   }
 }

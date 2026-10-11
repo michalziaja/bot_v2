@@ -65,6 +65,7 @@ _QUIET_ALL_CONTENT = {
 # Live ~13:30: po hot baseline=reel_likers_list → ensure clips = katastrofa.
 _CONTENT_SEARCH_NO_CLIPS = frozenset({
     "reels_feed",
+    "home_feed",  # false positive viewera z siatki # — NIE ensure(clips)
     "reel_comments_sheet",
     "reel_likers_list",
     "profile_other",

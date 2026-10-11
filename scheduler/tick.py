@@ -6,9 +6,10 @@ tylko materializuje dzisiejszy dzień i egzekwuje gotową decyzję. Nie losuje
 godzin, nie wybiera scenariusza, nie rozstrzyga kolizji — gdyby to robił, panel
 pokazywałby jeden plan, a telefon wykonywał inny.
 
-`is_busy`/`start` są wstrzykiwane, żeby ten sam moduł obsługiwał dwa
+`is_busy(device)`/`start` są wstrzykiwane, żeby ten sam moduł obsługiwał dwa
 uruchomienia: wątek w procesie panelu (przez `SessionManager`) i
 `python -m v2.cli scheduler` bez UI (przez bezpośredni subprocess).
+Zajętość jest per `device_alias` — sesja na phone_A nie blokuje galaxy.
 
 `start(account, scenario, max_duration_s)` — `max_duration_s` to reszta okna
 bloku. Blok odpalony z opóźnieniem dostaje krótszą ramę, żeby i tak skończył
@@ -16,6 +17,7 @@ się o czasie i nie wjechał w slot następnego konta.
 """
 from __future__ import annotations
 
+import json
 import random
 import time
 from datetime import datetime
@@ -31,13 +33,30 @@ from v2.scheduler import state as sched_state
 GRACE_MIN = 5.0
 
 
+def _device_scheduler_on(config_root: Path, device: str) -> bool:
+    """Toggle per telefon. Brak klucza w JSON = włączony (dziedziczy global)."""
+    path = Path(config_root) / "devices" / f"{device}.json"
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return True
+    if not isinstance(doc, dict) or "scheduler_enabled" not in doc:
+        return True
+    return bool(doc.get("scheduler_enabled"))
+
+
 def tick_once(data_root: Path, config_root: Path,
-              is_busy: Callable[[], bool],
+              is_busy: Callable[[str], bool],
               start: Callable[..., None],
               rng: random.Random | None = None,
               now: datetime | None = None) -> list[dict]:
     """Jedno przejście po wszystkich urządzeniach. Zwraca listę podjętych
-    (albo pominiętych) akcji — do logowania przez wywołującego."""
+    (albo pominiętych) akcji — do logowania przez wywołującego.
+
+    `is_busy(device_alias)` — zajętość TEGO telefonu, nie całej floty.
+    Globalny `enabled` w `data/scheduler.json` to bezpiecznik: OFF = zero startów.
+    `scheduler_enabled` na urządzeniu wyłącza tylko ten wiersz.
+    """
     rng = rng or random.Random()
     now = now or datetime.now()
     actions: list[dict] = []
@@ -60,7 +79,14 @@ def tick_once(data_root: Path, config_root: Path,
         if not block:
             continue
 
-        if is_busy():
+        # Device OFF przy global ON: pomiń, nie udawaj device_busy.
+        if not _device_scheduler_on(config_root, device):
+            actions.append({"device": device, "account": block["account"],
+                            "block": block["id"], "start": block["start"],
+                            "result": "scheduler_off"})
+            continue
+
+        if is_busy(device):
             # Blok zostaje `planned` — jeśli urządzenie zwolni się w oknie
             # łaski, jeszcze zdąży; poza nim złapie go `expire_missed`.
             actions.append({"device": device, "account": block["account"],
@@ -138,7 +164,7 @@ def _drop_slot_queue(block: dict) -> None:
 
 
 def run_forever(data_root: Path, config_root: Path,
-                is_busy: Callable[[], bool],
+                is_busy: Callable[[str], bool],
                 start: Callable[..., None],
                 interval_s: int = 60) -> None:
     print(f"[scheduler] start — sprawdzanie co {interval_s}s")

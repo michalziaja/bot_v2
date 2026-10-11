@@ -1,0 +1,21 @@
+{
+  "mCurrentFocus": "mCurrentFocus=Window{531de8e u0 NotificationShade}",
+  "mFocusedApp": "mFocusedApp=ActivityRecord{9dfbbce u0 com.google.android.gms/.auth.api.credentials.assistedsignin.ui.AssistedSignInActivity t190}",
+  "mResumedActivity": "",
+  "topResumedActivity": "",
+  "focus_lines": [
+    "mCurrentFocus=Window{531de8e u0 NotificationShade}",
+    "mFocusedApp=ActivityRecord{9dfbbce u0 com.google.android.gms/.auth.api.credentials.assistedsignin.ui.AssistedSignInActivity t190}"
+  ],
+  "focused_package": "com.google.android.gms",
+  "focused_activity": ".auth.api.credentials.assistedsignin.ui.AssistedSignInActivity",
+  "current_pkg": null,
+  "pidof_clone": "27646",
+  "pidof_stock": "28123",
+  "clone_owns_focus": false,
+  "clone_resumed_line": "",
+  "stock_on_focus": false,
+  "raw_window": "mCurrentFocus=Window{531de8e u0 NotificationShade}\n  mFocusedApp=ActivityRecord{9dfbbce u0 com.google.android.gms/.auth.api.credentials.assistedsignin.ui.AssistedSignInActivity t190}",
+  "raw_activity": "",
+  "note_pl": "sukces launchu = clone_owns_focus, NIE pidof"
+}

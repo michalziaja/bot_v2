@@ -1,0 +1,449 @@
+{
+  "name": "09_hamburger",
+  "note_pl": "Menu Opcje (hamburger) z profilu — szukam Statystyki/Insights",
+  "pkg": "com.instagram.androia",
+  "activity": "",
+  "nodes": [
+    {
+      "text": "",
+      "desc": "Wstecz",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[11,94][137,220]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Ustawienia i aktywność",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[189,127][747,187]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Szukaj",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[108,277][246,331]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Twoje konto",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,415][817,464]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Centrum kont, Hasło, zabezpieczenia, dane osobowe, połączone funkcje, preferencje reklamowe, w tym subskrypcja bez reklam",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,501][1080,794]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Centrum kont, Hasło, zabezpieczenia, dane osobowe, połączone funkcje, preferencje reklamowe, w tym subskrypcja bez reklam",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,533][993,762]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Centrum kont",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,538][423,592]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Hasło, zabezpieczenia, dane osobowe, połączone funkcje, preferencje reklamowe, w tym subskrypcja bez reklam",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,602][993,757]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Jak korzystać z Instagramu",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,847][1038,896]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Zapisano",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,933][1080,1061]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Zapisano",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,965][993,1029]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Zapisano",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,970][327,1024]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Archiwizuj",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,1061][1080,1189]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Archiwizuj",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,1093][993,1157]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Archiwizuj",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,1098][357,1152]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Twoja aktywność",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,1189][1080,1317]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Twoja aktywność",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,1221][993,1285]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Twoja aktywność",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,1226][496,1280]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienia",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,1317][1080,1445]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienia",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,1349][993,1413]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Powiadomienia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,1354][453,1408]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Zarządzanie czasem",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,1445][1080,1573]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Zarządzanie czasem",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[110,1477][993,1541]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Zarządzanie czasem",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[110,1482][536,1536]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Instagram na tablety",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,1573][1080,1701]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Instagram na tablety",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[110,1605][993,1669]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Instagram na tablety",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[110,1610][536,1664]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Twoje statystyki i narzędzia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,1754][1038,1803]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Pulpit profesjonalny",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,1840][1080,1968]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Pulpit profesjonalny",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,1872][993,1936]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Pulpit profesjonalny",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,1877][553,1931]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Typ konta i narzędzia",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,1968][1080,2096]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Typ konta i narzędzia",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,2000][993,2064]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Typ konta i narzędzia",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,2005][574,2059]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Płatności za reklamy",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[0,2096][1080,2224]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Płatności za reklamy",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[137,2128][993,2192]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Płatności za reklamy",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[137,2133][569,2187]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Subskrypcje",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,2277][1038,2326]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "20:02",
+      "desc": "20:02",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[54,0][151,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Podróże Wojownika",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[159,0][206,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Instagram: who.is.aleksandra",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[206,0][253,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[253,0][300,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Kosmiczne Opowieści",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[300,0][347,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[724,23][764,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[767,23][808,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[811,23][858,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[858,23][897,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[905,0][1026,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[905,0][1000,83]",
+      "pkg": "com.android.systemui"
+    }
+  ]
+}

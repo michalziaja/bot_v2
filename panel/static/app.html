@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- Komentarz: zewnętrzny Chrome cache'uje /app; Cursor Simple Browser zwykle nie. -->
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Bot v2 — Pulpit</title>
+<link rel="stylesheet" href="/static/app.css" />
+</head>
+<body class="app-shell">
+<!-- Lewy rail ~200px: brand + nav; Ustawienia i klasyk na dole. -->
+<aside class="rail" aria-label="Nawigacja panelu">
+  <div class="brand">
+    <strong>bot v2</strong>
+    <span class="brand-sub">flota IG</span>
+  </div>
+  <nav class="nav" id="main-nav" aria-label="Panel operatora">
+    <a href="#pulpit" data-view="pulpit">Pulpit</a>
+    <a href="#harmonogram" data-view="harmonogram">Harmonogram</a>
+    <a href="#runy" data-view="runy">Runy</a>
+    <a href="#tresci" data-view="tresci">Treści</a>
+    <a href="#lejek" data-view="lejek">Lejek</a>
+    <a href="#na-zywo" data-view="na-zywo">Na żywo</a>
+    <a href="#statystyki" data-view="statystyki">Statystyki</a>
+    <a href="#konta" data-view="konta">Konta</a>
+    <a href="#flota" data-view="flota">Flota</a>
+  </nav>
+  <div class="rail-foot">
+    <a href="#ustawienia" data-view="ustawienia">Ustawienia</a>
+    <!-- Schowany poza główną listą — nie mock, zapas diagnostyczny. -->
+    <a href="/" class="nav-classic">Klasyczny panel</a>
+  </div>
+</aside>
+
+<div class="canvas">
+  <header class="canvas-head">
+    <div class="canvas-title-block">
+      <h1 id="canvas-title">Pulpit</h1>
+      <p class="canvas-ctx" id="session-line">ładowanie…</p>
+    </div>
+    <div class="canvas-tools">
+      <!-- Stub: dane 2FA / ADB / sesja w późniejszych krokach. -->
+      <button type="button" class="bell-btn" id="alert-bell" aria-label="Alerty" title="Alerty — wkrótce">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path fill="currentColor" d="M12 22a2.1 2.1 0 0 0 2-2H10a2.1 2.1 0 0 0 2 2zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z"/>
+        </svg>
+      </button>
+      <time class="clock" id="canvas-clock" datetime="">--:--</time>
+    </div>
+  </header>
+
+<main class="main">
+  <!-- Pulpit — KPI floty + karty z GET /api/devices; Start/Stop per telefon -->
+  <section class="view" id="view-pulpit" data-view="pulpit">
+    <div class="view-head">
+      <p class="lede">Flota na jeden rzut oka. Start / Stop tego telefonu, wejście w Live i Plan.</p>
+    </div>
+    <!-- Kafelki KPI z mocka: wifi / play / kalendarz / lejek / alert. -->
+    <div id="pulpit-kpi" class="kpi-grid pulpit-kpi">
+      <article class="kpi-card">
+        <span class="kpi-ico online" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 18.2a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8zm-4.4-3.4a6.2 6.2 0 0 1 8.8 0l-1.6 1.6a4 4 0 0 0-5.6 0zm-3.1-3.1A10.6 10.6 0 0 1 19.5 11.7L18 13.2a8.4 8.4 0 0 0-12 0zM1.8 8.4A14.6 14.6 0 0 1 22.2 8.4L20.6 10A12.4 12.4 0 0 0 3.4 10z"/></svg>
+        </span>
+        <div class="kpi-body">
+          <div class="k">Online</div>
+          <div class="v" id="kpi-online">—</div>
+        </div>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-ico running" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M8 5.2v13.6l11.2-6.8z"/></svg>
+        </span>
+        <div class="kpi-body">
+          <div class="k">Jedzie</div>
+          <div class="v" id="kpi-running">—</div>
+        </div>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-ico today" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M7 3h2v2h6V3h2v2h3v16H4V5h3zm12 6H5v10h14z"/></svg>
+        </span>
+        <div class="kpi-body">
+          <div class="k">Dziś</div>
+          <div class="v" id="kpi-today">—</div>
+        </div>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-ico funnel" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M4 5h16l-6.2 7.2V19l-3.6 2v-8.8z"/></svg>
+        </span>
+        <div class="kpi-body">
+          <div class="k">Lejek</div>
+          <div class="v" id="kpi-funnel">—</div>
+        </div>
+      </article>
+      <article class="kpi-card">
+        <span class="kpi-ico alerts" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 3.2 2.2 20h19.6zm0 5.6 1.1 6.2h-2.2zm0 8.2a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z"/></svg>
+        </span>
+        <div class="kpi-body">
+          <div class="k">Alerty</div>
+          <div class="v" id="kpi-alerts">—</div>
+        </div>
+      </article>
+    </div>
+    <div id="scheduler-banner" class="banner" hidden></div>
+    <div id="pulpit-error" class="banner err" hidden></div>
+    <div id="device-grid" class="device-grid"></div>
+    <!-- Oś dzisiejsza z mocka Pulpitu: okno active_hours, bloki konta. -->
+    <div id="pulpit-today" class="pulpit-today" hidden>
+      <h3 id="pulpit-today-title">
+        <span class="pulpit-today-lab">dziś</span>
+        <span class="pulpit-today-info" title="Oś dzisiejsza tego telefonu. Kolor bloku = konto, ikona = stan sesji.">
+          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+            <path fill="currentColor" d="M7.25 6.9h1.5v4.35h-1.5zm0-2.7h1.5v1.45h-1.5z"/>
+          </svg>
+        </span>
+      </h3>
+      <div id="pulpit-today-axis" class="pulpit-axis"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-harmonogram" data-view="harmonogram" hidden>
+    <!-- Siatka floty: wiersz = telefon, kolumny = Pn–Nd z datami (nie karty jednego selecta). -->
+    <div class="tl-toolbar">
+      <label class="tl-week-lab">Tydzień
+        <select id="tl-week-sel"></select>
+      </label>
+      <button type="button" class="primary" id="tl-regen">Ułóż tydzień</button>
+      <div id="tl-sched-toggles" class="tl-sched-toggles" aria-label="Scheduler per telefon"></div>
+    </div>
+    <div id="tl-banner" class="banner" hidden></div>
+    <div id="tl-msg" class="banner" hidden></div>
+    <div class="tl-board">
+      <div id="tl-week" class="tl-fleet"></div>
+      <aside id="tl-insp" class="tl-insp" aria-label="Wybrana sesja">
+        <div class="tl-insp-empty">Kliknij blok na osi.</div>
+      </aside>
+    </div>
+    <div id="tl-legend" class="tl-legend"></div>
+    <!-- Nie na mocku: sesje/dzień, udział, wyczyść, dodaj — zostają, żeby nie zgubić klasyka. -->
+    <details class="tl-extras" id="tl-extras">
+      <summary>Sesje / dzień, udział kont, dodaj blok, wyczyść oś</summary>
+      <div id="tl-extras-body"></div>
+    </details>
+  </section>
+
+  <!-- Runy: lista | kolejka | inspector | biblioteka na dole. Model queue/actions bez zmian. -->
+  <section class="view" id="view-runy" data-view="runy" hidden>
+    <div class="toolbar runy-toolbar">
+      <label>Konto
+        <select id="runy-account"></select>
+      </label>
+      <!-- Ukryty select — źródło nazw dla fillSelect / zmiana aktywnej runy. -->
+      <select id="runy-select" hidden></select>
+      <span id="runy-eta" class="runy-eta" title="Szacunek z estimate-actions (albo suma budżetu)">~—</span>
+      <!-- Limity runu w tym samym rzędzie co Konto — pills max/limit. -->
+      <div id="runy-limits" class="run-limits-bar"></div>
+      <button type="button" id="runy-dry" title="GET /api/queue/…/resolved — co dostanie plugin">Dry-run</button>
+      <button type="button" class="primary" id="runy-save">Zapisz</button>
+      <button type="button" class="danger" id="runy-del">Usuń</button>
+    </div>
+    <div id="runy-msg" class="banner" hidden></div>
+    <div id="runy-over" class="run-warn" hidden>Max przekracza limit dzienny — zapis i tak możliwy, runtime zetnie.</div>
+    <div id="runy-editor" class="run-editor">
+      <!-- Górny pas: plakietki 8 pluginów na całą szerokość (klik/drag). -->
+      <div class="run-lib-base">
+        <div class="run-lib-base-head">
+          <button type="button" class="run-lib-tab on" id="runy-lib-tab-base" data-lib-tab="base">Akcje bazowe</button>
+          <div class="run-lib-legend" aria-hidden="true">
+            <span class="leg g-warmup">Warmup</span>
+            <span class="leg g-engagement">Engagement</span>
+            <span class="leg g-discovery">Discovery</span>
+          </div>
+          <p class="col-hint" id="runy-lib-hint">Klik albo przeciągnij — nowy krok z własnym <code>id</code>, bez POST defaultów konta.</p>
+        </div>
+        <div id="runy-lib" class="run-lib-chips"></div>
+      </div>
+      <aside class="run-list-col">
+        <h3>Runy</h3>
+        <div id="runy-list" class="run-list"></div>
+        <div class="run-list-foot">
+          <input id="runy-new-name" type="text" placeholder="np. hashtagi" autocomplete="off" />
+          <button type="button" id="runy-new">+ Nowa runa</button>
+        </div>
+      </aside>
+      <div class="run-steps-col">
+        <h3 id="runy-queue-title">Kolejka</h3>
+        <div id="runy-steps"></div>
+        <div id="runy-drop" class="run-drop-zone">+ Upuść akcję tutaj</div>
+        <div class="run-queue-foot">
+          <label>Przerwa między krokami
+            <span class="range-inputs">
+              <input id="runy-gap-min" type="number" min="0" step="1" />
+              <span class="range-sep">–</span>
+              <input id="runy-gap-max" type="number" min="0" step="1" />
+              <span class="range-unit">s</span>
+            </span>
+          </label>
+          <fieldset class="run-onerror">
+            <legend>Przy błędzie</legend>
+            <label><input type="radio" name="runy-onerror" value="continue" /> kontynuuj</label>
+            <label><input type="radio" name="runy-onerror" value="abort" /> zatrzymaj</label>
+          </fieldset>
+        </div>
+      </div>
+      <div class="run-insp-col">
+        <div id="runy-insp"></div>
+      </div>
+      <!-- Tacka: tylko zapisane akcje, jako zakładka. -->
+      <div class="run-lib-tray">
+        <div class="run-lib-tabs" role="tablist">
+          <button type="button" class="run-lib-tab on" id="runy-lib-tab-saved" data-lib-tab="saved" role="tab" aria-selected="true">Zapisane akcje</button>
+        </div>
+        <div class="run-lib-pane" role="tabpanel" aria-labelledby="runy-lib-tab-saved">
+          <div id="runy-lib-saved" class="run-lib-chips"></div>
+        </div>
+      </div>
+    </div>
+    <pre id="runy-dry-out" class="run-dry-out" hidden></pre>
+  </section>
+
+  <!-- Treści — kolejka postów/relacji z tożsamością (konto + typ + nazwa kanoniczna). -->
+  <section class="view" id="view-tresci" data-view="tresci" hidden>
+    <div class="view-head">
+      <p class="lede">Wrzucasz pliki na PC (konto + post/relacja + opis). Plugin <code>publish_media</code> w Runach wypycha je na telefon tuż przed publikacją — ręczny Push nie jest potrzebny.</p>
+    </div>
+    <div class="toolbar tresci-toolbar">
+      <label>Urządzenie
+        <select id="tr-device"></select>
+      </label>
+      <div id="tr-accounts" class="tr-acc-chips" role="tablist" aria-label="Konta na telefonie"></div>
+      <div id="tr-kind-chips" class="tr-chips" role="group" aria-label="Typ">
+        <button type="button" class="tr-chip on" data-tr-kind="">Wszystkie</button>
+        <button type="button" class="tr-chip" data-tr-kind="post">Post</button>
+        <button type="button" class="tr-chip" data-tr-kind="story">Relacja</button>
+      </div>
+      <div id="tr-status-chips" class="tr-chips" role="group" aria-label="Status">
+        <button type="button" class="tr-chip on" data-tr-status="">Status</button>
+        <button type="button" class="tr-chip" data-tr-status="ready">Gotowe</button>
+        <button type="button" class="tr-chip" data-tr-status="on_device">Na telefonie</button>
+        <button type="button" class="tr-chip" data-tr-status="publishing">Publikacja</button>
+        <button type="button" class="tr-chip" data-tr-status="published">Opublikowane</button>
+        <button type="button" class="tr-chip" data-tr-status="failed">Błąd</button>
+      </div>
+    </div>
+    <div id="tr-msg" class="banner" hidden></div>
+    <div class="tresci-layout">
+      <div class="tresci-main">
+        <div id="tr-drop" class="tr-drop is-blocked" tabindex="0">
+          <input id="tr-file" type="file" accept="image/*,video/*" multiple hidden />
+          <p class="tr-drop-title">Upuść pliki albo <button type="button" id="tr-add" class="ghost">Dodaj pliki</button></p>
+          <p class="col-hint" id="tr-drop-hint">Wybierz konto i typ (Post / Relacja) — bez tego nie wolno wrzucić sieroty.</p>
+          <label class="tr-upload-kind">Typ wrzutki
+            <select id="tr-upload-kind">
+              <option value="">— wybierz —</option>
+              <option value="post">Post</option>
+              <option value="story">Relacja</option>
+            </select>
+          </label>
+        </div>
+        <div id="tr-grid" class="tr-grid"></div>
+      </div>
+      <aside id="tr-insp" class="tr-insp" aria-live="polite">
+        <p class="placeholder">Wybierz kartę — opis i usuwanie. Publikacja: wybierz plik w kroku Runów.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Na żywo — focus jednego telefonu; Stop tylko tego serialu; miniatury reszty. -->
+  <section class="view" id="view-na-zywo" data-view="na-zywo" hidden>
+    <div class="view-head">
+      <p class="lede">Klatka z FrameBuffera bota, nie drugi scrcpy. FPS przy podglądzie. Log ludzki — nie dump JSONL.</p>
+    </div>
+    <div id="live-idle" class="banner">brak sesji</div>
+    <div class="toolbar live-toolbar">
+      <div id="live-session-meta" class="live-meta">—</div>
+      <div class="live-chrome-stats" id="live-chrome-stats" hidden>
+        <span id="live-frame-xy" class="live-frame-xy"></span>
+        <div class="live-bar" aria-hidden="true"><i id="live-bar-fill"></i></div>
+        <span id="live-pct" class="live-pct"></span>
+        <span id="live-eta" class="live-eta"></span>
+      </div>
+      <button type="button" class="danger" id="live-stop" disabled>Stop</button>
+    </div>
+    <div id="live-msg" class="banner" hidden></div>
+    <div class="live-split">
+      <!-- Rząd 1: trzy okna tej samej wysokości. Flota w rzędzie 2 pod sesją. -->
+      <div class="live-col live-progress">
+        <div class="live-progress-head">
+          <h3 id="live-run-title">Bieżąca sesja</h3>
+          <p class="live-run-sub" id="live-run-sub" hidden></p>
+        </div>
+        <div id="live-progress-body" class="live-progress-body"></div>
+        <div id="live-progress-kv" class="live-progress-kv"></div>
+        <div id="live-progress-foot" class="live-step-foot"></div>
+      </div>
+      <div class="live-col live-phone">
+        <div class="live-phone-head">
+          <span class="badge offline" id="live-phone-badge">OFFLINE</span>
+          <span class="live-phone-model" id="live-phone-model"></span>
+        </div>
+        <div class="preview live-preview" id="live-preview">
+          <img alt="" hidden />
+          <div class="preview-ph">brak sesji</div>
+        </div>
+        <!-- FPS kanonicznie tu: JPEG/poll od razu, scrcpy od następnej sesji. -->
+        <div class="live-phone-foot">
+          <label class="live-fps">
+            <span>FPS</span>
+            <input type="number" id="live-fps-input" min="1" max="60" step="1" value="15" />
+          </label>
+          <p class="live-caption" id="live-caption">Podgląd JPEG z FB. scrcpy: od następnej sesji; podgląd panelu: od razu. Stop gasi tylko ten telefon.</p>
+        </div>
+      </div>
+      <div class="live-col live-log">
+        <!-- Fill absolute: in-flow logu pusty, rząd liczy telefon, nie linie logu. -->
+        <div class="live-log-fill">
+          <div class="live-log-toolbar">
+            <h3>Log człowieka</h3>
+            <button type="button" class="live-auto on" id="live-autoscroll" aria-pressed="true">Autoscroll ON</button>
+            <input id="live-log-filter" type="text" placeholder="Filtruj…" autocomplete="off" />
+          </div>
+          <div id="live-log-body" class="live-log-body" aria-live="polite"></div>
+          <!-- Zwijany Terminal: regex, nie home (decyzja operatora). -->
+          <details class="live-terminal" id="live-terminal">
+            <summary>Terminal</summary>
+            <label class="live-term-filter-lbl">Filtr regex
+              <input id="live-term-filter" type="text" placeholder="np. skip|like|failed" autocomplete="off" />
+            </label>
+            <div id="live-terminal-body" class="live-terminal-body"></div>
+          </details>
+        </div>
+      </div>
+      <div class="live-col live-fleet-col">
+        <h3 class="live-fleet-title" id="live-fleet-head">Inne telefony</h3>
+        <div id="live-fleet" class="live-fleet"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statystyki — native KPI/limity/sesje; iframe /stats schowany pod foldem -->
+  <section class="view" id="view-statystyki" data-view="statystyki" hidden>
+    <div class="view-head">
+      <p class="lede">Liczniki z tego samego API co klasyczny panel.
+        <a href="/stats" id="st-more" target="_blank" rel="noopener">Pełne /stats →</a></p>
+    </div>
+    <div class="toolbar st-toolbar">
+      <div class="st-modes" id="st-modes" role="tablist" aria-label="Zakres statystyk">
+        <button type="button" data-mode="last">Ostatnia sesja</button>
+        <button type="button" data-mode="24h" class="on">24h</button>
+        <button type="button" data-mode="range">Zakres</button>
+      </div>
+      <label id="st-range-wrap" class="st-range" hidden>Od
+        <input type="date" id="st-from" />
+      </label>
+      <label id="st-range-to-wrap" class="st-range" hidden>Do
+        <input type="date" id="st-to" />
+      </label>
+      <label>Konto
+        <select id="st-account"></select>
+      </label>
+      <span id="st-auto" class="st-auto" hidden>
+        <span class="st-auto-dot" aria-hidden="true"></span>
+        Auto-odświeżanie 4s
+      </span>
+    </div>
+    <div id="st-banner" class="banner" hidden></div>
+    <div id="st-kpi" class="kpi-grid st-kpi"></div>
+    <div class="st-board">
+      <section class="st-card">
+        <h3>Czas wg pluginu</h3>
+        <div id="st-plugins" class="st-plugins"></div>
+      </section>
+      <section class="st-card">
+        <h3>Limity dziś</h3>
+        <div id="st-limits" class="st-limits"></div>
+      </section>
+      <section class="st-card st-card-wide">
+        <h3>Ostatnie sesje</h3>
+        <div id="st-sessions" class="st-sessions"></div>
+      </section>
+    </div>
+    <div id="st-fleet" class="st-fleet" aria-label="Flota w zakresie"></div>
+    <!-- Iframe nie jest głównym widokiem — klasyczny /stats pod foldem. -->
+    <details class="st-classic" id="st-classic">
+      <summary>Klasyczny panel /stats (iframe)</summary>
+      <iframe id="st-frame" class="stats-frame" title="Pełne statystyki sesji" src="about:blank"></iframe>
+    </details>
+  </section>
+
+  <!-- Lejek: surowy | kandydaci | wizyty + karta filtra HTTP (bez telefonu). -->
+  <section class="view" id="view-lejek" data-view="lejek" hidden>
+    <div class="view-head">
+      <p class="lede">Pipeline wzrostu na koncie. Interact jedzie z raw; kandydaci to sitko HTTP — nie przełączamy źródła.</p>
+    </div>
+    <div class="toolbar">
+      <label>Konto
+        <select id="lj-account"></select>
+      </label>
+      <button type="button" class="primary" id="lj-run-top">Odpal filtr</button>
+      <span class="lj-job" id="lj-job-status"><i class="lj-job-dot" aria-hidden="true"></i> filtr IDLE</span>
+      <span class="lj-pending" id="lj-pending">pending filtra: 0</span>
+    </div>
+    <div id="lj-msg" class="banner" hidden></div>
+    <div id="lj-kpi" class="kpi-grid lj-kpi">
+      <div class="kpi-card"><div class="k">Surowy</div><div class="v" id="lj-kpi-raw">—</div></div>
+      <div class="kpi-card"><div class="k">Kandydaci</div><div class="v" id="lj-kpi-cand">—</div></div>
+      <div class="kpi-card"><div class="k">Obejrzani dziś</div><div class="v" id="lj-kpi-today">—</div></div>
+      <div class="kpi-card"><div class="k">Interakcja</div><div class="v" id="lj-kpi-ix">—</div></div>
+    </div>
+    <div class="lj-body">
+      <div class="lj-cols">
+        <article class="lj-col" id="lj-col-raw">
+          <header class="lj-col-head">
+            <h3>Surowy <span class="lj-count" id="lj-raw-count">0</span></h3>
+            <p class="col-hint">raw_profiles.jsonl</p>
+          </header>
+          <div class="lj-col-th"><span>profil IG</span><span>obserwujący</span><span>źródło</span></div>
+          <div class="lj-col-rows" id="lj-raw-body"></div>
+          <footer class="lj-col-foot">
+            <button type="button" id="lj-raw-more">Pokaż więcej</button>
+          </footer>
+        </article>
+        <article class="lj-col" id="lj-col-cand">
+          <header class="lj-col-head">
+            <h3>Kandydaci <span class="lj-count ok" id="lj-cand-count">0</span></h3>
+            <p class="col-hint">passed HTTP filter</p>
+          </header>
+          <div class="lj-col-th lj-col-th-2"><span>profil IG</span><span>info</span></div>
+          <div class="lj-col-rows" id="lj-cand-body"></div>
+          <footer class="lj-col-foot">
+            <button type="button" id="lj-cand-more">Pokaż więcej</button>
+          </footer>
+        </article>
+        <article class="lj-col" id="lj-col-visit">
+          <header class="lj-col-head">
+            <h3>Ostatnio obejrzani <span class="lj-count" id="lj-visit-count">0</span></h3>
+            <p class="col-hint">from visited_profiles.jsonl</p>
+          </header>
+          <div class="lj-tabs" role="tablist" id="lj-visit-tabs">
+            <button type="button" class="lj-tab on" data-lj-visit="all">Wszystkie</button>
+            <button type="button" class="lj-tab" data-lj-visit="interact">Z interakcją</button>
+            <button type="button" class="lj-tab" data-lj-visit="none">Bez</button>
+          </div>
+          <div class="lj-col-th lj-col-th-3"><span>profil IG</span><span>czas</span><span>outcome</span></div>
+          <div class="lj-col-rows" id="lj-visit-body"></div>
+          <footer class="lj-col-foot">
+            <button type="button" id="lj-visit-more">Pokaż więcej</button>
+          </footer>
+        </article>
+      </div>
+      <aside class="lj-filter" aria-label="Filtr HTTP">
+        <header class="lj-filter-head">
+          <div>
+            <h3 id="lj-filter-title">filtr HTTP (bez telefonu)</h3>
+            <p class="col-hint">auto-godziny + Odpal teraz</p>
+          </div>
+          <label class="lj-switch" title="Auto-filtr ON/OFF">
+            <input type="checkbox" id="lj-enabled" />
+            <span></span>
+            <em id="lj-enabled-lab">OFF</em>
+          </label>
+        </header>
+        <label class="lj-field">Proxy
+          <select id="lj-proxy">
+            <option value="losowo">losowo</option>
+            <option value="webshare">webshare</option>
+            <option value="rayobyte">rayobyte</option>
+          </select>
+        </label>
+        <div class="lj-field">
+          <span>Adresy proxy</span>
+          <p class="col-hint">http://user:pass@host:port — zapis do secrets.json, nie do konta.</p>
+          <div id="lj-proxy-urls" class="lj-proxy-urls"></div>
+          <div class="lj-proxy-add-row">
+            <input type="text" id="lj-proxy-new-name" placeholder="nazwa (np. webshare)" />
+            <button type="button" id="lj-proxy-add">+ dostawca</button>
+          </div>
+          <button type="button" id="lj-proxy-save">Zapisz adresy</button>
+        </div>
+        <label class="lj-field">Obserwujący
+          <span class="lj-range">
+            <input type="number" id="lj-fmin" min="0" value="60" />
+            <span>–</span>
+            <input type="number" id="lj-fmax" min="1" value="20000" />
+          </span>
+        </label>
+        <label class="lj-field">Min postów
+          <input type="number" id="lj-min-posts" min="0" value="1" />
+        </label>
+        <label class="lj-check">
+          <input type="checkbox" id="lj-public" checked />
+          <span>Tylko publiczne</span>
+        </label>
+        <label class="lj-check">
+          <input type="checkbox" id="lj-arabic" checked />
+          <span>Odrzuć bio arabskie/hindi</span>
+        </label>
+        <label class="lj-field">Limit (na cykl)
+          <input type="number" id="lj-limit" min="1" max="5000" value="100" />
+        </label>
+        <!-- Sen = dwa pola klasyka, nie zakres 4–9 z mocka. -->
+        <label class="lj-field">Sen (s)
+          <span class="lj-range">
+            <input type="number" id="lj-sleep-between" min="0" max="120" step="0.5" value="0" title="sleep_between_s — między nickami" />
+            <span>–</span>
+            <input type="number" id="lj-sleep-request" min="0" max="60" step="0.5" value="2" title="sleep_request_s — na request HTTP" />
+          </span>
+        </label>
+        <label class="lj-field">Timeout HTTP (s)
+          <input type="number" id="lj-timeout" min="5" max="120" step="1" value="30" title="request_timeout_s" />
+        </label>
+        <label class="lj-field">Backoff retry (s)
+          <span class="lj-range">
+            <input type="number" id="lj-backoff-base" min="0.1" max="60" step="0.5" value="4" title="retry_backoff_base_s" />
+            <span>–</span>
+            <input type="number" id="lj-backoff-max" min="1" max="300" step="1" value="30" title="retry_backoff_max_s" />
+          </span>
+        </label>
+        <div class="lj-field">
+          <span>Auto-godziny</span>
+          <div id="lj-times" class="lj-times"></div>
+          <button type="button" id="lj-time-add">+ godzina</button>
+        </div>
+        <p class="lj-last" id="lj-last">Ostatni filtr —</p>
+        <div class="lj-filter-actions">
+          <button type="button" class="primary" id="lj-run">Odpal filtr</button>
+          <button type="button" class="danger" id="lj-stop" disabled>Stop</button>
+        </div>
+        <div class="lj-log-wrap">
+          <div class="lj-log-head">
+            <span>Log (ostatnie)</span>
+            <button type="button" id="lj-log-more">Pokaż więcej logów</button>
+          </div>
+          <pre class="lj-log" id="lj-log"></pre>
+        </div>
+        <p class="lj-filter-foot" id="lj-filter-foot">0 pending — kolejka HTTP, nie telefonu.</p>
+      </aside>
+    </div>
+    <p class="lj-hint" id="lj-hint">
+      Interact oznacza like/follow. Sama wizyta (gate/private/skip) jest obejrzany bez interakcji.
+      Interact jedzie z raw; kandydaci to sitko HTTP.
+    </p>
+  </section>
+
+  <!-- Konta — karty + inspector; limity = override bot.json, nie SCHEMA dump. -->
+  <section class="view" id="view-konta" data-view="konta" hidden>
+    <div class="view-head konta-head">
+      <p class="lede">Konta IG na telefonach: logowanie, nisza, limity jako override globalnych.</p>
+      <button type="button" class="ghost" id="konta-new">Utwórz</button>
+    </div>
+    <div class="konta-filters" id="konta-filters" role="tablist" aria-label="Filtr urządzeń"></div>
+    <div id="konta-msg" class="banner" hidden></div>
+    <div class="konta-layout">
+      <div id="konta-grid" class="konta-grid"></div>
+      <aside id="konta-insp" class="konta-insp" aria-live="polite">
+        <p class="placeholder">Wybierz kartę — tu limity, nisza i urządzenie.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Modal: alias + telefon + wolny APPID + spoof; login opcjonalny. Hasło → credentials. -->
+  <dialog class="konta-modal" id="konta-new-dlg" aria-labelledby="konta-new-title">
+    <form method="dialog" id="konta-new-form">
+      <h2 id="konta-new-title">Utwórz konto</h2>
+      <p class="col-hint">Wersję APK bierzesz z dysku (<code>appcloner/apks</code>); stock na telefonie jest tylko informacją. Potem <code>--force --build --sign</code> i <code>adb install -r --no-incremental</code>. Logowanie gdy klon wstanie.</p>
+      <label>Alias
+        <input id="kn-alias" type="text" autocomplete="off" required placeholder="np. nowy_klon" />
+      </label>
+      <label>Urządzenie
+        <select id="kn-device" required></select>
+      </label>
+      <!-- Meta: alias / adb / klony + model; Odśwież dociąga preview i APK, bez joba. -->
+      <div class="kn-meta-row">
+        <div>
+          <div id="kn-clone-meta" class="col-hint"></div>
+          <div id="kn-device-model" class="col-hint"></div>
+        </div>
+        <button type="button" id="kn-refresh">Odśwież</button>
+      </div>
+      <label>Wolna nazwa pakietu
+        <select id="kn-pkg" required></select>
+      </label>
+      <!-- Komentarz: zwinięte domyślnie; checkbox = czy pole idzie do klona -->
+      <details class="kn-spoof" id="kn-spoof">
+        <summary id="kn-spoof-sum">Tożsamość klona <span id="kn-spoof-count"></span></summary>
+        <p class="col-hint kn-spoof-hint">Zaznacz, które spoofy faktycznie wpinamy. Model, android_id i fingerprint są zawsze (cloner ich wymaga).</p>
+        <div class="kn-spoof-grid">
+          <!-- Komentarz: lista profili + „jak ten telefon”; zmiana ustawia model+fingerprint, nie MAC/IMEI/GAID -->
+          <label class="kn-spoof-item kn-spoof-wide kn-spoof-req">
+            <span class="kn-spoof-lab">model z listy</span>
+            <select id="kn-spoof-model-pick"></select>
+          </label>
+          <label class="kn-spoof-item kn-spoof-req">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="model" checked disabled /> model</span>
+            <input id="kn-spoof-model" type="text" autocomplete="off" />
+          </label>
+          <label class="kn-spoof-item kn-spoof-req">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="android_id" checked disabled /> android_id</span>
+            <input id="kn-spoof-aid" type="text" autocomplete="off" spellcheck="false" />
+          </label>
+          <label class="kn-spoof-item kn-spoof-wide kn-spoof-req">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="fingerprint" checked disabled /> fingerprint</span>
+            <input id="kn-spoof-fp" type="text" autocomplete="off" spellcheck="false" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="gaid" checked /> GAID</span>
+            <input id="kn-spoof-gaid" type="text" autocomplete="off" spellcheck="false" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="mac" checked /> MAC</span>
+            <input id="kn-spoof-mac" type="text" autocomplete="off" spellcheck="false" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="imei" checked /> IMEI</span>
+            <input id="kn-spoof-imei" type="text" autocomplete="off" spellcheck="false" />
+          </label>
+          <label class="kn-spoof-item kn-spoof-wide">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="media_drm_id" checked /> media-drm-id</span>
+            <input id="kn-spoof-drm" type="text" autocomplete="off" spellcheck="false" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="build_time" checked /> build-time</span>
+            <input id="kn-spoof-build-time" type="text" autocomplete="off" placeholder="2026-05-14 09:12:00" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="boot_time" checked /> boot-time</span>
+            <input id="kn-spoof-boot-time" type="text" autocomplete="off" placeholder="2026-08-01 08:10:15" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="gps" checked /> gps-lat</span>
+            <input id="kn-spoof-gps-lat" type="text" autocomplete="off" inputmode="decimal" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab">gps-lon</span>
+            <input id="kn-spoof-gps-lon" type="text" autocomplete="off" inputmode="decimal" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="dns" checked /> DNS</span>
+            <input id="kn-spoof-dns" type="text" autocomplete="off" placeholder="1.1.1.1,1.0.0.1" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="sim_country" checked /> SIM kraj</span>
+            <input id="kn-spoof-sim-country" type="text" autocomplete="off" placeholder="PL" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="sim_operator" checked /> SIM operator</span>
+            <input id="kn-spoof-sim-operator" type="text" autocomplete="off" placeholder="Play" />
+          </label>
+          <label class="kn-spoof-item">
+            <span class="kn-spoof-lab"><input type="checkbox" data-spoof-use="sim_operator_code" checked /> SIM MCC+MNC</span>
+            <input id="kn-spoof-sim-code" type="text" autocomplete="off" placeholder="26006" />
+          </label>
+        </div>
+      </details>
+      <!-- Komentarz: zabezpieczenia przed am start; always-on — tylko 1 IG na telefon -->
+      <details class="kn-safeguards" id="kn-safeguards">
+        <summary>Zabezpieczenia startu</summary>
+        <p class="col-hint kn-spoof-hint">Zawsze: force-stop stock + wszystkich klonów <code>com.instagram.androi*</code> oprócz targetu (bez uninstall). W jednym czasie tylko 1 Instagram.</p>
+        <div class="kn-sg-list">
+          <label class="kn-sg-item kn-sg-info">
+            <input type="checkbox" data-safeguard="kill_before_verify" checked disabled />
+            force-stop innych klonów przed start
+          </label>
+          <label class="kn-sg-item kn-sg-info">
+            <input type="checkbox" data-safeguard="no_parallel_ig" checked disabled />
+            nie startuj gdy inny IG w focus
+          </label>
+          <label class="kn-sg-item kn-sg-info">
+            <input type="checkbox" data-safeguard="one_clone_job" checked disabled />
+            jeden job na telefon (DeviceLock / 409)
+          </label>
+          <label class="kn-sg-item kn-sg-info">
+            <input type="checkbox" data-safeguard="stop_stock" checked disabled />
+            force-stop stocka (zawsze, bez uninstall)
+          </label>
+          <label class="kn-sg-item kn-sg-info">
+            <input type="checkbox" data-safeguard="sole_ig_pid" checked disabled />
+            czekaj na pusty pidof innych
+          </label>
+        </div>
+      </details>
+      <label>Wersja APK z dysku
+        <select id="kn-apk"></select>
+      </label>
+      <div id="kn-stock-ver" class="col-hint"></div>
+      <div class="kn-clone-row">
+        <button type="button" id="kn-apk-device">Zciągnij z telefonu</button>
+        <button type="button" id="kn-clone-cancel" disabled>Anuluj job</button>
+      </div>
+      <pre id="kn-clone-log" class="clone-job-log" hidden></pre>
+      <div id="kn-clone-result" class="col-hint"></div>
+      <!-- Komentarz: po klonie — zaloguj istniejące albo załóż nowe na telefonie -->
+      <div class="kn-auth-tabs" role="tablist" aria-label="Po utworzeniu klona">
+        <button type="button" class="kn-tab on" id="kn-tab-login" role="tab" aria-selected="true" aria-controls="kn-pane-login" data-kn-auth="login">Zaloguj</button>
+        <button type="button" class="kn-tab" id="kn-tab-signup" role="tab" aria-selected="false" aria-controls="kn-pane-signup" data-kn-auth="signup">Załóż nowe konto</button>
+      </div>
+      <div id="kn-pane-login" class="kn-auth-pane" role="tabpanel" aria-labelledby="kn-tab-login">
+        <label>Login IG
+          <input id="kn-ig" type="text" autocomplete="username" placeholder="opcjonalnie — możesz dopisać później" />
+        </label>
+        <label>Hasło IG
+          <input id="kn-pass" type="password" autocomplete="new-password" placeholder="opcjonalnie — do Zaloguj" />
+        </label>
+      </div>
+      <div id="kn-pane-signup" class="kn-auth-pane" role="tabpanel" aria-labelledby="kn-tab-signup" hidden>
+        <p class="col-hint kn-spoof-hint">Bot otworzy klona i przejdzie rejestrację IG. Kod SMS/email wpiszesz w panelu; captcha zostaje na telefonie.</p>
+        <label>Imię i nazwisko
+          <input id="kn-su-name" type="text" autocomplete="name" placeholder="jak na profilu" />
+        </label>
+        <label>Nazwa użytkownika
+          <input id="kn-su-user" type="text" autocomplete="username" placeholder="login IG" />
+        </label>
+        <label>Hasło
+          <input id="kn-su-pass" type="password" autocomplete="new-password" placeholder="hasło do nowego konta" />
+        </label>
+        <label>Data urodzenia
+          <input id="kn-su-bday" type="date" />
+        </label>
+        <label>E-mail lub telefon
+          <input id="kn-su-contact" type="text" autocomplete="email" placeholder="email albo numer z kierunkowym" />
+        </label>
+        <label>Biogram
+          <textarea id="kn-bio" maxlength="150" rows="2" placeholder="opcjonalnie — bot wstawi po założeniu"></textarea>
+        </label>
+      </div>
+      <label>Zdjęcie profilowe
+        <input id="kn-avatar" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" />
+      </label>
+      <div id="kn-avatar-hint" class="col-hint">Opcjonalnie — zapiszę w folderze konta (<code>data/accounts/&lt;alias&gt;/avatar.*</code>); bot wstawi je na IG po zalogowaniu / założeniu.</div>
+      <div id="kn-msg" class="banner" hidden></div>
+      <div class="konta-modal-actions">
+        <button type="button" id="kn-cancel">Anuluj</button>
+        <button type="submit" class="primary" id="kn-ok">Utwórz</button>
+        <button type="button" id="kn-ok-login" disabled>Zaloguj</button>
+        <button type="button" id="kn-ok-signup" hidden disabled>Załóż konto</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Flota — rejestr telefonów, ADB, lock. Klony tylko jako chipy; tworzenie jest na Kontach. -->
+  <section class="view" id="view-flota" data-view="flota" hidden>
+    <div class="view-head">
+      <p class="lede">Telefony, ADB, lock. Jeden proces na serial (flock). Klony zakładasz w Konta → Utwórz.</p>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="primary" id="flota-reg-focus">+ Zarejestruj telefon</button>
+      <button type="button" id="flota-adb-refresh">Odśwież ADB</button>
+      <span id="flota-adb-live" class="flota-adb-live">Live ADB: —</span>
+    </div>
+    <div id="flota-msg" class="banner" hidden></div>
+    <div class="flota-layout">
+      <div id="flota-grid" class="flota-grid"></div>
+      <aside class="flota-side">
+        <div class="flota-panel" id="flota-calib-panel">
+          <h3>Kalibracja</h3>
+          <p class="col-hint" id="flota-calib-idle">Nowy telefon: Kalibruj na karcie. Bot idzie krokami, bierze dump i sprawdza ekran. Gdy nie pasuje — screen i pytanie tutaj (OK / Pomiń / Ponów / Przerwij).</p>
+          <div id="flota-calib-body" hidden></div>
+        </div>
+        <div class="flota-panel" id="flota-reg-panel">
+          <h3>Zarejestruj</h3>
+          <label>Alias
+            <input id="flota-alias" type="text" placeholder="np. alias" autocomplete="off" />
+          </label>
+          <label>adb_id (serial)
+            <input id="flota-adb-id" type="text" placeholder="np. serial z ADB" autocomplete="off" />
+          </label>
+          <button type="button" class="primary" id="flota-reg-submit">Zarejestruj telefon</button>
+        </div>
+        <div class="flota-panel">
+          <h3>ADB (raw devices)</h3>
+          <div id="flota-adb-raw"></div>
+        </div>
+      </aside>
+    </div>
+    <p class="flota-note">Jeden proces na serial (flock). Panel jedzie dwa telefony naraz — lock per serial, nie jeden globalny SessionManager.</p>
+  </section>
+
+  <!-- Globalne — nie karta jednego konta. Override per konto jest w #konta. -->
+  <section class="view" id="view-ustawienia" data-view="ustawienia" hidden>
+    <div class="view-head">
+      <p class="lede">Globalne dla całej instalacji. Konto może nadpisać limity, humanizer i kroki w Konta.</p>
+    </div>
+    <div id="ust-msg" class="banner" hidden></div>
+    <div class="ust-grid">
+
+      <article class="ust-card">
+        <h3>Anthropic</h3>
+        <p class="col-hint">Klucz nie wraca w API — tylko maska i źródło (plik / env).</p>
+        <div id="ust-secrets-status" class="ust-status">ładowanie…</div>
+        <div class="ust-fields">
+          <label>Klucz API
+            <input id="ust-api-key" type="password" placeholder="sk-ant-…" autocomplete="off" />
+          </label>
+          <label>Workspace
+            <input id="ust-api-ws" type="text" placeholder="wrkspc_…" autocomplete="off" />
+          </label>
+        </div>
+        <div class="ust-actions">
+          <button type="button" class="primary" id="ust-secrets-save">Zapisz</button>
+          <button type="button" class="danger" id="ust-secrets-clear">Usuń klucz</button>
+        </div>
+      </article>
+
+      <article class="ust-card">
+        <h3>Harmonogram (globalny)</h3>
+        <p class="col-hint">To samo źródło co zakładka Harmonogram: <code>GET/POST /api/scheduler</code>.</p>
+        <label class="ust-check">
+          <input id="ust-sched-enabled" type="checkbox" />
+          Bezpiecznik schedulera (<code>enabled</code>) — OFF = zero startów z planu
+        </label>
+        <div class="ust-fields ust-fields-3">
+          <label>Od godziny
+            <input id="ust-hour-from" type="number" min="0" max="23" step="1" />
+          </label>
+          <label>Do godziny
+            <input id="ust-hour-to" type="number" min="1" max="24" step="1" />
+          </label>
+          <label>Cykl
+            <select id="ust-cycle">
+              <option value="1">1 dzień</option>
+              <option value="3">3 dni</option>
+              <option value="7">7 dni</option>
+            </select>
+          </label>
+        </div>
+        <div class="ust-actions">
+          <button type="button" class="primary" id="ust-sched-save">Zapisz ramy</button>
+        </div>
+      </article>
+
+      <article class="ust-card ust-span">
+        <h3>Limity, humanizer, kroki systemowe</h3>
+        <p class="col-hint">Zapis do <code>config/bot.json</code>. Konto może nadpisać w Konta.</p>
+        <h4>Limity dzienne / godzinowe</h4>
+        <div class="ust-fields">
+          <label>daily_likes
+            <input id="ust-likes" type="number" min="0" step="1" />
+          </label>
+          <label>daily_follows
+            <input id="ust-follows" type="number" min="0" step="1" />
+          </label>
+          <label>daily_comments
+            <input id="ust-comments" type="number" min="0" step="1" />
+          </label>
+          <label>cooldown_after_warning_hours
+            <input id="ust-cooldown" type="number" min="0" step="1" />
+          </label>
+          <label>per_hour likes
+            <input id="ust-hour-likes" type="number" min="0" step="1" />
+          </label>
+          <label>per_hour follows
+            <input id="ust-hour-follows" type="number" min="0" step="1" />
+          </label>
+          <label>per_hour comments
+            <input id="ust-hour-comments" type="number" min="0" step="1" />
+          </label>
+          <!-- daily_dms jest w schemacie, runtime DM nie ma — nie zapisujemy z UI. -->
+          <label class="ust-off">daily_dms
+            <input id="ust-dms" type="number" min="0" step="1" disabled />
+            <span class="ust-off-hint">w schemacie, nie w runtime</span>
+          </label>
+        </div>
+        <h4>Humanizer</h4>
+        <div class="ust-fields">
+          <label>Profil bazowy
+            <select id="ust-hum-profile"></select>
+          </label>
+          <label>Prędkość
+            <input id="ust-hum-speed" type="number" min="0.1" max="20" step="0.1" />
+          </label>
+          <label class="ust-check ust-check-field">
+            <input id="ust-hum-after" type="checkbox" />
+            Pauza po każdym kroku
+          </label>
+        </div>
+        <h4>Kroki systemowe</h4>
+        <div class="ust-checks">
+          <label class="ust-check"><input id="ust-step-wake" type="checkbox" /> wake</label>
+          <label class="ust-check"><input id="ust-step-unlock" type="checkbox" /> unlock</label>
+          <label class="ust-check"><input id="ust-step-stats" type="checkbox" /> stats_snapshot</label>
+          <label class="ust-check"><input id="ust-step-stats-start" type="checkbox" /> ↳ na starcie sesji</label>
+          <label class="ust-check"><input id="ust-step-stats-end" type="checkbox" /> ↳ na końcu sesji</label>
+          <label class="ust-check"><input id="ust-step-close" type="checkbox" /> close_ig</label>
+          <label class="ust-check"><input id="ust-step-sleep" type="checkbox" /> sleep_screen</label>
+        </div>
+        <div class="ust-actions">
+          <button type="button" class="primary" id="ust-bot-save">Zapisz globalne</button>
+        </div>
+      </article>
+
+      <!-- Auth: tylko etykieta. Żadnego toggle, który udaje locka. -->
+      <article class="ust-card">
+        <h3>Auth panelu</h3>
+        <p class="ust-soon">wkrótce</p>
+      </article>
+
+      <article class="ust-card">
+        <h3>W schemacie, nie w runtime</h3>
+        <p class="col-hint">Pola są w account.json / SCHEMA, bot ich nie egzekwuje. Nie zapisujemy stąd.</p>
+        <ul class="ust-dead">
+          <li><span>PIN</span> <em>w schemacie, nie w runtime</em></li>
+          <li><span>Telegram</span> <em>w schemacie, nie w runtime</em></li>
+          <li><span>Proxy telefonu</span> <em>w schemacie, nie w runtime</em></li>
+          <li><span>DM</span> <em>w schemacie, nie w runtime</em></li>
+          <li><span>comment_gen</span> <em>w schemacie, nie w runtime</em></li>
+          <li><span>cost-cap</span> <em>w schemacie, nie w runtime</em></li>
+        </ul>
+      </article>
+
+      <article class="ust-card">
+        <h3>Klasyczny panel</h3>
+        <p class="col-hint">Diagnostyka ekranu, JSON surowy konta, defaulty pluginów — zostają pod <code>/</code>.</p>
+        <a href="/" class="ust-classic">Otwórz klasyczny panel →</a>
+      </article>
+
+      <details class="ust-card" id="ust-steps-box">
+        <summary>Znane kroki (tylko odczyt)</summary>
+        <p class="col-hint"><code>GET /api/known_steps</code> — lista z rejestru, bez edycji.</p>
+        <pre id="ust-known-steps" class="ust-pre">—</pre>
+      </details>
+    </div>
+  </section>
+</main>
+</div>
+
+<script src="/static/app.js" defer></script>
+<!-- Osobny plik: native Statystyki (KPI/limity/sesje); iframe /stats pod foldem. -->
+<script src="/static/stats-view.js" defer></script>
+<!-- Konta: karty + inspector + override limitów (krok 8). -->
+<script src="/static/konta.js" defer></script>
+</body>
+</html>

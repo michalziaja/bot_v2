@@ -1,0 +1,313 @@
+{
+  "version": 3,
+  "date": "2026-08-29",
+  "device": "phone_A",
+  "cycle_index": 0,
+  "active_hours": [
+    0,
+    24
+  ],
+  "materialized_at": "2026-08-29T17:01:14",
+  "blocks": [
+    {
+      "id": "bd883fe",
+      "account": "a50_clone2",
+      "scenario": "default",
+      "start": "02:29",
+      "duration_s": 660,
+      "gap_s": 960,
+      "est": {
+        "breakdown": {
+          "tasks_s": 480,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 60
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tdfbca0",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {
+              "max_items": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-29T02:29:33",
+      "ended_at": "2026-08-29T02:40:33"
+    },
+    {
+      "id": "bf31a99",
+      "account": "technature699",
+      "scenario": "default",
+      "start": "02:56",
+      "duration_s": 660,
+      "gap_s": 426,
+      "est": {
+        "breakdown": {
+          "tasks_s": 480,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 60
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "t326e45",
+            "plugin": "feed_browser",
+            "note": "",
+            "budget": {
+              "max_items": {
+                "min": 4,
+                "max": 8
+              }
+            },
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 4,
+          "max": 10
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-29T02:56:34",
+      "ended_at": "2026-08-29T03:07:34"
+    },
+    {
+      "id": "b8ba27f",
+      "account": "jobsaver",
+      "scenario": "kluczowe",
+      "start": "10:12",
+      "duration_s": 3696,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 3000,
+          "gaps_s": 240,
+          "overhead_s": 120,
+          "buffer_s": 336
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tb5fe8d",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tc49923",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-29T10:12:42",
+      "ended_at": "2026-08-29T11:14:43"
+    },
+    {
+      "id": "b825a41",
+      "account": "jobsaver",
+      "scenario": "hashtag",
+      "start": "14:05",
+      "duration_s": 2552,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1800,
+          "gaps_s": 400,
+          "overhead_s": 120,
+          "buffer_s": 232
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tb5fe8d",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {
+              "max_duration_min": 5
+            },
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "tc94b7d",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {
+              "max_duration_min": 25
+            },
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-29T14:05:30",
+      "ended_at": "2026-08-29T14:48:30"
+    },
+    {
+      "id": "b338c85",
+      "account": "jobsaver",
+      "scenario": "interakcja",
+      "start": "15:05",
+      "duration_s": 1452,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1200,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 132
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-29T15:05:53",
+      "ended_at": "2026-08-29T15:30:53"
+    },
+    {
+      "id": "bc3c4fc",
+      "account": "jobsaver",
+      "scenario": "kluczowe",
+      "start": "15:50",
+      "duration_s": 2552,
+      "gap_s": 300,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1800,
+          "gaps_s": 400,
+          "overhead_s": 120,
+          "buffer_s": 232
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tb5fe8d",
+            "plugin": "reels_warmup",
+            "note": "",
+            "budget": {
+              "max_duration_min": 5
+            },
+            "overrides": {},
+            "enabled": true
+          },
+          {
+            "id": "t92f4cf",
+            "plugin": "content_search",
+            "note": "",
+            "budget": {
+              "max_duration_min": 25
+            },
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-29T15:50:44",
+      "ended_at": "2026-08-29T16:33:06"
+    },
+    {
+      "id": "b90c607",
+      "account": "jobsaver",
+      "scenario": "interakcja",
+      "start": "17:05",
+      "duration_s": 1452,
+      "gap_s": 581,
+      "est": {
+        "breakdown": {
+          "tasks_s": 1200,
+          "gaps_s": 0,
+          "overhead_s": 120,
+          "buffer_s": 132
+        },
+        "task_count": 1,
+        "warnings": []
+      },
+      "queue_override": {
+        "queue": [
+          {
+            "id": "tff90db",
+            "plugin": "profile_interact",
+            "note": "",
+            "budget": {},
+            "overrides": {},
+            "enabled": true
+          }
+        ],
+        "between_tasks_s": {
+          "min": 60,
+          "max": 240
+        },
+        "on_task_error": "continue"
+      },
+      "locked": true,
+      "status": "done",
+      "started_at": "2026-08-29T12:00:29",
+      "ended_at": "2026-08-29T13:02:29"
+    }
+  ],
+  "dropped": []
+}

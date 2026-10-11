@@ -1,0 +1,109 @@
+{
+  "overview": [
+    {
+      "ok": true,
+      "name": "40_ov_7d",
+      "kpis": {
+        "viewers": 220
+      },
+      "nodes": 43
+    },
+    {
+      "ok": false,
+      "name": "40_ov_14d",
+      "kpis": {},
+      "nodes": 56
+    },
+    {
+      "ok": false,
+      "name": "40_ov_30d",
+      "kpis": {},
+      "nodes": 52
+    }
+  ],
+  "post": [
+    {
+      "ok": false,
+      "name": "40_post_379_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "name": "40_post_394_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "name": "40_post_42_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "name": "40_post_54_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "name": "40_post_278_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "kind": "post",
+      "days": 14,
+      "reason": "filter"
+    },
+    {
+      "ok": false,
+      "kind": "post",
+      "days": 30,
+      "reason": "filter"
+    }
+  ],
+  "story": [
+    {
+      "ok": true,
+      "name": "40_story_147_7d",
+      "chart": "donut",
+      "views": 147,
+      "kind": "story",
+      "days": 7
+    },
+    {
+      "ok": false,
+      "name": "40_story_172_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "name": "40_story_162_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "name": "40_story_179_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "name": "40_story_196_7d",
+      "reason": "overlay"
+    },
+    {
+      "ok": false,
+      "kind": "story",
+      "days": 14,
+      "reason": "filter"
+    },
+    {
+      "ok": false,
+      "kind": "story",
+      "days": 30,
+      "reason": "filter"
+    }
+  ],
+  "reel": {
+    "ok": false,
+    "reason": "filter"
+  }
+}

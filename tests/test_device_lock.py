@@ -1,11 +1,15 @@
 """device_lock — jeden proces na adb serial (live race dwóch sesji)."""
 from __future__ import annotations
 
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-from v2.core.device_lock import DeviceBusy, DeviceLock
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT.parent))
+
+from v2.core.device_lock import DeviceBusy, DeviceLock, peek_device_lock  # noqa: E402
 
 
 class DeviceLockTests(unittest.TestCase):
@@ -21,6 +25,22 @@ class DeviceLockTests(unittest.TestCase):
             # po release drugi może wejść
             b.acquire(owner="acc_b", session_id="s2")
             b.release()
+
+    def test_peek_widzi_holdera_i_znika_po_release(self):
+        """Flota: GET lock czyta flock, nie samo istnienie pliku."""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            lock = DeviceLock(root, "SERIAL_PEEK")
+            self.assertIsNone(peek_device_lock(root, "SERIAL_PEEK"))
+            lock.acquire(owner="jobsaver", session_id="s9")
+            holder = peek_device_lock(root, "SERIAL_PEEK")
+            self.assertIsInstance(holder, dict)
+            self.assertEqual(holder.get("owner"), "jobsaver")
+            self.assertEqual(holder.get("session_id"), "s9")
+            lock.release()
+            self.assertIsNone(peek_device_lock(root, "SERIAL_PEEK"))
+            # plik locka zostaje — to nie jest zajętość
+            self.assertTrue(lock.path.exists())
 
     def test_different_serials_independent(self):
         with tempfile.TemporaryDirectory() as td:

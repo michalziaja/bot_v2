@@ -1,0 +1,256 @@
+{
+  "name": "29_captcha_human_stop",
+  "note_pl": "ZATRZYMANO: captcha — człowiek na telefonie, nie omijać",
+  "pkg": "com.instagram.androib",
+  "identify_top": null,
+  "overlay": null,
+  "focused_package": "com.instagram.androib",
+  "focused_activity": "com.instagram.modal.ModalActivity",
+  "dominant_package": "com.instagram.androib",
+  "clone_owns_focus": true,
+  "visible_texts": [
+    "Wpisz widoczne znaki",
+    "We just need to make sure there’s a real human behind this login attempt. Remember, use capital letters if you see them.",
+    "Nie możesz tego przeczytać? Wygeneruj nowy kod lub odtwórz dźwięk",
+    "Wygeneruj nowy kod",
+    "odtwórz dźwięk",
+    "Wpisz znaki",
+    "Wpisz znaki,",
+    "Pole Wpisz znaki jest nieprawidłowe.",
+    "Wpisz litery i cyfry, aby kontynuować.",
+    "Kontynuuj",
+    "Wstecz",
+    "15:04",
+    "Tryb oszczędzania energii włączony",
+    "Dzwonek z wibracjami.",
+    "Wi-Fi: pełna moc sygnału.",
+    "Telefon: pełna moc sygnału.",
+    "Ładuję baterię, 100 procent.",
+    "100%"
+  ],
+  "resource_ids": [
+    "com.instagram.android:id/action_bar_root",
+    "android:id/content",
+    "com.instagram.android:id/layout_container_parent",
+    "com.instagram.android:id/layout_container_main",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/phone_status_bar_background",
+    "com.android.systemui:id/status_bar_area",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_left_side_container",
+    "com.android.systemui:id/status_bar_left_side",
+    "com.android.systemui:id/left_clock_container",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/notification_icon_area_inner",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/divided_status_icon_area",
+    "com.android.systemui:id/system_icon_area",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_iconset",
+    "com.android.systemui:id/wifi_signal",
+    "com.android.systemui:id/wifi_activity",
+    "com.android.systemui:id/mobile_combo",
+    "com.android.systemui:id/mobile_group",
+    "com.android.systemui:id/signal_combo",
+    "com.android.systemui:id/mobile_signal",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_percentage_view",
+    "com.android.systemui:id/rounded_corners_top",
+    "com.android.systemui:id/left",
+    "com.android.systemui:id/display_cutout",
+    "com.android.systemui:id/right"
+  ],
+  "nodes": [
+    {
+      "text": "Wpisz widoczne znaki",
+      "desc": "Wpisz widoczne znaki",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,220][1038,316]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "We just need to make sure there’s a real human behind this login attempt. Remember, use capital letters if you see them.",
+      "desc": "We just need to make sure there’s a real human behind this login attempt. Remember, use capital letters if you see them.",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,316][1038,527]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Nie możesz tego przeczytać? Wygeneruj nowy kod lub odtwórz dźwięk",
+      "desc": "Nie możesz tego przeczytać? Wygeneruj nowy kod lub odtwórz dźwięk",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,795][1038,969]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Wygeneruj nowy kod",
+      "desc": "Wygeneruj nowy kod",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[650,823][999,881]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "odtwórz dźwięk",
+      "desc": "odtwórz dźwięk",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[203,881][534,939]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Wpisz znaki",
+      "desc": "Wpisz znaki",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[84,1023][313,1075]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "",
+      "desc": "Wpisz znaki,",
+      "rid": "",
+      "click": true,
+      "cls": "EditText",
+      "bounds": "[84,1044][901,1101]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "",
+      "desc": "Pole Wpisz znaki jest nieprawidłowe.",
+      "rid": "",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[933,1017][996,1080]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Wpisz litery i cyfry, aby kontynuować.",
+      "desc": "Wpisz litery i cyfry, aby kontynuować.",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,1149][690,1198]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "",
+      "desc": "Kontynuuj",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[42,1293][1038,1409]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Kontynuuj",
+      "desc": "Kontynuuj",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[437,1323][643,1379]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "",
+      "desc": "Wstecz",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[37,94][100,210]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "15:04",
+      "desc": "15:04",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[62,0][159,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[716,23][756,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[759,23][800,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[803,23][850,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[850,23][889,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[897,0][1018,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[897,0][992,83]",
+      "pkg": "com.android.systemui"
+    }
+  ],
+  "special": {
+    "verification_code": false,
+    "captcha": true,
+    "suspicious_login": false,
+    "splash_crash_hint": false
+  },
+  "fatal_logcat": "",
+  "screenshot": "29_captcha_human_stop.jpg",
+  "screenshot_bytes": 144335,
+  "hierarchy_error": "",
+  "extra": {
+    "want_fatal": false,
+    "human_required": true
+  },
+  "ts": "2026-09-06T15:04:20"
+}

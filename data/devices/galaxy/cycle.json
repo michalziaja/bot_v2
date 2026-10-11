@@ -1,0 +1,45 @@
+{
+  "version": 3,
+  "device": "galaxy",
+  "cycle_days": 1,
+  "active_hours": [
+    18,
+    24
+  ],
+  "generated_at": "2026-09-02T18:22:12",
+  "days": [
+    {
+      "index": 0,
+      "blocks": [
+        {
+          "id": "b0f42e6",
+          "account": "kasia",
+          "scenario": "default",
+          "start": "23:27",
+          "duration_s": 924,
+          "gap_s": 926,
+          "est": {
+            "breakdown": {
+              "tasks_s": 720,
+              "gaps_s": 0,
+              "overhead_s": 120,
+              "buffer_s": 84
+            },
+            "task_count": 1,
+            "warnings": []
+          },
+          "queue_override": null,
+          "locked": false
+        }
+      ],
+      "dropped": [],
+      "collisions": [],
+      "load_pct": 9,
+      "label": "Codziennie"
+    }
+  ],
+  "window": {
+    "from_min": 1080,
+    "to_min": 1440
+  }
+}

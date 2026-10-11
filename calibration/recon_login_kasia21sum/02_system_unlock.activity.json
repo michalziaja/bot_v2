@@ -1,0 +1,22 @@
+{
+  "mCurrentFocus": "mCurrentFocus=Window{d3987d0 u0 com.sec.android.app.launcher/com.sec.android.app.launcher.activities.LauncherActivity}",
+  "mFocusedApp": "mFocusedApp=ActivityRecord{c80e27e u0 com.sec.android.app.launcher/.activities.LauncherActivity t151}",
+  "mResumedActivity": "mResumedActivity: ActivityRecord{c80e27e u0 com.sec.android.app.launcher/.activities.LauncherActivity t151}",
+  "topResumedActivity": "",
+  "focus_lines": [
+    "mCurrentFocus=Window{d3987d0 u0 com.sec.android.app.launcher/com.sec.android.app.launcher.activities.LauncherActivity}",
+    "mFocusedApp=ActivityRecord{c80e27e u0 com.sec.android.app.launcher/.activities.LauncherActivity t151}",
+    "mResumedActivity: ActivityRecord{c80e27e u0 com.sec.android.app.launcher/.activities.LauncherActivity t151}"
+  ],
+  "focused_package": "com.sec.android.app.launcher",
+  "focused_activity": "com.sec.android.app.launcher.activities.LauncherActivity",
+  "current_pkg": "com.sec.android.app.launcher",
+  "pidof_clone": "",
+  "pidof_stock": "28123",
+  "clone_owns_focus": false,
+  "clone_resumed_line": "",
+  "stock_on_focus": false,
+  "raw_window": "mCurrentFocus=Window{d3987d0 u0 com.sec.android.app.launcher/com.sec.android.app.launcher.activities.LauncherActivity}\n  mFocusedApp=ActivityRecord{c80e27e u0 com.sec.android.app.launcher/.activities.LauncherActivity t151}",
+  "raw_activity": "mResumedActivity: ActivityRecord{c80e27e u0 com.sec.android.app.launcher/.activities.LauncherActivity t151}",
+  "note_pl": "sukces launchu = clone_owns_focus, NIE pidof"
+}

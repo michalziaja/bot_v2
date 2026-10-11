@@ -10,7 +10,8 @@ class CloseIg:
     requires_screen = None
 
     def run(self, ctx, params):
-        if not ctx.account.step_enabled("close_ig"):
+        # Komentarz: login/signup/profil zawsze gaszą IG (`force`), nawet gdy toggle off
+        if not params.get("force") and not ctx.account.step_enabled("close_ig"):
             return StepResult.skipped("disabled_in_config")
         ctx.device.force_stop_app(ctx.ig_package)
         ctx.humanizer.pause("between_steps")

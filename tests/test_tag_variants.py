@@ -171,6 +171,148 @@ class NormalizeTagVariantsSettingsTests(unittest.TestCase):
         self.assertFalse(out["tag_variants_budget"]["enabled"])
 
 
+class ApplyRunScopeTests(unittest.TestCase):
+    """Izolacja gałęzi A/B wg run_scope z karty kolejki."""
+
+    def test_phrases_disables_branch_b(self):
+        from v2.plugins.impl.content_search import (
+            _apply_run_scope, normalize_tag_variants_settings,
+        )
+        s = normalize_tag_variants_settings({
+            "run_scope": "phrases",
+            "discover_tag_variants": {"enabled": True},
+            "tag_variants_budget": {"max_phrases": 3, "source": "from_map"},
+        })
+        out = _apply_run_scope(s)
+        self.assertEqual(out["run_scope"], "phrases")
+        self.assertFalse(out["tag_variants_budget"]["enabled"])
+
+    def test_tag_variants_forces_from_map_and_fallback_count(self):
+        from v2.plugins.impl.content_search import _apply_run_scope
+        out = _apply_run_scope({
+            "run_scope": "tag_variants",
+            "phrases": {"per_session": {"min": 2, "max": 4}},
+            "tag_variants_budget": {
+                "max_phrases": 0, "source": "live_collect", "enabled": False,
+            },
+            "discover_tag_variants": {"enabled": False},
+        })
+        tvb = out["tag_variants_budget"]
+        self.assertTrue(tvb["enabled"])
+        self.assertEqual(tvb["source"], "from_map")
+        self.assertEqual(tvb["max_phrases"], 4)
+
+    def test_both_is_passthrough(self):
+        from v2.plugins.impl.content_search import _apply_run_scope
+        tvb = {"enabled": True, "max_phrases": 2, "source": "live_collect"}
+        out = _apply_run_scope({"run_scope": "both", "tag_variants_budget": tvb})
+        self.assertTrue(out["tag_variants_budget"]["enabled"])
+        self.assertEqual(out["tag_variants_budget"]["source"], "live_collect")
+
+    def test_mix_disables_branch_b_and_defaults_mix_from(self):
+        from v2.plugins.impl.content_search import _apply_run_scope
+        out = _apply_run_scope({
+            "run_scope": "mix",
+            "tag_variants_budget": {
+                "enabled": True, "source": "live_collect", "max_phrases": 3,
+            },
+        })
+        tvb = out["tag_variants_budget"]
+        self.assertEqual(out["run_scope"], "mix")
+        self.assertFalse(tvb["enabled"])
+        self.assertEqual(tvb["source"], "from_map")
+        self.assertEqual(tvb["map_seed_kind"], "both")
+        self.assertEqual(
+            out["mix_from"], ["hashtag", "keyword", "tag_variants"])
+
+    def test_mix_keeps_explicit_mix_from(self):
+        from v2.plugins.impl.content_search import _apply_run_scope
+        out = _apply_run_scope({
+            "run_scope": "mix",
+            "mix_from": ["keyword", "tag_variants", "bogus"],
+            "tag_variants_budget": {"map_seed_kind": "keyword"},
+        })
+        self.assertEqual(out["mix_from"], ["keyword", "tag_variants"])
+        self.assertEqual(out["tag_variants_budget"]["map_seed_kind"], "keyword")
+
+
+class MixPoolAndSeedKindTests(unittest.TestCase):
+    """Filtr kluczy mapy + jedna pula mix (bez urządzenia)."""
+
+    def _ctx(self, mapping):
+        ctx = mock.MagicMock()
+        ctx.account.niche = {"tag_variants": mapping}
+        ctx.scratch = {}
+        return ctx
+
+    def test_variants_from_map_filters_by_seed_kind(self):
+        from v2.plugins.impl import content_search as mod
+        ctx = self._ctx({
+            "#kariera": ["#praca", "#job"],
+            "portale pracy": ["#linkedin", "#cv"],
+        })
+        self.assertEqual(
+            mod._variants_from_niche_map(ctx, "hashtag"),
+            ["#praca", "#job"],
+        )
+        self.assertEqual(
+            mod._variants_from_niche_map(ctx, "keyword"),
+            ["#linkedin", "#cv"],
+        )
+        self.assertEqual(
+            mod._variants_from_niche_map(ctx, "both"),
+            ["#praca", "#job", "#linkedin", "#cv"],
+        )
+
+    def test_pick_mix_hashtag_plus_tags_skips_keyword_keys(self):
+        import random
+        from v2.plugins.impl import content_search as mod
+
+        ctx = self._ctx({
+            "#fitness": ["#gym", "#workout"],
+            "portale pracy": ["#praca"],
+        })
+        s = {
+            "run_scope": "mix",
+            "mix_from": ["hashtag", "tag_variants"],
+            "phrases": {
+                "hashtags": ["#fitness"],
+                "keywords": ["nie bierz tego"],
+                "per_session": {"min": 20, "max": 20},
+                "order": "sequential",
+            },
+            "tag_variants_budget": {"map_seed_kind": "hashtag"},
+        }
+        out = mod._pick_mix_items(ctx, s, random.Random(0))
+        queries = [x["query"] for x in out]
+        kinds = {x["kind"] for x in out}
+        self.assertIn("#fitness", queries)
+        self.assertIn("#gym", queries)
+        self.assertNotIn("#praca", queries)
+        self.assertIn("hashtags", kinds)
+        self.assertIn("tag_variants", kinds)
+        # keyword z listy fraz nie wchodzi do tego mixu
+        self.assertNotIn("nie bierz tego", queries)
+
+    def test_pick_mix_dedupes_same_query_on_list_and_map(self):
+        import random
+        from v2.plugins.impl import content_search as mod
+
+        ctx = self._ctx({"#a": ["#gym"]})
+        s = {
+            "mix_from": ["hashtag", "tag_variants"],
+            "phrases": {
+                "hashtags": ["#gym"],
+                "per_session": 5,
+                "order": "sequential",
+            },
+            "tag_variants_budget": {"map_seed_kind": "both"},
+        }
+        out = mod._pick_mix_items(ctx, s, random.Random(0))
+        gym = [x for x in out if str(x["query"]).casefold() == "#gym"]
+        self.assertEqual(len(gym), 1)
+
+
 class ContentSearchTagVariantsHelpersTests(unittest.TestCase):
     """Unit: pick seedów gałęzi B + dedup used (bez urządzenia)."""
 

@@ -1,0 +1,10 @@
+[clone-job] tożsamość: com.instagram.androic mac=de:0b:8c:e5:61:ec imei=034918093562943
+[clone] APPID:       com.instagram.androic
+[clone] Android ID:  8da33c2f542e6e3c
+[clone] Model:       SM A505FN
+[clone] Fingerprint: samsung/a50/a50:11/RP1A.200720.012/U79W5PCW2A:user/release-keys
+[clone] MAC:         de:0b:8c:e5:61:ec
+[clone] IMEI:        034918093562943
+[clone] Workdir:     /home/michal/bot_v2/appcloner/clone/com.instagram.androic/instagram_src
+[clone] BŁĄD: brak apktool*.jar w /home/michal/bot_v2/appcloner
+[clone-job] BŁĄD: appcloner exit=2

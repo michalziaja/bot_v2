@@ -1,0 +1,10 @@
+[clone-job] cache HIT (instagram-446.0.0.49.77)
+[clone-job] safeguards: one_clone_job ON (DeviceLock + 409 gdy bot trzyma serial)
+[clone-job] tożsamość: com.instagram.androib model=OnePlus 8T mac=a6:dd:39:54:64:30 imei=093208499005657
+[clone] APPID:       com.instagram.androib
+[clone] Android ID:  46be1cf021e01a9c
+[clone] Model:       OnePlus 8T
+[clone] Fingerprint: oneplus/kebab/OnePlus8T:13/SKQ1.211006.001/CKJ3Q7RSKA:user/release-keys
+[clone] Workdir:     /home/michal/bot_v2/appcloner/clone/com.instagram.androib/instagram_src
+[clone] Usuwam katalog klona: /home/michal/bot_v2/appcloner/clone/com.instagram.androib (cache _cache/ zostaje)
+[clone-job] BŁĄD: appcloner exit=-15

@@ -184,6 +184,77 @@
   .tag-variants-expr { font-size: 12px; font-weight: 600; color: var(--text);
                        word-break: break-word; }
   .tag-variants-meta { font-size: 10px; color: var(--dim); }
+  .tag-age { font-size: 9px; opacity: 0.85; font-weight: 500; }
+
+  .phrase-bucket { margin-bottom: 14px; }
+  .phrase-bucket-head { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+  .phrase-date-row { display: flex; justify-content: space-between; gap: 10px;
+                     font-size: 11px; font-family: Consolas, monospace;
+                     padding: 1px 0; }
+  .phrase-date-row .ago { color: var(--dim); font-family: inherit; white-space: nowrap; }
+  .phrase-age-empty { font-size: 11px; color: var(--dim); padding: 2px 0; }
+
+  .task-source { margin-top: 10px; display: flex; flex-direction: column;
+                 gap: 6px; align-items: stretch; }
+  .task-source-row { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: end; }
+  .task-source label { font-size: 11px; color: var(--muted); display: block;
+                       margin-bottom: 3px; }
+  .task-source select { min-width: 240px; }
+  .task-source .hint { font-size: 11px; color: var(--dim); max-width: 420px; }
+  .task-preview { font-size: 11.5px; color: var(--muted);
+                  line-height: 1.45; }
+  .task-preview .ago { color: var(--dim); }
+  .task-map-btn { font-size: 11px; padding: 3px 8px; }
+
+  .tag-variants-toolbar { display: flex; gap: 8px; align-items: center;
+                        margin-bottom: 8px; flex-wrap: wrap; }
+  .tag-variants-group-title {
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.04em;
+    margin: 8px 0 4px;
+  }
+  .tag-variants-expr-btn { cursor: pointer; text-decoration: underline;
+                            text-underline-offset: 2px; }
+  .tag-variants-expr-btn:hover { color: var(--accent); }
+
+  #tv-map-modal {
+    display: none; position: fixed; inset: 0; z-index: 9600;
+    background: rgba(0, 0, 0, 0.5); align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  #tv-map-modal.open { display: flex; }
+  #tv-map-modal .tv-map-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    width: min(720px, 94vw); max-height: 86vh; display: flex; flex-direction: column;
+    box-shadow: 0 12px 40px rgba(0,0,0,.5);
+  }
+  #tv-map-modal .tv-map-head {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+    border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px;
+  }
+  #tv-map-modal .tv-map-head button { margin-left: auto; }
+  #tv-map-modal .tv-map-filters { display: flex; gap: 6px; padding: 10px 14px 0; }
+  #tv-map-modal .tv-map-filters button { font-size: 11px; padding: 3px 9px; }
+  #tv-map-modal .tv-map-filters button.active {
+    background: var(--accent); color: #001529; border-color: var(--accent);
+  }
+  #tv-map-modal .tv-map-body {
+    overflow: auto; padding: 10px 14px 16px; display: flex;
+    flex-direction: column; gap: 10px;
+  }
+  #tv-map-modal .tv-seed {
+    padding: 8px 10px; background: var(--panel3); border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  #tv-map-modal .tv-seed.focus { outline: 2px solid var(--accent); }
+  #tv-map-modal .tv-seed-k { font-weight: 600; font-size: 12.5px; }
+  #tv-map-modal .tv-seed-meta { font-size: 10px; color: var(--dim); margin: 2px 0 6px; }
+  #tv-map-modal .tv-chip {
+    display: inline-flex; gap: 6px; align-items: center;
+    background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 3px; padding: 2px 7px; font-size: 11px; margin: 0 4px 4px 0;
+  }
+  #tv-map-modal .tv-chip .ago { color: var(--dim); font-size: 10px; }
 
   .save-bar {
     position: sticky; bottom: 0; background: var(--panel);
@@ -637,6 +708,16 @@
               border-radius: 5px; padding: 10px 12px; font-size: 12px; }
   .dev-card .title { font-weight: 600; }
   .dev-card .meta { color: var(--muted); font-size: 11px; margin-top: 3px; }
+  .dev-card.incomplete { border-color: var(--warn); }
+  .dev-card .row-btns { margin-top: 8px; display: flex; gap: 6px; }
+  .adb-live { display: grid; gap: 6px; margin: 8px 0 14px; }
+  .adb-live .dev-card { cursor: pointer; }
+  .adb-live .dev-card:hover { border-color: var(--accent); }
+  .pill { display: inline-block; font-size: 10px; padding: 1px 6px;
+          border-radius: 8px; margin-left: 6px; }
+  .pill.ok { background: rgba(62,207,125,.15); color: var(--ok); }
+  .pill.warn { background: rgba(240,185,66,.15); color: var(--warn); }
+  .pill.dim { background: var(--panel3); color: var(--dim); }
   .tl-device-label { color: var(--muted); font-size: 12px; padding: 4px 0; }
 
   @media (max-width: 900px) {
@@ -992,10 +1073,17 @@
         </div>
         <div class="field-row">
           <div>
-            <div class="field-label">Limit / uruchomienie</div>
-            <div class="field-desc">Ile username sprawdzić w jednym przebiegu.</div>
+            <div class="field-label">Ilość oczekiwanych targetów</div>
+            <div class="field-desc">Jak proxy1: stop po tylu <b>zapisanych</b>. Skip nie zjada limitu. Max 100 sprawdzeń / run.</div>
           </div>
           <div><input type="number" id="flt-limit" min="1" max="5000" value="100"/></div>
+        </div>
+        <div class="field-row">
+          <div>
+            <div class="field-label">Przerwa między nickami (s)</div>
+            <div class="field-desc">0 = jak proxy1 (tylko sleep HTTP ~2 s). Większa wartość spowalnia run.</div>
+          </div>
+          <div><input type="number" id="flt-sleep-between" min="0" max="120" step="0.5" value="0"/></div>
         </div>
         <div class="field-row">
           <div>
@@ -1036,6 +1124,7 @@
       <div class="row" style="gap:8px;flex-wrap:wrap;margin:12px 0;">
         <button type="button" id="flt-save" class="primary">Zapisz filtr</button>
         <button type="button" id="flt-run" class="primary">Uruchom teraz</button>
+        <button type="button" id="flt-stop" class="danger" disabled>Zatrzymaj</button>
         <button type="button" id="flt-refresh">Odśwież status</button>
         <div class="msg" id="flt-msg"></div>
       </div>
@@ -1061,27 +1150,34 @@
 
       <h3>Urządzenia</h3>
       <div class="notice">Rejestracja tworzy <code>config/devices/&lt;alias&gt;.json</code>.
-        Wybór urządzenia w sidebarze filtruje konta w całym panelu.</div>
+        Wybór urządzenia w sidebarze filtruje konta w całym panelu.
+        Rozdzielczość, model i dpi bot zczytuje sam z ADB — nie trzeba ich wpisywać.</div>
       <div id="dev-list" class="dev-list"></div>
 
       <div class="settings-section">
-        <h4 style="margin-top:0;">Zarejestruj urządzenie</h4>
+        <h4 style="margin-top:0;">Podłączone przez ADB</h4>
+        <div class="field-desc" style="margin-bottom:6px;">Kliknij telefon, żeby wypełnić formularz poniżej.</div>
+        <div id="adb-live" class="adb-live"></div>
+        <div class="row"><button type="button" id="btn-adb-refresh">Odśwież listę ADB</button></div>
+
+        <h4>Zarejestruj urządzenie</h4>
         <div class="field-row">
           <div><div class="field-label">alias</div></div>
           <div><input type="text" id="nd-alias" placeholder="np. phone_B" autocomplete="off"/></div>
         </div>
         <div class="field-row">
           <div><div class="field-label">adb_id</div>
-            <div class="field-desc">Serial z <code>adb devices</code>.</div></div>
+            <div class="field-desc">Serial z <code>adb devices</code> — albo kliknij telefon powyżej.</div></div>
           <div><input type="text" id="nd-adb" placeholder="R58…" autocomplete="off"/></div>
         </div>
         <div class="field-row">
-          <div><div class="field-label">model (opc.)</div></div>
-          <div><input type="text" id="nd-model" placeholder="SM_A505FN" autocomplete="off"/></div>
+          <div><div class="field-label">model (opc.)</div>
+            <div class="field-desc">Zostaw puste — bot odczyta z telefonu.</div></div>
+          <div><input type="text" id="nd-model" placeholder="zczyta ADB" autocomplete="off"/></div>
         </div>
         <div class="field-row">
           <div><div class="field-label">manufacturer (opc.)</div></div>
-          <div><input type="text" id="nd-mfr" placeholder="Samsung" autocomplete="off"/></div>
+          <div><input type="text" id="nd-mfr" placeholder="zczyta ADB" autocomplete="off"/></div>
         </div>
         <div class="row"><button id="btn-nd-create" class="primary">Zarejestruj</button></div>
         <div class="msg" id="nd-msg"></div>
@@ -1097,17 +1193,42 @@
       <div class="row"><button id="btn-acc-save" class="primary">Zapisz konta i ułóż plan</button></div>
       <div class="msg" id="acc-msg"></div>
 
-      <h3 style="margin-top: 28px;">Nowe konto / login</h3>
+      <h3 style="margin-top: 28px;">1. Utwórz nowy klon na telefonie</h3>
       <div class="notice">
-        Tworzy <code>config/accounts/&lt;alias&gt;.json</code> (alias + urządzenie + APPID + Login IG).
-        Hasło w <code>config/credentials.json</code>. <b>Zaloguj</b> wpisuje login/hasło na telefonie —
-        2FA kończysz tu albo na telefonie.
+        Klon powstaje na urządzeniu z sidebara: serwer losuje APPID / MAC / IMEI,
+        buduje APK i robi <code>adb install</code>. Potem w kroku 2 wpisujesz login IG
+        i logujesz się już na tym klonie (nie na starym koncie z sidebara).
+      </div>
+      <div class="settings-section">
+        <div class="field-row">
+          <div><div class="field-label">Urządzenie</div>
+            <div class="field-desc">To samo co w sidebarze — zmiana tutaj przełącza telefon.</div></div>
+          <div>
+            <select id="nc-device"></select>
+            <div id="nc-device-meta" style="color:var(--dim);font-size:11px;margin-top:4px;"></div>
+          </div>
+        </div>
+        <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center;">
+          <button type="button" id="btn-nc-create" class="primary" disabled>Utwórz nowy klon</button>
+          <button type="button" id="btn-nc-cancel">Anuluj</button>
+        </div>
+        <div class="msg" id="nc-msg"></div>
+        <pre id="nc-log" style="display:none;margin-top:10px;max-height:220px;overflow:auto;
+             background:var(--panel3);padding:10px;font-size:11px;white-space:pre-wrap;"></pre>
+        <div id="nc-result" style="margin-top:10px;color:var(--muted);font-size:12px;"></div>
+      </div>
+
+      <h3 id="np-login-section" style="margin-top: 28px;">2. Zaloguj na tym klonie</h3>
+      <div class="notice">
+        Wiąże login IG z APPID z kroku 1 (albo z podpowiedzi).
+        <b>Utwórz konto i zaloguj</b> zapisuje alias + hasło i od razu wpisuje je na telefonie
+        w nowym klonie. Kod 2FA wpisujesz poniżej — zostajesz na tej zakładce.
       </div>
       <!-- tryb create = czyste pola; edit = sync z activeAccount (sidebar) -->
       <div class="row" style="gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
         <button type="button" id="btn-np-new" class="primary"
                 title="Wyczyść Alias/APPID/Login i nie nadpisuj ich przy zmianie konta w sidebarze">
-          Nowy klon / nowe konto
+          Nowe konto
         </button>
         <button type="button" id="btn-np-edit"
                 title="Wróć do edycji aktywnego konta z sidebara (wypełnij Alias/APPID/Login)">
@@ -1131,10 +1252,9 @@
         </div>
         <div class="field-row">
           <div><div class="field-label">Klon (appID)</div>
-            <div class="field-desc">Wpisz package name ręcznie albo wybierz z podpowiedzi.
-              „zajęty” = już ma konto — nie blokuje wpisania. <b>Usuń z konta</b> czyści
-              <code>device.app_clone_package</code> na aktywnym koncie (zwalnia zajętość)
-              — tylko w trybie edycji.</div></div>
+            <div class="field-desc">Po „Utwórz nowy klon” pole wypełnia się samo.
+              Albo wybierz z podpowiedzi / wpisz ręcznie. „zajęty” = już ma konto.
+              <b>Usuń z konta</b> czyści APPID tylko w trybie edycji.</div></div>
           <div>
             <div class="row" style="gap:6px; flex-wrap:wrap; align-items:center;">
               <input type="text" id="np-clone" list="np-clone-list"
@@ -1168,10 +1288,11 @@
           <div><input type="password" id="np-cred-pass" autocomplete="off"/></div>
         </div>
       </div>
-      <div class="row">
-        <button id="btn-np-create" class="primary">Utwórz konto</button>
-        <button id="btn-np-cred-save">Zapisz dane logowania</button>
-        <button id="btn-np-login" class="primary">Zaloguj na telefonie</button>
+      <div class="row" style="flex-wrap:wrap;">
+        <button type="button" id="btn-np-create-login" class="primary">Utwórz konto i zaloguj</button>
+        <button type="button" id="btn-np-create">Tylko utwórz konto</button>
+        <button type="button" id="btn-np-cred-save">Zapisz dane logowania</button>
+        <button type="button" id="btn-np-login">Zaloguj na telefonie</button>
       </div>
       <div class="msg" id="np-create-msg"></div>
       <div class="msg" id="np-login-msg"></div>
@@ -1237,6 +1358,8 @@
       <div class="settings-section">
         <div id="api-status" style="color: var(--muted); font-size: 11px; margin-bottom: 6px;"></div>
         <input id="api-key" type="password" placeholder="sk-ant-…" autocomplete="off" />
+        <input id="api-workspace" type="text" placeholder="wrkspc_… (workspace ID)"
+               autocomplete="off" style="margin-top: 6px;" />
         <div class="row">
           <button id="btn-api-save">Zapisz klucz</button>
           <button id="btn-api-clear" class="danger">Usuń</button>
@@ -1244,7 +1367,9 @@
         <div class="inline-msg" id="api-msg"></div>
         <div style="color: var(--dim); font-size: 10.5px; margin-top: 6px; line-height: 1.4;">
           Zapis do <code>config/secrets.json</code>. Env <code>ANTHROPIC_API_KEY</code>
-          ma pierwszeństwo. Bez klucza AI Vision = stub.
+          / <code>ANTHROPIC_WORKSPACE_ID</code> ma pierwszeństwo. Klucz identity-linked
+          wymaga workspace (<code>wrkspc_…</code> z console.anthropic.com → Workspaces).
+          Bez klucza AI Vision = stub.
         </div>
       </div>
 
@@ -1283,6 +1408,21 @@
       <button type="button" id="ui-ask-cancel">Anuluj</button>
       <button type="button" id="ui-ask-ok" class="primary">OK</button>
     </div>
+  </div>
+</div>
+<!-- Mapa znaczników: z jakiego # / keyword jakie warianty -->
+<div id="tv-map-modal" role="dialog" aria-modal="true" aria-labelledby="tv-map-title">
+  <div class="tv-map-card">
+    <div class="tv-map-head">
+      <div id="tv-map-title">Mapa znaczników</div>
+      <button type="button" id="tv-map-close" title="Zamknij">×</button>
+    </div>
+    <div class="tv-map-filters">
+      <button type="button" data-kind="both" class="active">Wszystkie</button>
+      <button type="button" data-kind="hashtag">Z #</button>
+      <button type="button" data-kind="keyword">Z keywords</button>
+    </div>
+    <div class="tv-map-body" id="tv-map-body"></div>
   </div>
 </div>
 
@@ -1408,6 +1548,7 @@ let ACCOUNTS = [];          // [{alias, device_alias}, ...] z GET /api/accounts
 let DEVICES = [];           // z GET /api/devices
 let PLUGIN_CATALOG = [];    // z /api/plugins — deklaracja wcześnie (używane w helperach)
 let PLUGIN_SETTINGS = {};
+let PHRASE_USAGE = {};     // last-checked fraz/znaczników (GET /api/phrase-usage)
 let selectedAccountByDevice = {};  // deviceAlias -> ostatnio wybrane konto
 let SELECTED_PLUGIN_ID = null;     // master/detail Pluginy
 let _syncingAccounts = false;      // unikaj rekurencji przy sync selectów
@@ -1481,6 +1622,10 @@ async function onDeviceChanged() {
     $("np-device").value = currentDevice();
     renderCloneOptions();
   }
+  if ($("nc-device") && currentDevice()) {
+    $("nc-device").value = currentDevice();
+  }
+  syncNcCreateEnabled();
   await reloadForActiveAccount();
   // oś czasu od razu dla device z sidebara
   try { await loadAccountsGrid(); } catch (e) { console.error(e); }
@@ -1524,15 +1669,17 @@ async function reloadForActiveAccount() {
     if (!PLUGIN_CATALOG.length) {
       PLUGIN_CATALOG = await fetch("/api/plugins").then(r => r.json());
     }
-    const [cfgRes, plugRes] = await Promise.all([
+    const [cfgRes, plugRes, usageRes] = await Promise.all([
       fetch(`/api/config/${encodeURIComponent(acc)}`),
       fetch(`/api/plugins/${encodeURIComponent(acc)}`),
+      fetch(`/api/phrase-usage/${encodeURIComponent(acc)}`),
     ]);
     if (gen !== _accountLoadGen) return;  // user przełączył konto w trakcie
     if (!cfgRes.ok) throw new Error("config " + cfgRes.status);
     if (!plugRes.ok) throw new Error("plugins " + plugRes.status);
     CURRENT_CFG = await cfgRes.json();
     PLUGIN_SETTINGS = await plugRes.json();
+    PHRASE_USAGE = usageRes.ok ? await usageRes.json() : {};
     if (gen !== _accountLoadGen) return;
 
     if ($("raw-cfg")) $("raw-cfg").value = JSON.stringify(CURRENT_CFG, null, 2);
@@ -1611,7 +1758,7 @@ const SCHEMA = [
             // UWAGA: w JS nie wolno sklejać stringów sąsiadująco jak w Pythonie — użyj jednego stringa lub +.
 { key: ["tag_variants"], type: "tag_variants_map",
         label: "Znaczniki powiązane (IG)",
-        desc: "Osobna mapa niche.tag_variants: wyrażenie (keyword/#) → warianty z zakładki Znaczniki. Nie mylić z hashtags_discovered (AI). Puste = jeszcze nie scrapowane. Możesz edytować chipy; pustą listę przy wyrażeniu usuwa wpis." },
+        desc: "Mapa: z jakiego # / keyword jakie znaczniki są zapisane. Kliknij wyrażenie albo „Otwórz mapę”. Nie mylić z hashtags_discovered (AI). Puste chipy przy wyrażeniu usuwają wpis." },
       { key: ["exclusions"], type: "tags", label: "exclusions",
         desc: "Opcjonalny fallback. Discovery ich NIE generuje — główne listy: Wykluczenia rolek / Wykluczenia postów w ustawieniach pluginów. Przy nowej analizie exclusions są zachowywane." },
       { key: ["accepted"], type: "bool", label: "accepted",
@@ -1780,7 +1927,7 @@ const SCHEMA = [
         desc: "Min score potrzebny do lajkowania siatki. Poniżej — pomijamy profil całkowicie." },
       { key: ["max_cost_per_session_usd"], type: "num", label: "max_cost_per_session_usd", hidden: true,
         min: 0, step: 0.1,
-        desc: "Maksymalny koszt wywołań AI na sesję (USD). NIEAKTYWNE — brak licznika kosztów w runtime." },
+        desc: "Maksymalny koszt wywołań AI na sesję (USD). NIEAKTYWNE — brak abortu sesji; tokeny i koszt są w /stats." },
     ]
   },
   {
@@ -1818,7 +1965,7 @@ const SCHEMA = [
   },
   {
     title: "Urządzenie i klon",
-    desc: "Alias konta, fizyczne urządzenie i klon Instagrama. Dane sprzętowe (MAC/IMEI/Android_ID) — z App Clonera.",
+    desc: "Alias konta, fizyczne urządzenie i klon Instagrama. MAC/IMEI/Android_ID — z budowy klona (panel Utwórz nowy klon).",
     base: [],
     fields: [
       { key: ["meta", "alias"], type: "text", label: "alias",
@@ -1830,10 +1977,13 @@ const SCHEMA = [
       { key: ["device", "app_clone_package"], type: "text", label: "app_clone_package",
         desc: "Package name / APPID (np. com.instagram.android). Puste = brak przypisania (zwalnia zajętość w panelu)." },
       { key: ["device", "spoofed_mac"], type: "text", label: "spoofed_mac",
-        desc: "Spoofowany MAC WiFi (z App Clonera). Pusty = klon używa oryginalnego." },
-      { key: ["device", "spoofed_imei"], type: "text", label: "spoofed_imei", desc: "Spoofowany IMEI" },
+        desc: "MAC klona: hook w APK + wlan0 na czas sesji (Magisk). Pusty = nie ruszaj NIC." },
+      { key: ["device", "spoofed_imei"], type: "text", label: "spoofed_imei",
+        desc: "IMEI wbudowany w APK klona (TelephonyManager). Runtime nie zmienia radia." },
       { key: ["device", "spoofed_android_id"], type: "text", label: "spoofed_android_id",
-        desc: "Spoofowany Android ID (16 znaków hex)" },
+        desc: "Spoofowany Android ID (16 znaków hex) — wstrzyknięty w APK przy budowie klona." },
+      { key: ["device", "spoofed_gsf"], type: "text", label: "spoofed_gsf", hidden: true,
+        desc: "NIEAKTYWNE w v1 — brak call-site GSF w pipeline klona." },
       { key: ["device", "lockscreen_pin"], type: "text", label: "lockscreen_pin",
         desc: "PIN blokady ekranu (jeśli włączona) — do system.unlock" },
     ]
@@ -2552,26 +2702,54 @@ function renderField(basePath, f, cfg, humanizerProfile) {
     inputCell.appendChild(wrap);
   }
   else if (f.type === "chance") {
-    // {mode: "p"|"formula", value: <liczba|wyrażenie>}
-    const wrap = document.createElement("div"); wrap.className = "range-inputs";
-    const mode = document.createElement("select");
-    mode.style.width = "110px";
-    for (const [v, t] of [["p", "stała"], ["formula", "formuła"]]) {
-      const o = document.createElement("option"); o.value = v; o.textContent = t;
-      mode.appendChild(o);
-    }
-    const val = document.createElement("input");
-    val.type = "text"; val.style.flex = "1";
-    mode.value = (cur && cur.mode === "formula") ? "formula" : "p";
-    val.value  = (cur && cur.value !== undefined) ? cur.value : 1;
-    const hint = document.createElement("span");
-    hint.className = "range-unit";
-    const setHint = () => {
-      hint.textContent = mode.value === "p" ? "0–1" : "np. score/100";
-      val.placeholder  = mode.value === "p" ? "0.6" : "score/100";
+    // Komentarz: suwak 0–100%; formuła (score/100) tylko gdy allow_formula
+    const allowF = f.allow_formula === true;
+    const wrap = document.createElement("div");
+    wrap.className = "chance-field";
+    const extra = document.createElement("div");
+    extra.className = "range-inputs";
+    let mode = null;
+    const pctOf = () => {
+      const n = Number(cur && cur.value);
+      if (!Number.isFinite(n)) return 15;
+      if (n > 1) return Math.max(0, Math.min(100, Math.round(n)));
+      return Math.max(0, Math.min(100, Math.round(n * 100)));
     };
-    mode.onchange = setHint; setHint();
-    wrap.append(mode, val, hint);
+    const rebuild = () => {
+      extra.innerHTML = "";
+      if (allowF && mode && mode.value === "formula") {
+        const hint = document.createElement("span");
+        hint.className = "range-unit";
+        hint.textContent = "szansa = ocena AI / 100";
+        extra.appendChild(hint);
+        return;
+      }
+      const sl = document.createElement("input");
+      sl.type = "range"; sl.min = 0; sl.max = 100; sl.step = 1;
+      sl.className = "ch-pct";
+      sl.value = String(pctOf());
+      const out = document.createElement("input");
+      out.type = "number"; out.min = 0; out.max = 100;
+      out.value = sl.value;
+      sl.oninput = () => { out.value = sl.value; };
+      out.oninput = () => { sl.value = out.value; };
+      const u = document.createElement("span"); u.className = "range-unit";
+      u.textContent = "%";
+      extra.append(sl, out, u);
+    };
+    if (allowF) {
+      mode = document.createElement("select");
+      mode.style.width = "100%";
+      for (const [v, t] of [["p", "stała %"], ["formula", "z wyniku AI"]]) {
+        const o = document.createElement("option"); o.value = v; o.textContent = t;
+        mode.appendChild(o);
+      }
+      mode.value = (cur && cur.mode === "formula") ? "formula" : "p";
+      mode.onchange = rebuild;
+      wrap.appendChild(mode);
+    }
+    rebuild();
+    wrap.appendChild(extra);
     inputCell.appendChild(wrap);
   }
   else if (f.type === "lines") {
@@ -2637,7 +2815,7 @@ function renderField(basePath, f, cfg, humanizerProfile) {
   return row;
 }
 
-function renderTagsInput(tags) {
+function renderTagsInput(tags, usageKind) {
   const box = document.createElement("div"); box.className = "tags-input";
   const items = [...tags];
   const inp = document.createElement("input");
@@ -2647,6 +2825,15 @@ function renderTagsInput(tags) {
     items.forEach((t, i) => {
       const chip = document.createElement("span"); chip.className = "tag";
       chip.appendChild(document.createTextNode(t + " "));
+      if (usageKind) {
+        const ageTxt = usageAgo(usageKind, t);
+        chip.title = t + " — " + ageTxt;
+        const age = document.createElement("span");
+        age.className = "tag-age";
+        age.textContent = ageTxt;
+        chip.appendChild(age);
+        chip.appendChild(document.createTextNode(" "));
+      }
       const rm = document.createElement("span"); rm.className = "rm"; rm.textContent = "×";
       rm.onclick = () => { items.splice(i, 1); rerender(); };
       chip.appendChild(rm);
@@ -2683,8 +2870,21 @@ function renderTagVariantsMap(mapObj) {
       : [];
     entries.push({ expr: e, tags });
   }
-  // sort alpha po expression — stabilniejszy podgląd
   entries.sort((a, b) => a.expr.localeCompare(b.expr, "pl", { sensitivity: "base" }));
+
+  const toolbar = document.createElement("div");
+  toolbar.className = "tag-variants-toolbar";
+  const openBtn = document.createElement("button");
+  openBtn.type = "button";
+  openBtn.textContent = "Otwórz mapę";
+  openBtn.title = "Z jakiego # / keyword jakie znaczniki są zapisane";
+  openBtn.onclick = (ev) => { ev.preventDefault(); openTagVariantsMapModal(); };
+  const hint = document.createElement("span");
+  hint.className = "field-desc";
+  hint.style.margin = "0";
+  hint.textContent = "Kliknij wyrażenie albo mapę — warianty pogrupowane po # i keywords.";
+  toolbar.append(openBtn, hint);
+  box.appendChild(toolbar);
 
   const empty = document.createElement("div");
   empty.className = "tag-variants-empty";
@@ -2692,32 +2892,47 @@ function renderTagVariantsMap(mapObj) {
     + "albo dopisz po scrape.";
 
   const paint = () => {
-    box.querySelectorAll(".tag-variants-row, .tag-variants-empty").forEach(el => el.remove());
+    box.querySelectorAll(".tag-variants-row, .tag-variants-empty, .tag-variants-group-title")
+      .forEach(el => el.remove());
     if (!entries.length) {
       box.appendChild(empty);
       return;
     }
-    entries.forEach((row, idx) => {
-      const wrap = document.createElement("div");
-      wrap.className = "tag-variants-row";
-      const head = document.createElement("div");
-      head.className = "tag-variants-expr";
-      head.textContent = row.expr;
-      const meta = document.createElement("div");
-      meta.className = "tag-variants-meta";
-      meta.textContent = "warianty z zakładki Znaczniki (IG)";
-      const tagsBox = renderTagsInput(row.tags);
-      tagsBox.dataset.expr = row.expr;
-      // sync lokalnej tablicy przy collect
-      const prevGet = tagsBox._getTags;
-      tagsBox._getTags = () => {
-        const t = prevGet();
-        entries[idx].tags = t;
-        return t;
-      };
-      wrap.append(head, meta, tagsBox);
-      box.appendChild(wrap);
-    });
+    const hashRows = entries.filter(r => r.expr.startsWith("#"));
+    const kwRows = entries.filter(r => !r.expr.startsWith("#"));
+    const paintGroup = (title, rows) => {
+      if (!rows.length) return;
+      const h = document.createElement("div");
+      h.className = "tag-variants-group-title";
+      h.textContent = title;
+      box.appendChild(h);
+      rows.forEach((row) => {
+        const idx = entries.indexOf(row);
+        const wrap = document.createElement("div");
+        wrap.className = "tag-variants-row";
+        const head = document.createElement("div");
+        head.className = "tag-variants-expr tag-variants-expr-btn";
+        head.textContent = row.expr;
+        head.title = "Otwórz mapę przy tym wyrażeniu";
+        head.onclick = () => openTagVariantsMapModal(row.expr);
+        const meta = document.createElement("div");
+        meta.className = "tag-variants-meta";
+        meta.textContent = (row.expr.startsWith("#") ? "z hashtaga" : "z keyword")
+          + " · " + row.tags.length + " znaczników — kliknij, żeby zobaczyć mapę";
+        const tagsBox = renderTagsInput(row.tags, "tag_variants");
+        tagsBox.dataset.expr = row.expr;
+        const prevGet = tagsBox._getTags;
+        tagsBox._getTags = () => {
+          const t = prevGet();
+          entries[idx].tags = t;
+          return t;
+        };
+        wrap.append(head, meta, tagsBox);
+        box.appendChild(wrap);
+      });
+    };
+    paintGroup("Z hashtagów (#)", hashRows);
+    paintGroup("Z keywords", kwRows);
   };
   paint();
   box._getTagVariantsMap = () => {
@@ -2731,13 +2946,119 @@ function renderTagVariantsMap(mapObj) {
         if (!s) return "";
         return s.startsWith("#") ? s : "#" + s.replace(/^#+/, "");
       }).filter(Boolean);
-      if (!cleaned.length) continue; // pusta lista → usuń expression
+      if (!cleaned.length) continue;
       out[row.expr] = cleaned;
     }
     return out;
   };
   return box;
 }
+
+/** Pogrupuj mapę: klucze # vs keywords. */
+function splitTagVariantsMap(mapObj) {
+  const hash = [], kw = [];
+  const src = (mapObj && typeof mapObj === "object" && !Array.isArray(mapObj)) ? mapObj : {};
+  for (const [expr, variants] of Object.entries(src)) {
+    const e = String(expr || "").trim();
+    if (!e) continue;
+    const tags = Array.isArray(variants)
+      ? variants.map(v => String(v || "").trim()).filter(Boolean) : [];
+    const row = { expr: e, tags };
+    if (e.startsWith("#")) hash.push(row);
+    else kw.push(row);
+  }
+  const cmp = (a, b) => a.expr.localeCompare(b.expr, "pl", { sensitivity: "base" });
+  hash.sort(cmp); kw.sort(cmp);
+  return { hash, kw };
+}
+
+let _tvMapFilter = "both";
+
+/** Mapa z formularza niszy (jeśli otwarty) albo z CURRENT_CFG. */
+function liveTagVariantsMap() {
+  const mapEl = document.querySelector("#settings-form .tag-variants-map");
+  if (mapEl && mapEl._getTagVariantsMap) return mapEl._getTagVariantsMap();
+  return ((CURRENT_CFG && CURRENT_CFG.niche) || {}).tag_variants || {};
+}
+
+function openTagVariantsMapModal(focusExpr) {
+  const modal = $("tv-map-modal");
+  const body = $("tv-map-body");
+  if (!modal || !body) return;
+  const grouped = splitTagVariantsMap(liveTagVariantsMap());
+  const paint = (kind) => {
+    _tvMapFilter = kind;
+    modal.querySelectorAll(".tv-map-filters button").forEach(b => {
+      b.classList.toggle("active", b.dataset.kind === kind);
+    });
+    body.innerHTML = "";
+    const showHash = kind === "both" || kind === "hashtag";
+    const showKw = kind === "both" || kind === "keyword";
+    const addGroup = (title, rows) => {
+      if (!rows.length) return;
+      const h = document.createElement("div");
+      h.className = "tag-variants-group-title";
+      h.textContent = title + " · " + rows.length;
+      body.appendChild(h);
+      for (const row of rows) {
+        const seed = document.createElement("div");
+        seed.className = "tv-seed";
+        if (focusExpr && row.expr === focusExpr) seed.classList.add("focus");
+        seed.dataset.expr = row.expr;
+        const k = document.createElement("div");
+        k.className = "tv-seed-k";
+        k.textContent = row.expr;
+        const meta = document.createElement("div");
+        meta.className = "tv-seed-meta";
+        meta.textContent = (row.expr.startsWith("#") ? "hashtag" : "keyword")
+          + " → " + (row.tags.length || 0) + " znaczników";
+        seed.append(k, meta);
+        if (!row.tags.length) {
+          const empty = document.createElement("div");
+          empty.className = "phrase-age-empty";
+          empty.textContent = "brak wariantów";
+          seed.appendChild(empty);
+        } else {
+          for (const t of row.tags) {
+            const chip = document.createElement("span");
+            chip.className = "tv-chip";
+            const tag = t.startsWith("#") ? t : "#" + t.replace(/^#+/, "");
+            chip.appendChild(document.createTextNode(tag + " "));
+            const ago = document.createElement("span");
+            ago.className = "ago";
+            ago.textContent = usageAgo("tag_variants", tag);
+            chip.appendChild(ago);
+            seed.appendChild(chip);
+          }
+        }
+        body.appendChild(seed);
+      }
+    };
+    if (showHash) addGroup("Z hashtagów (#)", grouped.hash);
+    if (showKw) addGroup("Z keywords", grouped.kw);
+    if (!body.children.length) {
+      body.innerHTML = '<div class="tag-variants-empty">Brak zapisanych znaczników w niszy.</div>';
+    }
+    const focusEl = focusExpr && body.querySelector(`[data-expr="${CSS.escape(focusExpr)}"]`);
+    if (focusEl) focusEl.scrollIntoView({ block: "center" });
+  };
+  modal.querySelectorAll(".tv-map-filters button").forEach(b => {
+    b.onclick = () => paint(b.dataset.kind);
+  });
+  if (focusExpr) {
+    _tvMapFilter = String(focusExpr).startsWith("#") ? "hashtag" : "keyword";
+  }
+  paint(_tvMapFilter);
+  modal.classList.add("open");
+}
+
+document.getElementById("tv-map-close")?.addEventListener("click", () => {
+  $("tv-map-modal")?.classList.remove("open");
+});
+document.getElementById("tv-map-modal")?.addEventListener("click", (ev) => {
+  if (ev.target && ev.target.id === "tv-map-modal")
+    $("tv-map-modal").classList.remove("open");
+});
 
 
 /** Unikalne frazy (casefold), zachowaj kolejność. */
@@ -2791,7 +3112,7 @@ function phrasesBucketsFromCfg(phrases, niche) {
 }
 
 /**
- * Lista fraz content_search — przełącza zawartość przy zmianie source.
+ * Lista fraz content_search — trzy buckety zawsze widoczne + last-checked.
  * Zapis: hashtags / keywords / locations osobno.
  */
 function renderSourcePhrasesField(f, pluginCfg, phrasesObj) {
@@ -2800,83 +3121,23 @@ function renderSourcePhrasesField(f, pluginCfg, phrasesObj) {
   const niche = (typeof CURRENT_CFG !== "undefined" && CURRENT_CFG && CURRENT_CFG.niche) || {};
   const buckets = phrasesBucketsFromCfg(phrasesObj || {}, niche);
   wrap._buckets = buckets;
-  wrap._sourceKey = f.source_key || ["source"];
 
-  const hint = document.createElement("div");
-  hint.className = "field-desc";
-  const ta = document.createElement("textarea");
-  ta.rows = 6; ta.spellcheck = false;
-  ta.style.fontFamily = "Consolas, monospace";
-  ta.placeholder = f.placeholder || "jedna pozycja na linię";
+  const specs = [
+    { key: "hashtags", kind: "hashtags", label: "Hashtagi",
+      hint: "Z # — ręczne + z niszy. Źródło na sesję wybierasz na karcie kolejki.",
+      placeholder: "#fitnessmotivation", hash: true },
+    { key: "keywords", kind: "keywords", label: "Słowa kluczowe",
+      hint: "Bez # — ręczne + z niszy.",
+      placeholder: "laminacja rzęs", hash: false },
+    { key: "locations", kind: "locations", label: "Lokalizacje",
+      hint: "Osobna lista miejsc (zakładka Miejsca).",
+      placeholder: "Warszawa", hash: false },
+  ];
+  for (const spec of specs) {
+    wrap.appendChild(renderPhraseBucket(wrap, spec));
+  }
 
-  const cnt = document.createElement("div");
-  cnt.className = "field-desc";
-
-  const readSource = () => {
-    const body = wrap.closest(".plugin-body") || wrap.closest("#settings-form") || document;
-    const srcPath = JSON.stringify(wrap._sourceKey);
-    const row = [...body.querySelectorAll(".field-row")].find(r => r.dataset.path === srcPath);
-    if (row) {
-      const sel = row.querySelector("select");
-      if (sel) return sel.value;
-    }
-    return (pluginCfg && pluginCfg.source) || "hashtag";
-  };
-
-  // Zapisuje aktualny textarea do właściwego bucketa (hashtags/keywords/locations).
-  // Przy pierwszym showFor _activeSource jest puste — nie flushuj pustego TA.
-  const flushCurrent = () => {
-    if (!wrap._activeSource) return;
-    const src = wrap._activeSource;
-    const bucket = _bucketForSource(src);
-    let lines = ta.value.split("\n").map(s => s.trim()).filter(Boolean);
-    if (src === "hashtag")
-      lines = lines.map(s => s.startsWith("#") ? s : "#" + s.replace(/^#+/, ""));
-    else if (src === "keyword")
-      lines = lines.map(s => s.replace(/^#+/, ""));
-    wrap._buckets[bucket] = _uniqPhrases(lines);
-  };
-
-  /** Przełącza widok listy przy zmianie Typ źródła; wcześniej flush edycji. */
-  const showFor = (src) => {
-    flushCurrent();
-    wrap._activeSource = src;
-    const bucket = _bucketForSource(src);
-    const lines = wrap._buckets[bucket] || [];
-    ta.value = lines.join("\n");
-    if (src === "hashtag") {
-      hint.textContent = "Hashtagi (#) — ręczne + z analizy niszy.";
-      ta.placeholder = "#fitnessmotivation";
-    } else if (src === "keyword") {
-      hint.textContent = "Słowa kluczowe (bez #) — ręczne + z analizy niszy.";
-      ta.placeholder = "laminacja rzęs";
-    } else {
-      hint.textContent = "Lokalizacje — osobna lista.";
-      ta.placeholder = "Warszawa";
-    }
-    cnt.textContent = lines.length + " poz.";
-  };
-
-  ta.addEventListener("input", () => {
-    const n = ta.value.split("\n").map(s => s.trim()).filter(Boolean).length;
-    cnt.textContent = n + " poz.";
-  });
-
-  setTimeout(() => {
-    const body = wrap.closest(".plugin-body") || document;
-    const srcPath = JSON.stringify(wrap._sourceKey);
-    const row = [...body.querySelectorAll(".field-row")].find(r => r.dataset.path === srcPath);
-    if (row) {
-      const sel = row.querySelector("select");
-      if (sel) sel.addEventListener("change", () => showFor(sel.value));
-    }
-    showFor(readSource());
-  }, 0);
-
-  // Payload do zapisu — zawsze flush aktywnego bucketa przed odczytem.
   wrap._getPhrasesPayload = () => {
-    if (!wrap._activeSource) wrap._activeSource = readSource();
-    flushCurrent();
     const b = wrap._buckets;
     return {
       hashtags: b.hashtags || [],
@@ -2885,12 +3146,112 @@ function renderSourcePhrasesField(f, pluginCfg, phrasesObj) {
       list: _uniqPhrases([...(b.hashtags || []), ...(b.keywords || []), ...(b.locations || [])]),
     };
   };
-
-  wrap.append(hint, ta, cnt);
   return wrap;
 }
 
-/** Zbiera source_phrases do cfg (flush + merge hashtags/keywords/locations). */
+/** Jedna lista (textarea + daty last-checked) w source_phrases. */
+function renderPhraseBucket(wrap, spec) {
+  const box = document.createElement("div");
+  box.className = "phrase-bucket";
+  const head = document.createElement("div");
+  head.className = "phrase-bucket-head";
+  head.textContent = spec.label;
+  const hint = document.createElement("div");
+  hint.className = "field-desc";
+  hint.textContent = spec.hint;
+  const preview = document.createElement("div");
+  preview.className = "phrase-dates";
+  const ta = document.createElement("textarea");
+  ta.rows = 5; ta.spellcheck = false;
+  ta.style.fontFamily = "Consolas, monospace";
+  ta.placeholder = spec.placeholder || "jedna pozycja na linię";
+  ta.value = (wrap._buckets[spec.key] || []).join("\n");
+  const cnt = document.createElement("div");
+  cnt.className = "field-desc";
+
+  const normalizeLines = (raw) => {
+    let lines = String(raw || "").split("\n").map(s => s.trim()).filter(Boolean);
+    if (spec.hash)
+      lines = lines.map(s => s.startsWith("#") ? s : "#" + s.replace(/^#+/, ""));
+    else if (spec.key === "keywords")
+      lines = lines.map(s => s.replace(/^#+/, ""));
+    return _uniqPhrases(lines);
+  };
+
+  const sync = () => {
+    const lines = normalizeLines(ta.value);
+    wrap._buckets[spec.key] = lines;
+    cnt.textContent = lines.length + " poz.";
+    preview.innerHTML = "";
+    if (!lines.length) {
+      const empty = document.createElement("div");
+      empty.className = "phrase-age-empty";
+      empty.textContent = "pusta lista";
+      preview.appendChild(empty);
+      return;
+    }
+    for (const p of lines) {
+      const row = document.createElement("div");
+      row.className = "phrase-date-row";
+      const ph = document.createElement("span");
+      ph.className = "ph";
+      ph.textContent = p;
+      const ago = document.createElement("span");
+      ago.className = "ago";
+      ago.textContent = usageAgo(spec.kind, p);
+      row.append(ph, ago);
+      preview.appendChild(row);
+    }
+  };
+  ta.addEventListener("input", sync);
+  sync();
+  box.append(head, hint, preview, ta, cnt);
+  return box;
+}
+
+/** Względny czas last_checked („2 dni temu” / „nigdy”). */
+function fmtAgo(iso) {
+  if (!iso) return "nigdy";
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return "nigdy";
+  const s = (Date.now() - t) / 1000;
+  if (s < 90) return "przed chwilą";
+  if (s < 3600) return Math.round(s / 60) + " min temu";
+  if (s < 86400) return Math.round(s / 3600) + " godz. temu";
+  const d = Math.round(s / 86400);
+  if (d === 1) return "wczoraj";
+  if (d < 14) return d + " dni temu";
+  const w = Math.round(d / 7);
+  if (w < 8) return w + " tyg. temu";
+  return String(iso).slice(0, 10);
+}
+
+/** Rekord phrase_usage dla frazy (casefold, z/bez #). */
+function usageRecord(kind, phrase) {
+  const bucket = (PHRASE_USAGE && PHRASE_USAGE[kind]) || {};
+  const raw = String(phrase || "").trim();
+  if (!raw) return null;
+  const cands = [raw];
+  if (kind === "hashtags" || kind === "tag_variants") {
+    const h = raw.startsWith("#") ? raw : "#" + raw.replace(/^#+/, "");
+    cands.push(h);
+  } else {
+    cands.push(raw.replace(/^#+/, ""));
+  }
+  const want = new Set(cands.map(s => s.toLowerCase()));
+  for (const [k, rec] of Object.entries(bucket)) {
+    if (want.has(String(k).toLowerCase()) && rec && typeof rec === "object")
+      return rec;
+  }
+  return null;
+}
+
+function usageAgo(kind, phrase) {
+  const rec = usageRecord(kind, phrase);
+  return fmtAgo(rec && rec.last_checked);
+}
+
+/** Zbiera source_phrases do cfg (trzy buckety + płaska list). */
 function collectSourcePhrasesRow(row, cfg) {
   const path = JSON.parse(row.dataset.path);
   const box = row.querySelector(".source-phrases");
@@ -3053,9 +3414,14 @@ function collectInto(container, target, opts) {
       value = [...row.querySelectorAll("input[type=checkbox]")]
                 .filter(cb => cb.checked).map(cb => cb.dataset.opt);
     } else if (type === "chance") {
-      const mode = row.querySelector("select").value;
-      const raw  = row.querySelector("input[type=text]").value.trim();
-      value = { mode, value: mode === "p" ? Number(raw || 0) : raw };
+      const mode = row.querySelector("select")?.value || "p";
+      if (mode === "formula") {
+        value = { mode: "formula", value: "score/100" };
+      } else {
+        const pct = Number(row.querySelector(".ch-pct")?.value
+          ?? row.querySelector("input[type=number]")?.value ?? 15);
+        value = { mode: "p", value: Math.max(0, Math.min(100, pct)) / 100 };
+      }
     } else if (type === "lines") {
       value = row.querySelector("textarea").value
                  .split("\n").map(s => s.trim()).filter(Boolean);
@@ -3383,6 +3749,292 @@ document.addEventListener("click", (ev) => {
   renderScPlugins();
 });
 
+/** Opcje źródła content_search na karcie — listy, mapa, mix z jednej puli. */
+const CS_SOURCE_GROUPS = [
+  { label: "Tylko lista", opts: [
+    { value: "hashtag", label: "Hashtagi" },
+    { value: "keyword", label: "Słowa kluczowe" },
+    { value: "location", label: "Lokalizacje" },
+  ]},
+  { label: "Mapa znaczników", opts: [
+    { value: "tag_variants", label: "Tylko znaczniki z mapy" },
+  ]},
+  { label: "Losowo razem (jedna pula)", opts: [
+    { value: "hashtag_plus_tags", label: "Hashtagi + znaczniki" },
+    { value: "keyword_plus_tags", label: "Słowa + znaczniki" },
+    { value: "all_random", label: "Wszystko (#, słowa, znaczniki)" },
+  ]},
+];
+const CS_USES_MAP = new Set([
+  "tag_variants", "hashtag_plus_tags", "keyword_plus_tags", "all_random",
+]);
+
+/** Porównaj mix_from niezależnie od kolejności. */
+function _csSameSet(a, b) {
+  const sa = [...(a || [])].map(String).sort().join("\0");
+  const sb = [...(b || [])].map(String).sort().join("\0");
+  return sa === sb;
+}
+
+/** Brak run_scope/source w overrides = dziedziczenie z ustawień pluginu. */
+function csSourceInherited(task) {
+  const ov = task.overrides || {};
+  return !ov.run_scope && !ov.source && !ov.mix_from;
+}
+
+function csSourceValue(task) {
+  const ov = task.overrides || {};
+  if (ov.run_scope === "mix") {
+    const from = ov.mix_from || [];
+    if (_csSameSet(from, ["keyword", "tag_variants"])) return "keyword_plus_tags";
+    if (_csSameSet(from, ["hashtag", "keyword", "tag_variants"])) return "all_random";
+    if (_csSameSet(from, ["hashtag", "tag_variants"])) return "hashtag_plus_tags";
+    return "all_random";
+  }
+  if (ov.run_scope === "tag_variants") return "tag_variants";
+  if (ov.source) return ov.source;
+  const cs = (SC_PLUGIN_SETTINGS && SC_PLUGIN_SETTINGS.content_search) || {};
+  return cs.source || "hashtag";
+}
+
+/** Domyślny klucz mapy przy pierwszym wyborze mixu. */
+function csDefaultSeedKind(value) {
+  if (value === "hashtag_plus_tags") return "hashtag";
+  if (value === "keyword_plus_tags") return "keyword";
+  return "both";
+}
+
+function csApplySource(task, value) {
+  task.overrides = Object.assign({}, task.overrides || {});
+  const prevTvb = task.overrides.tag_variants_budget || {};
+  const prevKind = prevTvb.map_seed_kind;
+  delete task.overrides.mix_from;
+  if (value === "hashtag" || value === "keyword" || value === "location") {
+    task.overrides.source = value;
+    task.overrides.run_scope = "phrases";
+    delete task.overrides.tag_variants_budget;
+    return;
+  }
+  delete task.overrides.source;
+  const tvb = Object.assign({}, prevTvb, { source: "from_map" });
+  tvb.map_seed_kind = prevKind || csDefaultSeedKind(value);
+  if (value === "tag_variants") {
+    task.overrides.run_scope = "tag_variants";
+  } else if (value === "hashtag_plus_tags") {
+    task.overrides.run_scope = "mix";
+    task.overrides.mix_from = ["hashtag", "tag_variants"];
+  } else if (value === "keyword_plus_tags") {
+    task.overrides.run_scope = "mix";
+    task.overrides.mix_from = ["keyword", "tag_variants"];
+  } else {
+    task.overrides.run_scope = "mix";
+    task.overrides.mix_from = ["hashtag", "keyword", "tag_variants"];
+  }
+  task.overrides.tag_variants_budget = tvb;
+}
+
+function csSeedKindValue(task) {
+  const ov = ((task.overrides || {}).tag_variants_budget) || {};
+  const cs = (SC_PLUGIN_SETTINGS && SC_PLUGIN_SETTINGS.content_search) || {};
+  const fromPlugin = (cs.tag_variants_budget || {}).map_seed_kind || "both";
+  const k = ov.map_seed_kind || fromPlugin;
+  return (k === "hashtag" || k === "keyword" || k === "both") ? k : "both";
+}
+
+function csApplySeedKind(task, kind) {
+  task.overrides = Object.assign({}, task.overrides || {});
+  const prev = task.overrides.tag_variants_budget || {};
+  task.overrides.tag_variants_budget = Object.assign({}, prev, {
+    source: "from_map",
+    map_seed_kind: kind,
+  });
+}
+
+function csTaskTitle(task) {
+  const v = csSourceValue(task);
+  const labels = {
+    hashtag: "Wyszukiwanie: hashtagi",
+    keyword: "Wyszukiwanie: słowa kluczowe",
+    location: "Wyszukiwanie: lokalizacje",
+    tag_variants: "Wyszukiwanie: znaczniki z mapy",
+    hashtag_plus_tags: "Wyszukiwanie: # + znaczniki",
+    keyword_plus_tags: "Wyszukiwanie: słowa + znaczniki",
+    all_random: "Wyszukiwanie: wszystko losowo",
+  };
+  return labels[v] || "Wyszukiwanie";
+}
+
+/** Znaczniki z mapy, odfiltrowane po kluczu # / keyword. */
+function csMapTags(seedKind) {
+  const niche = (CURRENT_CFG && CURRENT_CFG.niche) || {};
+  const map = niche.tag_variants || {};
+  const out = [];
+  for (const [expr, arr] of Object.entries(map)) {
+    const isHash = String(expr || "").startsWith("#");
+    if (seedKind === "hashtag" && !isHash) continue;
+    if (seedKind === "keyword" && isHash) continue;
+    for (const t of (arr || [])) {
+      const s = String(t || "").trim();
+      if (s) out.push(s.startsWith("#") ? s : "#" + s.replace(/^#+/, ""));
+    }
+  }
+  return _uniqPhrases(out);
+}
+
+/** last-checked w mixie: sprawdź oba buckety (# / znacznik). */
+function usageAgoMix(phrase) {
+  const kinds = String(phrase || "").startsWith("#")
+    ? ["tag_variants", "hashtags"]
+    : ["keywords", "locations"];
+  let best = "";
+  for (const k of kinds) {
+    const rec = usageRecord(k, phrase);
+    const ts = rec && rec.last_checked;
+    if (ts && (!best || String(ts) > best)) best = String(ts);
+  }
+  return fmtAgo(best || null);
+}
+
+/** Lista fraz/znaczników do podglądu na karcie + kind do last-checked. */
+function csPreviewPhrases(sourceKey, seedKind) {
+  const cs = (SC_PLUGIN_SETTINGS && SC_PLUGIN_SETTINGS.content_search) || {};
+  const niche = (CURRENT_CFG && CURRENT_CFG.niche) || {};
+  const buckets = phrasesBucketsFromCfg(cs.phrases || {}, niche);
+  const kind = seedKind || "both";
+  if (sourceKey === "tag_variants") {
+    return { kind: "tag_variants", items: csMapTags(kind) };
+  }
+  if (sourceKey === "hashtag_plus_tags") {
+    return { kind: "mix", items: _uniqPhrases([
+      ...(buckets.hashtags || []), ...csMapTags(kind),
+    ]) };
+  }
+  if (sourceKey === "keyword_plus_tags") {
+    return { kind: "mix", items: _uniqPhrases([
+      ...(buckets.keywords || []), ...csMapTags(kind),
+    ]) };
+  }
+  if (sourceKey === "all_random") {
+    return { kind: "mix", items: _uniqPhrases([
+      ...(buckets.hashtags || []),
+      ...(buckets.keywords || []),
+      ...csMapTags(kind),
+    ]) };
+  }
+  const bkind = sourceKey === "keyword" ? "keywords"
+    : sourceKey === "location" ? "locations" : "hashtags";
+  return { kind: bkind, items: buckets[bkind] || [] };
+}
+
+/** Select źródła + klucz mapy + podgląd listy z last-checked. */
+function renderCsSourceRow(task) {
+  const wrap = document.createElement("div");
+  wrap.className = "task-source";
+  const cur = csSourceValue(task);
+  const seedKind = csSeedKindValue(task);
+
+  const box = document.createElement("div");
+  const lab = document.createElement("label");
+  lab.textContent = "Źródło";
+  const sel = document.createElement("select");
+  for (const g of CS_SOURCE_GROUPS) {
+    const og = document.createElement("optgroup");
+    og.label = g.label;
+    for (const o of g.opts) {
+      const opt = document.createElement("option");
+      opt.value = o.value; opt.textContent = o.label;
+      if (o.value === cur) opt.selected = true;
+      og.appendChild(opt);
+    }
+    sel.appendChild(og);
+  }
+  sel.onchange = () => {
+    csApplySource(task, sel.value);
+    renderQueue();
+  };
+  box.append(lab, sel);
+
+  const row = document.createElement("div");
+  row.className = "task-source-row";
+  row.appendChild(box);
+
+  if (CS_USES_MAP.has(cur)) {
+    const kindBox = document.createElement("div");
+    const kindLab = document.createElement("label");
+    kindLab.textContent = "Znaczniki z";
+    const kindSel = document.createElement("select");
+    for (const o of [
+      { value: "hashtag", label: "Kluczy #" },
+      { value: "keyword", label: "Kluczy keywords" },
+      { value: "both", label: "Z # i keywords" },
+    ]) {
+      const opt = document.createElement("option");
+      opt.value = o.value; opt.textContent = o.label;
+      if (o.value === seedKind) opt.selected = true;
+      kindSel.appendChild(opt);
+    }
+    kindSel.onchange = () => {
+      csApplySeedKind(task, kindSel.value);
+      renderQueue();
+    };
+    kindBox.append(kindLab, kindSel);
+    row.appendChild(kindBox);
+
+    const mapBox = document.createElement("div");
+    const mapLab = document.createElement("label");
+    mapLab.textContent = "\u00a0";
+    const mapBtn = document.createElement("button");
+    mapBtn.type = "button";
+    mapBtn.className = "task-map-btn";
+    mapBtn.textContent = "Mapa";
+    mapBtn.title = "Z jakiego # / keyword jakie znaczniki są zapisane";
+    mapBtn.onclick = (ev) => {
+      ev.preventDefault();
+      openTagVariantsMapModal();
+    };
+    mapBox.append(mapLab, mapBtn);
+    row.appendChild(mapBox);
+  }
+
+  const hint = document.createElement("div");
+  hint.className = "hint";
+  const inherited = csSourceInherited(task);
+  const cs = (SC_PLUGIN_SETTINGS && SC_PLUGIN_SETTINGS.content_search) || {};
+  const tvb = cs.tag_variants_budget || {};
+  if (inherited) {
+    hint.textContent = "z ustawień pluginu — zmień, żeby odizolować to zadanie "
+      + "(lista / mapa / mix)";
+  } else if (cur === "tag_variants") {
+    const n = Number(tvb.max_phrases || 0);
+    hint.textContent = n > 0
+      ? `Otworzy do ${n} znaczników z mapy (ustawienia pluginu).`
+      : "„Ile # otworzyć” = 0 w pluginie — użyję liczby fraz/sesję.";
+  } else if (CS_USES_MAP.has(cur)) {
+    hint.textContent = "Jedna pula — losowo z wpisanych fraz i znaczników "
+      + "(ile na sesję = z pluginu). Collect Tags przy frazach z listy zostaje.";
+  } else {
+    hint.textContent = "Tylko ta lista — bez otwierania znaczników w tym zadaniu.";
+  }
+  row.appendChild(hint);
+  wrap.appendChild(row);
+
+  const prev = csPreviewPhrases(cur, seedKind);
+  const preview = document.createElement("div");
+  preview.className = "task-preview";
+  if (!prev.items.length) {
+    preview.textContent = "Lista pusta — dodaj frazy w Pluginy albo znaczniki w Niszy.";
+  } else {
+    const sample = prev.items.slice(0, 3).map(p => {
+      const ago = prev.kind === "mix" ? usageAgoMix(p) : usageAgo(prev.kind, p);
+      return `${p} (${ago})`;
+    });
+    const more = prev.items.length > 3 ? ` · +${prev.items.length - 3}` : "";
+    preview.textContent = sample.join(", ") + more;
+  }
+  wrap.appendChild(preview);
+  return wrap;
+}
+
 function renderQueue() {
   const box = $("queue-list");
   if (!box) return;
@@ -3430,7 +4082,10 @@ function renderQueue() {
 
     const title = document.createElement("div");
     title.className = "task-title";
-    title.innerHTML = `${escapeHtml((pl && pl.label) || task.plugin)}`
+    const titleLabel = (task.plugin === "content_search")
+      ? csTaskTitle(task)
+      : ((pl && pl.label) || task.plugin);
+    title.innerHTML = `${escapeHtml(titleLabel)}`
       + `<span class="task-pid">${escapeHtml(task.plugin)}</span>`;
 
     const note = document.createElement("input");
@@ -3444,6 +4099,11 @@ function renderQueue() {
 
     head.append(handle, idx, on, title, note, rm);
     el.appendChild(head);
+
+    // Źródło content_search — na karcie, nie w ciemno z ustawień pluginu
+    if (task.plugin === "content_search") {
+      el.appendChild(renderCsSourceRow(task));
+    }
 
     // --- budżet: zakres jednostek + accordion czasu ---
     const bud = document.createElement("div");
@@ -3764,6 +4424,10 @@ async function loadQueue() {
   try {
     SC_PLUGIN_SETTINGS = await fetch(`/api/plugins/${acc}`).then(r => r.json());
   } catch (e) { SC_PLUGIN_SETTINGS = {}; }
+  try {
+    PHRASE_USAGE = await fetch(`/api/phrase-usage/${encodeURIComponent(acc)}`)
+      .then(r => r.ok ? r.json() : {});
+  } catch (e) { PHRASE_USAGE = PHRASE_USAGE || {}; }
   await loadQueuePresetsList();
   QUEUE = await fetch(`/api/queue/${acc}${queueQS()}`).then(r => r.json());
   renderQueue();
@@ -3778,8 +4442,14 @@ $("btn-task-add").onclick = () => {
     return;
   }
   // ten sam plugin można dodać wielokrotnie — bez osobnego „duplikuj”
+  const overrides = {};
+  if (pid === "content_search") {
+    const src = ((SC_PLUGIN_SETTINGS.content_search || {}).source) || "hashtag";
+    overrides.source = src;
+    overrides.run_scope = "phrases";
+  }
   QUEUE.queue.push({
-    id: "", plugin: pid, note: "", budget: {}, overrides: {}, enabled: true,
+    id: "", plugin: pid, note: "", budget: {}, overrides, enabled: true,
   });
   renderQueue();
 };
@@ -3921,6 +4591,7 @@ async function deleteAccountFlow(msgId) {
   // Krok 1 — ogólne potwierdzenie
   const step1 = await uiConfirm(
     `Usunąć konto „${acc}"?\n\nConfig i credentials zostaną skasowane. `
+    + `Klon (APK) z telefonu też zejdzie — chyba że inne konto trzyma ten pakiet; stock IG zostaje. `
     + `Dane w data/accounts/${acc}/ trafią do trash (*.deleted-…), nie są kasowane na ślepo.`,
     { title: "Usuń konto", okLabel: "Dalej", danger: true },
   );
@@ -3971,7 +4642,12 @@ async function deleteAccountFlow(msgId) {
   let extra = "";
   if (d.data_trash) extra = ` Data → ${d.data_trash}.`;
   else if (d.data_kept) extra = " Folder data zostawiony (rename nieudany).";
-  notify(`Usunięto konto „${acc}".${extra}`, "ok", msgId);
+  const clone = d.clone || {};
+  if (clone.uninstalled) extra += ` Zdjęto klona ${clone.package || ""}.`;
+  else if (clone.skipped === "shared") extra += " Klon zostaje — inne konto trzyma ten pakiet.";
+  else if (clone.skipped === "stock_or_foreign") extra += " Stock IG nie był ruszany.";
+  else if (clone.error) extra += ` Klon na telefonie: ${clone.error}`;
+  notify(`Usunięto konto „${acc}".${extra}`, clone.error ? "err" : "ok", msgId);
 }
 
 function updateDeleteAccountLabel() {
@@ -3997,9 +4673,17 @@ async function loadDevices() {
   const prevDev = currentDevice();
   fillOptions($("sel-device"), aliases, prevDev);
   fillOptions($("np-device"), aliases, currentDevice() || prevDev);
+  if ($("nc-device")) fillOptions($("nc-device"), aliases, currentDevice() || prevDev);
+  syncNcCreateEnabled();
   renderCloneOptions();
   renderDevicesList();
   updateDeleteAccountLabel();
+  await loadAdbLive();
+}
+
+function resTxt(d) {
+  const r = d.resolution;
+  return Array.isArray(r) && r.length === 2 ? `${r[0]}×${r[1]}` : "brak resolution";
 }
 
 function renderDevicesList() {
@@ -4014,13 +4698,80 @@ function renderDevicesList() {
     const nAcc = accountsOnDevice(d.alias).length;
     const clones = (d.clones || []).length;
     const active = d.alias === cur ? " · <b>wybrane</b>" : "";
-    return `<div class="dev-card">
-      <div class="title">${escapeHtml(d.alias)}${active}</div>
+    const usb = d.connected
+      ? `<span class="pill ok">USB</span>`
+      : `<span class="pill dim">odłączony</span>`;
+    const gap = d.complete ? "" : `<span class="pill warn">nieuzupełnione</span>`;
+    const cls = "dev-card" + (d.complete ? "" : " incomplete");
+    return `<div class="${cls}" data-alias="${escapeHtml(d.alias)}">
+      <div class="title">${escapeHtml(d.alias)}${active}${usb}${gap}</div>
       <div class="meta">${escapeHtml(d.model || "—")} · adb ${escapeHtml(d.adb_id || "—")}
-        · ${clones} klon(ów) · ${nAcc} kont</div>
+        · ${resTxt(d)} · ${clones} klon(ów) · ${nAcc} kont</div>
+      <div class="row-btns">
+        <button type="button" class="btn-dev-hydrate" data-alias="${escapeHtml(d.alias)}">Zczytaj z ADB</button>
+      </div>
     </div>`;
   }).join("");
+  box.querySelectorAll(".btn-dev-hydrate").forEach(btn => {
+    btn.onclick = () => hydrateDevice(btn.dataset.alias);
+  });
 }
+
+async function loadAdbLive() {
+  const box = $("adb-live");
+  if (!box) return;
+  let rows = [];
+  try {
+    rows = await fetch("/api/adb-devices").then(r => r.json());
+  } catch (e) {
+    box.innerHTML = `<div class="tl-empty">nie udało się odczytać <code>adb devices</code></div>`;
+    return;
+  }
+  if (!rows.length) {
+    box.innerHTML = `<div class="tl-empty">Brak telefonów w <code>adb devices</code> — podłącz USB.</div>`;
+    return;
+  }
+  box.innerHTML = rows.map(d => {
+    const st = d.state === "device" ? `<span class="pill ok">${escapeHtml(d.state)}</span>`
+      : `<span class="pill warn">${escapeHtml(d.state || "?")}</span>`;
+    const reg = d.registered_as
+      ? `<span class="pill dim">jako ${escapeHtml(d.registered_as)}</span>`
+      : `<span class="pill warn">niezarejestrowany</span>`;
+    return `<div class="dev-card adb-pick" data-serial="${escapeHtml(d.serial)}"
+              data-model="${escapeHtml(d.model || "")}">
+      <div class="title">${escapeHtml(d.model || d.serial)}${st}${reg}</div>
+      <div class="meta">adb ${escapeHtml(d.serial)}${d.product ? " · " + escapeHtml(d.product) : ""}</div>
+    </div>`;
+  }).join("");
+  box.querySelectorAll(".adb-pick").forEach(el => {
+    el.onclick = () => {
+      $("nd-adb").value = el.dataset.serial || "";
+      if (el.dataset.model) $("nd-model").value = el.dataset.model;
+      if (!$("nd-alias").value.trim() && el.dataset.model)
+        $("nd-alias").value = el.dataset.model.toLowerCase().replace(/[^a-z0-9_]+/g, "_");
+    };
+  });
+}
+
+async function hydrateDevice(alias) {
+  const msg = $("nd-msg");
+  const r = await fetch(`/api/devices/${encodeURIComponent(alias)}/hydrate`, {method: "POST"});
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    if (msg) { msg.textContent = "ADB: " + (d.detail || r.status); msg.className = "msg err"; }
+    return;
+  }
+  const probed = d.probed || {};
+  const res = Array.isArray(probed.resolution) ? probed.resolution.join("×") : "";
+  if (msg) {
+    msg.textContent = `zczytano ${alias}: ${probed.model || ""} ${res}`.trim();
+    msg.className = "msg ok";
+  }
+  await loadDevices();
+}
+
+const _btnAdbRefresh = $("btn-adb-refresh");
+if (_btnAdbRefresh) _btnAdbRefresh.onclick = () => loadAdbLive();
 
 $("btn-nd-create").onclick = async () => {
   const msg = $("nd-msg");
@@ -4039,13 +4790,155 @@ $("btn-nd-create").onclick = async () => {
   if (!r.ok) {
     msg.textContent = "błąd: " + (d.detail || r.status); msg.className = "msg err"; return;
   }
-  msg.textContent = `zarejestrowano '${alias}'`; msg.className = "msg ok";
+  const probed = d.probed || {};
+  const res = Array.isArray(probed.resolution) ? probed.resolution.join("×") : "";
+  if (d.hydrated) {
+    msg.textContent = `zarejestrowano '${alias}' · ${probed.model || ""} ${res}`.trim();
+    msg.className = "msg ok";
+  } else {
+    msg.textContent = `zapisano '${alias}', ale ADB nie zczytał hardware: ${d.warning || "?"}`;
+    msg.className = "msg err";
+  }
   $("nd-alias").value = ""; $("nd-adb").value = "";
   $("nd-model").value = ""; $("nd-mfr").value = "";
   await loadDevices();
   $("sel-device").value = alias;
   await onDeviceChanged();
 };
+
+let _ncPollTimer = null;
+let _ncJobBusy = false;
+
+function ncTargetDevice() {
+  return ($("nc-device") && $("nc-device").value) || currentDevice();
+}
+
+/** Czy wybrane urządzenie ma prawdziwy adb_id (nie REPLACE / puste). */
+function ncDeviceHasAdb() {
+  const alias = ncTargetDevice();
+  const d = DEVICES.find(x => x.alias === alias);
+  const adb = ((d && d.adb_id) || "").trim();
+  return !!(adb && adb !== "REPLACE");
+}
+
+/** Podpis serialu przy selectcie klona. */
+function syncNcDeviceMeta() {
+  const el = $("nc-device-meta");
+  if (!el) return;
+  const alias = ncTargetDevice();
+  const d = DEVICES.find(x => x.alias === alias);
+  if (!d) { el.textContent = "brak urządzenia w sidebarze"; return; }
+  const adb = (d.adb_id || "").trim();
+  el.textContent = (!adb || adb === "REPLACE")
+    ? `${alias} — brak adb_id (nie da się zainstalować klona)`
+    : `${alias} · adb ${adb} · ${(d.clones || []).length} klon(ów)`;
+}
+
+/** Przycisk klona: disabled gdy job leci albo brak serialu ADB. */
+function syncNcCreateEnabled() {
+  const btn = $("btn-nc-create");
+  if (btn) btn.disabled = _ncJobBusy || !ncDeviceHasAdb();
+  syncNcDeviceMeta();
+}
+
+function ncSetBusy(busy) {
+  _ncJobBusy = !!busy;
+  syncNcCreateEnabled();
+}
+
+function ncShowLog(text) {
+  const el = $("nc-log");
+  if (!el) return;
+  if (!text) { el.style.display = "none"; el.textContent = ""; return; }
+  el.style.display = "block";
+  el.textContent = text;
+  el.scrollTop = el.scrollHeight;
+}
+
+async function pollCloneJob() {
+  const msg = $("nc-msg");
+  const box = $("nc-result");
+  try {
+    const st = await fetch("/api/clones/status").then(r => r.json());
+    ncShowLog(st.log || (st.log_tail || []).join("\n"));
+    if (st.running) {
+      if (msg) { msg.textContent = "klonowanie w toku…"; msg.className = "msg ok"; }
+      return true;
+    }
+    if (_ncPollTimer) { clearInterval(_ncPollTimer); _ncPollTimer = null; }
+    ncSetBusy(false);
+    if (st.state === "ok" && st.package) {
+      if (msg) { msg.textContent = `zainstalowano ${st.package}`; msg.className = "msg ok"; }
+      if (box) {
+        const id = st.identity || {};
+        box.textContent = `APPID ${st.package} · android-id ${id.android_id || "—"} · MAC ${id.mac || "—"} · IMEI ${id.imei || "—"}`;
+      }
+      const dev = st.device_alias || ncTargetDevice();
+      // Komentarz: sidebar = to samo urządzenie, na którym właśnie wstał klon
+      if (dev && $("sel-device")) $("sel-device").value = dev;
+      await loadDevices();
+      prepareFormForNewClone(st.package, dev, st.identity || {});
+    } else if (st.state === "error") {
+      if (msg) { msg.textContent = "błąd: " + (st.error || "clone job"); msg.className = "msg err"; }
+    }
+    return false;
+  } catch (e) {
+    if (msg) { msg.textContent = "status: " + e; msg.className = "msg err"; }
+    return true;
+  }
+}
+
+const _ncDeviceSel = $("nc-device");
+if (_ncDeviceSel) _ncDeviceSel.addEventListener("change", () => {
+  const v = _ncDeviceSel.value;
+  // Komentarz: jeden wybór telefonu — select klona steruje sidebarem
+  if (v && $("sel-device") && $("sel-device").value !== v) {
+    $("sel-device").value = v;
+    onDeviceChanged();
+  }
+  syncNcCreateEnabled();
+});
+
+const _btnNcCreate = $("btn-nc-create");
+if (_btnNcCreate) _btnNcCreate.onclick = async () => {
+  const msg = $("nc-msg");
+  const dev = ncTargetDevice();
+  if (!dev) {
+    msg.textContent = "wybierz urządzenie"; msg.className = "msg err"; return;
+  }
+  ncSetBusy(true);
+  if ($("nc-result")) $("nc-result").textContent = "";
+  const r = await fetch("/api/clones/create", {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({device_alias: dev}),
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    ncSetBusy(false);
+    msg.textContent = "błąd: " + (d.detail || r.status); msg.className = "msg err";
+    return;
+  }
+  msg.textContent = "startuję job…"; msg.className = "msg ok";
+  ncShowLog(d.log || "");
+  if (_ncPollTimer) clearInterval(_ncPollTimer);
+  _ncPollTimer = setInterval(() => { pollCloneJob(); }, 1500);
+  pollCloneJob();
+};
+
+const _btnNcCancel = $("btn-nc-cancel");
+if (_btnNcCancel) _btnNcCancel.onclick = async () => {
+  await fetch("/api/clones/cancel", {method: "POST"});
+  await pollCloneJob();
+};
+
+async function resumeCloneJobPoll() {
+  const st = await fetch("/api/clones/status").then(r => r.json());
+  if (!st.running) { syncNcCreateEnabled(); return; }
+  ncSetBusy(true);
+  if (_ncPollTimer) clearInterval(_ncPollTimer);
+  _ncPollTimer = setInterval(() => { pollCloneJob(); }, 1500);
+  await pollCloneJob();
+}
 
 /** Podpowiedzi klonów (datalist) — zajętość tylko jako hint, nie blokuje wpisu. */
 function renderCloneOptions() {
@@ -4082,31 +4975,64 @@ function updateNpFormModeUi() {
   if (btnClear) btnClear.disabled = isCreate;
 }
 
-/** Wejdź w tryb tworzenia: wyczyść Alias/APPID/Login/hasło, nie syncuj z activeAccount. */
-function enterNpCreateMode() {
+/** Wejdź w tryb tworzenia. `opts` — package/device/alias z joba klona (nie wycieraj APPID). */
+function enterNpCreateMode(opts) {
+  opts = opts || {};
   npFormMode = "create";
   const aliasEl = $("np-alias");
   const cloneEl = $("np-clone");
   const userEl = $("np-cred-user");
   const passEl = $("np-cred-pass");
-  if (aliasEl) aliasEl.value = "";
-  if (cloneEl) cloneEl.value = "";
-  if (userEl) userEl.value = "";
-  if (passEl) passEl.value = "";
-  // urządzenie zostaw z sidebara / bieżącego selecta — tylko klon jest nowy
-  if ($("np-device") && currentDevice()) {
-    $("np-device").value = currentDevice();
-    renderCloneOptions();
-  }
+  if (aliasEl) aliasEl.value = opts.alias || "";
+  if (cloneEl) cloneEl.value = opts.package || (opts.keepClone ? cloneEl.value : "");
+  if (userEl && !opts.keepLogin) userEl.value = "";
+  if (passEl && !opts.keepLogin) passEl.value = "";
+  const dev = opts.device || currentDevice();
+  if ($("np-device") && dev) $("np-device").value = dev;
+  renderCloneOptions();
   const msg = $("np-create-msg");
   if (msg) {
-    msg.textContent = "tryb nowe — wpisz Alias, APPID i Login IG; zmiana konta w sidebarze nie nadpisze pól";
+    msg.textContent = opts.package
+      ? `klon ${opts.package} na ${dev} — wpisz Login IG i hasło, potem „Utwórz konto i zaloguj”`
+      : "tryb nowe — wpisz Alias, APPID i Login IG; zmiana konta w sidebarze nie nadpisze pól";
     msg.className = "msg ok";
   }
   if ($("np-cred-status")) {
-    $("np-cred-status").textContent = "tryb nowe konto — credentials zapiszesz przy „Utwórz konto” lub po utworzeniu";
+    $("np-cred-status").textContent =
+      "tryb nowe konto — hasło zapisze się przy „Utwórz konto” / „Utwórz konto i zaloguj”";
   }
   updateNpFormModeUi();
+}
+
+/** Alias z device + sufiks APPID, bez kolizji z istniejącymi kontami. */
+function suggestedAliasForClone(device, pkg) {
+  const suf = ((pkg || "").split(".").pop() || "clone").replace(/[^A-Za-z0-9_]+/g, "_");
+  const dev = (device || "clone").replace(/[^A-Za-z0-9_]+/g, "_");
+  const base = `${dev}_${suf}`;
+  const taken = new Set((ACCOUNTS || []).map(a => a.alias));
+  if (!taken.has(base)) return base;
+  for (let i = 2; i < 80; i++) {
+    if (!taken.has(`${base}_${i}`)) return `${base}_${i}`;
+  }
+  return base;
+}
+
+/** Po udanym adb install — formularz logowania na NOWYM klonie, nie na starym koncie. */
+function prepareFormForNewClone(pkg, device, identity) {
+  enterNpCreateMode({
+    package: pkg,
+    device: device,
+    alias: suggestedAliasForClone(device, pkg),
+  });
+  const sec = $("np-login-section");
+  if (sec && sec.scrollIntoView) sec.scrollIntoView({behavior: "smooth", block: "start"});
+  const userEl = $("np-cred-user");
+  if (userEl) userEl.focus();
+  const box = $("nc-result");
+  if (box && identity) {
+    const extra = `APPID ${pkg} · android-id ${identity.android_id || "—"} · MAC ${identity.mac || "—"} · IMEI ${identity.imei || "—"}`;
+    box.textContent = extra + " — wpisz login IG poniżej i zaloguj na tym klonie";
+  }
 }
 
 /** Wróć do edycji aktywnego konta — wypełnij pola z CURRENT_CFG / activeAccount. */
@@ -4151,7 +5077,7 @@ async function saveActiveClonePackage(pkg) {
   // komentarz: APPID na istniejącym koncie — tylko tryb edycji
   if (npFormMode === "create") {
     const msg = $("np-clone-msg");
-    msg.textContent = "w trybie „nowe” użyj „Utwórz konto” — APPID idzie z formularza";
+    msg.textContent = "w trybie „nowe” użyj „Utwórz konto i zaloguj” — APPID idzie z formularza";
     msg.className = "msg err";
     return;
   }
@@ -4186,23 +5112,24 @@ if (_btnCloneClear) _btnCloneClear.onclick = async () => {
   await saveActiveClonePackage("");
 };
 
-$("btn-np-create").onclick = async () => {
+/** POST /api/accounts + credentials; wybiera nowe konto w sidebarze. null przy błędzie. */
+async function createAccountFromForm() {
   const dev = $("np-device").value;
   const pkg = ($("np-clone").value || "").trim();
   const alias = $("np-alias").value.trim();
-  // Login IG = ig_username (jedno pole w UI)
   const user = ($("np-cred-user").value || "").trim();
   const pass = $("np-cred-pass").value;
   const msg = $("np-create-msg");
-  // komentarz: w edycji bez zmiany aliasu łatwo zdublować — zachęć do trybu nowe
   if (npFormMode === "edit" && alias && alias === activeAccount()) {
     msg.textContent =
-      "Alias = aktywne konto. Kliknij „Nowy klon / nowe konto”, wpisz nowy Alias/APPID i dopiero „Utwórz konto”.";
+      "Alias = aktywne konto. Kliknij „Nowe konto” albo najpierw „Utwórz nowy klon”, potem wpisz nowy alias.";
     msg.className = "msg err";
-    return;
+    return null;
   }
   if (!alias || !user || !dev || !pkg) {
-    msg.textContent = "wypełnij: alias, urządzenie, APPID i Login IG"; msg.className = "msg err"; return;
+    msg.textContent = "wypełnij: alias, urządzenie, APPID i Login IG";
+    msg.className = "msg err";
+    return null;
   }
   const r = await fetch("/api/accounts", {
     method: "POST", headers: {"Content-Type": "application/json"},
@@ -4210,25 +5137,88 @@ $("btn-np-create").onclick = async () => {
   });
   const d = await r.json().catch(() => ({}));
   if (!r.ok) {
-    msg.textContent = "błąd: " + (d.detail || r.status); msg.className = "msg err"; return;
+    msg.textContent = "błąd: " + (d.detail || r.status); msg.className = "msg err";
+    return null;
   }
-  // opcjonalnie od razu credentials, gdy hasło jest wpisane
   if (pass) {
-    await fetch(`/api/accounts/${encodeURIComponent(alias)}/credentials`, {
+    const cr = await fetch(`/api/accounts/${encodeURIComponent(alias)}/credentials`, {
       method: "POST", headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ig_username: user, ig_password: pass}),
     });
+    if (!cr.ok) {
+      const err = await cr.json().catch(() => ({}));
+      msg.textContent = `konto '${alias}' jest, ale hasło nie zapisane: ${err.detail || cr.status}`;
+      msg.className = "msg err";
+      ACCOUNTS = await fetch("/api/accounts").then(r => r.json());
+      selectedAccountByDevice[dev] = alias;
+      npFormMode = "edit";
+      updateNpFormModeUi();
+      syncAccountSelects(alias);
+      await loadDevices();
+      await reloadForActiveAccount();
+      return {alias, hasPassword: false, pkg, device: dev};
+    }
     $("np-cred-pass").value = "";
   }
-  msg.textContent = `utworzono konto '${alias}'`; msg.className = "msg ok";
+  msg.textContent = `utworzono konto '${alias}' na klonie ${pkg}`;
+  msg.className = "msg ok";
   ACCOUNTS = await fetch("/api/accounts").then(r => r.json());
   selectedAccountByDevice[dev] = alias;
-  // po create — edycja nowego konta (sync OK)
   npFormMode = "edit";
   updateNpFormModeUi();
   syncAccountSelects(alias);
-  await loadDevices();   // odśwież oznaczenia „zajęty"
+  await loadDevices();
   await reloadForActiveAccount();
+  return {alias, hasPassword: !!pass, pkg, device: dev};
+}
+
+/** Start flow logowania na konkretnym aliasie; 2FA zostaje na zakładce Konta. */
+async function startLoginOnAccount(acc) {
+  const msg = $("np-login-msg");
+  if (!acc) {
+    msg.textContent = "brak aliasu konta — najpierw utwórz konto na tym klonie";
+    msg.className = "msg err";
+    return false;
+  }
+  const r = await fetch("/api/login", {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({account: acc}),
+  });
+  if (!r.ok) {
+    const d = await r.json().catch(() => ({}));
+    msg.textContent = "nie uruchomiono: " + (d.detail || r.status);
+    msg.className = "msg err";
+    return false;
+  }
+  msg.textContent =
+    `logowanie '${acc}' na telefonie — jeśli IG poprosi o kod, pole pojawi się poniżej (zostajesz na Kontach)`;
+  msg.className = "msg ok";
+  await refreshStatus();
+  await pollVerificationCode();
+  return true;
+}
+
+$("btn-np-create").onclick = async () => {
+  await createAccountFromForm();
+};
+
+const _btnCreateLogin = $("btn-np-create-login");
+if (_btnCreateLogin) _btnCreateLogin.onclick = async () => {
+  const pass = $("np-cred-pass").value;
+  const msg = $("np-login-msg");
+  if (!($("np-cred-user").value || "").trim() || !pass) {
+    msg.textContent = "do logowania potrzebne Login IG i hasło";
+    msg.className = "msg err";
+    return;
+  }
+  const created = await createAccountFromForm();
+  if (!created) return;
+  if (!created.hasPassword) {
+    msg.textContent = "konto jest, ale brak hasła — zapisz dane logowania i kliknij Zaloguj";
+    msg.className = "msg err";
+    return;
+  }
+  await startLoginOnAccount(created.alias);
 };
 
 async function loadCredStatus() {
@@ -4236,7 +5226,7 @@ async function loadCredStatus() {
   if (npFormMode === "create") {
     if ($("np-cred-status")) {
       $("np-cred-status").textContent =
-        "tryb nowe konto — credentials zapiszesz przy „Utwórz konto” lub po utworzeniu";
+        "tryb nowe konto — hasło zapisze się przy „Utwórz konto” / „Utwórz konto i zaloguj”";
     }
     return;
   }
@@ -4251,7 +5241,7 @@ async function loadCredStatus() {
 $("btn-np-cred-save").onclick = async () => {
   if (npFormMode === "create") {
     $("np-cred-status").textContent =
-      "w trybie nowe użyj „Utwórz konto” (opcjonalnie z hasłem) — zapis credentials dotyczy istniejącego aliasu";
+      "w trybie nowe użyj „Utwórz konto i zaloguj” (albo „Tylko utwórz konto” z hasłem)";
     return;
   }
   const acc = activeAccount();
@@ -4272,22 +5262,12 @@ const _btnDelAcc = $("btn-np-delete-account");
 if (_btnDelAcc) _btnDelAcc.onclick = () => deleteAccountFlow("np-delete-msg");
 
 $("btn-np-login").onclick = async () => {
-  const acc = activeAccount();
+  const acc = ($("np-alias").value || "").trim() || activeAccount();
   const msg = $("np-login-msg");
-  if (!acc) return;
-  const r = await fetch("/api/login", {
-    method: "POST", headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({account: acc}),
-  });
-  if (!r.ok) {
-    const d = await r.json().catch(() => ({}));
-    msg.textContent = "nie uruchomiono: " + (d.detail || r.status); msg.className = "msg err";
-    return;
+  if (!acc) {
+    msg.textContent = "wybierz albo utwórz konto"; msg.className = "msg err"; return;
   }
-  msg.textContent = "uruchomiono — jeśli IG poprosi o kod z e-maila/SMS-a, pole pojawi się poniżej";
-  msg.className = "msg ok";
-  await refreshStatus();
-  goTab("events");
+  await startLoginOnAccount(acc);
 };
 
 // ============================================================
@@ -4351,7 +5331,7 @@ function pluginLabel(pid) {
 }
 
 function applyManualLock(on) {
-  const ids = ["btn-start", "btn-queue-run", "btn-np-login"];
+  const ids = ["btn-start", "btn-queue-run", "btn-np-login", "btn-np-create-login"];
   const els = ids.map($).filter(Boolean)
     .concat([...document.querySelectorAll(".manual-run")]);
   for (const el of els) {
@@ -5329,6 +6309,8 @@ async function init() {
   try { startEventStream(); }    catch (e) { console.error("eventStream:", e); }
   ensureEventsPad();
   updateNpFormModeUi();
+  // Komentarz: wznów poll logu, gdy job klona już leciał przed odświeżeniem strony
+  try { await resumeCloneJobPoll(); } catch (e) { console.error("clone job poll:", e); }
   setInterval(() => { refreshStatus().catch(() => {}); }, 1500);
   setInterval(() => { loadSchedulerSwitch().catch(() => {}); }, 5000);
   setInterval(() => { pollVerificationCode().catch(() => {}); }, 2000);
@@ -5408,28 +6390,61 @@ async function loadApiStatus() {
     el.innerHTML = `<span style="color: var(--ok);">ustawiony</span> ` +
                    `<code>${escapeHtml(st.masked)}</code> · z pliku`;
   }
+  if (st.workspace_id) {
+    el.innerHTML += `<br>workspace: <code>${escapeHtml(st.workspace_id)}</code>` +
+      (st.workspace_source === "env" ? " · ze zmiennej środowiskowej" : " · z pliku");
+  } else if (st.configured) {
+    el.innerHTML += '<br><span style="color: var(--warn);">brak workspace ID — klucz identity-linked zwróci 400</span>';
+  }
   $("api-key").value = "";
+  const wsEl = $("api-workspace");
+  if (wsEl) {
+    wsEl.disabled = st.workspace_source === "env";
+    wsEl.value = st.workspace_id || "";
+  }
 }
 async function saveApiKey(value) {
+  const wsEl = $("api-workspace");
+  const body = {};
+  if (value !== undefined && value !== null) {
+    body.anthropic_api_key = value;
+  }
+  // Env workspace nie nadpisujemy pustym polem z UI
+  if (wsEl && !wsEl.disabled) {
+    body.anthropic_workspace_id = wsEl.value.trim();
+  }
+  if (!Object.keys(body).length) {
+    setMsg("api-msg", "Nic do zapisania.", "warn");
+    return;
+  }
   const r = await fetch("/api/secrets", {
     method: "POST", headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({anthropic_api_key: value}),
+    body: JSON.stringify(body),
   });
   if (!r.ok) {
     const d = await r.json().catch(() => ({}));
     setMsg("api-msg", "Błąd: " + (d.detail || r.status), "err");
   } else {
-    setMsg("api-msg", value ? "Klucz zapisany." : "Klucz usunięty.", "ok");
+    const bits = [];
+    if (value) bits.push("Klucz zapisany");
+    else if (value === "") bits.push("Klucz usunięty");
+    if ("anthropic_workspace_id" in body) {
+      bits.push(body.anthropic_workspace_id
+        ? "workspace zapisany" : "workspace wyczyszczony");
+    }
+    setMsg("api-msg", bits.join(". ") + ".", "ok");
   }
   await loadApiStatus();
 }
 $("btn-api-save").onclick = () => {
   const v = $("api-key").value.trim();
-  if (!v) {
-    setMsg("api-msg", "Pole jest puste — użyj „Usuń”, jeśli chcesz skasować klucz.", "warn");
+  const ws = $("api-workspace").value.trim();
+  if (!v && !ws) {
+    setMsg("api-msg", "Wpisz klucz i/lub workspace ID (wrkspc_…).", "warn");
     return;
   }
-  saveApiKey(v);
+  // Pusty klucz + wypełniony workspace = tylko workspace (nie kasuj klucza)
+  saveApiKey(v || undefined);
 };
 $("btn-api-clear").onclick = async () => {
   const ok = await uiConfirm(
@@ -5523,6 +6538,16 @@ function fltRenderTerminalTail(job) {
   }
 }
 
+function fltSetJobButtons(job) {
+  // Stop tylko gdy leci filtr TEGO konta; Uruchom zablokowane przy dowolnym jobie
+  const running = !!(job && job.running);
+  const stopping = !!(job && job.stopping);
+  const acc = activeAccount();
+  const mine = running && job.account === acc;
+  if ($("flt-run")) $("flt-run").disabled = running;
+  if ($("flt-stop")) $("flt-stop").disabled = !mine || stopping;
+}
+
 function fltRenderStatus(st) {
   const el = $("flt-status");
   if (!el) return;
@@ -5534,7 +6559,10 @@ function fltRenderStatus(st) {
     `auto: ${cfg.enabled ? "WŁĄCZONY" : "wyłączony"} · godziny: ${(cfg.times || []).join(", ") || "—"} · proxy: ${cfg.proxy || "—"} · limit: ${cfg.limit_per_run ?? "—"}`,
   ];
   if (job.running) {
-    lines.push(`job: <span style="color:var(--warn)">RUNNING</span> (${job.account || ""})`);
+    const label = job.stopping ? "STOPPING" : "RUNNING";
+    lines.push(`job: <span style="color:var(--warn)">${label}</span> (${job.account || ""})`);
+  } else if (job.error === "zatrzymany") {
+    lines.push("job: zatrzymany ręcznie");
   } else if (job.error) {
     lines.push(`job: błąd — ${escapeHtml(String(job.error))}`);
   }
@@ -5554,6 +6582,7 @@ function fltRenderStatus(st) {
     lines.push(`proxy w secrets: ${(prox.names || []).join(", ")}`);
   }
   el.innerHTML = lines.map(l => `<div>${l}</div>`).join("");
+  fltSetJobButtons(job);
   fltRenderTerminalTail(job);
 
   // Mini-podgląd candidates
@@ -5571,6 +6600,7 @@ async function loadProfileFilter() {
   const statusEl = $("flt-status");
   if (!acc) {
     if (statusEl) statusEl.textContent = "Wybierz konto.";
+    fltSetJobButtons({running: false});
     return;
   }
   const r = await fetch(`/api/profile-filter/${encodeURIComponent(acc)}`);
@@ -5584,6 +6614,8 @@ async function loadProfileFilter() {
   if (en) en.checked = !!cfg.enabled;
   const lim = $("flt-limit");
   if (lim) lim.value = cfg.limit_per_run ?? 100;
+  const slp = $("flt-sleep-between");
+  if (slp) slp.value = cfg.sleep_between_s ?? 0;
   const px = $("flt-proxy");
   if (px) {
     // Uzupełnij opcje z secrets
@@ -5618,6 +6650,7 @@ async function saveProfileFilter() {
     enabled: !!$("flt-enabled").checked,
     times: fltCollectTimes(),
     limit_per_run: Number($("flt-limit").value) || 100,
+    sleep_between_s: Number($("flt-sleep-between").value) || 0,
     proxy: $("flt-proxy").value || "losowo",
     followers_min: Number($("flt-fmin").value) || 0,
     followers_max: Number($("flt-fmax").value) || 20000,
@@ -5654,9 +6687,34 @@ async function runProfileFilterNow() {
     return;
   }
   setMsg("flt-msg", "filtr w tle — poniżej terminal (8 linii / pełny log)", "ok");
-  // Od razu pokaż ogon (może być pusty na starcie)
-  if (d.job) fltRenderTerminalTail(d.job);
-  // Odśwież status kilka razy — job może trwać długo; terminal_tail/log się uzupełnia
+  if (d.job) {
+    fltSetJobButtons(d.job);
+    fltRenderTerminalTail(d.job);
+  }
+  fltPollFilterJob(acc);
+}
+
+async function stopProfileFilterNow() {
+  const acc = activeAccount();
+  if (!acc) return;
+  setMsg("flt-msg", "zatrzymuję filtr…", "");
+  if ($("flt-stop")) $("flt-stop").disabled = true;
+  const r = await fetch(`/api/profile-filter/${encodeURIComponent(acc)}/stop`, {
+    method: "POST",
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    setMsg("flt-msg", "Błąd: " + (d.detail || r.status), "err");
+    await loadProfileFilter();
+    return;
+  }
+  setMsg("flt-msg", "wysłano STOP — czekam aż proces padnie", "ok");
+  if (d.job) fltSetJobButtons(d.job);
+  fltPollFilterJob(acc);
+}
+
+async function fltPollFilterJob(acc) {
+  // Odśwież status aż job padnie; terminal_tail/log się uzupełnia
   let n = 0;
   const tick = async () => {
     n += 1;
@@ -5664,29 +6722,32 @@ async function runProfileFilterNow() {
     const st = await fetch(`/api/profile-filter/${encodeURIComponent(acc)}/status`)
       .then(x => x.json()).catch(() => ({}));
     if (st.job) fltRenderTerminalTail(st.job);
-    if (st.job && st.job.running && n < 60) {
-      setTimeout(tick, 3000);
+    if (st.job && st.job.running && n < 120) {
+      setTimeout(tick, 2000);
     } else if (st.job && !st.job.running) {
-      // Po zakończeniu — dociągnij pełny log (endpoint dedykowany)
       const logSt = await fetch(`/api/profile-filter/${encodeURIComponent(acc)}/log`)
         .then(x => x.json()).catch(() => ({}));
       if (logSt.terminal_log || (logSt.terminal_tail || []).length) {
         fltRenderTerminalTail({ ...st.job, ...logSt });
       }
       const tail = (st.job.terminal_tail || []).length;
+      const stopped = st.job.error === "zatrzymany";
       setMsg("flt-msg",
-        st.job.error
-          ? ("filtr zakończony z błędem" + (tail ? " — zobacz terminal poniżej" : ""))
-          : ("filtr zakończony" + (tail ? " — terminal poniżej (8 linii lub pełny log)" : "")),
-        st.job.error ? "err" : "ok");
+        stopped
+          ? ("filtr zatrzymany" + (tail ? " — terminal poniżej" : ""))
+          : (st.job.error
+            ? ("filtr zakończony z błędem" + (tail ? " — zobacz terminal poniżej" : ""))
+            : ("filtr zakończony" + (tail ? " — terminal poniżej (8 linii lub pełny log)" : ""))),
+        (st.job.error && !stopped) ? "err" : "ok");
     }
   };
-  setTimeout(tick, 2000);
+  setTimeout(tick, 1500);
 }
 
 $("flt-time-add") && ($("flt-time-add").onclick = () => fltAddTimeRow("12:00"));
 $("flt-save") && ($("flt-save").onclick = () => saveProfileFilter());
 $("flt-run") && ($("flt-run").onclick = () => runProfileFilterNow());
+$("flt-stop") && ($("flt-stop").onclick = () => stopProfileFilterNow());
 $("flt-refresh") && ($("flt-refresh").onclick = () => loadProfileFilter());
 
 // ============================================================

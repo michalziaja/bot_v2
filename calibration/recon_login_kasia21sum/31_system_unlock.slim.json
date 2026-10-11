@@ -1,0 +1,192 @@
+{
+  "name": "31_system_unlock",
+  "note_pl": "pass4 Odblokowanie",
+  "pkg": "com.instagram.androib",
+  "identify_top": null,
+  "overlay": null,
+  "focused_package": "com.instagram.androib",
+  "focused_activity": "com.instagram.modal.ModalActivity",
+  "dominant_package": "com.instagram.androib",
+  "clone_owns_focus": true,
+  "visible_texts": [
+    "15:08",
+    "Tryb oszczędzania energii włączony",
+    "Dzwonek z wibracjami.",
+    "Wi-Fi: pełna moc sygnału.",
+    "Telefon: pełna moc sygnału.",
+    "Ładuję baterię, 100 procent.",
+    "100%",
+    "Zapisać dane logowania?",
+    "Zapiszemy dane logowania użytkownika kasia21sum w kopii zapasowej w chmurze urządzenia, aby nie trzeba było wprowadzać ich ponownie na tym urządzeniu przy kolejnym logowaniu.",
+    "Zapisz",
+    "Nie teraz"
+  ],
+  "resource_ids": [
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/phone_status_bar_background",
+    "com.android.systemui:id/status_bar_area",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_left_side_container",
+    "com.android.systemui:id/status_bar_left_side",
+    "com.android.systemui:id/left_clock_container",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/notification_icon_area_inner",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/divided_status_icon_area",
+    "com.android.systemui:id/system_icon_area",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_iconset",
+    "com.android.systemui:id/wifi_signal",
+    "com.android.systemui:id/wifi_activity",
+    "com.android.systemui:id/mobile_combo",
+    "com.android.systemui:id/mobile_group",
+    "com.android.systemui:id/signal_combo",
+    "com.android.systemui:id/mobile_signal",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_percentage_view",
+    "com.instagram.android:id/action_bar_root",
+    "android:id/content",
+    "com.instagram.android:id/layout_container_parent",
+    "com.instagram.android:id/layout_container_main",
+    "com.android.systemui:id/rounded_corners_top",
+    "com.android.systemui:id/left",
+    "com.android.systemui:id/display_cutout",
+    "com.android.systemui:id/right"
+  ],
+  "nodes": [
+    {
+      "text": "15:08",
+      "desc": "15:08",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[64,0][161,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[714,23][754,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[757,23][798,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[801,23][848,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[848,23][887,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[895,0][1016,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[895,0][990,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "Zapisać dane logowania?",
+      "desc": "Zapisać dane logowania?",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[146,241][935,380]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Zapiszemy dane logowania użytkownika kasia21sum w kopii zapasowej w chmurze urządzenia, aby nie trzeba było wprowadzać ich ponownie na tym urządzeniu przy kolejnym logowaniu.",
+      "desc": "Zapiszemy dane logowania użytkownika kasia21sum w kopii zapasowej w chmurze urządzenia, aby nie trzeba było wprowadzać ich ponownie na tym urządzeniu przy kolejnym logowaniu.",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[42,380][1038,666]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "",
+      "desc": "Zapisz",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[68,2008][1012,2124]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Zapisz",
+      "desc": "Zapisz",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[475,2038][606,2094]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "",
+      "desc": "Nie teraz",
+      "rid": "",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[68,2156][1012,2272]",
+      "pkg": "com.instagram.androib"
+    },
+    {
+      "text": "Nie teraz",
+      "desc": "Nie teraz",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[451,2186][630,2242]",
+      "pkg": "com.instagram.androib"
+    }
+  ],
+  "special": {
+    "verification_code": false,
+    "captcha": false,
+    "suspicious_login": false,
+    "splash_crash_hint": false
+  },
+  "fatal_logcat": "",
+  "screenshot": "31_system_unlock.jpg",
+  "screenshot_bytes": 118042,
+  "hierarchy_error": "",
+  "extra": {},
+  "ts": "2026-09-06T15:08:41"
+}

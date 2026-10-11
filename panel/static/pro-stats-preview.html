@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulpit profesjonalny — Insights</title>
+  <!-- Te same tokeny co /app; nie jest to #statystyki ani share/stats -->
+  <link rel="stylesheet" href="/static/app.css">
+  <style>
+    :root {
+      --bg: #0f1215; --panel: #181c22; --panel2: #20262e; --border: #2a323d;
+      --fg: #e6ebf1; --muted: #8791a3; --dim: #5c6673; --accent: #4ea1ff;
+      --ok: #3ecf7d; --warn: #f0b942; --err: #ef6a6d;
+    }
+    body { background: var(--bg); color: var(--fg);
+      font-family: -apple-system, Segoe UI, Roboto, sans-serif; font-size: 13px;
+      margin: 0; padding: 24px 28px 64px; max-width: 1120px; }
+    .preview-banner {
+      color: var(--warn); font-size: 12px; margin-bottom: 14px;
+      border: 1px dashed var(--border); padding: 8px 12px; border-radius: 8px;
+      background: var(--panel);
+    }
+    h1 { font-size: 16px; letter-spacing: 0.04em; margin: 0 0 4px; }
+    .meta { color: var(--muted); margin-bottom: 14px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      margin-bottom: 16px; }
+    .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; }
+    .seg button {
+      background: var(--panel); color: var(--muted); border: 0;
+      padding: 7px 14px; cursor: pointer; font-size: 12px; letter-spacing: 0.04em;
+    }
+    .seg button.on { background: var(--panel2); color: var(--fg); font-weight: 600; }
+    .btn {
+      background: var(--panel2); color: var(--fg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 7px 12px; cursor: pointer; font-size: 12px;
+    }
+    .btn:hover { border-color: var(--accent); }
+    .btn[disabled] { opacity: 0.5; cursor: wait; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px; margin-bottom: 16px; }
+    .kpi-card { background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px; }
+    .kpi-card .k { color: var(--muted); font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.04em; }
+    .kpi-card .v { font-size: 22px; font-weight: 700; margin-top: 4px;
+      font-variant-numeric: tabular-nums; }
+    .kpi-card .v.neg { color: var(--err); }
+    .kpi-card .sub { margin-top: 2px; color: var(--dim); font-size: 11px; }
+    .block { background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px; margin-bottom: 14px; }
+    .block h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+    .gap { color: var(--warn); font-size: 11px; margin-top: 8px; line-height: 1.45; }
+    .legend { display: flex; gap: 14px; color: var(--muted); font-size: 11px;
+      margin-bottom: 8px; }
+    .legend i { display: inline-block; width: 18px; height: 2px; margin-right: 5px;
+      vertical-align: middle; }
+    .legend i.dash { background: repeating-linear-gradient(90deg, #9aa0a6 0 5px, transparent 5px 8px);
+      height: 2px; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    @media (max-width: 860px) { .cols { grid-template-columns: 1fr; } }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; color: var(--dim); font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.04em; padding: 4px 6px 6px 0; font-weight: 600; }
+    td { padding: 8px 6px 8px 0; border-top: 1px solid var(--border);
+      font-variant-numeric: tabular-nums; vertical-align: middle; }
+    td.num { text-align: right; font-weight: 700; }
+    tr.row { cursor: pointer; }
+    tr.row:hover td { background: var(--panel2); }
+    .empty { color: var(--dim); font-size: 12px; padding: 8px 0; }
+    .cap { color: var(--muted); max-width: 200px; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap; display: block; }
+    .thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px;
+      background: var(--panel2); display: block; }
+    .thumb.ph { width: 40px; height: 40px; border-radius: 4px;
+      background: var(--panel2); color: var(--dim); font-size: 10px;
+      display: flex; align-items: center; justify-content: center; }
+    svg.chart { width: 100%; height: 180px; display: block; }
+    svg.chart.type { height: 140px; }
+    svg.spark { width: 72px; height: 28px; display: block; }
+    .aud { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+    .aud .row { display: flex; justify-content: space-between; gap: 8px;
+      padding: 3px 0; border-bottom: 1px solid var(--border); }
+    .aud .row span:last-child { font-variant-numeric: tabular-nums; font-weight: 600; }
+    /* Drill-in pozycji — hash #item-<id> */
+    .detail-back { margin-bottom: 12px; }
+    .detail-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+    .detail-head img { width: 88px; height: 88px; object-fit: cover; border-radius: 8px; }
+    .src-pill { font-size: 11px; color: var(--dim); border: 1px solid var(--border);
+      border-radius: 999px; padding: 2px 8px; }
+  </style>
+</head>
+<body>
+  <div class="preview-banner" id="banner">
+    Karta Insights (zapis + wykresy) — nie jest podpięta pod #statystyki ani scheduler.
+    Dane: <code>data/accounts/&lt;alias&gt;/pro_dash/</code>.
+  </div>
+
+  <div id="list-view">
+    <h1>Pulpit profesjonalny</h1>
+    <p class="meta" id="meta">Ładowanie…</p>
+    <div class="toolbar">
+      <div class="seg" id="period" role="group" aria-label="Okres">
+        <button type="button" data-days="7">7 dni</button>
+        <button type="button" data-days="14">14 dni</button>
+        <button type="button" data-days="30" class="on">30 dni</button>
+      </div>
+      <button type="button" class="btn" id="btn-fetch">Odśwież z telefonu</button>
+      <button type="button" class="btn" id="btn-seed">Wlej seed z recon</button>
+      <span class="src-pill" id="src-pill"></span>
+    </div>
+
+    <div class="kpi-grid" id="kpis"></div>
+    <div class="block" id="kpi-windows">
+      <h2>Obserwacje / interakcje / widzowie — 7 · 14 · 30</h2>
+      <table id="kpi-win-table"></table>
+      <p class="gap" id="kpi-win-gap"></p>
+    </div>
+
+    <div class="block">
+      <h2>Wyświetlenia w czasie</h2>
+      <div class="legend" id="chart-legend">
+        <span><i style="background:#4ea1ff"></i>wyświetlenia</span>
+        <span><i style="background:#3ecf7d"></i>obserwacje</span>
+        <span><i style="background:#f0b942"></i>interakcje</span>
+      </div>
+      <svg class="chart" id="chart" viewBox="0 0 640 180" role="img"
+           aria-label="Wzrost wyświetleń w czasie"></svg>
+      <p class="gap" id="chart-gap"></p>
+    </div>
+
+    <div class="cols" id="content-cols"></div>
+    <div class="block" id="audience-block" hidden>
+      <h2>Odbiorcy (ostatni snapshot)</h2>
+      <div class="aud" id="audience"></div>
+    </div>
+  </div>
+
+  <div id="detail-view" hidden>
+    <div class="detail-back"><button type="button" class="btn" id="btn-back">← Zawartość</button></div>
+    <div class="detail-head" id="detail-head"></div>
+    <div class="block">
+      <h2>Wyświetlenia tej pozycji</h2>
+      <div class="toolbar">
+        <div class="seg" id="detail-period" role="group" aria-label="Okres wykresu">
+          <button type="button" data-days="7">7 dni</button>
+          <button type="button" data-days="14">14 dni</button>
+          <button type="button" data-days="30">30 dni</button>
+        </div>
+      </div>
+      <div class="legend" id="detail-legend">
+        <span><i style="background:#d400c8"></i>Ten post</span>
+        <span id="legend-typical"><i class="dash"></i>Twój typowy post</span>
+      </div>
+      <svg class="chart" id="detail-chart" viewBox="0 0 640 180" role="img"
+           aria-label="Wykres pozycji"></svg>
+      <p class="gap" id="detail-gap"></p>
+    </div>
+    <p><button type="button" class="btn" id="btn-fetch-item">Pobierz ten wiersz z telefonu</button></p>
+  </div>
+
+<script>
+/* Karta Insights — czyta /api/pro-dash, nie /api/stats. Komentarze PL. */
+const ACC = new URLSearchParams(location.search).get("account") || "jobsaver";
+let STATE = null;
+let PERIOD = 30;
+
+const $ = (id) => document.getElementById(id);
+
+function fmt(n) {
+  if (n == null || n === "") return "—";
+  const x = Number(n);
+  if (!Number.isFinite(x)) return String(n);
+  return x.toLocaleString("pl-PL");
+}
+
+function thumbUrl(id) {
+  return `/api/pro-dash/${encodeURIComponent(ACC)}/thumb/${encodeURIComponent(id)}`;
+}
+
+async function load() {
+  const r = await fetch(`/api/pro-dash/${encodeURIComponent(ACC)}`);
+  if (!r.ok) throw new Error("GET pro-dash " + r.status);
+  STATE = await r.json();
+  render();
+}
+
+function winSnap() {
+  return (STATE.windows || {})[String(PERIOD)] || null;
+}
+
+function rolling() {
+  return (STATE.rolling || {})[String(PERIOD)] || null;
+}
+
+function render() {
+  if (!STATE) return;
+  const snap = winSnap();
+  const roll = rolling();
+  const src = STATE.source || "—";
+  const live = STATE.fetch && STATE.fetch.live;
+  $("meta").innerHTML =
+    `Konto <strong>${esc(STATE.ig_username || ACC)}</strong>` +
+    (STATE.updated_at ? ` · zapis ${esc(STATE.updated_at)}` : "") +
+    (snap && snap.range_label ? ` · zakres IG: <strong>${esc(snap.range_label)}</strong>` : "") +
+    `. Alias <code>${esc(ACC)}</code>.`;
+  $("src-pill").textContent = live ? "live" : (src === "seed" ? "seed z recon" : src);
+  $("banner").innerHTML =
+    "Karta Insights — nie #statystyki. " +
+    (STATE.fetch && STATE.fetch.detail
+      ? `Fetch: ${esc(STATE.fetch.reason || "")} — ${esc(STATE.fetch.detail)}.`
+      : `Źródło zapisu: <strong>${esc(src)}</strong>.`) +
+    " Miniatury w <code>pro_dash/thumbs/</code>.";
+
+  document.querySelectorAll("#period button, #detail-period button").forEach((b) => {
+    b.classList.toggle("on", Number(b.dataset.days) === PERIOD);
+  });
+
+  renderKpis(snap, roll);
+  renderWindowCompare();
+  renderChart(snap, roll);
+  renderContent();
+  renderAudience();
+  if (location.hash.startsWith("#item-")) {
+    openItem(location.hash.slice(6));
+  } else {
+    showList();
+  }
+}
+
+function renderKpis(snap, roll) {
+  const emptyWin = !snap || snap.views == null;
+  const cards = emptyWin ? [{
+    k: "Okno " + PERIOD + " dni",
+    v: "brak odczytu",
+    sub: "recon miał tylko 30 dni — poczekaj na live / kolejny scrape",
+    dim: true,
+  }] : [
+    { k: "Wyświetlenia", v: fmt(snap.views),
+      sub: roll && roll.views != null
+        ? `rolling z serii: ${fmt(roll.views)} (${roll.points_filled}/${PERIOD} dni)`
+        : "snapshot karty IG (seria dzienna niepełna)" },
+    { k: "Obserwacje netto", v: fmt(snap.follows),
+      sub: "karta „Obserwatorzy netto”", neg: snap.follows < 0 },
+    { k: "Interakcje", v: fmt(snap.interactions),
+      sub: typeSplit(snap.interactions_by_type) },
+    { k: "Widzowie", v: snap.viewers != null ? fmt(snap.viewers) : "—",
+      sub: [snap.followers_pct, snap.nonfollowers_pct].filter(Boolean).join(" · ")
+        || "z Ogólne" },
+  ];
+  if (snap && snap.profile_activity) {
+    const pa = snap.profile_activity;
+    cards.push({
+      k: "Wizyty w profilu",
+      v: fmt(pa["Wizyty w profilu"]),
+      sub: "link w bio " + (pa["Dotknięcia linku w biogramie"] ?? "—"),
+    });
+  }
+  $("kpis").innerHTML = cards.map((c) => `
+    <div class="kpi-card">
+      <div class="k">${esc(c.k)}</div>
+      <div class="v${c.neg ? " neg" : ""}" ${c.dim ? 'style="color:var(--dim);font-size:16px"' : ""}>${c.v}</div>
+      <div class="sub">${esc(c.sub || "")}</div>
+    </div>`).join("");
+}
+
+function renderWindowCompare() {
+  /* 7 i 14 zawsze na karcie — nie tylko chip 30 */
+  const wins = STATE.windows || {};
+  const metrics = [
+    { key: "follows", label: "Obserwacje netto" },
+    { key: "interactions", label: "Interakcje" },
+    { key: "viewers", label: "Widzowie" },
+  ];
+  const days = ["7", "14", "30"];
+  const head = "<tr><th></th>" + days.map((d) => `<th>${d} dni</th>`).join("") + "</tr>";
+  const body = metrics.map((m) => {
+    const cells = days.map((d) => {
+      const snap = wins[d] || {};
+      const v = snap[m.key];
+      const miss = v == null || v === "";
+      const cls = miss ? "" : (m.key === "follows" && Number(v) < 0 ? "neg" : "");
+      return `<td class="num ${cls}">${miss ? "—" : fmt(v)}</td>`;
+    }).join("");
+    return `<tr><td>${esc(m.label)}</td>${cells}</tr>`;
+  }).join("");
+  $("kpi-win-table").innerHTML = `<thead>${head}</thead><tbody>${body}</tbody>`;
+  const bits = [];
+  days.forEach((d) => {
+    const snap = wins[d] || {};
+    if (snap.follows == null && snap.interactions == null && snap.viewers == null) {
+      bits.push(`${d} dni: brak karty obserwacje/interakcje/widzowie (nie sklonowano 30).`);
+    }
+  });
+  $("kpi-win-gap").textContent = bits.join(" ");
+}
+
+function typeSplit(obj) {
+  if (!obj || typeof obj !== "object") return "";
+  return Object.entries(obj).map(([k, v]) => `${k} ${v}`).join(" · ");
+}
+
+function renderChart(snap, roll) {
+  const svg = $("chart");
+  const gap = $("chart-gap");
+  const daily = (roll && roll.points) || [];
+  const known = daily.filter((p) => p.views != null);
+  // 7/14/30 = wycinek tej samej serii — nie trzy słupki KPI
+  if (known.length >= 2) {
+    const hasF = daily.some((p) => p.follows != null);
+    const hasI = daily.some((p) => p.interactions != null);
+    document.querySelectorAll("#chart-legend span").forEach((el, i) => {
+      el.hidden = (i === 1 && !hasF) || (i === 2 && !hasI);
+    });
+    svg.innerHTML = lineChart(daily, PERIOD);
+    const peak = known.reduce((a, p) => (p.views > (a.views || 0) ? p : a), known[0]);
+    gap.textContent = (roll.complete
+      ? `Wzrost w czasie: ${known.length} dni z daily[] (okno ${PERIOD}).`
+      : `Seria dziurawa: ${roll.points_filled}/${PERIOD} dni. Luki ≠ zera.`)
+      + (peak && peak.date
+        ? ` Szczyt ${fmt(peak.views)} · ${fmtDay(peak.date)}.`
+        : "");
+    return;
+  }
+  if (known.length === 1) {
+    svg.innerHTML = barChart([
+      { l: fmtDay(known[0].date), v: known[0].views, c: "#4ea1ff" },
+    ]);
+    gap.textContent = "Tylko jeden punkt dzienny — za mało na linię.";
+    return;
+  }
+  if (STATE.chart_sparse && PERIOD === 30 && (STATE.chart_sparse.points || []).length >= 2) {
+    svg.innerHTML = sparseChart(STATE.chart_sparse);
+  } else {
+    svg.innerHTML = emptyChart("brak serii dziennej dla tego okna");
+  }
+  const bits = (STATE.gaps || []).slice(0, 3);
+  if (STATE.chart_sparse && STATE.chart_sparse.note && PERIOD === 30) {
+    bits.unshift(STATE.chart_sparse.note);
+  }
+  gap.textContent = bits.join(" ");
+}
+
+function fmtDay(iso) {
+  /* 2026-09-03 → „3 wrz” — jak etykiety osi IG */
+  if (!iso || iso.length < 10) return iso || "";
+  const mies = ["sty", "lut", "mar", "kwi", "maj", "cze",
+                "lip", "sie", "wrz", "paź", "lis", "gru"];
+  const d = Number(iso.slice(8, 10));
+  const m = Number(iso.slice(5, 7));
+  if (!d || !m) return iso.slice(5);
+  return d + " " + (mies[m - 1] || iso.slice(5, 7));
+}
+
+function lineChart(points, days) {
+  const w = 640, h = 180, padL = 48, padR = 16, padT = 16, padB = 36;
+  const n = Math.max(points.length - 1, 1);
+  const xs = points.map((_, i) => padL + (i / n) * (w - padL - padR));
+  const series = [
+    { key: "views", c: "#4ea1ff" },
+    { key: "follows", c: "#3ecf7d" },
+    { key: "interactions", c: "#f0b942" },
+  ].filter((s) => points.filter((p) => p[s.key] != null).length >= 2);
+  let max = 1;
+  points.forEach((p) => series.forEach((s) => {
+    const v = Number(p[s.key]);
+    if (Number.isFinite(v)) max = Math.max(max, Math.abs(v));
+  }));
+  const yOf = (v) => {
+    if (v == null || !Number.isFinite(Number(v))) return null;
+    return padT + (1 - Number(v) / max) * (h - padT - padB);
+  };
+  const mid = Math.round(max / 2);
+  const yMid = yOf(mid);
+  let lines = `<line x1="${padL}" y1="${padT}" x2="${w - padR}" y2="${padT}" stroke="#2a323d"/>
+    <line x1="${padL}" y1="${yMid.toFixed(1)}" x2="${w - padR}" y2="${yMid.toFixed(1)}" stroke="#2a323d"/>
+    <line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="#2a323d"/>
+    <text x="8" y="${padT + 10}" fill="#5c6673" font-size="11">${fmt(max)}</text>
+    <text x="8" y="${yMid + 4}" fill="#5c6673" font-size="11">${fmt(mid)}</text>
+    <text x="14" y="${h - padB + 4}" fill="#5c6673" font-size="11">0</text>`;
+  const ticks = [0, Math.floor(points.length / 2), points.length - 1];
+  ticks.forEach((idx) => {
+    if (idx < 0 || !points[idx] || !points[idx].date) return;
+    const x = xs[idx];
+    const anchor = idx === 0 ? "start" : (idx === points.length - 1 ? "end" : "middle");
+    lines += `<text x="${x.toFixed(1)}" y="${h - 8}" text-anchor="${anchor}" fill="#8791a3" font-size="11">${esc(fmtDay(points[idx].date))}</text>`;
+  });
+  series.forEach((s) => {
+    const pair = points.map((p, i) => {
+      const y = yOf(p[s.key]);
+      return y == null ? null : [xs[i], y];
+    });
+    const segs = [];
+    let cur = [];
+    pair.forEach((xy) => {
+      if (xy == null) {
+        if (cur.length >= 2) segs.push(cur);
+        cur = [];
+      } else cur.push(xy);
+    });
+    if (cur.length >= 2) segs.push(cur);
+    segs.forEach((seg) => {
+      const d = seg.map((xy, i) => (i ? "L" : "M") + xy[0].toFixed(1) + " " + xy[1].toFixed(1)).join(" ");
+      if (s.key === "views" && seg.length >= 2) {
+        const base = h - padB;
+        const fill = d + ` L${seg[seg.length - 1][0].toFixed(1)} ${base} L${seg[0][0].toFixed(1)} ${base} Z`;
+        lines += `<path d="${fill}" fill="#4ea1ff" fill-opacity="0.12"/>`;
+      }
+      lines += `<path d="${d}" fill="none" stroke="${s.c}" stroke-width="2.2" stroke-linejoin="round"/>`;
+    });
+  });
+  return lines;
+}
+
+function barChart(items) {
+  const w = 640, h = 180, padT = 20, padB = 36;
+  const max = Math.max(1, ...items.map((x) => Math.abs(Number(x.v) || 0)));
+  const bw = 80;
+  const gap = 40;
+  const start = 80;
+  return items.map((it, i) => {
+    const v = Number(it.v) || 0;
+    const bh = Math.max(2, (Math.abs(v) / max) * (h - padT - padB));
+    const x = start + i * (bw + gap);
+    const y = h - padB - bh;
+    return `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${it.c}" rx="3"/>
+      <text x="${x + bw / 2}" y="${h - 12}" text-anchor="middle" fill="#8791a3" font-size="11">${esc(it.l)}</text>
+      <text x="${x + bw / 2}" y="${y - 6}" text-anchor="middle" fill="#e6ebf1" font-size="12">${fmt(v)}</text>`;
+  }).join("");
+}
+
+function sparseChart(sp) {
+  /* Oś z OCR — nie udajemy daily YYYY-MM-DD. */
+  const w = 640, h = 180, padL = 48, padR = 20, padT = 20, padB = 40;
+  const ymin = (sp.axis && sp.axis.ymin) || 0;
+  const ymax = (sp.axis && sp.axis.ymax) || 1;
+  const yOf = (v) => padT + (1 - (v - ymin) / (ymax - ymin || 1)) * (h - padT - padB);
+  const pts = (sp.points || []).map((p) => {
+    const x = padL + (Number(p.x_frac) || 0) * (w - padL - padR);
+    return `${x.toFixed(1)},${yOf(p.y).toFixed(1)}`;
+  });
+  const labels = (sp.axis && sp.axis.x_labels) || [];
+  const lx = [padL, (padL + w - padR) / 2, w - padR - 40];
+  return `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${h - padB}" stroke="#2a323d"/>
+    <line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="#2a323d"/>
+    <text x="8" y="${padT + 8}" fill="#5c6673" font-size="11">${ymax}</text>
+    <text x="14" y="${h - padB + 4}" fill="#5c6673" font-size="11">${ymin}</text>
+    ${labels.map((t, i) => `<text x="${lx[i] || padL}" y="${h - 10}" fill="#8791a3" font-size="11">${esc(t)}</text>`).join("")}
+    <polyline fill="none" stroke="#4ea1ff" stroke-width="2" points="${pts.join(" ")}"/>`;
+}
+
+function emptyChart(msg) {
+  return `<text x="320" y="90" text-anchor="middle" fill="#5c6673" font-size="13">${esc(msg)}</text>`;
+}
+
+function renderContent() {
+  const c = STATE.content || {};
+  const kinds = [
+    { key: "post", title: "Posty" },
+    { key: "reel", title: "Rolki" },
+    { key: "story", title: "Relacje" },
+  ];
+  $("content-cols").innerHTML = kinds.map((k) => {
+    const rows = c[k.key] || [];
+    const sum = rows.reduce((a, r) => a + (Number(r.views) || 0), 0);
+    const chart = typeChartBlock(k.key, rows);
+    let body;
+    if (!rows.length) {
+      body = `<p class="empty">Brak dostępnej zawartości.<br>
+        Gdy udostępnisz materiały w tym okresie, zobaczysz je tutaj.</p>`;
+    } else {
+      const extra = k.key === "story" ? "♥ ↗ ↩" : "♥ 💬 ↗ 🔖";
+      body = `<table><thead><tr><th></th><th>Wiek</th><th>Treść</th><th>${extra}</th><th>Wyśw.</th></tr></thead><tbody>
+        ${rows.map((r) => contentRow(r, k.key)).join("")}
+      </tbody></table>`;
+    }
+    return `<div class="block"><h2>${k.title} · ${rows.length} szt. · ${fmt(sum)} wyśw.</h2>${chart}${body}</div>`;
+  }).join("");
+}
+
+function typeChartBlock(kind, rows) {
+  /* Wykres liniowy typu — ta sama seria, wycinek 7/14/30. Bez sinusoidy. */
+  const roll = ((STATE.content_rolling || {})[kind] || {})[String(PERIOD)] || {};
+  const meta = ((STATE.content_series_meta || {})[kind]) || {};
+  const daily = roll.points || [];
+  const known = daily.filter((p) => p.views != null);
+  const src = meta.source;
+  const srcNote = {
+    image_trace: "ślad wykresu Ogólne po filtrze typu",
+    live_tooltips: "tooltipy live z wykresu",
+    live_window: "karta Wyświetlenia po filtrze Ogólne→typ (suma okna)",
+    as_of_total: "suma okna na datę odczytu — nie dzienna linia IG",
+    item_sum: "suma serii drill-in pozycji",
+    scrape: "live scrape",
+  }[src] || (src === "mix" ? "mieszane źródła" : "");
+  let svg;
+  let gap;
+  if (kind === "reel" && !rows.length && known.length < 2) {
+    svg = emptyChart("brak serii — puste rolki");
+    gap = "Brak dostępnej zawartości. Gdy udostępnisz rolki w tym okresie, pojawi się wykres wyświetleń.";
+  } else if (known.length >= 2) {
+    svg = lineChart(daily.map((p) => ({ ...p, follows: null, interactions: null })), PERIOD);
+    const peak = known.reduce((a, p) => (p.views > (a.views || 0) ? p : a), known[0]);
+    gap = (roll.complete
+      ? `Wyświetlenia ${kindLabel(kind)} w czasie: ${known.length} dni (okno ${PERIOD}).`
+      : `Seria dziurawa: ${roll.points_filled}/${PERIOD} dni. Luki ≠ zera.`)
+      + (srcNote ? ` ${srcNote}.` : "")
+      + (peak && peak.date ? ` Szczyt ${fmt(peak.views)} · ${fmtDay(peak.date)}.` : "");
+  } else if (known.length === 1) {
+    svg = barChart([{ l: fmtDay(known[0].date), v: known[0].views, c: "#4ea1ff" }]);
+    gap = "Jeden odczyt sumy okna (as_of). To nie jest dzienna linia z wykresu IG — "
+      + "kolejny scrape albo ślad filtra Ogólne→typ dopisze punkty."
+      + (srcNote ? ` Teraz: ${srcNote}.` : "");
+  } else {
+    svg = emptyChart("brak serii dziennej tego typu");
+    gap = "IG na Zawartość nie pokazuje wykresu per typ. Seria urośnie z kolejnych "
+      + "dni (suma okna) albo z image-trace po filtrze Ogólne.";
+  }
+  return `<svg class="chart type" viewBox="0 0 640 180" role="img"
+    aria-label="Wykres ${kindLabel(kind)}">${svg}</svg>
+    <p class="gap">${esc(gap)}</p>`;
+}
+
+function kindLabel(k) {
+  return { post: "postów", reel: "rolek", story: "relacji" }[k] || k;
+}
+
+function contentRow(r, kind) {
+  const counters = kind === "story"
+    ? [r.likes, r.shares, r.replies].map((x) => x ?? 0).join(" · ")
+    : [r.likes, r.comments, r.shares, r.saves].map((x) => x ?? 0).join(" · ");
+  const cap = (r.caption || "").split("\n")[0] || (kind === "story" ? "relacja" : "—");
+  const img = r.thumb
+    ? `<img class="thumb" alt="" src="${thumbUrl(r.id)}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'thumb ph',textContent:'—'}))">`
+    : `<div class="thumb ph">—</div>`;
+  /* mały ślad linii tej pozycji — ten sam daily co drill-in */
+  const spark = sparkline(itemWindowPoints(r));
+  return `<tr class="row" data-id="${esc(r.id)}" onclick="location.hash='item-${esc(r.id)}'">
+    <td>${img}</td>
+    <td>${esc(r.age || "")}</td>
+    <td><span class="cap" title="${esc(r.caption || "")}">${esc(cap)}</span></td>
+    <td>${esc(counters)}</td>
+    <td class="num">${fmt(r.views)}${spark}</td>
+  </tr>`;
+}
+
+function sparkline(pts) {
+  const known = (pts || []).filter((p) => p.views != null);
+  if (known.length < 2) return "";
+  const w = 72, h = 28, pad = 2;
+  let max = 1;
+  known.forEach((p) => { max = Math.max(max, Number(p.views) || 0); });
+  const n = Math.max(pts.length - 1, 1);
+  const d = pts.map((p, i) => {
+    if (p.views == null) return null;
+    const x = pad + (i / n) * (w - pad * 2);
+    const y = pad + (1 - Number(p.views) / max) * (h - pad * 2);
+    return [x, y];
+  });
+  const segs = [];
+  let cur = [];
+  d.forEach((xy) => {
+    if (xy == null) { if (cur.length >= 2) segs.push(cur); cur = []; }
+    else cur.push(xy);
+  });
+  if (cur.length >= 2) segs.push(cur);
+  const paths = segs.map((seg) => {
+    const p = seg.map((xy, i) => (i ? "L" : "M") + xy[0].toFixed(1) + " " + xy[1].toFixed(1)).join(" ");
+    return `<path d="${p}" fill="none" stroke="#4ea1ff" stroke-width="1.6" stroke-linejoin="round"/>`;
+  }).join("");
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" aria-hidden="true">${paths}</svg>`;
+}
+
+function renderAudience() {
+  const a = STATE.audience;
+  const box = $("audience-block");
+  if (!a) { box.hidden = true; return; }
+  box.hidden = false;
+  const col = (pairs) => `<div>${pairs.map(([k, v]) =>
+    `<div class="row"><span>${esc(k)}</span><span>${esc(v)}</span></div>`).join("")}</div>`;
+  const peak = a.peak_hours || {};
+  $("audience").innerHTML = [
+    col([
+      ["Obserwujący", a.followers],
+      ...(a.gender ? Object.entries(a.gender) : []),
+    ]),
+    col(a.age ? Object.entries(a.age).slice(0, 4) : []),
+    col([
+      ...(a.countries ? Object.entries(a.countries).slice(0, 2) : []),
+      ...(a.cities ? Object.entries(a.cities).slice(0, 1) : []),
+      ["Peak", [peak.strefa, peak.niedziele].filter(Boolean).join(" ")],
+    ]),
+  ].join("");
+}
+
+function showList() {
+  $("list-view").hidden = false;
+  $("detail-view").hidden = true;
+}
+
+function openItem(id) {
+  const rec = findItem(id);
+  if (!rec) { showList(); return; }
+  $("list-view").hidden = true;
+  $("detail-view").hidden = false;
+  const cap = (rec.caption || "").split("\n")[0] || rec.kind;
+  const img = rec.thumb
+    ? `<img alt="" src="${thumbUrl(rec.id)}">`
+    : `<div class="thumb ph" style="width:88px;height:88px">brak</div>`;
+  $("detail-head").innerHTML = `${img}<div>
+    <h1 style="margin:0 0 6px">${esc(cap)}</h1>
+    <p class="meta">${esc(labelKind(rec.kind))} · ${esc(rec.age || "")} · ${fmt(rec.views)} wyśw.</p>
+    <p class="meta" style="white-space:pre-wrap;max-width:640px">${esc((rec.caption || "").slice(0, 400))}</p>
+  </div>`;
+  /* 7/14/30 = seria z overlayu IG, nie trzy ticki osi i nie padding zer */
+  const dailyPts = itemWindowPoints(rec);
+  const typicalPts = typicalWindowPoints(rec);
+  const known = dailyPts.filter((p) => p.views != null);
+  const typKnown = typicalPts.filter((p) => p.views != null);
+  const hist = rec.history || [];
+  const legendTyp = $("legend-typical");
+  if (legendTyp) legendTyp.hidden = typKnown.length < 2;
+  if (known.length >= 2) {
+    $("detail-chart").innerHTML = typKnown.length >= 2
+      ? compareLineChart(dailyPts, typicalPts)
+      : lineChart(
+          dailyPts.map((p) => ({ ...p, follows: null, interactions: null })),
+          PERIOD);
+    const peak = known.reduce((a, p) => (p.views > (a.views || 0) ? p : a), known[0]);
+    const mode = rec.daily_mode === "cumulative" ? "skumulowane (jak IG „Ten post”)" : "dzienne";
+    let msg =
+      `Wzrost w czasie tej pozycji: ${known.length} dni (okno ${PERIOD}, ${mode}).` +
+      (typKnown.length >= 2
+        ? ` Druga linia: Twój typowy post (${typKnown.length} dni).`
+        : "") +
+      (peak && peak.date ? ` Szczyt ${fmt(peak.views)} · ${fmtDay(peak.date)}.` : "");
+    if (rec.ig_windows_identical) {
+      msg += " Chip 7/14/30 nie zmienia overlayu — trzy JPG identyczne.";
+    }
+    $("detail-gap").textContent = msg;
+  } else if (rec.chart_kind === "donut") {
+    $("detail-chart").innerHTML = emptyChart("donut Widzowie — brak linii");
+    $("detail-gap").textContent = (rec.window_gaps && rec.window_gaps.line)
+      || "Relacja: donut obserwatorzy / osoby nieobserwujące, bez wykresu liniowego.";
+  } else if ((rec.window_gaps && rec.window_gaps[String(PERIOD)]) || PERIOD === 14 && !(rec.series_by_window || {})["14"]) {
+    $("detail-chart").innerHTML = emptyChart("brak na tym ekranie IG");
+    $("detail-gap").textContent = (rec.window_gaps && (rec.window_gaps[String(PERIOD)] || rec.window_gaps["14"]))
+      || "brak na tym ekranie IG — nie sklonowano 30.";
+  } else if (hist.length >= 1) {
+    const pts = hist.map((h, i) => ({
+      date: (h.as_of || "").slice(0, 10) || String(i + 1),
+      views: h.views, follows: null, interactions: null,
+    }));
+    $("detail-chart").innerHTML = pts.length === 1
+      ? barChart([{ l: pts[0].date, v: pts[0].views, c: "#4ea1ff" }])
+      : lineChart(pts, pts.length);
+    $("detail-gap").textContent = hist.length < 2
+      ? "Na razie jeden snapshot (seed/live). Kolejny scrape dopisze punkt — to nie jest seria IG z hierarchii."
+      : `Historia snapshotów: ${hist.length} odczyty views przy scrape.`;
+  } else {
+    $("detail-chart").innerHTML = emptyChart("brak historii");
+    $("detail-gap").textContent = "Brak serii i snapshotów.";
+  }
+  $("btn-fetch-item").dataset.id = rec.id;
+}
+
+function itemWindowPoints(rec) {
+  /* najpierw seria z overlayu IG dla chipa — nie tniemy 1–8 wrz do rolling */
+  const fromWin = pointsFromStored((rec && rec.series_by_window) || {}, String(PERIOD));
+  if (fromWin.length >= 2) return fromWin;
+  return sliceDailyDict((rec && rec.daily) || {});
+}
+
+function typicalWindowPoints(rec) {
+  const fromWin = pointsFromStored((rec && rec.typical_by_window) || {}, String(PERIOD));
+  if (fromWin.length >= 2) return fromWin;
+  return pointsFromDailyList((rec && rec.typical_daily) || {});
+}
+
+function pointsFromStored(byWin, key) {
+  const raw = (byWin && (byWin[key] || byWin[Number(key)])) || null;
+  return pointsFromDailyList(raw);
+}
+
+function pointsFromDailyList(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) {
+    return raw.filter((p) => p && p.date).map((p) => ({
+      date: p.date, views: p.views == null ? null : Number(p.views),
+    })).sort((a, b) => a.date.localeCompare(b.date));
+  }
+  return Object.keys(raw).sort().map((d) => {
+    const recD = raw[d];
+    const v = recD && typeof recD === "object" ? recD.views : recD;
+    return { date: d, views: v == null ? null : Number(v) };
+  });
+}
+
+function sliceDailyDict(daily) {
+  /* fallback: wycinek 7/14/30 z daily — tylko dni ze śladu, bez paddingu zer */
+  const keys = Object.keys(daily || {}).sort();
+  if (!keys.length) return [];
+  const last = keys[keys.length - 1];
+  const anchor = (STATE.as_of_date && STATE.as_of_date > last)
+    ? STATE.as_of_date : last;
+  const start = addDays(anchor, 1 - PERIOD);
+  return keys.filter((d) => d >= start && d <= anchor).map((d) => {
+    const recD = daily[d];
+    const v = recD && typeof recD === "object" ? recD.views : recD;
+    return { date: d, views: v == null ? null : Number(v) };
+  });
+}
+
+function compareLineChart(thisPts, typicalPts) {
+  /* wspólna oś dat — jak IG, nie dwie niezależne skale X */
+  const dates = [...new Set([
+    ...thisPts.map((p) => p.date),
+    ...typicalPts.map((p) => p.date),
+  ].filter(Boolean))].sort();
+  const thisBy = Object.fromEntries(thisPts.map((p) => [p.date, p.views]));
+  const typBy = Object.fromEntries(typicalPts.map((p) => [p.date, p.views]));
+  const aligned = dates.map((d) => ({
+    date: d,
+    views: thisBy[d] == null ? null : Number(thisBy[d]),
+    typical: typBy[d] == null ? null : Number(typBy[d]),
+    follows: null,
+    interactions: null,
+  }));
+  return dualLineChart(aligned);
+}
+
+function dualLineChart(points) {
+  /* magenta „Ten post” + kreska szara „Twój typowy post” */
+  const w = 640, h = 180, padL = 48, padR = 16, padT = 16, padB = 36;
+  const n = Math.max(points.length - 1, 1);
+  const xs = points.map((_, i) => padL + (i / n) * (w - padL - padR));
+  let max = 1;
+  points.forEach((p) => {
+    [p.views, p.typical].forEach((v) => {
+      if (v != null && Number.isFinite(Number(v))) max = Math.max(max, Math.abs(v));
+    });
+  });
+  const mid = Math.round(max / 2);
+  const yOf = (v) => {
+    if (v == null || !Number.isFinite(Number(v))) return null;
+    return padT + (1 - Number(v) / max) * (h - padT - padB);
+  };
+  const yMid = yOf(mid);
+  let lines = `<line x1="${padL}" y1="${padT}" x2="${w - padR}" y2="${padT}" stroke="#2a323d"/>
+    <line x1="${padL}" y1="${yMid.toFixed(1)}" x2="${w - padR}" y2="${yMid.toFixed(1)}" stroke="#2a323d"/>
+    <line x1="${padL}" y1="${h - padB}" x2="${w - padR}" y2="${h - padB}" stroke="#2a323d"/>
+    <text x="8" y="${padT + 10}" fill="#5c6673" font-size="11">${fmt(max)}</text>
+    <text x="8" y="${yMid + 4}" fill="#5c6673" font-size="11">${fmt(mid)}</text>
+    <text x="14" y="${h - padB + 4}" fill="#5c6673" font-size="11">0</text>`;
+  const ticks = [0, Math.floor(points.length / 2), points.length - 1];
+  ticks.forEach((idx) => {
+    if (idx < 0 || !points[idx] || !points[idx].date) return;
+    const x = xs[idx];
+    const anchor = idx === 0 ? "start" : (idx === points.length - 1 ? "end" : "middle");
+    lines += `<text x="${x.toFixed(1)}" y="${h - 8}" text-anchor="${anchor}" fill="#8791a3" font-size="11">${esc(fmtDay(points[idx].date))}</text>`;
+  });
+  const series = [
+    { key: "views", c: "#d400c8", dash: "", fill: true },
+    { key: "typical", c: "#9aa0a6", dash: "6 5", fill: false },
+  ];
+  series.forEach((s) => {
+    const pair = points.map((p, i) => {
+      const y = yOf(p[s.key]);
+      return y == null ? null : [xs[i], y];
+    });
+    const segs = [];
+    let cur = [];
+    pair.forEach((xy) => {
+      if (xy == null) {
+        if (cur.length >= 2) segs.push(cur);
+        cur = [];
+      } else cur.push(xy);
+    });
+    if (cur.length >= 2) segs.push(cur);
+    segs.forEach((seg) => {
+      const d = seg.map((xy, i) => (i ? "L" : "M") + xy[0].toFixed(1) + " " + xy[1].toFixed(1)).join(" ");
+      if (s.fill && seg.length >= 2) {
+        const base = h - padB;
+        const fill = d + ` L${seg[seg.length - 1][0].toFixed(1)} ${base} L${seg[0][0].toFixed(1)} ${base} Z`;
+        lines += `<path d="${fill}" fill="#d400c8" fill-opacity="0.10"/>`;
+      }
+      const dash = s.dash ? ` stroke-dasharray="${s.dash}"` : "";
+      lines += `<path d="${d}" fill="none" stroke="${s.c}" stroke-width="2.2" stroke-linejoin="round"${dash}/>`;
+    });
+  });
+  return lines;
+}
+
+function addDays(iso, n) {
+  const dt = new Date(iso + "T12:00:00Z");
+  dt.setUTCDate(dt.getUTCDate() + n);
+  return dt.toISOString().slice(0, 10);
+}
+
+function findItem(id) {
+  const c = (STATE && STATE.content) || {};
+  for (const k of ["post", "reel", "story"]) {
+    const hit = (c[k] || []).find((r) => r.id === id);
+    if (hit) return hit;
+  }
+  return null;
+}
+
+function labelKind(k) {
+  return { post: "Post", reel: "Rolka", story: "Relacja" }[k] || k;
+}
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+}
+
+function onPeriodClick(e) {
+  const b = e.target.closest("button");
+  if (!b) return;
+  PERIOD = Number(b.dataset.days);
+  render();
+}
+$("period").addEventListener("click", onPeriodClick);
+$("detail-period").addEventListener("click", onPeriodClick);
+
+$("btn-back").addEventListener("click", () => {
+  location.hash = "";
+  showList();
+});
+
+async function postJson(url) {
+  $("btn-fetch").disabled = true;
+  $("btn-seed").disabled = true;
+  try {
+    const r = await fetch(url, { method: "POST" });
+    if (!r.ok) throw new Error(url + " " + r.status);
+    STATE = await r.json();
+    render();
+  } catch (err) {
+    $("banner").textContent = "Błąd: " + err.message;
+  } finally {
+    $("btn-fetch").disabled = false;
+    $("btn-seed").disabled = false;
+  }
+}
+
+$("btn-fetch").addEventListener("click", () =>
+  postJson(`/api/pro-dash/${encodeURIComponent(ACC)}/fetch`));
+$("btn-seed").addEventListener("click", () =>
+  postJson(`/api/pro-dash/${encodeURIComponent(ACC)}/seed`));
+$("btn-fetch-item").addEventListener("click", () => {
+  const id = $("btn-fetch-item").dataset.id;
+  if (!id) return;
+  postJson(`/api/pro-dash/${encodeURIComponent(ACC)}/fetch?item_id=${encodeURIComponent(id)}`);
+});
+
+window.addEventListener("hashchange", () => {
+  if (location.hash.startsWith("#item-")) openItem(location.hash.slice(6));
+  else showList();
+});
+
+load().catch((err) => { $("meta").textContent = "Błąd: " + err.message; });
+</script>
+</body>
+</html>

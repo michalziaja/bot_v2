@@ -1,0 +1,503 @@
+{
+  "name": "01_profile",
+  "note_pl": "Profil własny po tap profile_tab",
+  "pkg": "com.instagram.androia",
+  "activity": "",
+  "nodes": [
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/pog_note_bubble_view",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[42,230][273,414]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Obsesja na punkcie...",
+      "desc": "",
+      "rid": "com.instagram.android:id/pog_bubble_text",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[63,262][252,372]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/row_profile_header_imageview_frame_layout",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[61,317][255,511]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Twój profil. Wyświetlona relacja.",
+      "rid": "com.instagram.android:id/row_profile_header_imageview",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[61,317][255,511]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Dodaj do relacji",
+      "rid": "com.instagram.android:id/reel_empty_badge",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[197,453][255,511]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "JobSaver.app",
+      "desc": "JobSaver.app",
+      "rid": "com.instagram.android:id/profile_header_full_name_above_vanity",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[315,292][626,340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "5posty",
+      "rid": "com.instagram.android:id/profile_header_post_count_front_familiar",
+      "click": true,
+      "cls": "",
+      "bounds": "[315,340][449,489]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "5",
+      "desc": "",
+      "rid": "com.instagram.android:id/profile_header_familiar_post_count_value",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[315,361][343,420]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "posty",
+      "desc": "",
+      "rid": "com.instagram.android:id/profile_header_familiar_post_count_label",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[315,420][416,468]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "922obserwatorzy",
+      "rid": "com.instagram.android:id/profile_header_followers_stacked_familiar",
+      "click": true,
+      "cls": "",
+      "bounds": "[449,340][745,489]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "922",
+      "desc": "",
+      "rid": "com.instagram.android:id/profile_header_familiar_followers_value",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[465,361][546,420]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "obserwatorzy",
+      "desc": "",
+      "rid": "com.instagram.android:id/profile_header_familiar_followers_label",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[465,420][712,468]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "0obserwowanie",
+      "rid": "com.instagram.android:id/profile_header_following_stacked_familiar",
+      "click": true,
+      "cls": "",
+      "bounds": "[745,340][1038,489]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "0",
+      "desc": "",
+      "rid": "com.instagram.android:id/profile_header_familiar_following_value",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[761,361][789,420]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "obserwowanie",
+      "desc": "",
+      "rid": "com.instagram.android:id/profile_header_familiar_following_label",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[761,420][1021,468]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Produkt/usługa",
+      "desc": "Produkt/usługa",
+      "rid": "com.instagram.android:id/profile_header_business_category",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,529][333,580]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Zmień sposób w jaki szukasz pracy. \nZapisuj -> Analizuj -> Dopasuj -> Aplikuj\nWszystko w jednym miejscu",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[42,580][1038,738]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "jobsaver.app",
+      "desc": "",
+      "rid": "com.instagram.android:id/text_view",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[95,749][336,800]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/igds_prism_chip_icon",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[63,837][95,869]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Dodaj banery",
+      "desc": "",
+      "rid": "com.instagram.android:id/igds_prism_chip_label",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[111,832][331,874]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Pulpit profesjonalny",
+      "desc": "Punkt wejściowy pulpitu profesjonalnego",
+      "rid": "",
+      "click": false,
+      "cls": "Button",
+      "bounds": "[69,944][447,995]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "2,0 tys. wyświetleń w ciągu ostatnich 30 dni.",
+      "desc": "2,0 tys. wyświetleń w ciągu ostatnich 30 dni.",
+      "rid": "",
+      "click": false,
+      "cls": "View",
+      "bounds": "[112,995][815,1038]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Edytuj profil",
+      "rid": "com.instagram.android:id/button_container",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[32,1088][532,1175]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Edytuj profil",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[167,1106][397,1157]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Udostępnij profil",
+      "rid": "com.instagram.android:id/button_container",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[548,1088][1048,1175]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "Udostępnij profil",
+      "desc": "",
+      "rid": "",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[641,1106][954,1157]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Widok siatki",
+      "rid": "com.instagram.android:id/profile_tab_icon_view",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[0,1175][360,1301]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Rolki",
+      "rid": "com.instagram.android:id/profile_tab_icon_view",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[360,1175][720,1301]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Zdjęcia, na których jesteś",
+      "rid": "com.instagram.android:id/profile_tab_icon_view",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[869,1207][932,1270]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "2 zdjęć JobSaver.app — wiersz 1, kolumna 1",
+      "rid": "com.instagram.android:id/image_button",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[0,1305][358,1782]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "2 zdjęć JobSaver.app — wiersz 1, kolumna 2",
+      "rid": "com.instagram.android:id/image_button",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[361,1305][719,1782]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Autor zdjęcia: JobSaver.app, wiersz: 1, kolumna: 3",
+      "rid": "com.instagram.android:id/image_button",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[722,1305][1080,1782]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Autor zdjęcia: JobSaver.app, wiersz: 2, kolumna: 1",
+      "rid": "com.instagram.android:id/image_button",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[0,1785][358,2225]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Autor zdjęcia: JobSaver.app, wiersz: 2, kolumna: 2",
+      "rid": "com.instagram.android:id/image_button",
+      "click": true,
+      "cls": "Button",
+      "bounds": "[361,1785][719,2225]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Utwórz nowe",
+      "rid": "",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[0,83][127,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "",
+      "rid": "com.instagram.android:id/action_bar_username_container",
+      "click": true,
+      "cls": "LinearLayout",
+      "bounds": "[169,83][805,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "jobsaver.app",
+      "desc": "jobsaver.app",
+      "rid": "com.instagram.android:id/action_bar_title",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[329,83][722,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wyświetl profil w aplikacji Threads",
+      "rid": "",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[805,83][932,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Opcje",
+      "rid": "",
+      "click": true,
+      "cls": "ImageView",
+      "bounds": "[932,83][1059,230]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Strona główna",
+      "rid": "com.instagram.android:id/feed_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[0,2225][216,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Rolki",
+      "rid": "com.instagram.android:id/clips_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[216,2225][432,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Wiadomość",
+      "rid": "com.instagram.android:id/direct_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[432,2225][648,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Szukaj i poznaj",
+      "rid": "com.instagram.android:id/search_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[648,2225][864,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "",
+      "desc": "Profil",
+      "rid": "com.instagram.android:id/profile_tab",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[864,2225][1080,2340]",
+      "pkg": "com.instagram.androia"
+    },
+    {
+      "text": "19:57",
+      "desc": "19:57",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[54,0][151,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Podróże Wojownika",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[159,0][206,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji Instagram: who.is.aleksandra",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[206,0][253,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Tajemity",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[253,0][300,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Powiadomienie z aplikacji YouTube: Kosmiczne Opowieści",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[300,0][347,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[724,23][764,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[767,23][808,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[811,23][858,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[858,23][897,60]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[905,0][1026,83]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[905,0][1000,83]",
+      "pkg": "com.android.systemui"
+    }
+  ]
+}

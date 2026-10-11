@@ -57,6 +57,18 @@ class NichePromptFieldsTests(unittest.TestCase):
         self.assertEqual(f["hashtagi"], NICHE["hashtags"])
         self.assertEqual(f["wykluczenia"], ["dzieci"])
 
+    def test_clips_keywords_and_hashtags_when_capped(self):
+        """Siatka nie wkleja całego ogona discovery (rolki zostają bez limitu)."""
+        n = {
+            "keywords": [f"k{i}" for i in range(20)],
+            "hashtags": [f"#h{i}" for i in range(20)],
+        }
+        f = niche_prompt_fields(n, max_keywords=3, max_hashtags=2)
+        self.assertEqual(f["slowa_kluczowe"], ["k0", "k1", "k2"])
+        self.assertEqual(f["hashtagi"], ["#h0", "#h1"])
+        full = niche_prompt_fields(n)
+        self.assertEqual(len(full["slowa_kluczowe"]), 20)
+
 
 class PromptFormatTests(unittest.TestCase):
     def test_reel_niche_user_contains_full_brief(self):
@@ -91,6 +103,22 @@ class PromptFormatTests(unittest.TestCase):
         self.assertIn("dzieci", text)
         self.assertIn("ślub", text)
 
+    def test_profile_grid_is_audience_fit_not_creator_niche(self):
+        """Siatka ocenia osobę (grupę docelową), nie czy publikuje o produkcie."""
+        prompt = _load_prompt("profile_grid")
+        system = prompt["system"]
+        user = prompt["user"]
+        self.assertIn("grupę docelową", system)
+        self.assertIn("NIE musi tworzyć", system)
+        self.assertIn("audience_fit", system)
+        self.assertIn("safe|skipped|excluded", system)
+        self.assertNotIn("category: niche", system)
+        self.assertIn("NIE oznacza audience_fit=off", user)
+        self.assertIn("niezależne od audience_fit", user)
+        self.assertIn("Nie dawaj skipped", user)
+        # Instrukcje w jednym bloku — bez rozdmuchiwania tokenów IN
+        self.assertLess(len(user), 1800)
+
     def test_yaml_placeholders_present(self):
         for name in ("reel_niche", "profile_grid"):
             data = yaml.safe_load(
@@ -112,6 +140,37 @@ class CatalogExclusionsFieldTests(unittest.TestCase):
         d = get_plugin("profile_interact")["defaults"]["grid_ai"]
         self.assertIn("exclusions", d)
         self.assertEqual(d["exclusions"], [])
+
+    def test_profile_interact_grid_ai_audience_defaults(self):
+        """Bramka: match+partial; min_niche_* tylko jako martwy fallback."""
+        d = get_plugin("profile_interact")["defaults"]["grid_ai"]
+        self.assertEqual(d["allow_verdict"], ["match", "partial"])
+        self.assertEqual(d["min_niche_tiles"], 0)
+        self.assertEqual(d["min_niche_ratio"], 0.0)
+
+    def test_profile_interact_grid_mode_label_is_audience(self):
+        """Id trybu zostaje niche_match, etykieta UI mówi o grupie docelowej."""
+        labels = []
+        descs = []
+        for sec in get_plugin("profile_interact")["sections"]:
+            for f in sec.get("fields") or []:
+                if f["key"][-1] == "mode" and "grid_ai" in f["key"]:
+                    labels.append((f.get("option_labels") or {}).get("niche_match"))
+                    descs.append(f.get("desc") or "")
+        self.assertTrue(any(x and "grupy docelowej" in x for x in labels))
+        self.assertTrue(any("nie musi tworzyć" in (x or "").lower() for x in descs))
+
+    def test_profile_interact_like_decision_desc_is_audience(self):
+        """Katalog: lajk bezpiecznych postów, nie „lajk niszowych”."""
+        descs = []
+        for sec in get_plugin("profile_interact")["sections"]:
+            for f in sec.get("fields") or []:
+                if f.get("type") == "like_decision":
+                    descs.append(f.get("desc") or "")
+        joined = " ".join(descs).lower()
+        self.assertIn("grupa docelowa", joined)
+        self.assertIn("bezpiecznych", joined)
+        self.assertNotIn("lajk niszowych", joined)
 
     def test_exclusion_field_labels_differ_by_kind(self):
         """Rolki vs profil — różne etykiety w panelu."""
@@ -148,15 +207,16 @@ class LooseFallbackPickTests(unittest.TestCase):
             tiles, {"mode": "niche_match", "strictness": "loose"})
         self.assertEqual(got, ["1", "3"])
 
-    def test_balanced_no_fallback_without_should_like(self):
+    def test_balanced_fallback_likes_non_excluded_when_no_should_like(self):
+        """Live: AI skipuje lifestyle jako „nie o niszy” — i tak lajkujemy."""
         tiles = self._tiles([
             ("neutral", False),
             ("excluded", False),
-            ("neutral", False),
+            ("skipped", False),
         ])
         got = _pick_like_candidates(
             tiles, {"mode": "niche_match", "strictness": "balanced"})
-        self.assertEqual(got, [])
+        self.assertEqual(got, ["1", "3"])
 
     def test_excluded_never_in_candidates(self):
         tiles = self._tiles([
@@ -178,6 +238,28 @@ class LooseFallbackPickTests(unittest.TestCase):
             tiles, {"mode": "niche_match", "strictness": "balanced",
                     "pick_strategy": "best"})
         self.assertEqual(got[0], "2")
+
+    def test_best_sort_puts_safe_first(self):
+        """Nowy kontrakt: safe jak dawniej niche — pierwsze w sort best."""
+        tiles = self._tiles([
+            ("skipped", True),
+            ("safe", True),
+            ("skipped", True),
+        ])
+        got = _pick_like_candidates(
+            tiles, {"mode": "niche_match", "strictness": "balanced",
+                    "pick_strategy": "best"})
+        self.assertEqual(got[0], "2")
+
+    def test_safe_should_like_picked_like_legacy_niche(self):
+        tiles = self._tiles([
+            ("safe", True),
+            ("excluded", True),
+            ("skipped", False),
+        ])
+        got = _pick_like_candidates(
+            tiles, {"mode": "niche_match", "strictness": "balanced"})
+        self.assertEqual(got, ["1"])
 
 
 if __name__ == "__main__":

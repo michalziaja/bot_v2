@@ -1,0 +1,219 @@
+{
+  "name": "02_system_unlock",
+  "note_pl": "Odblokowanie status=ok",
+  "pkg": "com.sec.android.app.launcher",
+  "identify_top": null,
+  "overlay": "system_ui",
+  "focused_package": "com.sec.android.app.launcher",
+  "focused_activity": "com.sec.android.app.launcher.activities.LauncherActivity",
+  "dominant_package": "com.android.systemui",
+  "clone_owns_focus": false,
+  "visible_texts": [
+    "Samsung Free",
+    "Strona 1 z 3, Strona domyślna",
+    "Strona 2 z 3",
+    "Strona 3 z 3, Bieżąca strona jest ostatnia.",
+    "Telefon",
+    "Wiadomości",
+    "Aparat",
+    "14:57",
+    "Tryb oszczędzania energii włączony",
+    "Dzwonek z wibracjami.",
+    "Wi-Fi: pełna moc sygnału.",
+    "Telefon: pełna moc sygnału.",
+    "Ładuję baterię, 100 procent.",
+    "100%"
+  ],
+  "resource_ids": [
+    "com.android.systemui:id/rounded_corners_top",
+    "com.android.systemui:id/left",
+    "com.android.systemui:id/display_cutout",
+    "com.android.systemui:id/right",
+    "android:id/content",
+    "com.sec.android.app.launcher:id/launcher",
+    "com.sec.android.app.launcher:id/scrim_view",
+    "com.sec.android.app.launcher:id/drag_layer",
+    "com.sec.android.app.launcher:id/workspace",
+    "com.sec.android.app.launcher:id/page_indicator",
+    "com.sec.android.app.launcher:id/inactive",
+    "com.sec.android.app.launcher:id/active",
+    "com.sec.android.app.launcher:id/hotseat",
+    "com.sec.android.app.launcher:id/hotseat_icon",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/phone_status_bar_background",
+    "com.android.systemui:id/status_bar_area",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_left_side_container",
+    "com.android.systemui:id/status_bar_left_side",
+    "com.android.systemui:id/left_clock_container",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/notification_icon_area_inner",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/divided_status_icon_area",
+    "com.android.systemui:id/system_icon_area",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_iconset",
+    "com.android.systemui:id/wifi_signal",
+    "com.android.systemui:id/wifi_activity",
+    "com.android.systemui:id/mobile_combo",
+    "com.android.systemui:id/mobile_group",
+    "com.android.systemui:id/signal_combo",
+    "com.android.systemui:id/mobile_signal",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_percentage_view"
+  ],
+  "nodes": [
+    {
+      "text": "",
+      "desc": "Samsung Free",
+      "rid": "",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[432,1961][486,2011]",
+      "pkg": "com.sec.android.app.launcher"
+    },
+    {
+      "text": "",
+      "desc": "Strona 1 z 3, Strona domyślna",
+      "rid": "",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[486,1961][540,2011]",
+      "pkg": "com.sec.android.app.launcher"
+    },
+    {
+      "text": "",
+      "desc": "Strona 2 z 3",
+      "rid": "",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[540,1961][594,2011]",
+      "pkg": "com.sec.android.app.launcher"
+    },
+    {
+      "text": "",
+      "desc": "Strona 3 z 3, Bieżąca strona jest ostatnia.",
+      "rid": "",
+      "click": true,
+      "cls": "FrameLayout",
+      "bounds": "[594,1961][648,2011]",
+      "pkg": "com.sec.android.app.launcher"
+    },
+    {
+      "text": "Telefon",
+      "desc": "Telefon",
+      "rid": "com.sec.android.app.launcher:id/hotseat_icon",
+      "click": true,
+      "cls": "TextView",
+      "bounds": "[38,2020][368,2274]",
+      "pkg": "com.sec.android.app.launcher"
+    },
+    {
+      "text": "Wiadomości",
+      "desc": "Wiadomości",
+      "rid": "com.sec.android.app.launcher:id/hotseat_icon",
+      "click": true,
+      "cls": "TextView",
+      "bounds": "[374,2020][704,2274]",
+      "pkg": "com.sec.android.app.launcher"
+    },
+    {
+      "text": "Aparat",
+      "desc": "Aparat",
+      "rid": "com.sec.android.app.launcher:id/hotseat_icon",
+      "click": true,
+      "cls": "TextView",
+      "bounds": "[710,2020][1040,2274]",
+      "pkg": "com.sec.android.app.launcher"
+    },
+    {
+      "text": "14:57",
+      "desc": "14:57",
+      "rid": "com.android.systemui:id/clock",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[59,0][156,82]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Tryb oszczędzania energii włączony",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[719,22][759,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Dzwonek z wibracjami.",
+      "rid": "",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[762,22][803,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Wi-Fi: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/wifi_combo",
+      "click": false,
+      "cls": "FrameLayout",
+      "bounds": "[806,22][853,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Telefon: pełna moc sygnału.",
+      "rid": "com.android.systemui:id/mobile_signal",
+      "click": false,
+      "cls": "ImageView",
+      "bounds": "[853,22][892,59]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "",
+      "desc": "Ładuję baterię, 100 procent.",
+      "rid": "com.android.systemui:id/battery",
+      "click": false,
+      "cls": "LinearLayout",
+      "bounds": "[900,0][1021,82]",
+      "pkg": "com.android.systemui"
+    },
+    {
+      "text": "100%",
+      "desc": "",
+      "rid": "com.android.systemui:id/battery_percentage_view",
+      "click": false,
+      "cls": "TextView",
+      "bounds": "[900,0][995,82]",
+      "pkg": "com.android.systemui"
+    }
+  ],
+  "special": {
+    "verification_code": false,
+    "captcha": false,
+    "suspicious_login": false,
+    "splash_crash_hint": false
+  },
+  "fatal_logcat": "",
+  "screenshot": "02_system_unlock.jpg",
+  "screenshot_bytes": 501029,
+  "hierarchy_error": "",
+  "extra": {
+    "want_fatal": false,
+    "step_status": "ok",
+    "step_payload": {
+      "was_locked": true,
+      "action": "swipe_up"
+    },
+    "step_error": null,
+    "login_log": []
+  },
+  "ts": "2026-09-06T14:57:58"
+}

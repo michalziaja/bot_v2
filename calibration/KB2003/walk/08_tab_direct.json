@@ -1,0 +1,404 @@
+{
+  "slug": "08_tab_direct",
+  "note_pl": "po tap direct_tab",
+  "at": "2026-09-09T20:49:24Z",
+  "identify": {
+    "pkg": "com.instagram.androif",
+    "overlay": null,
+    "top": "direct_inbox",
+    "hits": 3,
+    "ambiguous": false,
+    "unknown": false
+  },
+  "pkg": "com.instagram.androif",
+  "slim": [
+    {
+      "rid": "igds_action_bar_title",
+      "lab": "karomazur4",
+      "cls": "Button",
+      "bounds": "[301,147][778,226]"
+    },
+    {
+      "rid": "",
+      "lab": "Nowa wiadomość",
+      "cls": "ImageView",
+      "bounds": "[960,103][1056,271]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[48,307][1032,451]"
+    },
+    {
+      "rid": "",
+      "lab": "Szukaj",
+      "cls": "View",
+      "bounds": "[96,355][144,403]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "Wyszukaj lub zapytaj Meta AI",
+      "cls": "TextView",
+      "bounds": "[192,350][1032,408]"
+    },
+    {
+      "rid": "pog_root_view",
+      "lab": "Dodaj notatkę",
+      "cls": "Button",
+      "bounds": "[36,487][330,919]"
+    },
+    {
+      "rid": "pog_note_bubble_view",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[36,493][330,677]"
+    },
+    {
+      "rid": "pog_bubble_text",
+      "lab": "Dzisiejszy nastrój...",
+      "cls": "TextView",
+      "bounds": "[60,553][306,629]"
+    },
+    {
+      "rid": "avatar",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[75,607][291,823]"
+    },
+    {
+      "rid": "",
+      "lab": "Zdjęcie profilowe",
+      "cls": "FrameLayout",
+      "bounds": "[75,607][291,823]"
+    },
+    {
+      "rid": "pog_name",
+      "lab": "Twoja notatka",
+      "cls": "TextView",
+      "bounds": "[36,841][330,884]"
+    },
+    {
+      "rid": "location_text",
+      "lab": "Lokalizacja wyłączona",
+      "cls": "Button",
+      "bounds": "[36,884][330,919]"
+    },
+    {
+      "rid": "map_pog_container",
+      "lab": "",
+      "cls": "ViewGroup",
+      "bounds": "[330,487][624,919]"
+    },
+    {
+      "rid": "map_pog_label",
+      "lab": "Mapa",
+      "cls": "TextView",
+      "bounds": "[330,841][624,884]"
+    },
+    {
+      "rid": "",
+      "lab": "Wiadomości",
+      "cls": "TextView",
+      "bounds": "[48,956][287,1014]"
+    },
+    {
+      "rid": "",
+      "lab": "Ustawienia powiadomień",
+      "cls": "ImageView",
+      "bounds": "[287,937][431,1033]"
+    },
+    {
+      "rid": "",
+      "lab": "Prośby",
+      "cls": "TextView",
+      "bounds": "[872,937][1032,1033]"
+    },
+    {
+      "rid": "",
+      "lab": "Nie ma jeszcze wiadomości",
+      "cls": "TextView",
+      "bounds": "[115,1129][966,1208]"
+    },
+    {
+      "rid": "",
+      "lab": "Włącz powiadomienia, aby nie przeoczyć nowych wiadomości.",
+      "cls": "TextView",
+      "bounds": "[96,1232][984,1336]"
+    },
+    {
+      "rid": "igds_button",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[320,1349][760,1493]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "Włącz powiadomienia",
+      "cls": "TextView",
+      "bounds": "[320,1396][760,1446]"
+    },
+    {
+      "rid": "",
+      "lab": "Konta do obserwowania",
+      "cls": "TextView",
+      "bounds": "[48,1608][565,1666]"
+    },
+    {
+      "rid": "",
+      "lab": "Wyświetl wszystkich",
+      "cls": "TextView",
+      "bounds": "[613,1565][1032,1709]"
+    },
+    {
+      "rid": "igds_people_cell",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[0,1714][984,1930]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "wszechobecne_fakty",
+      "cls": "TextView",
+      "bounds": "[282,1766][606,1816]"
+    },
+    {
+      "rid": "",
+      "lab": "Zweryfikowano",
+      "cls": "View",
+      "bounds": "[612,1770][654,1812]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "fakty, ciekawostki, informacje",
+      "cls": "TextView",
+      "bounds": "[282,1828][654,1878]"
+    },
+    {
+      "rid": "igds_button",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[690,1750][954,1894]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "Obserwuj",
+      "cls": "TextView",
+      "bounds": "[739,1797][930,1847]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[954,1750][1080,1894]"
+    },
+    {
+      "rid": "igds_people_cell",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[0,1930][984,2146]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "deynn",
+      "cls": "TextView",
+      "bounds": "[282,1982][406,2032]"
+    },
+    {
+      "rid": "",
+      "lab": "Zweryfikowano",
+      "cls": "View",
+      "bounds": "[412,1986][454,2028]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "Marita Sürma Majewska",
+      "cls": "TextView",
+      "bounds": "[282,2044][654,2094]"
+    },
+    {
+      "rid": "igds_button",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[690,1966][954,2110]"
+    },
+    {
+      "rid": "ig_text",
+      "lab": "Obserwuj",
+      "cls": "TextView",
+      "bounds": "[739,2013][930,2063]"
+    },
+    {
+      "rid": "",
+      "lab": "",
+      "cls": "View",
+      "bounds": "[954,1966][1080,2110]"
+    },
+    {
+      "rid": "direct_quick_snap_consumption_preview",
+      "lab": "",
+      "cls": "FrameLayout",
+      "bounds": "[896,1644][1080,2124]"
+    },
+    {
+      "rid": "",
+      "lab": "Instagram profile picture",
+      "cls": "ImageView",
+      "bounds": "[990,1767][1057,1857]"
+    },
+    {
+      "rid": "feed_tab",
+      "lab": "Strona główna",
+      "cls": "FrameLayout",
+      "bounds": "[0,2124][216,2268]"
+    },
+    {
+      "rid": "clips_tab",
+      "lab": "Rolki",
+      "cls": "FrameLayout",
+      "bounds": "[216,2124][432,2268]"
+    },
+    {
+      "rid": "direct_tab",
+      "lab": "Wiadomość",
+      "cls": "FrameLayout",
+      "bounds": "[432,2124][648,2268]"
+    },
+    {
+      "rid": "search_tab",
+      "lab": "Szukaj i poznaj",
+      "cls": "FrameLayout",
+      "bounds": "[648,2124][864,2268]"
+    },
+    {
+      "rid": "profile_tab",
+      "lab": "Profil",
+      "cls": "FrameLayout",
+      "bounds": "[864,2124][1080,2268]"
+    },
+    {
+      "rid": "clock",
+      "lab": "22:49 22:49",
+      "cls": "TextView",
+      "bounds": "[183,34][297,103]"
+    },
+    {
+      "rid": "wifi_combo",
+      "lab": "Wi-Fi: pełna moc sygnału.",
+      "cls": "FrameLayout",
+      "bounds": "[800,35][857,101]"
+    },
+    {
+      "rid": "battery",
+      "lab": "Bateria Rzecz na pasku stanu Ładowanie, Pozostało 77 procent energii baterii",
+      "cls": "LinearLayout",
+      "bounds": "[911,34][1007,103]"
+    },
+    {
+      "rid": "battery_percentage_view",
+      "lab": "77%",
+      "cls": "TextView",
+      "bounds": "[935,34][1007,103]"
+    },
+    {
+      "rid": "recent_apps",
+      "lab": "Przegląd",
+      "cls": "ImageView",
+      "bounds": "[160,2268][400,2400]"
+    },
+    {
+      "rid": "back",
+      "lab": "Wróć",
+      "cls": "ImageView",
+      "bounds": "[694,2268][934,2400]"
+    },
+    {
+      "rid": "home",
+      "lab": "Ekran główny",
+      "cls": "ImageView",
+      "bounds": "[428,2268][668,2400]"
+    }
+  ],
+  "ids_sample": [
+    "android:id/content",
+    "com.android.systemui:id/back",
+    "com.android.systemui:id/battery",
+    "com.android.systemui:id/battery_icon_view",
+    "com.android.systemui:id/battery_percentage_view",
+    "com.android.systemui:id/center_group",
+    "com.android.systemui:id/clock",
+    "com.android.systemui:id/dynamic_icon_group",
+    "com.android.systemui:id/ends_group",
+    "com.android.systemui:id/home",
+    "com.android.systemui:id/horizontal",
+    "com.android.systemui:id/nav_buttons",
+    "com.android.systemui:id/navigation_bar_frame",
+    "com.android.systemui:id/navigation_bar_view",
+    "com.android.systemui:id/navigation_inflater",
+    "com.android.systemui:id/notificationIcons",
+    "com.android.systemui:id/notification_icon_area",
+    "com.android.systemui:id/recent_apps",
+    "com.android.systemui:id/seeding_card_container",
+    "com.android.systemui:id/seedling_and_notification_container",
+    "com.android.systemui:id/statusIcons",
+    "com.android.systemui:id/status_bar",
+    "com.android.systemui:id/status_bar_container",
+    "com.android.systemui:id/status_bar_contents",
+    "com.android.systemui:id/status_bar_end_side_container",
+    "com.android.systemui:id/status_bar_end_side_content",
+    "com.android.systemui:id/status_bar_launch_animation_container",
+    "com.android.systemui:id/status_bar_start_side_container",
+    "com.android.systemui:id/status_bar_start_side_content",
+    "com.android.systemui:id/status_bar_start_side_except_heads_up",
+    "com.android.systemui:id/system_icons",
+    "com.android.systemui:id/wifi_combo",
+    "com.android.systemui:id/wifi_group",
+    "com.android.systemui:id/wifi_inout",
+    "com.android.systemui:id/wifi_signal",
+    "com.instagram.android:id/action_bar_end_action_buttons",
+    "com.instagram.android:id/action_bar_root",
+    "com.instagram.android:id/action_bar_title_notifications_container",
+    "com.instagram.android:id/action_bar_title_subtitle_container",
+    "com.instagram.android:id/activity_and_camera_shared_views_main_container"
+  ],
+  "texts_sample": [
+    "22:49",
+    "77%",
+    "bateria rzecz na pasku stanu ładowanie, pozostało 77 procent energii baterii",
+    "deynn",
+    "dodaj notatkę",
+    "dzisiejszy nastrój...",
+    "ekran główny",
+    "fakty, ciekawostki, informacje",
+    "instagram profile picture",
+    "karomazur4",
+    "konta do obserwowania",
+    "lokalizacja wyłączona",
+    "mapa",
+    "marita sürma majewska",
+    "nie ma jeszcze wiadomości",
+    "nowa wiadomość",
+    "obserwuj",
+    "profil",
+    "prośby",
+    "przegląd",
+    "rolki",
+    "strona główna",
+    "szukaj",
+    "szukaj i poznaj",
+    "twoja notatka",
+    "ustawienia powiadomień",
+    "wi-fi: pełna moc sygnału.",
+    "wiadomości",
+    "wiadomość",
+    "wróć",
+    "wszechobecne_fakty",
+    "wyszukaj lub zapytaj meta ai",
+    "wyświetl wszystkich",
+    "włącz powiadomienia",
+    "włącz powiadomienia, aby nie przeoczyć nowych wiadomości.",
+    "zdjęcie profilowe",
+    "zweryfikowano"
+  ],
+  "screenshot": "08_tab_direct.jpg"
+}

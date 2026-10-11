@@ -57,6 +57,30 @@ class CredentialsTests(unittest.TestCase):
         self.assertTrue(masked.startswith("ja"))
         self.assertNotIn("kowalski", masked)
 
+    def test_signup_roundtrip_and_preserve(self):
+        # Komentarz: signup zostaje przy zwykłym zapisie loginu
+        credentials.set("acc_s", "nowy_user", "haslo1", signup={
+            "full_name": "Anna Nowak",
+            "birthday": "1998-04-12",
+            "contact": "anna@example.com",
+        })
+        su = credentials.get_signup("acc_s")
+        self.assertEqual(su["full_name"], "Anna Nowak")
+        self.assertEqual(su["contact"], "anna@example.com")
+        st = credentials.status("acc_s")
+        self.assertTrue(st["signup_configured"])
+        self.assertNotIn("anna@example.com", st["signup"]["contact_masked"])
+        credentials.set("acc_s", "nowy_user", "haslo2")
+        su2 = credentials.get_signup("acc_s")
+        self.assertEqual(su2["full_name"], "Anna Nowak")
+        self.assertEqual(su2["ig_password"], "haslo2")
+
+    def test_incomplete_signup_is_none(self):
+        credentials.set("acc_s", "u", "p", signup={"full_name": "X"})
+        self.assertIsNone(credentials.get_signup("acc_s"))
+        self.assertTrue(credentials.status("acc_s")["configured"])
+        self.assertFalse(credentials.status("acc_s")["signup_configured"])
+
 
 if __name__ == "__main__":
     unittest.main()

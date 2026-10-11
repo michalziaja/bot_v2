@@ -73,7 +73,7 @@ class AnalyzeFramesAi:
         frame_list = [composite] if composite else []
         podpis = caption if caption else "(brak — nie udało się odczytać)"
 
-        vision = AiVision(account=ctx.account.raw)
+        vision = AiVision(account=ctx.account.raw, ctx=ctx)
         result = vision.run("reel_niche", inputs={
             **niche_fields,
             "autor":        reel.get("author") or "",

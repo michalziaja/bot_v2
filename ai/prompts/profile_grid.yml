@@ -1,73 +1,41 @@
 mode: profile_grid
 model_default: claude-haiku-4-5-20251001
-max_tokens: 800
+max_tokens: 600
 
-# {opis}             — niche.description
-# {audiencja}        — niche.audience
-# {slowa_kluczowe}   — niche.keywords
-# {hashtagi}         — niche.hashtags (słabszy sygnał — na miniaturze ich nie widać)
-# {wykluczenia}      — efektywne wykluczenia POSTÓW (grid_ai.exclusions; fallback ręczne niche)
-# {username}, {bio}  — z nagłówka odwiedzanego profilu
-# {liczba_kafelkow}  — ile kafelków faktycznie ponumerowaliśmy na obrazie
+# Krótki brief: reguły raz, bez powtórzeń. Listy keywords/hashtags tnie visit
+# (na miniaturze # i tak nie widać). {opis} {audiencja} {slowa_kluczowe}
+# {hashtagi} {wykluczenia} {username} {bio} {liczba_kafelkow} {strictness_hint}
 system: |
-  Jesteś asystentem analizującym siatkę postów na profilu Instagram pod kątem
-  dopasowania do niszy konta.
-  Numery kafelków są NARYSOWANE na obrazie — używaj wyłącznie ich, nigdy własnej
-  numeracji ani kafelków bez numeru.
-  Odpowiadaj TYLKO poprawnym JSON, bez komentarza przed ani po:
-  {"tiles": {"1": {"category": "niche|neutral|excluded", "should_like": bool, "reason": "..."}, "2": {...}, ...}}
+  Dwa niezależne pytania (wolno audience_fit=off i jednocześnie kafelki safe):
+  1) Czy OSOBA wygląda na grupę docelową.
+  2) Które zdjęcia wolno polubić jako zwykły like (nie: czy post jest o niszy).
+  Siatka = lifestyle, nie portfolio. Osoba NIE musi tworzyć w niszy.
+  Numery kafelków są narysowane — używaj wyłącznie ich.
+  Tylko JSON, bez komentarza:
+  {"audience_fit":"match|partial|off","audience_reason":"...","tiles":{"1":{"category":"safe|skipped|excluded","should_like":bool,"reason":"..."},"2":{...}}}
 
 user: |
-  ## Nisza konta
-  Opis: {opis}
-
-  Audiencja (dla kogo treść ma być angażująca):
+  Audiencja (główne kryterium profilu):
   {audiencja}
 
-  Słowa kluczowe (tematyka, bez #):
-  {slowa_kluczowe}
+  Nisza (kontekst, NIE wymóg publikacji): {opis}
+  Słowa kluczowe: {slowa_kluczowe}
+  Hashtagi (słaby sygnał, na miniaturze zwykle brak): {hashtagi}
+  Brak postów o produkcie / hashtagach niszy NIE oznacza audience_fit=off.
 
-  Hashtagi niszy (z #) — na miniaturze zwykle niewidoczne; bio może je wzmocnić:
-  {hashtagi}
-
-  ## Wykluczenia postów (jakikolwiek widoczny element z tej listy na kafelku
-  = category "excluded"; dotyczy TYLKO tego kafelka, nie całego profilu)
+  Wykluczenia kafelka (1 element → excluded; nie zmienia audience_fit):
   {wykluczenia}
 
-  ## Odwiedzany profil
   Nick: {username}
   Bio: {bio}
 
-  ## Obraz
-  Obraz to SIATKA POSTÓW z profilu, przycięta do samych kafelków. Każdy kafelek
-  ma czerwoną ramkę i żółty numer w lewym górnym rogu. Ponumerowanych kafelków
-  jest {liczba_kafelkow} — oceń dokładnie te i tylko te, klucze w JSON to ich
-  numery jako tekst ("1", "2", ...).
+  Obraz: przycięta siatka, czerwona ramka + żółty numer. Oceń {liczba_kafelkow} kafelków (klucze "1"…"N").
 
   {strictness_hint}
 
-  ## Zasady oceny
-  - Kafelek to miniatura: oceniaj TEMAT, nie jakość zdjęcia ani estetykę.
-  - Bio profilu + audience/keywords = kontekst całości, ale kategorię ustalaj
-    po treści konkretnego kafelka.
-  - Kafelek nieczytelny albo niejednoznaczny to "neutral" ze `should_like: false`,
-    nigdy "niche" na wyrost (chyba że luźny rygor poniżej).
-  - Wystarczy JEDEN element z wykluczeń widoczny na kafelku, żeby dać "excluded".
-  - "excluded" → zawsze `should_like: false`.
+  audience_fit: match = sygnał grupy w bio/siatce (bez kafelka-reklamy niszy); partial = niejasne, nie obca grupa; off = inna grupa albo siatka pełna wykluczeń bez sygnału. Sam brak treści produktowej ≠ off.
 
-  ## should_like a rygor (strictness)
-  - Preferuj kafelki "niche" z `should_like: true`.
-  - Przy LUŹNYM rygorze: gdy brak / mało mocnych "niche", dla "neutral"
-    niewykluczonych ustaw `should_like: true` (bezpieczny like spoza twardej niszy).
-  - Przy zrównoważonym / ścisłym: `should_like: true` głównie dla "niche";
-    neutral bez like na wyrost.
-
-  ## Dla każdego ponumerowanego kafelka
-    - category:
-        * niche    — treść pasuje do niszy (opis / keywords)
-        * neutral  — treść niewykluczona, niekoniecznie w niszy
-        * excluded — treść pasuje do wykluczeń postów — NIGDY nie polub
-    - should_like: zgodnie z regułami rygoru powyżej
-    - reason: 1 krótkie zdanie
-
-  Zwróć JSON zgodnie z formatem z system.
+  Kafelki niezależne od audience_fit. Nie dawaj skipped / should_like=false za „nie o niszy”.
+  safe + should_like: portret, selfie, znajomi, podróż, jedzenie, hobby, sport, praca, zwierzę, krajobraz, event.
+  skipped: tylko nieczytelny, pusty albo spam. excluded: motyw z listy → should_like=false.
+  Domyślnie każde safe → should_like=true. reason: max 8 słów.

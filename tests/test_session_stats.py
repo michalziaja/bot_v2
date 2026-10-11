@@ -33,6 +33,9 @@ class SessionStatsTests(unittest.TestCase):
         self.assertIn("updated_at", data)
         self.assertEqual(data["counters"], {})
         self.assertEqual(data["by_plugin"], {})
+        self.assertIn("ai", data)
+        self.assertEqual(data["ai"]["tokens_in"], 0)
+        self.assertEqual(data["ai"]["cost_usd"], 0.0)
 
     def test_set_task_and_counters_by_plugin(self):
         """set_counters sumuje lokalne stats zadania do sesji + by_plugin."""
@@ -126,6 +129,44 @@ class SessionStatsTests(unittest.TestCase):
         snap = json.loads(path.read_text(encoding="utf-8"))
         self.assertIn("wall_s", snap["timing"])
         self.assertEqual(snap["timing"]["rates"]["likes"], 2)
+
+    def test_add_ai_usage_per_model_and_cost(self):
+        """Tokeny IN/OUT per model + koszt Haiku 4.5 (1/5 USD za 1M)."""
+        self.ss.begin(session_id="ai-1")
+        self.ss.add_ai_usage({
+            "_usage": {
+                "model": "claude-haiku-4-5-20251001",
+                "mode": "profile_grid",
+                "tokens_in": 1_000_000,
+                "tokens_out": 200_000,
+            },
+        }, mode="profile_grid")
+        self.ss.add_ai_usage({
+            "_usage": {
+                "model": "claude-sonnet-4-20250514",
+                "mode": "comment_gen",
+                "tokens_in": 100_000,
+                "tokens_out": 10_000,
+            },
+        }, mode="comment_gen")
+        ai = self.ss.as_dict()["ai"]
+        self.assertEqual(ai["tokens_in"], 1_100_000)
+        self.assertEqual(ai["tokens_out"], 210_000)
+        self.assertEqual(ai["calls"], 2)
+        haiku = ai["by_model"]["claude-haiku-4-5-20251001"]
+        self.assertEqual(haiku["tokens_in"], 1_000_000)
+        self.assertEqual(haiku["tokens_out"], 200_000)
+        self.assertEqual(haiku["calls"], 1)
+        # 1M in × $1 + 0.2M out × $5 = $2.00
+        self.assertAlmostEqual(haiku["cost_usd"], 2.0, places=5)
+        sonnet = ai["by_model"]["claude-sonnet-4-20250514"]
+        # 0.1M in × $3 + 0.01M out × $15 = $0.45
+        self.assertAlmostEqual(sonnet["cost_usd"], 0.45, places=5)
+        self.assertAlmostEqual(ai["cost_usd"], 2.45, places=5)
+        self.assertFalse(ai["cost_unknown"])
+        path = self.ss.snapshot_end(summary={"ok": True})
+        snap = json.loads(path.read_text(encoding="utf-8"))
+        self.assertAlmostEqual(snap["ai"]["cost_usd"], 2.45, places=5)
 
 
 class PaceEtaTests(unittest.TestCase):

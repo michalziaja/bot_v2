@@ -1,0 +1,240 @@
+{
+  "version": 3,
+  "date": "2026-09-01",
+  "device": "phone_A",
+  "cycle_index": 0,
+  "active_hours": [
+    8,
+    20
+  ],
+  "materialized_at": "2026-09-01T21:02:22",
+  "blocks": [
+    {
+      "id": "b8e6547",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "08:37",
+      "duration_s": 2739,
+      "gap_s": 650,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2220,
+          "gaps_s": 150,
+          "overhead_s": 120,
+          "buffer_s": 249
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "done",
+      "started_at": "2026-09-01T08:37:39",
+      "ended_at": "2026-09-01T09:23:40"
+    },
+    {
+      "id": "b1844c6",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "10:00",
+      "duration_s": 2739,
+      "gap_s": 342,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2220,
+          "gaps_s": 150,
+          "overhead_s": 120,
+          "buffer_s": 249
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "done",
+      "started_at": "2026-09-01T10:00:40",
+      "ended_at": "2026-09-01T10:46:41"
+    },
+    {
+      "id": "bd12229",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "10:30",
+      "duration_s": 8976,
+      "gap_s": 1031,
+      "est": {
+        "breakdown": {
+          "tasks_s": 7440,
+          "gaps_s": 600,
+          "overhead_s": 120,
+          "buffer_s": 816
+        },
+        "task_count": 5,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "planned",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b5b4c7a",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "11:44",
+      "duration_s": 2739,
+      "gap_s": 1155,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2220,
+          "gaps_s": 150,
+          "overhead_s": 120,
+          "buffer_s": 249
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "done",
+      "started_at": "2026-09-01T11:44:41",
+      "ended_at": "2026-09-01T12:30:58"
+    },
+    {
+      "id": "bad479b",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "13:31",
+      "duration_s": 8976,
+      "gap_s": 877,
+      "est": {
+        "breakdown": {
+          "tasks_s": 7440,
+          "gaps_s": 600,
+          "overhead_s": 120,
+          "buffer_s": 816
+        },
+        "task_count": 5,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "planned",
+      "started_at": null,
+      "ended_at": null
+    },
+    {
+      "id": "b278124",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "13:44",
+      "duration_s": 2739,
+      "gap_s": 841,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2220,
+          "gaps_s": 150,
+          "overhead_s": 120,
+          "buffer_s": 249
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "done",
+      "started_at": "2026-09-01T13:44:58",
+      "ended_at": "2026-09-01T14:30:21"
+    },
+    {
+      "id": "b451459",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "15:16",
+      "duration_s": 2739,
+      "gap_s": 952,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2220,
+          "gaps_s": 150,
+          "overhead_s": 120,
+          "buffer_s": 249
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "done",
+      "started_at": "2026-09-01T15:16:21",
+      "ended_at": "2026-09-01T16:28:47"
+    },
+    {
+      "id": "be65d72",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "16:53",
+      "duration_s": 2739,
+      "gap_s": 478,
+      "est": {
+        "breakdown": {
+          "tasks_s": 2220,
+          "gaps_s": 150,
+          "overhead_s": 120,
+          "buffer_s": 249
+        },
+        "task_count": 2,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "done",
+      "started_at": "2026-09-01T16:53:47",
+      "ended_at": "2026-09-01T17:39:48"
+    },
+    {
+      "id": "b886708",
+      "account": "jobsaver",
+      "scenario": "default",
+      "start": "17:25",
+      "duration_s": 8976,
+      "gap_s": 349,
+      "est": {
+        "breakdown": {
+          "tasks_s": 7440,
+          "gaps_s": 600,
+          "overhead_s": 120,
+          "buffer_s": 816
+        },
+        "task_count": 5,
+        "warnings": []
+      },
+      "queue_override": null,
+      "locked": false,
+      "status": "planned",
+      "started_at": null,
+      "ended_at": null
+    }
+  ],
+  "dropped": [
+    {
+      "account": "jobsaver",
+      "scenario": "default",
+      "duration_s": 8976,
+      "reason": "nie mieści się w godzinach działania bez kolizji z inną sesją"
+    },
+    {
+      "account": "jobsaver",
+      "scenario": "default",
+      "duration_s": 8976,
+      "reason": "nie mieści się w godzinach działania bez kolizji z inną sesją"
+    },
+    {
+      "account": "jobsaver",
+      "scenario": "default",
+      "duration_s": 8976,
+      "reason": "nie mieści się w godzinach działania bez kolizji z inną sesją"
+    }
+  ]
+}

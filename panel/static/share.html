@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bot v2 — widok właściciela</title>
+<link rel="stylesheet" href="/static/app.css" />
+</head>
+<!-- Readonly: ten sam tydzień/KPI co operator, bez sterowania i bez haseł. -->
+<body class="readonly">
+<header class="top">
+  <div class="brand">
+    <strong>Bot v2</strong>
+    <span class="brand-sub">widok właściciela · tylko odczyt</span>
+  </div>
+  <nav class="nav" id="share-nav" aria-label="Widok właściciela">
+    <a href="/share/schedule" data-view="schedule">Harmonogram</a>
+    <a href="/share/stats" data-view="stats">Statystyki</a>
+  </nav>
+</header>
+
+<main class="main">
+  <section class="view" id="view-schedule" data-view="schedule" hidden>
+    <div class="view-head">
+      <h1>Harmonogram</h1>
+      <p class="lede">Tydzień / cykl urządzenia — bloki konto × run × czas. Bez edycji.</p>
+    </div>
+    <p class="share-note">To podgląd planu, nie panel sterowania.</p>
+    <div class="toolbar">
+      <label>Urządzenie
+        <select id="sh-device"></select>
+      </label>
+    </div>
+    <div id="sh-tl-banner" class="banner" hidden></div>
+    <div id="sh-week" class="tl-week"></div>
+  </section>
+
+  <section class="view" id="view-stats" data-view="stats" hidden>
+    <div class="view-head">
+      <h1>Statystyki</h1>
+      <p class="lede">KPI z ostatnich 24 h — te same liczniki co w panelu operatora.</p>
+    </div>
+    <p class="share-note">Bez wykresów operatorskich i bez sterowania sesją.</p>
+    <div class="toolbar">
+      <label>Konto
+        <select id="sh-account"></select>
+      </label>
+    </div>
+    <div id="sh-st-banner" class="banner" hidden></div>
+    <div id="sh-kpi" class="kpi-grid"></div>
+  </section>
+</main>
+
+<script src="/static/share.js" defer></script>
+</body>
+</html>

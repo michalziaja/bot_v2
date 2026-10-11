@@ -14,9 +14,19 @@ from v2.data.stores import (
     RawProfilesStore,
     TargetCandidatesStore,
 )
-from v2.profile_filter.core import FilterCriteria, InstagramScraper
+from v2.profile_filter.core import (
+    BETWEEN_USERS_SLEEP_S,
+    FilterCriteria,
+    InstagramScraper,
+    PROXY1_CHECK_LIMIT,
+    REQUEST_SLEEP_S,
+    REQUEST_TIMEOUT_S,
+    RETRY_BACKOFF_BASE_S,
+    RETRY_BACKOFF_MAX_S,
+)
 
 # Domyślna sekcja account.json — panel / CLI / tick
+# limit_per_run = „Ilość oczekiwanych targetów” z proxy1.py (max zapisanych)
 DEFAULT_PROFILE_FILTER = {
     "enabled": False,
     "times": ["10:30", "18:00"],
@@ -27,6 +37,12 @@ DEFAULT_PROFILE_FILTER = {
     "reject_arabic_bio": True,
     "require_public": True,
     "min_posts": 1,
+    # 0 = jak proxy1 (brak pauzy między nickami)
+    "sleep_between_s": BETWEEN_USERS_SLEEP_S,
+    "sleep_request_s": REQUEST_SLEEP_S,
+    "retry_backoff_base_s": RETRY_BACKOFF_BASE_S,
+    "retry_backoff_max_s": RETRY_BACKOFF_MAX_S,
+    "request_timeout_s": REQUEST_TIMEOUT_S,
 }
 
 
@@ -45,25 +61,28 @@ def load_account_filter_cfg(account_id: str, config_root: Path) -> dict:
 
 def pending_usernames(account_id: str, data_root: Path,
                       limit: int) -> list[dict]:
-    """Username'y z raw jeszcze nie rozstrzygnięte w filter state.
+    """Pending jak all2.txt w proxy1: od początku pliku, skip na końcu.
 
-    Najnowsze pierwsze; jeden wiersz na nick. Skip/ok/remove w state = pomiń.
+    Skip nie jest decided — wraca do kolejki, ale za świeżymi nickami.
     """
     raw = RawProfilesStore(account_id, data_root)
     state = RawFilterStateStore(account_id, data_root)
     done = state.decided_usernames()
-    # skip zostawiamy do ponownej próby — nie są w decided
-    out: list[dict] = []
+    deferred = state.deferred_usernames()
+    fresh: list[dict] = []
+    delayed: list[dict] = []
     seen: set[str] = set()
-    for row in reversed(raw.read_all()):
+    # read_all = kolejność zapisu (najstarsze pierwsze) — jak splitlines() w proxy1
+    for row in raw.read_all():
         u = row.get("username")
         if not u or u in seen or u in done:
             continue
         seen.add(u)
-        out.append(row)
-        if len(out) >= limit:
-            break
-    return out
+        if u in deferred:
+            delayed.append(row)
+        else:
+            fresh.append(row)
+    return (fresh + delayed)[: max(0, int(limit))]
 
 
 def run_filter_for_account(
@@ -79,27 +98,50 @@ def run_filter_for_account(
 ) -> dict:
     """Przepuść pending raw przez filtr → target_candidates.
 
+    Semantyka jak ``proxy1.process_users_txt``:
+    ``limit`` / ``limit_per_run`` = max zapisanych (Save), nie liczba skipów.
+    Na run max ``PROXY1_CHECK_LIMIT`` sprawdzeń. Skip → ogon kolejki.
+
     `scrape_fn(username) -> ok|remove|skip` — pod testy bez sieci.
     """
     log = log or (lambda m: print(m))
     fcfg = load_account_filter_cfg(account_id, config_root)
-    lim = int(limit if limit is not None else fcfg.get("limit_per_run") or 100)
+    # Jak proxy1: max_saved = input „Ilość oczekiwanych targetów”
+    max_saved = int(limit if limit is not None else fcfg.get("limit_per_run") or 100)
+    max_saved = max(1, max_saved)
+    check_limit = PROXY1_CHECK_LIMIT
     proxy_mode = proxy or fcfg.get("proxy") or "losowo"
     criteria = FilterCriteria.from_dict(fcfg)
+    # 0 = jak proxy1 (testy też wyłączają)
+    between_s = max(0.0, float(fcfg.get("sleep_between_s") or 0))
+    request_sleep_s = max(0.0, float(fcfg.get("sleep_request_s") or 0))
+    retry_backoff_base_s = max(0.1, float(
+        fcfg.get("retry_backoff_base_s") or RETRY_BACKOFF_BASE_S))
+    retry_backoff_max_s = max(
+        retry_backoff_base_s,
+        float(fcfg.get("retry_backoff_max_s") or RETRY_BACKOFF_MAX_S))
+    request_timeout_s = max(5.0, float(
+        fcfg.get("request_timeout_s") or REQUEST_TIMEOUT_S))
 
     candidates = TargetCandidatesStore(account_id, data_root)
     state = RawFilterStateStore(account_id, data_root)
-    pending = pending_usernames(account_id, data_root, lim)
+    pending = pending_usernames(account_id, data_root, check_limit)
 
     summary = {
         "account": account_id,
         "pending_before": len(pending),
-        "limit": lim,
+        "limit": max_saved,
+        "check_limit": check_limit,
         "proxy": proxy_mode,
         "checked": 0,
         "saved": 0,
         "removed": 0,
         "skipped": 0,
+        "sleep_between_s": between_s,
+        "sleep_request_s": request_sleep_s,
+        "retry_backoff_base_s": retry_backoff_base_s,
+        "retry_backoff_max_s": retry_backoff_max_s,
+        "request_timeout_s": request_timeout_s,
         "dry_run": dry_run,
         "usernames_ok": [],
         "usernames_removed": [],
@@ -112,11 +154,20 @@ def run_filter_for_account(
 
     scraper = None
     if scrape_fn is None:
+        # Ten sam konstruktor co proxy1.py (+ log do panelu)
         scraper = InstagramScraper(
-            proxy_mode=proxy_mode, criteria=criteria, log=log)
+            proxy_mode, criteria=criteria, log=log,
+            request_sleep_s=request_sleep_s,
+            retry_backoff_base_s=retry_backoff_base_s,
+            retry_backoff_max_s=retry_backoff_max_s,
+            request_timeout_s=request_timeout_s)
 
     start = time.time()
     for i, row in enumerate(pending, start=1):
+        # Opcjonalna pauza — proxy1 jej nie ma (sleep_between_s=0)
+        if i > 1 and between_s > 0:
+            log(f"[filter] pauza {between_s:g}s przed kolejnym nickiem")
+            time.sleep(between_s)
         username = row["username"]
         elapsed = time.strftime("%H:%M:%S", time.gmtime(time.time() - start))
         log(f"{i}. {username} | {elapsed}")
@@ -129,8 +180,11 @@ def run_filter_for_account(
         if result == "skip":
             summary["skipped"] += 1
             summary["usernames_skipped"].append(username)
-            # Nie zapisujemy do state — wróci przy następnym runie
-            log("Skip…")
+            # Jak proxy1: skip → koniec all2.txt (tu: mark skip)
+            if not dry_run:
+                state.mark(username, "skip", source=row.get("source"))
+            log("Skip...")
+            log("----------------------------")
             continue
 
         summary["checked"] += 1
@@ -141,6 +195,10 @@ def run_filter_for_account(
             else:
                 summary["removed"] += 1
                 summary["usernames_removed"].append(username)
+            if summary["saved"] >= max_saved:
+                log(f"Osiągnięto limit {max_saved} zapisanych użytkowników. "
+                    "Zatrzymuję skrypt.")
+                break
             continue
 
         if result == "ok":
@@ -163,6 +221,12 @@ def run_filter_for_account(
             state.mark(username, "remove", source=row.get("source"))
             summary["removed"] += 1
             summary["usernames_removed"].append(username)
+
+        # Jak process_users_txt: stop po N zapisanych, nie po N skipach
+        if summary["saved"] >= max_saved:
+            log(f"Osiągnięto limit {max_saved} zapisanych użytkowników. "
+                "Zatrzymuję skrypt.")
+            break
 
     if scraper is not None:
         summary["total_requests"] = scraper.stats.total_requests

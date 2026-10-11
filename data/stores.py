@@ -4,6 +4,7 @@ adapter Supabase (M9) — łatwo podmienić.
 `RawProfilesStore` = surowa pula targetów (harvest / target_scraper).
 `TargetCandidatesStore` = kolejka do `profile_interact` (po filtrze HTTP).
 `RawFilterStateStore` = wyniki promocji raw → candidates (ok/remove).
+`PhraseUsageStore` = last_checked fraz content_search (`phrase_usage.json`).
 
 Pipeline:
   scraper/harvest append → raw_profiles.jsonl
@@ -413,8 +414,8 @@ class TargetCandidatesStore:
 class RawFilterStateStore:
     """Wyniki filtra HTTP per username → `raw_filter_state.jsonl`.
 
-    `result`: ok (promowany) | remove (odrzucony). Skip sieciowy NIE trafia
-    tu — username wraca do pending przy kolejnym runie.
+    `result`: ok | remove | skip. Skip = jak przesunięcie na koniec all2.txt
+    w proxy1.py (nick zostaje pending, ale na ogonie kolejki).
     """
     account_id: str
     data_root: Path
@@ -450,8 +451,19 @@ class RawFilterStateStore:
                 out.add(row["username"])
         return out
 
+    def deferred_usernames(self) -> set[str]:
+        """Ostatni werdykt = skip i nigdy ok/remove — na koniec pending."""
+        latest: dict[str, str] = {}
+        for row in self.read_all():
+            u, r = row.get("username"), row.get("result")
+            if u and r:
+                latest[u] = r
+        decided = self.decided_usernames()
+        return {u for u, r in latest.items()
+                if r == "skip" and u not in decided}
+
     def mark(self, username: str, result: str, **extra) -> dict:
-        """Append werdykt (ok/remove)."""
+        """Append werdykt (ok / remove / skip)."""
         rec = {
             "username": username,
             "ts": _now_iso(),
@@ -461,6 +473,81 @@ class RawFilterStateStore:
         with self._path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
         return rec
+
+
+# action z visit.py po zapisie: follow / like_only / skip (+ legacy liked/followed)
+_VISIT_INTERACT_ACTIONS = frozenset({"liked", "followed", "like_only", "follow"})
+
+
+def visit_has_interaction(row: dict | None) -> bool:
+    """Like/follow = interakcja. Sama wizyta (gate/private/skip) — nie."""
+    if not row:
+        return False
+    if row.get("followed"):
+        return True
+    try:
+        if int(row.get("tiles_liked") or 0) > 0:
+            return True
+    except (TypeError, ValueError):
+        pass
+    action = str(row.get("action") or "").strip().lower()
+    return action in _VISIT_INTERACT_ACTIONS
+
+
+def visit_outcome(row: dict | None) -> str:
+    """Etykieta kolumny outcome — z faktu zapisu w visit.py, nie z zgadywania.
+
+    Interakcja: like + follow | like | follow.
+    Bez: private | tylko wizyta - gate | nisza nie | skip | open_failed.
+    """
+    row = row or {}
+    reason = str(row.get("reason") or "")
+    reason_l = reason.lower()
+    action = str(row.get("action") or "").strip().lower()
+    followed = bool(row.get("followed"))
+    header = row.get("header") if isinstance(row.get("header"), dict) else {}
+    try:
+        tiles = int(row.get("tiles_liked") or 0)
+    except (TypeError, ValueError):
+        tiles = 0
+    # Najpierw fakt like/follow — nawet gdy reason=match (lajk po odrzuceniu niszy)
+    if followed and tiles > 0:
+        return "like + follow"
+    if followed or action in {"followed", "follow"}:
+        return "follow"
+    if tiles > 0 or action in {"liked", "like_only"}:
+        return "like"
+    if "private" in reason_l or header.get("is_private"):
+        return "private"
+    if reason_l.startswith("gate:") or "gate_failed" in reason_l:
+        return "tylko wizyta - gate"
+    if reason_l.startswith("match:") or "match_failed" in reason_l:
+        return "nisza nie"
+    if action == "open_failed" or "open_failed" in reason_l:
+        return "open_failed"
+    return "skip"
+
+
+def serialize_visited_row(row: dict | None) -> dict:
+    """Pola panelu Lejka — bez mutacji źródła."""
+    row = row or {}
+    try:
+        tiles = int(row.get("tiles_liked") or 0)
+    except (TypeError, ValueError):
+        tiles = 0
+    header = row.get("header") if isinstance(row.get("header"), dict) else {}
+    out = {
+        "username": row.get("username"),
+        "ts": row.get("ts"),
+        "action": row.get("action"),
+        "reason": row.get("reason"),
+        "tiles_liked": tiles,
+        "followed": bool(row.get("followed")),
+        "header": header,
+    }
+    out["interacted"] = visit_has_interaction(out)
+    out["outcome"] = visit_outcome(out)
+    return out
 
 
 @dataclass
@@ -491,6 +578,22 @@ class VisitedProfilesStore:
             return []
         return [json.loads(l) for l in self._path.read_text(encoding="utf-8").splitlines() if l.strip()]
 
+    def preview(self, *, limit: int = 50) -> dict:
+        """Podgląd panelu: newest first, bez zapisu.
+
+        `limit` 1–500. items mają action/followed/tiles_liked/reason + outcome.
+        """
+        all_rows = self.read_all()
+        newest_first = list(reversed(all_rows))
+        lim = max(1, min(int(limit), 500))
+        items = [serialize_visited_row(r) for r in newest_first[:lim]]
+        return {
+            "total": len(all_rows),
+            "shown": len(items),
+            "items": items,
+            "path": str(self._path),
+        }
+
     def visited_within(self, days: int) -> set:
         """Set username'ów odwiedzonych w ostatnich N dni (dedup)."""
         cutoff = time.time() - days * 86400
@@ -503,3 +606,117 @@ class VisitedProfilesStore:
             except Exception:
                 pass
         return out
+
+
+# Buckety last-checked dla content_search (hashtag / keyword / miejsce / znacznik).
+PHRASE_USAGE_KINDS = ("hashtags", "keywords", "locations", "tag_variants")
+
+
+def canonicalize_phrase(kind: str, phrase: str) -> str:
+    """Klucz bucketa: #… dla hashtagów/znaczników, bez # dla słów i lokalizacji."""
+    s = str(phrase or "").strip()
+    if not s:
+        return ""
+    if kind in ("hashtags", "tag_variants"):
+        return s if s.startswith("#") else f"#{s.lstrip('#')}"
+    return s.lstrip("#")
+
+
+def _empty_phrase_usage() -> dict:
+    """Pusty dump phrase_usage.json — zawsze wszystkie buckety."""
+    return {k: {} for k in PHRASE_USAGE_KINDS}
+
+
+@dataclass
+class PhraseUsageStore:
+    """Ostatnie sprawdzenie fraz/znaczników → `accounts/<id>/phrase_usage.json`.
+
+    Kształt pliku::
+
+        {
+          "hashtags": {"#kariera": {"last_checked": "2026-08-29T14:02:00", "count": 3}},
+          "keywords": {"portale pracy": {"last_checked": "...", "count": 1}},
+          "locations": {},
+          "tag_variants": {"#karierazawodowa": {"last_checked": "...", "count": 2}}
+        }
+
+    Lookup jest casefold — pierwszy zapisany klucz zostaje (jak w tag_variants).
+    """
+    account_id: str
+    data_root: Path
+    _path: Path = field(init=False)
+
+    def __post_init__(self):
+        d = self.data_root / "accounts" / self.account_id
+        d.mkdir(parents=True, exist_ok=True)
+        self._path = d / "phrase_usage.json"
+
+    @property
+    def file_path(self) -> Path:
+        return self._path
+
+    def read(self) -> dict:
+        """Pełny dump z gwarantowanymi bucketami (brak pliku = puste)."""
+        out = _empty_phrase_usage()
+        if not self._path.exists():
+            return out
+        try:
+            raw = json.loads(self._path.read_text(encoding="utf-8"))
+        except Exception:
+            return out
+        if not isinstance(raw, dict):
+            return out
+        for kind in PHRASE_USAGE_KINDS:
+            bucket = raw.get(kind)
+            if isinstance(bucket, dict):
+                out[kind] = bucket
+        return out
+
+    def lookup(self, kind: str, phrase: str) -> dict | None:
+        """Rekord bucketa albo None — match po casefold."""
+        key = canonicalize_phrase(kind, phrase)
+        if not key or kind not in PHRASE_USAGE_KINDS:
+            return None
+        bucket = self.read().get(kind) or {}
+        found = _phrase_usage_key(bucket, key)
+        if found is None:
+            return None
+        rec = bucket.get(found)
+        return rec if isinstance(rec, dict) else None
+
+    def mark_checked(self, kind: str, phrase: str) -> dict | None:
+        """Ustaw last_checked=teraz i zwiększ count. None gdy pusta fraza."""
+        key = canonicalize_phrase(kind, phrase)
+        if not key or kind not in PHRASE_USAGE_KINDS:
+            return None
+        data = self.read()
+        bucket = dict(data.get(kind) or {})
+        found = _phrase_usage_key(bucket, key)
+        store_key = found if found is not None else key
+        prev = bucket.get(store_key) if isinstance(bucket.get(store_key), dict) else {}
+        rec = {
+            "last_checked": _now_iso(),
+            "count": int(prev.get("count") or 0) + 1,
+        }
+        bucket[store_key] = rec
+        data[kind] = bucket
+        _atomic_write_json(self._path, data)
+        return rec
+
+
+def _phrase_usage_key(bucket: dict, phrase: str) -> str | None:
+    """Istniejący klucz w buckecie dla frazy (casefold), albo None."""
+    want = phrase.casefold()
+    for k in bucket:
+        if str(k).casefold() == want:
+            return k
+    return None
+
+
+def _atomic_write_json(path: Path, data: dict) -> None:
+    """Zapis JSON z tmp+replace — nie zostawia półpliku przy crashu."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+                   encoding="utf-8")
+    tmp.replace(path)

@@ -8,6 +8,7 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT.parent))
 
+from v2.config.schema import CONFIG_ROOT, load_account
 from v2.core import limits
 
 
@@ -132,6 +133,53 @@ class LimitsTests(unittest.TestCase):
         try:
             r = limits.check(ctx, "follow")
             self.assertEqual(r.current, 1)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_effective_limits_bot_100_konto_50(self):
+        """load_account merguje bot 100 + override 50; check widzi 50."""
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            (tmp / "accounts").mkdir()
+            (tmp / "devices").mkdir()
+            shutil.copy(CONFIG_ROOT / "devices" / "phone_A.json",
+                        tmp / "devices" / "phone_A.json")
+            (tmp / "bot.json").write_text(json.dumps({
+                "limits": {
+                    "daily_likes": 100, "daily_follows": 30,
+                    # 0 = brak capu godzinowego — test celuje w daily 50
+                    "per_hour_caps": {"likes": 0, "follows": 0, "comments": 0},
+                },
+                "humanizer": {"profile_name": "default"},
+            }), encoding="utf-8")
+            (tmp / "accounts" / "ovr.json").write_text(json.dumps({
+                "meta": {"account_id": "ovr", "ig_username": "ovr"},
+                "device": {"device_alias": "phone_A"},
+                "limits": {"daily_likes": 50},
+            }), encoding="utf-8")
+            cfg = load_account("ovr", config_root=tmp)
+            self.assertEqual(cfg.limits["daily_likes"], 50)
+            ev = {"ts": self._now_ts(), "kind": "step",
+                  "payload": {"step": "reels.like_comment", "status": "ok",
+                              "payload": {"user": "x"}}}
+            events = [ev] * 50
+            ev_tmp = Path(tempfile.mkdtemp())
+            p = ev_tmp / "events.jsonl"
+            with p.open("w", encoding="utf-8") as f:
+                for e in events:
+                    f.write(json.dumps(e, ensure_ascii=False) + "\n")
+            ctx = SimpleNamespace(
+                events=SimpleNamespace(file_path=p),
+                account=cfg,
+                scratch={},
+            )
+            try:
+                r = limits.check(ctx, "like")
+                self.assertFalse(r.allowed)
+                self.assertEqual(r.scope, "daily")
+                self.assertEqual(r.limit, 50)
+            finally:
+                shutil.rmtree(ev_tmp)
         finally:
             shutil.rmtree(tmp)
 
